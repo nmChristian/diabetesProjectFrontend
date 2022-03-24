@@ -18,8 +18,8 @@ import { coupons } from "@/assets/coupons.json"
 import { computed } from 'vue'
 
 const axisData = computed(() => coupons
-.filter((el : any) => el.promotion_type === 'percent-off')
-.map((el : any) => ({x: el.coupon_id, y: el.value, company: el.webshop_id})))
+    .filter((el : any) => el.promotion_type === 'percent-off')
+    .map((el : any) => ({x: el.coupon_id, y: el.value, company: el.webshop_id})))
 
 const companies = computed( ()=> [...new Set(coupons.map((el : any) => el.webshop_id))])
 
