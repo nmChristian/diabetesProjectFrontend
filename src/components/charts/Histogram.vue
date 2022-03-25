@@ -5,7 +5,7 @@
       <option v-for="company in companies" :key="company" :value="company">{{titleCase(company)}}</option>
     </select>
     <br />
-    <svg></svg>
+    <svg id="normal"></svg>
   </div>
 </template>
 
@@ -13,7 +13,7 @@
 import * as d3 from "d3"
 
 export default {
-  name: 'Chart',
+  name: 'Histogram',
   props: ['axisData', 'companies', 'title'],
   data() {
     return {
@@ -49,7 +49,7 @@ export default {
           .domain([0, this.maxValue])
           .range([roundedHeight, 10])
 
-      const container = d3.select('svg')
+      const container = d3.select('#normal')
           .classed('chart-container', true)
           .style('height', `${roundedHeight}px`)
           .style('width', `${width}px`)
