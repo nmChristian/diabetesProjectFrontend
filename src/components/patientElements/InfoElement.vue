@@ -1,8 +1,7 @@
 <template>
   <div class="infoBox">
-    <div class="inderBox" onclick="$emit('showData')">
+    <div class="inderBox" @click="showDataInternal()">
       <p class="title">{{title}}</p>
-      <button @click="$emit('showData')">Enlarge text</button>
       <h1 class="number">{{number}}</h1>
     </div>
   </div>
@@ -12,7 +11,12 @@
 export default {
   name: "InfoElement",
   props: ['title','number'],
-  emits: ['showData']
+  methods:{
+    showDataInternal(){
+      console.log("Vi er i info elementet")
+      this.$emit('showData')
+    }
+  }
 }
 </script>
 

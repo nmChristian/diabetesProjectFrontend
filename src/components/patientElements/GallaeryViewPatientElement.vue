@@ -1,20 +1,22 @@
 <template>
-  <div class="allSides">
-    <div class="topDiv" > <!-- Overskrift -->
-      <div style="width: 20%; float:left">
-        <img src="@/assets/logo.svg">
-      </div>
+  <div class="container">
+    <div class="allSides">
+      <div class="topDiv" > <!-- Overskrift -->
+        <div style="width: 20%; float:left">
+          <img src="@/assets/logo.svg">
+        </div>
 
-      <div style="width: 80%; float:right">
-        <h2 class="name">{{name}}</h2>
-        <h2 class="ageAndWheight"> Alder: {{age}} </h2>
-        <h2 class="ageAndWheight"> Vægt: {{weight}} </h2>
+        <div style="width: 80%; float:right">
+          <h2 class="name">{{name}}</h2>
+          <h2 class="ageAndWheight"> Alder: {{age}} </h2>
+          <h2 class="ageAndWheight"> Vægt: {{weight}} </h2>
+        </div>
       </div>
-    </div>
-    <div class="infoBoxes">
-      <info-element title="HbALc:" :number= hbalc></info-element>
-      <info-element title="Hypos:" :number= hypos></info-element>
-      <info-element title="eGFR:" :number= eGFR></info-element>
+      <div class="infoBoxes">
+        <info-element @showData="showElementData('HbALc')" title="HbALc:" :number= hbalc></info-element>
+        <info-element @showData="showElementData('Hypos')" title="Hypos:" :number= hypos></info-element>
+        <info-element @showData="showElementData('eGFR')" title="eGFR:" :number= eGFR></info-element>
+      </div>
     </div>
   </div>
 </template>
@@ -23,12 +25,19 @@
 export default {
   name: "GallaeryViewPatientElement",
   props: {
+    id: Number,
     name: String,
     age: Number,
     weight: Number,
     hbalc: Number,
     hypos: Number,
     eGFR: Number,
+  },
+  methods:{
+    showElementData(dataType){
+      console.log("Vi er i elementet")
+      alert("Show " + dataType + " data for id " + this.$props.id)
+    }
   }
 }
 </script>
@@ -51,6 +60,9 @@ export default {
     border-bottom: solid 1px #181818;
     overflow: auto;
   }
+  .container{
+    flex: 1;
+  }
   .allSides
   {
     padding: 10px;
@@ -63,6 +75,5 @@ export default {
     -o-box-shadow: 0 0 10px  rgba(0,0,0,0.6);
     border-radius:25px;
     margin: 10px;
-    flex: 1;
   }
 </style>

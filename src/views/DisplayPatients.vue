@@ -10,7 +10,7 @@
     <div v-for="index in Math.floor((Patients.length+1)/2)">
       <div class="collum">
         <gallaery-view-patient-element
-            @showData = "() => console.log('hej')"
+            :id ="Patients[(index-1)*2].id"
             :name="Patients[(index-1)*2].name"
             :age = "Patients[(index-1)*2].age"
             :weight = "Patients[(index-1)*2].weight"
@@ -21,6 +21,7 @@
         </gallaery-view-patient-element>
         <div v-if="(index-1)*2 + 1 < Patients.length">
           <gallaery-view-patient-element
+              :id ="Patients[(index-1)*2+1].id"
               :name="Patients[(index-1)*2+1].name"
               :age = "Patients[(index-1)*2+1].age"
               :weight = "Patients[(index-1)*2+1].weight"
@@ -54,7 +55,7 @@ export default {
   },
   methods: {
     dataPopup(){
-      console.log("hej")
+      console.log("Vi er ude i display patients")
       alert(2)
     }
   }
