@@ -1,11 +1,4 @@
 <template xmlns="http://www.w3.org/1999/html">
-  <!--
-  <ul>
-    <li v-for="item in Patients" :key="item.id">
-      <gallaery-view-patient-element :name="item.name"></gallaery-view-patient-element>
-    </li>
-  </ul>
-  -->
 <div>
     <div v-for="index in Math.floor((Patients.length+1)/2)">
       <div class="collum">

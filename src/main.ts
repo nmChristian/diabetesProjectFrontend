@@ -10,6 +10,7 @@ app
     .component("InfoElement",InfoElement)
     .component("GallaeryViewPatientElement",GallaeryViewPatientElement)
 
+
 app.use(router)
 
 app.mount('#app')
