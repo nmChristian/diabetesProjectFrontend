@@ -1,21 +1,21 @@
 <template>
-
+  <svg ref="svg"></svg>
 </template>
 
 <script setup lang="ts">
-import Vue from 'vue-class-component'
+import {onMounted, ref, Ref} from "vue";
 
-export class IconGraph extends Vue {
-  // Initial data can be declared as instance properties
-  message: string = 'Hello!'
+import {GraphDrawer} from "@/services/graphs/graphs"
+import type {DataPoint} from "@/services/graphs/graphs";
 
-  // Component methods can be declared as instance methods
-  onClick (): void {
-    window.alert(this.message)
-  }
-}
+const drawer = new GraphDrawer();
+const props = defineProps<{
+  medianData : DataPoint[],
+}>()
+
+const svg : Ref<SVGElement | null> = ref(null)
+onMounted(() => {
+  const chart = drawer.iconChart(props.medianData, drawer.colorScheme[2], {})
+  drawer.applySVG(svg, chart)
+})
 </script>
-
-<style scoped>
-
-</style>

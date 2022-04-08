@@ -1,18 +1,16 @@
 import * as d3 from "d3";
 import type {Ref} from "vue";
 
-interface Data {
+type Data = {
     date: Date,
     value: number
 }
-interface Point {
+export type DataPoint = {
     x: number,
     y: number
 }
+export class DataEdit {
 
-export default class Graphs {
-
-    readonly colorScheme : string[] = ["#33658a","#78c0e0","#5da271","#dda448","#92140c"]
 
     getDataNDaysBack = (data : Data [], days : number) => data.filter(d => (d.date).getTime() > data[data.length - 1].date.getTime() - days * 24 * 60 * 60 * 1000)
     getTimeOfDayInSeconds = (date : Date) => date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds()
@@ -26,12 +24,15 @@ export default class Graphs {
         // @ts-ignore
         const hours = splitByTimeOfDayData.map((a : d3.Bin<Data, number>) => ((a.x0 + a.x1) / 2) / 3600)
 
-        const points = splitByTimeOfDayData.map((a,i) => ({x:hours[i],  y: d3.median(a, d => d.value) ?? 0}) )
-
-        return points
+        return splitByTimeOfDayData.map((a,i) => ({x:hours[i],  y: d3.median(a, d => d.value) ?? 0}) )
     }
 
-    iconChart (medianData : Point[], clr : string, {
+
+}
+export class GraphDrawer {
+    readonly colorScheme : string[] = ["#33658a","#78c0e0","#5da271","#dda448","#92140c"]
+
+    iconChart (medianData : DataPoint[], clr : string, {
         width = 80, // outer width, in pixels
         height = 60, // outer height, in pixels
         strokeWidth = 3,    // Background and stroke
@@ -41,7 +42,7 @@ export default class Graphs {
         const yScale = d3.scaleLinear([0, 350], [height, 0])
 
         const svg = d3.create("svg")
-        //const svg = d3.select(svgElement)
+            //const svg = d3.select(svgElement)
             .attr("width", width)
             .attr("height", height)
             .attr("style", "max-width: 100%; height: auto; height: intrinsic;")
@@ -49,7 +50,7 @@ export default class Graphs {
         svg.attr("style", "border:" + clr + "  solid " + strokeWidth + "px; border-radius: 20px;")
 
         // DRAW MEDIAN
-        const medianLineGen : d3.Line<Point> = d3.line<Point>()
+        const medianLineGen = d3.line<DataPoint>()
             .curve(d3.curveLinear)
             .x((d) => xScale(d.x))
             .y((d) => yScale(d.y))
@@ -63,4 +64,5 @@ export default class Graphs {
     applySVG (ref : Ref<SVGElement | null>, svg : SVGSVGElement | null) {
         if (ref.value != null && svg?.outerHTML != undefined) ref.value.outerHTML = svg.outerHTML
     }
+
 }
