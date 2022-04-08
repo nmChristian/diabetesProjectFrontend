@@ -12,6 +12,11 @@ export type DataPoint = {
 
 
 export class DataEdit {
+
+    convertToMGDL (data : { date: string, cgm: number | string }[]) {
+        return data.map((d) => ({date: new Date(d.date), value: d.cgm * 18}))
+    }
+
     getDataNDaysBack = (data : Data [], days : number) => data.filter(d => (d.date).getTime() > data[data.length - 1].date.getTime() - days * 24 * 60 * 60 * 1000)
     getTimeOfDayInSeconds = (date : Date) => date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds()
 

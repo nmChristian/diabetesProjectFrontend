@@ -10,12 +10,13 @@ import type {DataPoint} from "@/services/graphs/graphs";
 
 const drawer = new GraphDrawer();
 const props = defineProps<{
+  status : number,
   medianData : DataPoint[],
 }>()
 
 const svg : Ref<SVGElement | null> = ref(null)
 onMounted(() => {
-  const chart = drawer.iconChart(props.medianData, drawer.colorScheme[2], {})
+  const chart = drawer.iconChart(props.medianData, drawer.colorScheme[props.status + 2], {})
   drawer.applySVG(svg, chart)
 })
 </script>
