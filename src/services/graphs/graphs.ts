@@ -9,9 +9,9 @@ export type DataPoint = {
     x: number,
     y: number
 }
+
+
 export class DataEdit {
-
-
     getDataNDaysBack = (data : Data [], days : number) => data.filter(d => (d.date).getTime() > data[data.length - 1].date.getTime() - days * 24 * 60 * 60 * 1000)
     getTimeOfDayInSeconds = (date : Date) => date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds()
 
@@ -26,9 +26,8 @@ export class DataEdit {
 
         return splitByTimeOfDayData.map((a,i) => ({x:hours[i],  y: d3.median(a, d => d.value) ?? 0}) )
     }
-
-
 }
+
 export class GraphDrawer {
     readonly colorScheme : string[] = ["#33658a","#78c0e0","#5da271","#dda448","#92140c"]
 
