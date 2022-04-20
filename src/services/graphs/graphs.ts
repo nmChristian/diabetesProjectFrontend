@@ -10,26 +10,56 @@ export type DataPoint = {
     y: number
 }
 
+type DataCGM = {date: Date, cgm: number}
+export class CGMData {
+    public data : DataCGM[]
+    public n : number
 
-export class DataEdit {
+    // Store the daysBack list, todo optimize kinda like fenwick tree or smething,
+    // Combine each list when getting the values
+    private daysBack = new Map<number, DataCGM[]>()
 
-    convertToMGDL (data : { date: string, cgm: number | string }[]) {
-        return data.map((d) => ({date: new Date(d.date), value: d.cgm * 18}))
+    constructor(rawData : {date: string, cgm: number}[]) {
+        this.data = rawData.map(d => ({date: new Date(d.date), cgm: d.cgm * 18}))
+        this.n = this.data.length
     }
 
-    getDataNDaysBack = (data : Data [], days : number) => data.filter(d => (d.date).getTime() > data[data.length - 1].date.getTime() - days * 24 * 60 * 60 * 1000)
-    getTimeOfDayInSeconds = (date : Date) => date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds()
+    // TODO: Could maybe optimize this since the list is most likely sorted by date
+    public getDataNDaysBack (days : number) {
+        if (!this.daysBack.has(days)) {
+            const lastDate = this.data[this.n - 1].date.getTime() - days * 24 * 60 * 60 * 1000
+            this.daysBack.set(days, this.data.filter(d => d.date.getTime() > lastDate))
+        }
 
-    medianData (data : Data [], daysBack : number, dataPointsPerHour : number) {
-        const splitByTimeOfDayData : d3.Bin<Data, number>[] = d3.bin<Data, number>()
-            .value(d  => this.getTimeOfDayInSeconds(d.date))
-            .thresholds(dataPointsPerHour * 24)
-            (this.getDataNDaysBack(data, daysBack))
+        return this.daysBack.get(days)
+    }
 
-        // @ts-ignore
-        const hours = splitByTimeOfDayData.map((a : d3.Bin<Data, number>) => ((a.x0 + a.x1) / 2) / 3600)
 
-        return splitByTimeOfDayData.map((a,i) => ({x:hours[i],  y: d3.median(a, d => d.value) ?? 0}) )
+    public getTimeOfDayInSeconds (date : Date) {
+        return date.getHours() * 3600
+            + date.getMinutes() * 60
+            + date.getSeconds()
+    }
+
+    public medianData (daysBack : number, dataPointsPerHour : number) : DataPoint[] {
+        const daysBackData = this.getDataNDaysBack(daysBack)
+
+        if (daysBackData != undefined) {
+            const splitData: d3.Bin<DataCGM, number>[] = d3.bin<DataCGM, number>()
+                .value(d => this.getTimeOfDayInSeconds(d.date))
+                .thresholds(dataPointsPerHour * 24)
+                (daysBackData)
+            // This is a list of the time for each dataset []
+            // @ts-ignore
+            const hours = splitData.map((a : d3.Bin<DataCGM, number>) => ((a.x0 + a.x1) / 2) / 3600)
+
+
+            return splitData.map((a,i) => ({x:hours[i],  y: d3.median(a, d => d.cgm) ?? 0}))
+        }
+
+        return []
+
+
     }
 }
 
@@ -56,6 +86,7 @@ export class GraphDrawer {
         // DRAW MEDIAN
         const medianLineGen = d3.line<DataPoint>()
             .curve(d3.curveLinear)
+            .defined(d => d.y != 0)
             .x((d) => xScale(d.x))
             .y((d) => yScale(d.y))
         svg.append("path")
