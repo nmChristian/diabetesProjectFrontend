@@ -4,7 +4,7 @@
       v-bind:class ="{outerHolderSelected:selected}" >
     <div class="icon">
       <IconGraph
-          :median-data="props.data"
+          :median-data="data"
           :status="status"></IconGraph>
       <!--<img src="@/assets/logo.svg" class="icon"> -->
     </div>
@@ -18,7 +18,7 @@
 
 <script setup lang = "ts">
 import {computed} from 'vue'
-const props = defineProps<{
+defineProps<{
   id: number,
   name: string,
   cpr: string,

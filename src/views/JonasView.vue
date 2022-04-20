@@ -16,6 +16,8 @@ import cgm_538 from "@/assets/demo/users/cgm_538.json"  // Lowest and nice 100%
 import {CGMData} from "@/services/graphs/graphs";
 
 const cgmMGDL_083 = new CGMData(cgm_083)
+
+defineProps<{}>()
 </script>
 
 <style>
