@@ -1,19 +1,21 @@
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <div class="topbar"></div>
+  <div id="content-view">
+    <header>
+      <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
-    <div class="wrapper">
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/jonas">Jonas</RouterLink>
-        <RouterLink to="/DisplayPatients"> display patients</RouterLink>
-        <RouterLink to="/DisplayPatientsList"> display patients list</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+      <div class="wrapper">
+        <nav>
+          <RouterLink to="/">Home</RouterLink>
+          <RouterLink to="/about">About</RouterLink>
+          <RouterLink to="/jonas">Jonas</RouterLink>
+          <RouterLink to="/DisplayPatients"> display patients</RouterLink>
+          <RouterLink to="/DisplayPatientsList"> display patients list</RouterLink>
+        </nav>
+      </div>
+    </header>
+    <RouterView />
+  </div>
 </template>
 
 
@@ -28,7 +30,14 @@ import InfoElement from "@/components/patientElements/InfoElement.vue";
 <style>
 @import '@/assets/base.css';
 
-#app {
+.topbar {
+  height: 100px;
+  width: 100%;
+  border: 1px red solid;
+}
+
+
+#content-view {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
@@ -83,7 +92,7 @@ nav a {
 nav a:first-of-type {
   border: 0;
 }
-
+/*
 @media (min-width: 1024px) {
   body {
     display: flex;
@@ -120,5 +129,5 @@ nav a:first-of-type {
     padding: 1rem 0;
     margin-top: 1rem;
   }
-}
+}*/
 </style>
