@@ -9,20 +9,20 @@
       <!--<img src="@/assets/logo.svg" class="icon"> -->
     </div>
     <div class="generalInfo">
-      <p class="name">{{name}}</p>
+      <p class="name">{{user.name}}</p>
       <p v-if="doctor" class="cprNumber">{{cpr}}</p>
-      <p v-else class="age">alder: {{age.toString()}} år</p>
+      <p v-else class="age">alder: {{user.age.toString()}} år</p>
     </div>
   </div>
 </template>
 
 <script setup lang = "ts">
 import {computed} from 'vue'
+import type {User} from "@/services/user"
+
 defineProps<{
-  id: number,
-  name: string,
+  user: User,
   cpr: string,
-  age: number,
   data: object,
   doctor: boolean,
   selected: boolean,

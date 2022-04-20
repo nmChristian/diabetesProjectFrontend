@@ -17,7 +17,9 @@ import {CGMData} from "@/services/graphs/graphs";
 
 const cgmMGDL_083 = new CGMData(cgm_083)
 
-defineProps<{}>()
+defineProps<{}>(
+
+)
 </script>
 
 <style>
