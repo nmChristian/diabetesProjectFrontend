@@ -4,7 +4,7 @@
       v-bind:class ="{outerHolderSelected:selected}" >
     <div class="icon">
       <IconGraph
-          :median-data="this.$props.data"
+          :median-data="props.data"
           :status="status"></IconGraph>
       <!--<img src="@/assets/logo.svg" class="icon"> -->
     </div>
@@ -18,35 +18,17 @@
 
 <script setup lang = "ts">
 import {computed} from 'vue'
-import cgm from "@/assets/demo/cgm.json";
-import {CGMData} from "@/services/graphs/graphs";
+const props = defineProps<{
+  id: number,
+  name: string,
+  cpr: string,
+  age: number,
+  data: object,
+  doctor: boolean,
+  selected: boolean,
+  status: number,
+}>()
 
-
-</script>
-
-<script lang = "ts">
-  export default {
-    name: "ListViewPatientElement",
-    props: {
-      id: Number,
-      name: String,
-      cpr: String,
-      age: Number,
-      data: {
-        type: Object
-      },
-      doctor: {
-        type: Boolean,
-        default: false
-      },
-      selected: {
-        type: Boolean,
-        default: false
-      },
-      status: Number,
-
-    }
-  }
 </script>
 
 <style scoped>

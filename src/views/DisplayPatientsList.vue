@@ -2,6 +2,7 @@
   <div>
     <ListViewPatientElement
         v-for="u in users"
+        :id="u.id"
         :name = 'u.name'
         :cpr = 'u.cpr'
         :age= 'u.age'
@@ -33,7 +34,7 @@ const daysBack = 28
 const dataPointsPerHour = 4
 
 const users = computed(() =>
-    [{id:0, name: "Alexander",  age:2 , cpr:"ddmmyy-xxx1", status: 0 ,medData: cgmMGDL_083.medianData(daysBack, dataPointsPerHour)},
+    [{id:0, name: "Alexander",  age:22 , cpr:"ddmmyy-xxx1", status: 0 ,medData: cgmMGDL_083.medianData(daysBack, dataPointsPerHour)},
       {id:1, name: "Christian", age:2 , cpr:"ddmmyy-xxx2", status: 0, medData: cgmMGDL_123.medianData(daysBack, dataPointsPerHour)},
       {id:2, name: "Niels",     age:2 , cpr:"ddmmyy-xxx3", status: 1, medData: cgmMGDL_200.medianData(daysBack, dataPointsPerHour)},
       {id:3, name: "Jonas",     age:2 , cpr:"ddmmyy-xxx4", status: -1, medData: cgmMGDL_538.medianData(daysBack, dataPointsPerHour)}])
