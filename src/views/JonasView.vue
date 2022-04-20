@@ -40,7 +40,7 @@ const cgmMGDL_538 = new CGMData(cgm_538)
 const daysBack = 28
 const dataPointsPerHour = 4
 const users = computed(() =>
-    [{id:0, name: "Alexander", status: 0 ,medData: cgmMGDL_083.medianData(daysBack, dataPointsPerHour)},
+     [{id:0, name: "Alexander", status: 0 ,medData: cgmMGDL_083.medianData(daysBack, dataPointsPerHour)},
       {id:1, name: "Christian", status: 0, medData: cgmMGDL_123.medianData(daysBack, dataPointsPerHour)},
       {id:2, name: "Niels", status: 1, medData: cgmMGDL_200.medianData(daysBack, dataPointsPerHour)},
       {id:3, name: "Jonas", status: -1, medData: cgmMGDL_538.medianData(daysBack, dataPointsPerHour)}])
