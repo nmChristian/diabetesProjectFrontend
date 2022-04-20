@@ -19,16 +19,8 @@
 <script setup lang = "ts">
 import {computed} from 'vue'
 import cgm from "@/assets/demo/cgm.json";
-import cgm_083 from "@/assets/demo/users/cgm_083.json"  // 95% 5%
-import {DataEdit} from "@/services/graphs/graphs";
+import {CGMData} from "@/services/graphs/graphs";
 
-const editor = new DataEdit ();
-const cgmMGDL_083 = editor.convertToMGDL(cgm_083)
-
-//TODO fjern dette
-const standData = computed(() =>
-    [{id:0, name: "Alexander", status: 0 ,medData: editor.medianData(cgmMGDL_083, 7, 1 )},
-      ])
 
 </script>
 

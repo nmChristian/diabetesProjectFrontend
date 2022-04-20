@@ -32,7 +32,6 @@ import cgm_538 from "@/assets/demo/users/cgm_538.json"  // Lowest and nice 100%
 
 import {CGMData} from "@/services/graphs/graphs";
 
-
 const cgmMGDL_083 = new CGMData(cgm_083)
 const cgmMGDL_123 = new CGMData(cgm_123)
 const cgmMGDL_200 = new CGMData(cgm_200)
@@ -45,7 +44,6 @@ const users = computed(() =>
       {id:1, name: "Christian", status: 0, medData: cgmMGDL_123.medianData(daysBack, dataPointsPerHour)},
       {id:2, name: "Niels", status: 1, medData: cgmMGDL_200.medianData(daysBack, dataPointsPerHour)},
       {id:3, name: "Jonas", status: -1, medData: cgmMGDL_538.medianData(daysBack, dataPointsPerHour)}])
-
 </script>
 
 <style>
