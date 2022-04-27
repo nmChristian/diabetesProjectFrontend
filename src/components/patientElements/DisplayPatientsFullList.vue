@@ -6,7 +6,7 @@
         :cpr = 'u.cpr'
         :data = 'u.medData'
         :doctor="false"
-        :selected="u.user.id === 1"
+        selected="{{$route.params.id}}"
         :status = 'u.status'
         @click="clickedItem(u.user.id)">
     </ListViewPatientElement>
