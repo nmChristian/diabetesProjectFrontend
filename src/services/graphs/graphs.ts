@@ -8,7 +8,7 @@ export type DataPoint = {
 
 type DataCGM = {date: Date, cgm: number}
 type RawData = DataCGM[]
-type SortedData = DataCGM[]
+export type SortedData = DataCGM[]
 
 type DataBucket = {hour: number, data: number[]}
 type BucketQuantiles = {hour: number, data: number}[]
@@ -180,6 +180,16 @@ export class GraphDrawer {
     }
 
 
+    // Target is the are which is green
+    private targetLineStyle = "stroke-width: 1.5; opacity: .5; stroke: " + this.colorScheme[this.colorScheme.length / 2 + 1] + ";"
+    private otherLineStyle = "stroke-width: 1; opacity: .1; stroke: black;"
+    private isTarget = (i : number) => i === 1 || i === 2
+    private getLineStyle = (i : number) => "fill: none;" + (this.isTarget(i) ?  this.targetLineStyle : this.otherLineStyle)
+    private getFontStyle = (i : number) =>
+        "font-size: " + this.isTarget(i - 1) ? "12" : "10"
+        + "; font-weight: " + this.isTarget(i - 1) ? "bold" : "normal" + ";"
+
+
     public quantileChart (quantileStack : QuantileStack, median : DataPoint[],
                      {
                          marginTop = 20, // top margin, in pixels
@@ -231,11 +241,6 @@ export class GraphDrawer {
             .attr("stop-color", (d : any) => d.color)
 
         // Horizontal lines
-        // Target is the are which is green
-        const isTarget = (i : number) => i === 1 || i === 2
-        const targetLineStyle = "stroke-width: 1.5; opacity: .5; stroke: " + this.colorScheme[this.colorScheme.length / 2 + 1] + ";"
-        const otherLineStyle = "stroke-width: 1; opacity: .1; stroke: black;"
-
         // Helper function returns the x and y coords for a given line from a stack
         const lineCoords = function (d : any) : [[number, number], [number, number]] {
             let y : number = d.x1 === undefined ? yMax : yScale(d.x1) + .5  // plus by .5 to center it relative to its stroke width
@@ -247,7 +252,7 @@ export class GraphDrawer {
             .data(this.thresholds)
             .join("path")
             .attr("d", (d) => d3.line()(lineCoords(d)))
-            .attr("style", (d,i) => "fill: none;" + (isTarget(i) ?  targetLineStyle : otherLineStyle))
+            .attr("style", (d,i) => this.getLineStyle(i))
 
         // Vertical lines
         svg.append("g")
@@ -287,14 +292,11 @@ export class GraphDrawer {
             .attr("style", "stroke-width: 3;fill: none; stroke: url(#line-gradient);  opacity: 1;")
 
 
-
-
         // Axises
         svg.append("g")
             .call(d3.axisLeft(yScale).tickValues(this.thresholds.map(d => d.x0)))
             .selectAll("text")
-            .attr("font-size", (d,i) => isTarget(i - 1) ? "12" : "10")
-            .attr("font-weight", (d,i) => isTarget(i - 1) ? "bold" : "normal")
+            .attr("style", (d,i) => this.getFontStyle(i))
         const highlightedTime = (d : number) => d % 12 === 0
         svg.append("g")
             .attr("transform", "translate(0," + height + ")")
@@ -325,10 +327,101 @@ export class GraphDrawer {
 
 
         }
-
         return out.node()
     }
 
+
+    public lineChart (data : SortedData,
+              {
+                  marginTop = 20, // top margin, in pixels
+                  marginRight = 30, // right margin, in pixels
+                  marginBottom = 20, // bottom margin, in pixels
+                  marginLeft = 40, // left margin, in pixels
+                  width = 1000, // outer width, in pixels
+                  height = 400, // outer height, in pixels
+              }) {
+
+        const out = d3.create("svg")
+            .attr("width", width+ marginLeft+ marginRight)
+            .attr("height", height+ marginTop + marginBottom)
+            .attr("style", "max-width: 100%; height: auto; height: intrinsic;")
+        const svg = out.append("g")
+            .attr("transform",
+                "translate(" + marginLeft + "," + marginTop + ")");
+
+
+        const ext = d3.extent(data, (d: DataCGM) => d.date)
+        if (ext === [undefined, undefined]) {
+            console.log("Can't find extent, cannot create the graph")
+            return out.node()
+        }
+
+        // @ts-ignore
+        const xScale = d3.scaleTime().domain(ext).range([0, width])
+
+        const yScale = d3.scaleLinear([0, 350], [height, 0])
+        const yMin = yScale.range()[1]
+        const yMax = yScale.range()[0]
+        const xMin = xScale.range()[0]
+        const xMax = xScale.range()[1]
+        const dateMax = xScale.domain()[1]
+
+
+        // The Line
+        const lineGen = d3.line<DataCGM>()
+            .x(d => xScale(d.date))
+            .y(d => yScale(d.cgm))(data)
+        svg.append("path")
+            .attr("fill", "none")
+            .attr("style", "stroke: url(#line-gradient);")
+            .attr("stroke-width", 3)
+            .attr("d", lineGen)
+
+
+        // Horizontal lines
+        // Helper function returns the x and y coords for a given line from a stack
+        const lineCoords = function (d : any) : [[number, number], [number, number]] {
+            let y : number = d.x1 === undefined ? yMax : yScale(d.x1) + .5  // plus by .5 to center it relative to its stroke width
+            return [[xMin, y], [xMax,  y]]
+        }
+
+        // Draw lines
+        svg.append("g")
+            .selectAll("path")
+            .data(this.thresholds)
+            .join("path")
+            .attr("d", (d) => d3.line()(lineCoords(d)))
+            .attr("style", (d,i) => this.getLineStyle(i))
+        // Vertical lines
+
+        //const days = Array((ext[1]?.getTime() ?? 0 - (ext[0]?.getTime() ?? 0) / (1000 * 3600 * 24)))
+        const days = []
+        for (let i = 0; i < days.length; i++) {
+            days[i] = new Date(dateMax).setDate(dateMax.getDate() - i + 1)
+        }
+
+
+        const vertStrokeWidth = 1
+        svg.append("g")
+            .selectAll("path")
+            .data(days)
+            .join("path")
+            .attr("d", (d,i) => d3.line()([[xScale(d) + vertStrokeWidth / 2, yMin], [xScale(d)+vertStrokeWidth / 2, yMax]])) //
+            .attr("style", "opacity: .1;fill: none; stroke: black;")
+            .attr("stroke-width", vertStrokeWidth)
+
+        // Axis
+        svg.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(xScale))
+
+        svg.append("g")
+            .call(d3.axisLeft(yScale).tickValues(this.thresholds.map(d => d.x0)))
+            .selectAll("text")
+            .attr("style",(d,i) => this.getFontStyle(i))
+
+        return out.node()
+    }
     applySVG (ref : Ref<SVGElement | null>, svg : SVGSVGElement | null) {
         if (ref.value != null && svg?.outerHTML != undefined) ref.value.outerHTML = svg.outerHTML
     }

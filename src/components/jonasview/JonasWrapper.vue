@@ -5,6 +5,9 @@
       <p class="user-id"> with id {{user.id}}</p>
     </div>
 
+    <line-graph
+      :data="weekBackData"
+    />
     <quantile-chart
         :median-data="medData"
         :quantile-stack="quantileData"
@@ -26,6 +29,7 @@ import type {User} from "@/services/user";
 import type {CGMData} from "@/services/graphs/graphs";
 import IconGraph from "@/components/charts/IconGraph.vue";
 import QuantileChart from "@/components/charts/QuantileChart.vue";
+import LineGraph from "@/components/charts/LineGraph.vue";
 
 const props = defineProps<{
   user: User,
