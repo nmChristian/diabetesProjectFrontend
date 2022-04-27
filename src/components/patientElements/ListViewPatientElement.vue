@@ -1,7 +1,7 @@
 <template>
   <div
       class="outerHolder"
-      v-bind:class ="{outerHolderSelected:selected}" >
+      v-bind:class ="{outerHolderSelected:(id === selected)}" >
     <div class="icon">
       <IconGraph
           :median-data="data"
@@ -25,7 +25,7 @@ defineProps<{
   cpr: string,
   data: object,
   doctor: boolean,
-  selected: boolean,
+  selected: Number,
   status: number,
 }>()
 

@@ -5,6 +5,7 @@ import ListViewPatientElement from "@/components/patientElements/ListViewPatient
 import InfoElement from "@/components/patientElements/InfoElement.vue";
 import GallaeryViewPatientElement from "@/components/patientElements/GallaeryViewPatientElement.vue";
 import IconGraph from "@/components/charts/IconGraph.vue"
+import DisplayPatientsFullList from "@/components/patientElements/DisplayPatientsFullList.vue";
 
 const app = createApp(App)
 
@@ -13,6 +14,7 @@ app
     .component("ListViewPatientElement",ListViewPatientElement)
     .component("IconGraph",IconGraph)
     .component("GallaeryViewPatientElement",GallaeryViewPatientElement)
+    .component("PatientsFullList",DisplayPatientsFullList)
 
 
 app.use(router)

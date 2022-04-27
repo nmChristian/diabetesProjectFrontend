@@ -22,6 +22,7 @@ import cgm_538 from "@/assets/demo/users/cgm_538.json"  // Lowest and nice 100%
 
 import {CGMData} from "@/services/graphs/graphs"
 import {User} from "@/services/user"
+import router from "@/router";
 
 const cgmMGDL_083 = new CGMData(cgm_083)
 const cgmMGDL_123 = new CGMData(cgm_123)
@@ -43,7 +44,7 @@ const users = computed(() =>
       {user: userlist[3], cpr:"ddmmyy-xxx4", status: -1, medData: cgmMGDL_538.medianData(daysBack, dataPointsPerHour)}])
 
 const clickedItem = (id: Number) => {
-  alert("hey" + (id))
+  router.push("/DisplayPatientsList/patientInfo/" + (id))
 }
 
 </script>
