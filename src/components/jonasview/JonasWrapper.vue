@@ -5,10 +5,16 @@
       <p class="user-id"> with id {{user.id}}</p>
     </div>
 
+    <quantile-chart
+        :median-data="medData"
+        :quantile-stack="quantileData"
+    />
+
     <icon-graph
       :status="0"
       :median-data="medData"
     />
+
 
 
   </div>
@@ -19,13 +25,20 @@
 import type {User} from "@/services/user";
 import type {CGMData} from "@/services/graphs/graphs";
 import IconGraph from "@/components/charts/IconGraph.vue";
+import QuantileChart from "@/components/charts/QuantileChart.vue";
 
 const props = defineProps<{
   user: User,
   cgmData : CGMData,
 }>()
 
-const medData = props.cgmData.medianData(28, 4)
+
+const weekBackData = props.cgmData.getDataNDaysBack(7)
+const monthBackData = props.cgmData.getDataNDaysBack(28)
+const medData = props.cgmData.medianData(monthBackData ?? [] , 4)
+const quantileData = props.cgmData.quantileStack(monthBackData ?? [], 2)
+console.log(quantileData)
+
 
 </script>
 
