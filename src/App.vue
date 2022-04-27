@@ -1,5 +1,9 @@
 <template>
-  <div class="topbar"></div>
+  <div class="topbar">
+    <button @click="$router.push('/DisplayPatients')">Grid view</button>
+    <button @click="$router.push('/DisplayPatientsList')">List view</button>
+
+  </div>
   <div id="content-view">
     <header>
       <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
@@ -9,7 +13,7 @@
           <RouterLink to="/">Home</RouterLink>
           <RouterLink to="/SignIn">Sign-in</RouterLink>
           <RouterLink to="/about">About</RouterLink>
-          <RouterLink to="/jonas">Jonas</RouterLink>
+          <RouterLink to="/JonasView">Jonas</RouterLink>
           <RouterLink to="/DisplayPatients"> display patients</RouterLink>
           <RouterLink to="/DisplayPatientsList"> display patients list</RouterLink>
         </nav>
