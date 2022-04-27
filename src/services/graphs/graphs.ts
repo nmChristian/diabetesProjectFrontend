@@ -295,13 +295,12 @@ export class GraphDrawer {
             .selectAll("text")
             .attr("font-size", (d,i) => isTarget(i - 1) ? "12" : "10")
             .attr("font-weight", (d,i) => isTarget(i - 1) ? "bold" : "normal")
-        const highlightedTime = d => d % 12 === 0
+        const highlightedTime = (d : number) => d % 12 === 0
         svg.append("g")
             .attr("transform", "translate(0," + height + ")")
             .call(d3.axisBottom(xScale).tickFormat(d => d + ":00"))
             .selectAll("text")
-            .attr("font-weight", d => highlightedTime(d) ? "bold" : "normal")
-            .attr("font-size", d => highlightedTime(d) ? 12 : 10)
+            .attr("style", (d : any) => (highlightedTime(d) ? "font-size: 12; font-weight: bold;" : "font-size: 10; font-weight: normal;"))
 
         // mg / dl text
         svg.append("text")
