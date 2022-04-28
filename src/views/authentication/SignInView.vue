@@ -4,7 +4,7 @@
         <animated-text-input label-text="E-mail" />
     </div>
     <div>
-        <animated-text-input label-text="Password" />
+        <animated-text-input label-text="Password" type="password" />
     </div>
     <!--<div>
         <link-button href="#" linkText="Forgot Password" name="forgotPasswordLink">Forgot password</link-button>

@@ -1,6 +1,6 @@
 <template>
     <div class="form">
-        <input class="input" placeholder=" " />
+        <input class="input" placeholder=" " :type="type" />
         <label class="label">{{ labelText }}</label>
     </div>
 </template>
@@ -9,7 +9,11 @@
 export default {
     name: "animatedTextInput",
     props: {
-        labelText: String
+        labelText: String,
+        type: {
+            type: String,
+            default: 'text'
+        }
     }
 }
 
@@ -40,6 +44,7 @@ label {
     transition: all .4s;
     background-color: white;
     color: gray;
+    pointer-events: none;
 }
 
 input:hover {
