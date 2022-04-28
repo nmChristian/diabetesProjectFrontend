@@ -6,13 +6,19 @@
     <div>
         <animated-text-input label-text="Password" type="password" />
     </div>
-    <!--<div>
-        <link-button href="#" linkText="Forgot Password" name="forgotPasswordLink">Forgot password</link-button>
+    <div class="forgot-link">
+        <a href="https://example.com">Forgot your password?</a>
     </div>
     <div>
-        <button name="signInButton">Sign-in</button>
-    </div> 
-     -->
+        <button class="sign-in-button">Sign-in</button>
+    </div>
+    <div>
+
+    </div>
+    <p>Or</p>
+    <div class="sing-up-link">
+        <a href="https://example.com">SIGN UP</a>
+    </div>
 </template>
 
 <script lang = "ts">
@@ -36,5 +42,52 @@ div {
     display: block;
     margin: auto;
     padding: 0.2em;
+}
+
+p {
+    top: 80px;
+    text-align: center;
+}
+
+.forgot-link {
+    font-size: 0.8rem;
+    text-decoration: underline;
+    text-align: center;
+    bottom: 12px;
+    left: 100px;
+}
+
+.sing-up-link {
+    top: 80px;
+    font-size: 0.8rem;
+    text-decoration: underline;
+    text-align: center;
+}
+
+.sign-in-button {
+    display: block;
+    margin: auto;
+    top: 20px;
+    width: 200px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border: 1px solid black;
+    border-radius: 15px;
+    font-size: 150%;
+    color: white;
+    background-size: 300% 100%;
+    transition: all .4s ease-in-out;
+    background-image: linear-gradient(to right, #667eea, #764ba2, #6B8DD6, blueviolet);
+    box-shadow: 0 4px 15px 0 rgba(137, 43, 226, 0.4);
+}
+
+.sign-in-button.focus {
+    outline: none;
+}
+
+.sign-in-button:hover {
+    border: 2px solid black;
+    background-position: 99% 0;
+    transition: all .4s ease-in-out;
 }
 </style>
