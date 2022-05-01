@@ -1,6 +1,6 @@
 <template>
   <div class="top-bar">
-    <img class=user-icon src="@/assets/user.png" @click="$router.push('/SignIn')" />
+    <img class=user-icon src="@/assets/user.png" @click="$router.push('/sign-up')" />
     <button @click="$router.push('/DisplayPatients')">Grid view</button>
     <button @click="$router.push('/DisplayPatientsList')">List view</button>
   </div>
@@ -11,7 +11,8 @@
       <div class="wrapper">
         <nav>
           <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/SignIn">Sign-in</RouterLink>
+          <RouterLink to="/sign-in">Sign-in</RouterLink>
+          <RouterLink to="/sign-up">Sign up</RouterLink>
           <RouterLink to="/about">About</RouterLink>
           <RouterLink to="/JonasView">Jonas</RouterLink>
           <RouterLink to="/DisplayPatients"> display patients</RouterLink>

@@ -1,23 +1,29 @@
 <template>
-    <img src="@/assets/logo.svg" width="250" height="250" />
+    <div class="title">
+        <label>Sign Up</label>
+    </div>
+    <img src="@/assets/logo.svg" width="100" height="100" />
+    <div>
+        <animated-text-input label-text="First name" />
+    </div>
+    <div>
+        <animated-text-input label-text="Last name" />
+    </div>
     <div>
         <animated-text-input label-text="E-mail" />
     </div>
     <div>
         <animated-text-input label-text="Password" type="password" />
     </div>
-    <div class="forgot-link">
-        <a href="https://example.com">Forgot your password?</a>
+    <div>
+        <animated-text-input label-text="Repeat password" type="password" />
     </div>
     <div>
-        <button class="sign-in-button">Sign-in</button>
-    </div>
-    <div>
-
+        <button class="sign-up-button">Sign up</button>
     </div>
     <p>Or</p>
-    <div class="sing-up-link">
-        <a href="/sign-up">SIGN UP</a>
+    <div class="sing-in-link">
+        <a href="/sign-in">SIGN IN</a>
     </div>
 </template>
 
@@ -32,16 +38,16 @@ export default {
 </script>
 
 <style scoped>
-img {
-    display: block;
-    margin: auto;
-    padding: 2rem;
-}
-
 div {
     display: block;
     margin: auto;
     padding: 0.2em;
+}
+
+img {
+    display: block;
+    margin: auto;
+    padding: 10px;
 }
 
 p {
@@ -53,20 +59,20 @@ div a {
     text-decoration: underline;
 }
 
-.forgot-link {
-    font-size: 0.8rem;
+.title {
     text-align: center;
-    bottom: 12px;
-    left: 100px;
+    margin: auto;
+    font-size: 250%;
 }
 
-.sing-up-link {
+.sing-in-link {
     top: 80px;
     font-size: 0.8rem;
     text-align: center;
+    margin-bottom: 100px;
 }
 
-.sign-in-button {
+.sign-up-button {
     display: block;
     margin: auto;
     top: 20px;
@@ -83,11 +89,11 @@ div a {
     box-shadow: 0 4px 15px 0 rgba(137, 43, 226, 0.4);
 }
 
-.sign-in-button.focus {
+.sign-up-button.focus {
     outline: none;
 }
 
-.sign-in-button:hover {
+.sign-up-button:hover {
     border: 2px solid black;
     background-position: 99% 0;
     transition: all .4s ease-in-out;
