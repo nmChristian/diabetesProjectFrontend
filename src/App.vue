@@ -1,8 +1,8 @@
 <template>
-  <div class="topbar">
+  <div class="top-bar">
+    <img class=user-icon src="@/assets/user.png" @click="$router.push('/SignIn')" />
     <button @click="$router.push('/DisplayPatients')">Grid view</button>
     <button @click="$router.push('/DisplayPatientsList')">List view</button>
-
   </div>
   <div id="content-view">
     <header>
@@ -35,12 +35,18 @@ import InfoElement from "@/components/patientElements/InfoElement.vue";
 <style>
 @import '@/assets/base.css';
 
-.topbar {
-  height: 100px;
+.top-bar {
+  height: 75px;
   width: 100%;
   border: 1px red solid;
+  display: flex;
+  align-items: center;
 }
 
+.user-icon {
+  margin: 10px;
+  width: 55px;
+}
 
 #content-view {
   max-width: 1280px;
@@ -97,6 +103,7 @@ nav a {
 nav a:first-of-type {
   border: 0;
 }
+
 /*
 @media (min-width: 1024px) {
   body {

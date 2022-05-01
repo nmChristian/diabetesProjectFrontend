@@ -49,9 +49,12 @@ p {
     text-align: center;
 }
 
+div a {
+    text-decoration: underline;
+}
+
 .forgot-link {
     font-size: 0.8rem;
-    text-decoration: underline;
     text-align: center;
     bottom: 12px;
     left: 100px;
@@ -60,7 +63,6 @@ p {
 .sing-up-link {
     top: 80px;
     font-size: 0.8rem;
-    text-decoration: underline;
     text-align: center;
 }
 
