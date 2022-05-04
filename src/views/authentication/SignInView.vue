@@ -22,9 +22,26 @@
 </template>
 
 <script lang = "ts">
+import axios from "axios";
 import animatedTextInput from "../../components/input/AnimatedTextInput.vue"
 
 export default {
+    User: String,
+
+    name: "sign-in",
+    data() {
+        User: String;
+    },
+    mounted() {
+        axios.post("http://localhost:5000/api/v1/user/login", { email: "User0@example.com", password: "password1" })
+            .then(response => {
+                console.log(response.data);
+                this.User = response.data;
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    },
     components: {
         animatedTextInput
     }
