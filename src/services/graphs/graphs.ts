@@ -1,5 +1,6 @@
 import * as d3 from "d3";
 import type {Ref} from "vue";
+import {quantile} from "d3";
 
 export type DataPoint = {
     x: number,
@@ -55,10 +56,20 @@ export class CGMData {
      */
     public splitByTimeOfDay (daysBackData : SortedData, dataPointsPerHour : number) : DataBucket[] | undefined {
         // Split day into ranges based on its time of day
-        const ranges = dataPointsPerHour * 24
+        const nRanges = dataPointsPerHour * 24
+        const inc = 3600 / dataPointsPerHour
+        const ranges = new Array<number>(nRanges)
+        for (let i = 0; i < nRanges; i++) {
+            ranges[i] = inc * i
+        }
+
         const splitData : d3.Bin<DataCGM, number>[] = d3.bin<DataCGM, number>()
             .value(d => CGMData.getTimeOfDayInSeconds(d.date))
             .thresholds(ranges)(daysBackData)
+
+        // Set the last range max to be last hour
+        splitData[nRanges - 1].x1 = 3600 * 24
+
 
         // Get the hour value for every range, this is done by taking the mean of lower and upper range
         // @ts-ignore
@@ -82,7 +93,15 @@ export class CGMData {
         }
 
         // Create a list of coordinates where we convert to the data to a median, if that is not possible then its value is 0
-        return splitData.map((a,i) => ({x:a.hour,  y: d3.median(a.data) ?? 0}))
+        const medData = splitData.map((a,i) => ({x:a.hour,  y: d3.median(a.data) ?? 0}))
+
+        // Add zero value as first element and last element to make the graph go from start to finish
+        const zeroVal = (medData[0].y + medData[medData.length - 1].y)/2
+        medData.splice(0, 0, {x:0, y:zeroVal})
+        medData.push({x:24, y:zeroVal})
+
+        return medData
+
     }
 
 
@@ -109,6 +128,16 @@ export class CGMData {
             // Get difference between each quantile, so we can create stack
             return absQuantiles.map((q,i) => ({ hour: a.hour, data: i == 0 ? q : q - absQuantiles[i-1]}))
         })
+
+
+        // Add zero value as first element and last element to make the graph go from start to finish
+        const zeroVal = new Array<number>(qs.length)
+        for (let i = 0; i < zeroVal.length; i++) {
+            zeroVal[i] = (quantileData[0][i].data + quantileData[quantileData.length - 1][i].data) / 2
+        }
+        quantileData.splice(0, 0, zeroVal.map(d => ({hour: 0, data:d})))
+        quantileData.push(zeroVal.map(d => ({hour: 24, data:d})))
+
 
         // Return the quantiles calculated and its reference
         return {quantileData: quantileData, quantiles: qs}

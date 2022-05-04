@@ -46,7 +46,6 @@ const weekBackData = props.cgmData.getDataNDaysBack(7)
 const monthBackData = props.cgmData.getDataNDaysBack(28)
 const medData = props.cgmData.medianData(monthBackData ?? [] , 4)
 const quantileData = props.cgmData.quantileStack(monthBackData ?? [], 2)
-console.log(quantileData)
 
 
 </script>
