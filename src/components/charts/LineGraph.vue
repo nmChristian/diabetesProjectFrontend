@@ -1,5 +1,4 @@
 <template>
-  <h1>Here is the Line Graph graph</h1>
   <svg ref="svg"></svg>
 </template>
 

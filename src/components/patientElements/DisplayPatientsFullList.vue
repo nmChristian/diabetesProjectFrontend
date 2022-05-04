@@ -38,10 +38,10 @@ const userlist = [
     new User(3, "Jonas", 21)]
 
 const users = computed(() =>
-    [ {user: userlist[0], cpr:"ddmmyy-xxx1", status: 0 ,medData: cgmMGDL_083.medianData(daysBack, dataPointsPerHour)},
-      {user: userlist[1], cpr:"ddmmyy-xxx2", status: 0, medData: cgmMGDL_123.medianData(daysBack, dataPointsPerHour)},
-      {user: userlist[2], cpr:"ddmmyy-xxx3", status: 1, medData: cgmMGDL_200.medianData(daysBack, dataPointsPerHour)},
-      {user: userlist[3], cpr:"ddmmyy-xxx4", status: -1, medData: cgmMGDL_538.medianData(daysBack, dataPointsPerHour)}])
+    [ {user: userlist[0], cpr:"ddmmyy-xxx1", status: 0 ,medData: cgmMGDL_083.medianData(cgmMGDL_083.getDataNDaysBack(daysBack) ?? [], dataPointsPerHour)},
+      {user: userlist[1], cpr:"ddmmyy-xxx2", status: 0, medData: cgmMGDL_123.medianData(cgmMGDL_123.getDataNDaysBack(daysBack) ?? [], dataPointsPerHour)},
+      {user: userlist[2], cpr:"ddmmyy-xxx3", status: 1, medData: cgmMGDL_200.medianData(cgmMGDL_200.getDataNDaysBack(daysBack) ?? [], dataPointsPerHour)},
+      {user: userlist[3], cpr:"ddmmyy-xxx4", status: -1, medData: cgmMGDL_538.medianData(cgmMGDL_538.getDataNDaysBack(daysBack) ?? [], dataPointsPerHour)}])
 
 const clickedItem = (id: Number) => {
   router.push("/DisplayPatientsList/patientInfo/" + (id))

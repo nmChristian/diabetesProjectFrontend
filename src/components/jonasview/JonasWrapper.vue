@@ -5,14 +5,19 @@
       <p class="user-id"> with id {{user.id}}</p>
     </div>
 
+    <h1>Here is the Line Graph graph</h1>
+
     <line-graph
       :data="weekBackData"
     />
+
+    <h1>Here is the quantile  graph</h1>
     <quantile-chart
         :median-data="medData"
         :quantile-stack="quantileData"
     />
 
+    <h1>Here is the icon graph</h1>
     <icon-graph
       :status="0"
       :median-data="medData"
