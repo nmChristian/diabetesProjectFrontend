@@ -1,8 +1,8 @@
 <template>
   <div class="top-bar">
     <img class=user-icon src="@/assets/user.png" @click="$router.push('/sign-up')" />
-    <button @click="$router.push('/DisplayPatients')">Grid view</button>
-    <button @click="$router.push('/DisplayPatientsList')">List view</button>
+    <img class=navigationIcon src="@/assets/icons/gridViewIcon.svg" @click="$router.push('/DisplayPatients')"/>
+    <img class=navigationIcon src="@/assets/icons/listViewIcon.svg" @click="$router.push('/DisplayPatientsList')"/>
   </div>
   <div id="content-view">
     <header>
@@ -44,6 +44,14 @@ import InfoElement from "@/components/patientElements/InfoElement.vue";
   align-items: center;
 }
 
+.navigationIcon{
+  border: 1px black solid;
+  width: 30px;
+  height: 30px;
+  margin: 5px;
+  padding: 3px;
+  border-radius:6px;
+}
 .user-icon {
   margin: 10px;
   width: 55px;

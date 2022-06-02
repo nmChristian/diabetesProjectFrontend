@@ -5,8 +5,6 @@
     </PatientsFullList>
 
     <div class="info">
-      <button @click="$router.push('/about')">Grid view</button>
-
       <RouterView />
       <h1>{{$route.params.id}}</h1>
     </div>
