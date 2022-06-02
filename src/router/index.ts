@@ -43,10 +43,16 @@ const router = createRouter({
       component: () => import('../views/DisplayPatientsInList.vue'),
       children: [
         {
+          //TODO håndter id der ikke eksistere
           path: "patientInfo/:id",
           component: () => import('../views/PatientInfo.vue')
         }
       ]
+    },
+    {
+      path: "/patientInfo/:id",
+      name: "patientInfo",
+      component: () => import('../views/PatientInfo.vue')
     }
   ]
 })
