@@ -46,8 +46,8 @@ import InfoElement from "@/components/patientElements/InfoElement.vue";
 
 .navigationIcon{
   border: 1px black solid;
-  width: 30px;
-  height: 30px;
+  height: 55%;
+  aspect-ratio: 1 / 1;
   margin: 5px;
   padding: 3px;
   border-radius:6px;
