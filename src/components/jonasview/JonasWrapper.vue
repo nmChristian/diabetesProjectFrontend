@@ -6,22 +6,25 @@
     </div>
 
     <h1>Here is the Line Graph graph</h1>
-
+    <p>{{fisk}}</p>
+<!--
     <line-graph
-      :data="weekBackData"
+      :data="data.weekBackData"
     />
 
     <h1>Here is the quantile  graph</h1>
     <quantile-chart
-        :median-data="medData"
-        :quantile-stack="quantileData"
+        :median-data="data.medData"
+        :quantile-stack="data.quantileData"
     />
 
     <h1>Here is the icon graph</h1>
     <icon-graph
       :status="0"
-      :median-data="medData"
+      :median-data="data.medData"
     />
+    -->
+
 
 
 
@@ -31,10 +34,13 @@
 <script setup lang="ts">
 
 import type {User} from "@/services/user";
-import type {CGMData} from "@/services/graphs/graphs";
+import {CGMData, DataPoint, QuantileStack, SortedData} from "@/services/graphs/graphs";
 import IconGraph from "@/components/charts/IconGraph.vue";
 import QuantileChart from "@/components/charts/QuantileChart.vue";
 import LineGraph from "@/components/charts/LineGraph.vue";
+import {computed, onMounted, reactive, ref} from "vue";
+import axios from "axios";
+import backend from "@/services/backend";
 
 const props = defineProps<{
   user: User,
@@ -42,11 +48,43 @@ const props = defineProps<{
 }>()
 
 
-const weekBackData = props.cgmData.getDataNDaysBack(7)
-const monthBackData = props.cgmData.getDataNDaysBack(28)
-const medData = props.cgmData.medianData(monthBackData ?? [] , 4)
-const quantileData = props.cgmData.quantileStack(monthBackData ?? [], 2)
+let react : any = ref({data: []})
+onMounted(() => {
+  console.log("Mounted")
+  axios.post(backend.getUrlData(),
+      backend.getCGMDaysBack(1),
+      backend.getHeader(200))
+      .then(response => {
+//        react = reactive({data: response.data})
+        react.value.data = response.data.cgm.map((d : any) => ({date: new Date(d.t).toString(), cgm: d.v}))
+        console.log("RESPONSE")
+        console.log(response.data)
+        console.log(react.value.data)
+      })
+})
 
+
+
+const fisk = computed(() =>
+{
+  if (react.value.data.length == 0)
+    return []
+  console.log("fisk")
+  console.log(react.value)
+  let val = new CGMData(react.value.data)
+  const wD = val.getDataNDaysBack(7) ?? []
+  const mD = val.getDataNDaysBack(28) ?? []
+  console.log(val)
+  console.log(wD)
+  console.log(mD)
+  return {
+    val,
+    weekBackData: wD,
+    monthBackData: mD,
+    medData: val.medianData(mD, 4) ?? [],
+    quantileData: val.quantileStack(mD, 2) ?? []
+  }
+})
 
 </script>
 

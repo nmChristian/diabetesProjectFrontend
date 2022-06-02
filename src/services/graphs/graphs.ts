@@ -67,6 +67,9 @@ export class CGMData {
             .value(d => CGMData.getTimeOfDayInSeconds(d.date))
             .thresholds(ranges)(daysBackData)
 
+        console.log("SPLITTING DATA")
+        console.log(splitData[nRanges - 1])
+
         // Set the last range max to be last hour
         splitData[nRanges - 1].x1 = 3600 * 24
 
@@ -159,7 +162,6 @@ export class CGMData {
             .order(d3.stackOrderNone)
             .value((obj, key) => obj[key].data) // Only get the data element from it
             (quantileData.quantileData)
-
         out.shift()  // Remove the lowest area from (0%, 5%)
         return out
     }
