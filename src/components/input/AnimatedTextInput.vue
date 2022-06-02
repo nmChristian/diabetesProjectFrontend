@@ -59,6 +59,5 @@ input:focus~.label,
 .input:not(:placeholder-shown).input:not(:focus)~label {
     top: -1.4rem;
     font-size: 50%;
-    color: lightgray;
 }
 </style>
