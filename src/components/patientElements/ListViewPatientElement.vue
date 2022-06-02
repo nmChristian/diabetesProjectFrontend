@@ -1,4 +1,5 @@
 <template>
+  <!--TODO slected check skal opdateres til at kunne tage strings -->
   <div
       class="outerHolder"
       v-bind:class ="{outerHolderSelected:(user.id === selected)}" >
