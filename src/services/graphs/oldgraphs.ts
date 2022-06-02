@@ -104,7 +104,6 @@ export class CGMData {
         medData.push({x:24, y:zeroVal})
 
         return medData
-
     }
 
 

@@ -16,10 +16,10 @@ import cgm_538 from "@/assets/demo/users/cgm_538.json"  // Lowest and nice 100%
 
 
 
-import {CGMData} from "@/services/graphs/graphs";
+import {CGMData} from "@/services/graphs/oldgraphs";
 import {User} from "@/services/user";
 import JonasWrapper from "@/components/jonasview/JonasWrapper.vue";
-import backend from "@/services/backend";
+
 import axios from "axios";
 
 const cgmMGDL_083 = new CGMData(cgm_083)

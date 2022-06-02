@@ -5,8 +5,8 @@
 <script setup lang="ts">
 import {onMounted, ref, Ref} from "vue";
 
-import {GraphDrawer} from "@/services/graphs/graphs"
-import type {DataPoint} from "@/services/graphs/graphs";
+import {GraphDrawer} from "@/services/graphs/oldgraphs"
+import type {DataPoint} from "@/services/graphs/oldgraphs";
 
 const drawer = new GraphDrawer();
 const props = defineProps<{

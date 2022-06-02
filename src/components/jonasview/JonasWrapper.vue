@@ -34,7 +34,7 @@
 <script setup lang="ts">
 
 import type {User} from "@/services/user";
-import {CGMData, DataPoint, QuantileStack, SortedData} from "@/services/graphs/graphs";
+import {CGMData, DataPoint, QuantileStack, SortedData} from "@/services/graphs/oldgraphs";
 import IconGraph from "@/components/charts/IconGraph.vue";
 import QuantileChart from "@/components/charts/QuantileChart.vue";
 import LineGraph from "@/components/charts/LineGraph.vue";
