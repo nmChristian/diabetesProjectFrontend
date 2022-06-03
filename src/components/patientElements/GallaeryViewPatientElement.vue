@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" @click = "mainClicked()">
     <div class="allSides">
       <div class="topDiv" > <!-- Overskrift -->
         <div style="width: 20%; float:left">
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import router from "@/router";
 export default {
   name: "GallaeryViewPatientElement",
   props: {
@@ -34,8 +35,12 @@ export default {
     eGFR: Number,
   },
   methods:{
+    mainClicked(){
+      router.push('/patientInfo/' + (this.$props.id))
+    },
     showElementData(dataType){
       console.log("Vi er i elementet")
+      //TODO lav redirect der fremhæver data
       alert("Show " + dataType + " data for id " + this.$props.id)
     }
   }

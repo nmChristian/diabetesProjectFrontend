@@ -1,10 +1,22 @@
 <template>
   <div class="top-bar">
     <img class=user-icon src="@/assets/user.png" @click="$router.push('/sign-up')" />
-    <button @click="$router.push('/DisplayPatients')">Grid view</button>
-    <button @click="$router.push('/DisplayPatientsList')">List view</button>
+
+    <div class=curentUserInfo>
+      <p>Navn</p>
+      <p>Email</p>
+    </div>
+
+    <input class=sheachField type="text" value="Søge bar ting (ikke funktionel)">
+    <div class = iconGroup v-if="String(this.$router.currentRoute.value.fullPath).toLowerCase().includes('displaypatients')">
+      <img class=navigationIcon src="@/assets/icons/gridViewIcon.svg" @click="$router.push('/DisplayPatients')"/>
+      <img class=navigationIcon src="@/assets/icons/listViewIcon.svg" @click="$router.push('/DisplayPatientsList')"/>
+    </div>
   </div>
-  <div id="content-view">
+
+  <div class="spacer"></div>
+
+  <div id="content-view" class="content-view">
     <header>
       <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
@@ -36,23 +48,60 @@ import InfoElement from "@/components/patientElements/InfoElement.vue";
 <style>
 @import '@/assets/base.css';
 
-.top-bar {
+.sheachField{
+  height: 70%;
+  width: 300px;
+  margin: auto;
+  opacity: 30%;
+  border-radius: 10px;
+}
+
+.spacer{
   height: 75px;
-  width: 100%;
-  border: 1px red solid;
+}
+
+.iconGroup{
+  padding-right: 10px;
+  height: 100%;
   display: flex;
   align-items: center;
 }
 
+.content-view{
+  padding: 0px;
+  margin: 100px;
+}
+
+.top-bar {
+  z-index: 10;
+  height: 75px;
+  width: 100%;
+  top: 0px; left: 0px;
+  background-color: lightgrey;
+  box-shadow: #2c3e50 5px 5px 5px;
+  display: flex;
+  align-items: center;
+  position: fixed;
+}
+
+.navigationIcon{
+  border: 1px black solid;
+  background-color: white;
+  height: 55%;
+  aspect-ratio: 1 / 1;
+  margin: 5px;
+  padding: 3px;
+  border-radius:6px;
+}
 .user-icon {
   margin: 10px;
   width: 55px;
 }
 
 #content-view {
-  max-width: 1280px;
+  /*max-width: 1280px; */
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0rem;
 
   font-weight: normal;
 }
