@@ -4,7 +4,7 @@
       v-bind:class ="{outerHolderSelected:(user.id === selected)}" >
     <div class="icon">
       <IconGraph
-          :median-data="medData"
+          :medianDataInHours="medianDataInHours"
           :healthLevel="healthLevel"></IconGraph>
       <!--<img src="@/assets/logo.svg" class="icon"> -->
     </div>
@@ -23,7 +23,7 @@ import type {User} from "@/services/user"
 defineProps<{
   user: User,
   cpr: string,
-  medData: object,
+  medianDataInHours: object,
   doctor: boolean,
   selected: number,
   healthLevel: number,

@@ -4,7 +4,7 @@
         v-for="u in users"
         :user="u.user"
         :cpr = 'u.cpr'
-        :medData = 'u.medData'
+        :medianDataInHours = 'u.medianDataInHours'
         :doctor="false"
         :selected="parseInt($route.params.id)"
         :healthLevel = 'u.healthLevel'
@@ -24,8 +24,8 @@ import {CGMData} from "@/services/graphs/oldgraphs"
 
 import {User} from "@/services/user"
 import router from "@/router"
-import type {Data, Point} from "@/services/core/datatypes"
-import {toData, bucketToMedian, dataToBucketByTimeOfDay} from "@/services/core/datatypes"
+import type {DateValue, Point} from "@/services/core/datatypes"
+import {toData, bucketToMedian, toBuckets, SPLIT_BY_DAY} from "@/services/core/datatypes"
 import {HealthLevel} from "@/services/core/shared";
 
 const cgmMGDL_083 = new CGMData(cgm_083)
@@ -44,8 +44,8 @@ const userlist = [
 const cgmToData = (cgmData : {date: string, cgm: number}[]) =>
     toData(cgmData, (data => [new Date(data.date), data.cgm * 18]))
 
-const dataToMedian = (data : Data[]) : Point[] =>
-    bucketToMedian(dataToBucketByTimeOfDay(data, DATA_POINTS_PER_HOUR))
+const dataToMedian = (data : DateValue[]) : Point[] =>
+    bucketToMedian(toBuckets(data, SPLIT_BY_DAY, 24 * DATA_POINTS_PER_HOUR))
 
 
 /*
@@ -58,10 +58,10 @@ const users = computed(() =>
 )*/
 
 const users = computed(() =>
-    [ {user: userlist[0], cpr:"ddmmyy-xxx1", healthLevel: HealthLevel.Good ,medData: dataToMedian(cgmToData(cgm_083))},
-      {user: userlist[1], cpr:"ddmmyy-xxx2", healthLevel: HealthLevel.Good, medData: dataToMedian(cgmToData(cgm_123))},
-      {user: userlist[2], cpr:"ddmmyy-xxx3", healthLevel: HealthLevel.High, medData: dataToMedian(cgmToData(cgm_200))},
-      {user: userlist[3], cpr:"ddmmyy-xxx4", healthLevel: HealthLevel.Low, medData: dataToMedian(cgmToData(cgm_538))}
+    [ {user: userlist[0], cpr:"ddmmyy-xxx1", healthLevel: HealthLevel.Good ,medianDataInHours: dataToMedian(cgmToData(cgm_083))},
+      {user: userlist[1], cpr:"ddmmyy-xxx2", healthLevel: HealthLevel.Good, medianDataInHours: dataToMedian(cgmToData(cgm_123))},
+      {user: userlist[2], cpr:"ddmmyy-xxx3", healthLevel: HealthLevel.High, medianDataInHours: dataToMedian(cgmToData(cgm_200))},
+      {user: userlist[3], cpr:"ddmmyy-xxx4", healthLevel: HealthLevel.Low, medianDataInHours: dataToMedian(cgmToData(cgm_538))}
     ]
 )
 

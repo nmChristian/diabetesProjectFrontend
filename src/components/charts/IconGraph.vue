@@ -13,12 +13,12 @@ import type {HealthLevel} from "@/services/core/shared";
 
 const props = defineProps<{
   healthLevel : HealthLevel,
-  medianData : Point[],
+  medianDataInHours : Point[],
 }>()
 
 const svg : Ref<SVGElement | null> = ref(null)
 onMounted(() => {
-  const chart = iconGraph(props.medianData, props.healthLevel,{})
+  const chart = iconGraph(props.medianDataInHours, props.healthLevel,{})
   applySVG(svg, chart)
 })
 </script>
