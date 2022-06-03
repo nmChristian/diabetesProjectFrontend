@@ -1,5 +1,6 @@
 import type {Ref} from "vue";
 
-export default function applySVG (ref : Ref<SVGElement | null>, svg : SVGSVGElement | null) {
-    if (ref.value != null && svg?.outerHTML != undefined) ref.value.outerHTML = svg.outerHTML
+export default function applySVG (div : Ref<HTMLDivElement | null>, svg : SVGSVGElement | null) {
+    if (div.value != null && svg?.outerHTML != undefined)
+        div.value.innerHTML = svg.outerHTML
 }

@@ -1,9 +1,9 @@
 <template>
-  <svg ref="svg"></svg>
+  <div ref="div"></div>
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, ref} from "vue";
+import {computed, onMounted, ref, watch, watchEffect} from "vue";
 import type {Ref} from "vue";
 
 import applySVG from "@/services/core/applySVG";
@@ -12,19 +12,16 @@ import type {Point} from "@/services/core/datatypes";
 import type {HealthLevel} from "@/services/core/shared";
 
 const props = defineProps<{
-  healthLevel : HealthLevel,
   medianDataInHours : Point[],
+  healthLevel : HealthLevel,
 }>()
 
-const svg : Ref<SVGElement | null> = ref(null)
-onMounted(() => {
-  const chart = iconGraph(props.medianDataInHours, props.healthLevel,{})
-  applySVG(svg, chart)
+const div : Ref<HTMLDivElement | null> = ref(null)
+
+// WatchEffects gets called immediately and when any of the variables in it changes
+watchEffect(() => {
+  const chart = iconGraph(props.medianDataInHours, props.healthLevel, {})
+  applySVG(div, chart)
 })
-computed( () => {
-      console.log("DRAWING ICON GRAPH")
-      const chart = iconGraph(props.medianDataInHours, props.healthLevel, {})
-  applySVG(svg, chart)
-}
-)
+
 </script>

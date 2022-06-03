@@ -10,6 +10,8 @@
     <h1>Here is the icon graph</h1>
 
 <!--
+    <h1>Here is the Line Graph graph</h1>
+
     <line-graph
       :data="data.weekBackData"
     />
@@ -29,12 +31,9 @@
 
     -->
     <icon-graph
-        :healthLevel="HealthLevel.Good"
         :medianDataInHours="medianDataInHours"
+        :healthLevel="HealthLevel.Good"
     />
-    <h1>Here is the Line Graph graph</h1>
-    <p>{{ medianDataInHours }}</p>
-
 
 
   </div>
@@ -43,7 +42,7 @@
 <script setup lang="ts">
 
 import type {User} from "@/services/user";
-import {computed, onMounted, reactive, Ref, ref} from "vue";
+import {computed, onMounted, reactive, ref} from "vue";
 import axios from "axios";
 import backend from "@/services/backend";
 import type {DateValue, Point} from "@/services/core/datatypes";
@@ -55,6 +54,7 @@ const props = defineProps<{
 }>()
 
 
+
 let dataInDateValue = ref({data:[]})
 onMounted(() => {
   console.log("Mounted")
@@ -63,7 +63,7 @@ onMounted(() => {
       backend.getHeader(200))
       .then(response => {
         //        react = reactive({data: response.data})
-        dataInDateValue.value.data = response.data.cgm.map((d : {t : number, v : number}) => [new Date(d.t * 1000), d.v])
+        dataInDateValue.value.data = response.data.cgm.map((d : {t : number, v : number}) => [new Date(d.t * 1000), d.v * 18])
         console.log("RESPONSE")
       })
 })
@@ -74,7 +74,6 @@ const dataToMedian = (data : DateValue[], split : number) : Point[] =>
 
 const medianDataInHours = computed(() =>
 {
-  //$emit
     return dataInDateValue.value.data.length != 0 ?
         dataToMedian(dataInDateValue.value.data, SPLIT_BY_DAY) :
         []
