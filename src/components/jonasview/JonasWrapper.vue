@@ -7,6 +7,9 @@
 
     <h1>Here is the Line Graph graph</h1>
     <p>{{fisk}}</p>
+
+    <h1>Here is the icon graph</h1>
+
 <!--
     <line-graph
       :data="data.weekBackData"
@@ -22,6 +25,11 @@
     <icon-graph
       :status="0"
       :median-data="data.medData"
+    />
+
+        <icon-graph
+        :status="0"
+        :median-data="fisk.medData"
     />
     -->
 

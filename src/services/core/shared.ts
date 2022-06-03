@@ -28,7 +28,7 @@ const thresholds =
 
 
 // Methods
-// Returns the second of the day
+// Converts date into seconds
 const dateToSeconds = (date : Date) : number =>
     date.getDate() * 3600 * 24 +
     date.getHours() * 3600 +

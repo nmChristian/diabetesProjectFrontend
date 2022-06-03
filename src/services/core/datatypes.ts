@@ -43,6 +43,10 @@ function toBuckets(dateValues: DateValue[],
                    splitAfterSeconds: number, resolution : number,
                    outputUnit: TimeUnit = TimeUnit.Hour): BucketPoint[] {
 
+    // TODO: FIX THIS, UPGRADE THE METHOD SO LONGER SPLIT IS POSSIBLE (HOPEFULLY YEAR)
+    if (splitAfterSeconds > SPLIT_BY_DAY * 31)
+        console.error("Limited by the dateToSeconds method, since it can only go up to 31. of the month")
+
     const inc = splitAfterSeconds / resolution
     const ranges = new Array<number>(resolution)
     for (let i = 0; i < resolution; i++)
@@ -53,8 +57,8 @@ function toBuckets(dateValues: DateValue[],
         .value(([date,] : DateValue) => dateToSeconds(date) % splitAfterSeconds)
         .thresholds(ranges)(dateValues)
 
-    // Set the last range's max value to be second of day, this needs to be done since the d3.bin method sets the upper threshold of last item to be max value of data.
-    // Therefore we artificially increase it to be the last second, so the graph will go all the way to the end
+    // Set the last range's max value, this needs to be done since the d3.bin method sets the upper threshold of last item to be max value of data.
+    // Therefore we artificially increase it, so the graph will go all the way to the end
     bins[resolution - 1].x1 = splitAfterSeconds
 
     return binToBuckets(bins).map<BucketPoint>(([x, values]) => [x / outputUnit, values])

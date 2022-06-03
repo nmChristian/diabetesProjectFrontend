@@ -25,7 +25,7 @@ import {CGMData} from "@/services/graphs/oldgraphs"
 import {User} from "@/services/user"
 import router from "@/router"
 import type {DateValue, Point} from "@/services/core/datatypes"
-import {toData, bucketToMedian, toBuckets, SPLIT_BY_DAY} from "@/services/core/datatypes"
+import {toData, bucketToMedian, toBuckets, SPLIT_BY_DAY, SPLIT_BY_WEEK} from "@/services/core/datatypes"
 import {HealthLevel} from "@/services/core/shared";
 
 const cgmMGDL_083 = new CGMData(cgm_083)
@@ -34,7 +34,7 @@ const cgmMGDL_200 = new CGMData(cgm_200)
 const cgmMGDL_538 = new CGMData(cgm_538)
 
 const daysBack = 28
-const DATA_POINTS_PER_HOUR = 4
+const RESOLUTION = 96
 const userlist = [
     new User(0, "Alexander", 199),
     new User(1, "Christian", 21),
@@ -44,8 +44,8 @@ const userlist = [
 const cgmToData = (cgmData : {date: string, cgm: number}[]) =>
     toData(cgmData, (data => [new Date(data.date), data.cgm * 18]))
 
-const dataToMedian = (data : DateValue[]) : Point[] =>
-    bucketToMedian(toBuckets(data, SPLIT_BY_DAY, 24 * DATA_POINTS_PER_HOUR))
+const dataToMedian = (data : DateValue[], split : number) : Point[] =>
+    bucketToMedian(toBuckets(data, split, RESOLUTION))
 
 
 /*
@@ -58,10 +58,10 @@ const users = computed(() =>
 )*/
 
 const users = computed(() =>
-    [ {user: userlist[0], cpr:"ddmmyy-xxx1", healthLevel: HealthLevel.Good ,medianDataInHours: dataToMedian(cgmToData(cgm_083))},
-      {user: userlist[1], cpr:"ddmmyy-xxx2", healthLevel: HealthLevel.Good, medianDataInHours: dataToMedian(cgmToData(cgm_123))},
-      {user: userlist[2], cpr:"ddmmyy-xxx3", healthLevel: HealthLevel.High, medianDataInHours: dataToMedian(cgmToData(cgm_200))},
-      {user: userlist[3], cpr:"ddmmyy-xxx4", healthLevel: HealthLevel.Low, medianDataInHours: dataToMedian(cgmToData(cgm_538))}
+    [ {user: userlist[0], cpr:"ddmmyy-xxx1", healthLevel: HealthLevel.Good ,medianDataInHours: dataToMedian(cgmToData(cgm_083), SPLIT_BY_DAY)},
+      {user: userlist[1], cpr:"ddmmyy-xxx2", healthLevel: HealthLevel.Good, medianDataInHours: dataToMedian(cgmToData(cgm_123), SPLIT_BY_DAY)},
+      {user: userlist[2], cpr:"ddmmyy-xxx3", healthLevel: HealthLevel.High, medianDataInHours: dataToMedian(cgmToData(cgm_200), SPLIT_BY_DAY)},
+      {user: userlist[3], cpr:"ddmmyy-xxx4", healthLevel: HealthLevel.Low, medianDataInHours: dataToMedian(cgmToData(cgm_538), SPLIT_BY_DAY)}
     ]
 )
 
