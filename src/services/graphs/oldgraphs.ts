@@ -70,7 +70,8 @@ export class CGMData {
         console.log("SPLITTING DATA")
         console.log(splitData[nRanges - 1])
 
-        // Set the last range max to be last hour
+        // Set the last range max to be last hour, this needs to be done since the d3.bin method sets the upper threshold of last item to be max value of data.
+        // Therefore we artificially set it to be the last hour, so the graph will go all the way to the end
         splitData[nRanges - 1].x1 = 3600 * 24
 
 
