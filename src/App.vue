@@ -1,8 +1,18 @@
 <template>
   <div class="top-bar">
     <img class=user-icon src="@/assets/user.png" @click="$router.push('/sign-up')" />
-    <img class=navigationIcon src="@/assets/icons/gridViewIcon.svg" @click="$router.push('/DisplayPatients')"/>
-    <img class=navigationIcon src="@/assets/icons/listViewIcon.svg" @click="$router.push('/DisplayPatientsList')"/>
+
+    <div class=curentUserInfo>
+      <p>Navn</p>
+      <p>Email</p>
+    </div>
+
+
+    <input class=sheachField type="text" value="Søge bar ting (ikke funktionel)">
+    <div class = iconGroup>
+      <img class=navigationIcon src="@/assets/icons/gridViewIcon.svg" @click="$router.push('/DisplayPatients')"/>
+      <img class=navigationIcon src="@/assets/icons/listViewIcon.svg" @click="$router.push('/DisplayPatientsList')"/>
+    </div>
   </div>
   <div id="content-view">
     <header>
@@ -36,16 +46,33 @@ import InfoElement from "@/components/patientElements/InfoElement.vue";
 <style>
 @import '@/assets/base.css';
 
+.sheachField{
+  height: 70%;
+  width: 300px;
+  margin: auto;
+  opacity: 30%;
+  border-radius: 10px;
+}
+
+.iconGroup{
+  padding-right: 10px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
 .top-bar {
   height: 75px;
   width: 100%;
-  border: 1px red solid;
+  background-color: lightgrey;
+  box-shadow: #2c3e50 5px 5px 5px;
   display: flex;
   align-items: center;
 }
 
 .navigationIcon{
   border: 1px black solid;
+  background-color: white;
   height: 55%;
   aspect-ratio: 1 / 1;
   margin: 5px;

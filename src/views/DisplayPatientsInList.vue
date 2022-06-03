@@ -23,7 +23,6 @@
   width: 100%;
 }
 .list{
-  border: red solid 1px;
   display: inline-block;
 }
 .info{
