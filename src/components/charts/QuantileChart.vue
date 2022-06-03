@@ -17,7 +17,7 @@ const props = defineProps<{
 
 const svg : Ref<SVGElement | null> = ref(null)
 onMounted(() => {
-  const chart = drawer.quantileChart(props.quantileStack, props.medianData, {})
+  const chart = drawer.quantileChart(props.quantileStack, props.medianDataInHours, {})
   drawer.applySVG(svg, chart)
 })
 </script>

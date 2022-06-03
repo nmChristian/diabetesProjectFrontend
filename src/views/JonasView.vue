@@ -2,7 +2,6 @@
   <div class="jonasdiv">
     <JonasWrapper
       :user="user"
-      :cgm-data="cgmMGDL_200"
     />
   </div>
 </template>

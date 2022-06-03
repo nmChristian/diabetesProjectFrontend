@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import type {Ref} from "vue";
 
 import applySVG from "@/services/core/applySVG";
@@ -21,4 +21,10 @@ onMounted(() => {
   const chart = iconGraph(props.medianDataInHours, props.healthLevel,{})
   applySVG(svg, chart)
 })
+computed( () => {
+      console.log("DRAWING ICON GRAPH")
+      const chart = iconGraph(props.medianDataInHours, props.healthLevel, {})
+  applySVG(svg, chart)
+}
+)
 </script>
