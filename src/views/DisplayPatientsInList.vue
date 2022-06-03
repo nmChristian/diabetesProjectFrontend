@@ -17,7 +17,7 @@
 
 <style scoped>
 .holder{
-  border: green dashed 1px;
+
   overflow: auto;
   flex: 1;
   width: 100%;
@@ -27,6 +27,5 @@
 }
 .info{
   display: inline-block;
-  border: blue solid 1px;
 }
 </style>

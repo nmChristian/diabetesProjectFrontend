@@ -16,7 +16,7 @@
 
   <div class="spacer"></div>
 
-  <div id="content-view">
+  <div id="content-view" class="content-view">
     <header>
       <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
@@ -67,6 +67,11 @@ import InfoElement from "@/components/patientElements/InfoElement.vue";
   align-items: center;
 }
 
+.content-view{
+  padding: 0px;
+  margin: 100px;
+}
+
 .top-bar {
   z-index: 10;
   height: 75px;
@@ -96,7 +101,7 @@ import InfoElement from "@/components/patientElements/InfoElement.vue";
 #content-view {
   /*max-width: 1280px; */
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0rem;
 
   font-weight: normal;
 }
