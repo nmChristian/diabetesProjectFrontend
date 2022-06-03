@@ -78,10 +78,10 @@ import InfoElement from "@/components/patientElements/InfoElement.vue";
   width: 100%;
   top: 0px; left: 0px;
   background-color: lightgrey;
-  box-shadow: #2c3e50 5px 5px 5px;
   display: flex;
   align-items: center;
   position: fixed;
+  border-bottom: 1px grey solid;
 }
 
 .navigationIcon{
