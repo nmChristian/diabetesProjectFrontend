@@ -1,17 +1,19 @@
 <template>
   <div class="top-bar">
-    <img class=user-icon src="@/assets/user.png" @click="$router.push('/sign-up')"/>
+    <img class=user-icon src="@/assets/user.png" @click="$router.push('/sign-up')" alt="User icon"/>
 
-    <div class=curentUserInfo>
-      <p>Navn</p>
+    <div class=currentUserInfo>
+      <p>Name</p>
       <p>Email</p>
     </div>
 
-    <input class=sheachField type="text" value="Søge bar ting (ikke funktionel)">
+    <input class=searchField type="text" placeholder="Search bar (not functional)">
     <div class=iconGroup
          v-if="String(this.$router.currentRoute.value.fullPath).toLowerCase().includes('displaypatients')">
-      <img class=navigationIcon src="@/assets/icons/gridViewIcon.svg" @click="$router.push('/DisplayPatients')"/>
-      <img class=navigationIcon src="@/assets/icons/listViewIcon.svg" @click="$router.push('/DisplayPatientsList')"/>
+      <img class=navigationIcon src="@/assets/icons/gridViewIcon.svg" @click="$router.push('/DisplayPatients')"
+           alt=""/>
+      <img class=navigationIcon src="@/assets/icons/listViewIcon.svg" @click="$router.push('/DisplayPatientsList')"
+           alt=""/>
     </div>
   </div>
 
@@ -45,7 +47,7 @@ import {RouterLink, RouterView} from 'vue-router'
 <style>
 @import '@/assets/base.css';
 
-.sheachField {
+.searchField {
   height: 70%;
   width: 300px;
   margin: auto;
@@ -65,7 +67,7 @@ import {RouterLink, RouterView} from 'vue-router'
 }
 
 .content-view {
-  padding: 0px;
+  padding: 0;
   margin: 100px;
 }
 
@@ -73,8 +75,8 @@ import {RouterLink, RouterView} from 'vue-router'
   z-index: 10;
   height: 75px;
   width: 100%;
-  top: 0px;
-  left: 0px;
+  top: 0;
+  left: 0;
   background-color: lightgrey;
   box-shadow: #2c3e50 5px 5px 5px;
   display: flex;
@@ -100,7 +102,7 @@ import {RouterLink, RouterView} from 'vue-router'
 #content-view {
   /*max-width: 1280px; */
   margin: 0 auto;
-  padding: 0rem;
+  padding: 0;
 
   font-weight: normal;
 }
@@ -115,8 +117,7 @@ header {
   margin: 0 auto 2rem;
 }
 
-a,
-.green {
+a {
   text-decoration: none;
   color: hsla(160, 100%, 37%, 1);
   transition: 0.4s;
@@ -133,14 +134,6 @@ nav {
   font-size: 1rem;
   text-align: center;
   margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
 }
 
 nav a {
