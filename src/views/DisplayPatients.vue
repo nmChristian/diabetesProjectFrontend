@@ -1,5 +1,5 @@
 <template xmlns="http://www.w3.org/1999/html">
-<div>
+<div class = outerGridHolder>
     <div v-for="index in Math.floor((Patients.length+1)/2)">
       <div class="collum">
         <gallaery-view-patient-element
@@ -59,5 +59,12 @@ export default {
 <style scoped>
 .collum{
   display: flex;
+}
+
+.outerGridHolder{
+  margin: auto;
+  width: 50%;
+  min-width: 740px;
+  max-width: 900px;
 }
 </style>
