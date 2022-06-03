@@ -4,10 +4,10 @@
         v-for="u in users"
         :user="u.user"
         :cpr = 'u.cpr'
-        :data = 'u.medData'
+        :medData = 'u.medData'
         :doctor="false"
         :selected="parseInt($route.params.id)"
-        :status = 'u.status'
+        :healthLevel = 'u.healthLevel'
         @click="clickedItem(u.user.id)">
     </ListViewPatientElement>
   </div>
@@ -21,8 +21,12 @@ import cgm_200 from "@/assets/demo/users/cgm_200.json"  // 2% 80% 15% 4%
 import cgm_538 from "@/assets/demo/users/cgm_538.json"  // Lowest and nice 100%
 
 import {CGMData} from "@/services/graphs/oldgraphs"
+
 import {User} from "@/services/user"
-import router from "@/router";
+import router from "@/router"
+import type {Data, Point} from "@/services/core/datatypes"
+import {toData, bucketToMedian, dataToBucketByTimeOfDay} from "@/services/core/datatypes"
+import {HealthLevel} from "@/services/core/shared";
 
 const cgmMGDL_083 = new CGMData(cgm_083)
 const cgmMGDL_123 = new CGMData(cgm_123)
@@ -30,18 +34,36 @@ const cgmMGDL_200 = new CGMData(cgm_200)
 const cgmMGDL_538 = new CGMData(cgm_538)
 
 const daysBack = 28
-const dataPointsPerHour = 4
+const DATA_POINTS_PER_HOUR = 4
 const userlist = [
     new User(0, "Alexander", 199),
     new User(1, "Christian", 21),
     new User(2, "Niels", 34),
     new User(3, "Jonas", 21)]
 
+const cgmToData = (cgmData : {date: string, cgm: number}[]) =>
+    toData(cgmData, (data => [new Date(data.date), data.cgm * 18]))
+
+const dataToMedian = (data : Data[]) : Point[] =>
+    bucketToMedian(dataToBucketByTimeOfDay(data, DATA_POINTS_PER_HOUR))
+
+
+/*
 const users = computed(() =>
-    [ {user: userlist[0], cpr:"ddmmyy-xxx1", status: 0 ,medData: cgmMGDL_083.medianData(cgmMGDL_083.getDataNDaysBack(daysBack) ?? [], dataPointsPerHour)},
-      {user: userlist[1], cpr:"ddmmyy-xxx2", status: 0, medData: cgmMGDL_123.medianData(cgmMGDL_123.getDataNDaysBack(daysBack) ?? [], dataPointsPerHour)},
-      {user: userlist[2], cpr:"ddmmyy-xxx3", status: 1, medData: cgmMGDL_200.medianData(cgmMGDL_200.getDataNDaysBack(daysBack) ?? [], dataPointsPerHour)},
-      {user: userlist[3], cpr:"ddmmyy-xxx4", status: -1, medData: cgmMGDL_538.medianData(cgmMGDL_538.getDataNDaysBack(daysBack) ?? [], dataPointsPerHour)}])
+    [ {user: userlist[0], cpr:"ddmmyy-xxx1", status: 0 ,medData: cgmMGDL_083.medianData(cgmMGDL_083.getDataNDaysBack(daysBack) ?? [], DATA_POINTS_PER_HOUR)},
+      {user: userlist[1], cpr:"ddmmyy-xxx2", status: 0, medData: cgmMGDL_123.medianData(cgmMGDL_123.getDataNDaysBack(daysBack) ?? [], DATA_POINTS_PER_HOUR)},
+      {user: userlist[2], cpr:"ddmmyy-xxx3", status: 1, medData: cgmMGDL_200.medianData(cgmMGDL_200.getDataNDaysBack(daysBack) ?? [], DATA_POINTS_PER_HOUR)},
+      {user: userlist[3], cpr:"ddmmyy-xxx4", status: -1, medData: cgmMGDL_538.medianData(cgmMGDL_538.getDataNDaysBack(daysBack) ?? [], DATA_POINTS_PER_HOUR)}
+    ]
+)*/
+
+const users = computed(() =>
+    [ {user: userlist[0], cpr:"ddmmyy-xxx1", healthLevel: HealthLevel.Good ,medData: dataToMedian(cgmToData(cgm_083))},
+      {user: userlist[1], cpr:"ddmmyy-xxx2", healthLevel: HealthLevel.Good, medData: dataToMedian(cgmToData(cgm_123))},
+      {user: userlist[2], cpr:"ddmmyy-xxx3", healthLevel: HealthLevel.High, medData: dataToMedian(cgmToData(cgm_200))},
+      {user: userlist[3], cpr:"ddmmyy-xxx4", healthLevel: HealthLevel.Low, medData: dataToMedian(cgmToData(cgm_538))}
+    ]
+)
 
 const clickedItem = (id: Number) => {
   router.push("/DisplayPatientsList/patientInfo/" + (id))

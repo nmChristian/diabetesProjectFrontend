@@ -3,20 +3,22 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref, Ref} from "vue";
+import {onMounted, ref} from "vue";
+import type {Ref} from "vue";
 
-import {GraphDrawer} from "@/services/graphs/oldgraphs"
-import type {DataPoint} from "@/services/graphs/oldgraphs";
+import applySVG from "@/services/core/applySVG";
+import iconGraph from "@/services/graphs/iconGraph";
+import type {Point} from "@/services/core/datatypes";
+import type {HealthLevel} from "@/services/core/shared";
 
-const drawer = new GraphDrawer();
 const props = defineProps<{
-  status : number,
-  medianData : DataPoint[],
+  healthLevel : HealthLevel,
+  medianData : Point[],
 }>()
 
 const svg : Ref<SVGElement | null> = ref(null)
 onMounted(() => {
-  const chart = drawer.iconChart(props.medianData, drawer.colorScheme[props.status + 2], {})
-  drawer.applySVG(svg, chart)
+  const chart = iconGraph(props.medianData, props.healthLevel,{})
+  applySVG(svg, chart)
 })
 </script>

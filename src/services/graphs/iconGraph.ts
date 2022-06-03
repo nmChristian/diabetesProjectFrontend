@@ -1,8 +1,8 @@
 import * as d3 from "d3";
 import type {Point} from "@/services/core/datatypes"
-import {HealthLevel, healthLevelToColor} from "@/services/core/datatypes";
+import {HealthLevel, healthLevelToColor} from "@/services/core/shared";
 
-function iconChart (medianData : Point[], healthLevel : HealthLevel, {
+export default function iconGraph (medianData : Point[], healthLevel : HealthLevel, {
     width = 80, // outer width, in pixels
     height = 60, // outer height, in pixels
     strokeWidth = 3,    // Background and stroke
@@ -22,9 +22,11 @@ function iconChart (medianData : Point[], healthLevel : HealthLevel, {
 
     // DRAW MEDIAN
     const medianLineGen = d3.line<Point>()
+        .defined(([x,y] : Point) =>!isNaN(x) && !isNaN(y))
         .curve(d3.curveLinear)
-        .x((d) => xScale(d[0]))
-        .y((d) => yScale(d[1]))
+        .x(([x,] : Point) => xScale(x))
+        .y(([,y] : Point) => yScale(y))
+
     svg.append("path")
         .attr("style", "stroke-width: " + strokeWidth + "; fill: none; stroke: " + clr + ";  opacity: 1;")
         .attr("d", medianLineGen(medianData))
