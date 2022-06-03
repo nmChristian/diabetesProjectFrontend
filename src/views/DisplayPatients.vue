@@ -1,4 +1,7 @@
 <template xmlns="http://www.w3.org/1999/html">
+
+  <!-- TODO Måske lav en fom for overskift -->
+
 <div class = outerGridHolder>
     <div v-for="index in Math.floor((Patients.length+1)/2)">
       <div class="collum">
@@ -63,7 +66,8 @@ export default {
 
 .outerGridHolder{
   margin: auto;
-  width: 50%;
+  padding-top: 20px;
+  width: 60%;
   min-width: 740px;
   max-width: 900px;
 }
