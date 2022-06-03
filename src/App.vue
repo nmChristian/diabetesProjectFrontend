@@ -7,13 +7,15 @@
       <p>Email</p>
     </div>
 
-
     <input class=sheachField type="text" value="Søge bar ting (ikke funktionel)">
-    <div class = iconGroup>
+    <div class = iconGroup v-if="String(this.$router.currentRoute.value.fullPath).toLowerCase().includes('displaypatients')">
       <img class=navigationIcon src="@/assets/icons/gridViewIcon.svg" @click="$router.push('/DisplayPatients')"/>
       <img class=navigationIcon src="@/assets/icons/listViewIcon.svg" @click="$router.push('/DisplayPatientsList')"/>
     </div>
   </div>
+
+  <div class="spacer"></div>
+
   <div id="content-view">
     <header>
       <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
@@ -54,6 +56,10 @@ import InfoElement from "@/components/patientElements/InfoElement.vue";
   border-radius: 10px;
 }
 
+.spacer{
+  height: 75px;
+}
+
 .iconGroup{
   padding-right: 10px;
   height: 100%;
@@ -62,12 +68,15 @@ import InfoElement from "@/components/patientElements/InfoElement.vue";
 }
 
 .top-bar {
+  z-index: 10;
   height: 75px;
   width: 100%;
+  top: 0px; left: 0px;
   background-color: lightgrey;
   box-shadow: #2c3e50 5px 5px 5px;
   display: flex;
   align-items: center;
+  position: fixed;
 }
 
 .navigationIcon{
