@@ -24,8 +24,6 @@
       <div class="wrapper">
         <nav>
           <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/sign-in">Sign-in</RouterLink>
-          <RouterLink to="/sign-up">Sign up</RouterLink>
           <RouterLink to="/JonasView">Jonas</RouterLink>
           <RouterLink to="/DisplayPatients"> display patients</RouterLink>
           <RouterLink to="/DisplayPatientsList"> display patients list</RouterLink>
@@ -38,10 +36,9 @@
 
 
 <script setup>
+
 import {RouterLink, RouterView} from 'vue-router'
-import HelloWorld from '@/components/HelloWorld.vue'
-import GallaeryViewPatientElement from "@/components/patientElements/GallaeryViewPatientElement.vue";
-import InfoElement from "@/components/patientElements/InfoElement.vue";
+
 </script>
 
 
