@@ -453,8 +453,9 @@ export class GraphDrawer {
 
         return out.node()
     }
+    /*
     applySVG (ref : Ref<SVGElement | null>, svg : SVGSVGElement | null) {
         if (ref.value != null && svg?.outerHTML != undefined) ref.value.outerHTML = svg.outerHTML
-    }
+    }*/
 
 }

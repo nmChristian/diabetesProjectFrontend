@@ -25,7 +25,7 @@ import {CGMData} from "@/services/graphs/oldgraphs"
 import {User} from "@/services/user"
 import router from "@/router"
 import type {DateValue, Point} from "@/services/core/datatypes"
-import {toData, bucketToMedian, toBuckets, SPLIT_BY_DAY, SPLIT_BY_WEEK} from "@/services/core/datatypes"
+import {toDateValue, bucketToMedian, toBuckets, SPLIT_BY_DAY, SPLIT_BY_WEEK} from "@/services/core/datatypes"
 import {HealthLevel} from "@/services/core/shared";
 
 const cgmMGDL_083 = new CGMData(cgm_083)
@@ -42,7 +42,7 @@ const userlist = [
     new User(3, "Jonas", 21)]
 
 const cgmToData = (cgmData : {date: string, cgm: number}[]) =>
-    toData(cgmData, (data => [new Date(data.date), data.cgm * 18]))
+    toDateValue(cgmData, (data => [new Date(data.date), data.cgm * 18]))
 
 const dataToMedian = (data : DateValue[], split : number) : Point[] =>
     bucketToMedian(toBuckets(data, split, RESOLUTION))

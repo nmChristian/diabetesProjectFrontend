@@ -11,12 +11,13 @@ import iconGraph from "@/services/graphs/iconGraph";
 import type {Point} from "@/services/core/datatypes";
 import type {HealthLevel} from "@/services/core/shared";
 
+const div : Ref<HTMLDivElement | null> = ref(null)
+
 const props = defineProps<{
   medianDataInHours : Point[],
   healthLevel : HealthLevel,
 }>()
 
-const div : Ref<HTMLDivElement | null> = ref(null)
 
 // WatchEffects gets called immediately and when any of the variables in it changes
 watchEffect(() => {

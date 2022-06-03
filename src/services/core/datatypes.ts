@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import {dateToSeconds} from "@/services/core/shared";
 
 export type {DateValue, Point, BucketPoint}
-export {toData, toBuckets, bucketToMedian, bucketToQuantile}
+export {toDateValue, toBuckets, bucketToMedian, bucketToQuantile}
 
 // The data
 type DateValue = [Date, number]
@@ -18,10 +18,11 @@ enum TimeUnit {
     Day = 3600 * 24,
 }
 
-
-
-const toData = <T>(rawDataArray: T[], conversion: (rawData: T) => DateValue): DateValue[] =>
+const toDateValue  = <T>(rawDataArray: T[], conversion: (rawData: T) => DateValue): DateValue[] =>
     rawDataArray.map<DateValue>(conversion)
+
+
+
 
 const binToBuckets = (bins: d3.Bin<DateValue, number>[]): BucketPoint[] =>
     bins.map<BucketPoint>((bin: d3.Bin<DateValue, number>) =>
@@ -32,7 +33,6 @@ const binToBuckets = (bins: d3.Bin<DateValue, number>[]): BucketPoint[] =>
             bin.map<number>((data: DateValue) => data[1])
         ]
     )
-
 export const
     SPLIT_BY_HOUR = 3600,
     SPLIT_BY_DAY = SPLIT_BY_HOUR * 24,

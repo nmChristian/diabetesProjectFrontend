@@ -1,23 +1,26 @@
 <template>
-  <svg ref="svg"></svg>
+  <div ref="div"></div>
 </template>
 
 
 <script setup lang="ts">
-import {onMounted, ref, Ref} from "vue";
+import {onMounted, ref} from "vue";
+import type {Ref} from "vue"
 
 import {GraphDrawer} from "@/services/graphs/oldgraphs"
 import type {DataPoint, QuantileStack} from "@/services/graphs/oldgraphs";
+import applySVG from "@/services/core/applySVG";
+
+const div : Ref<HTMLDivElement | null> = ref(null)
 
 const drawer = new GraphDrawer();
 const props = defineProps<{
   quantileStack : QuantileStack,
-  medianData : DataPoint[],
+  medianDataInHours : DataPoint[],
 }>()
 
-const svg : Ref<SVGElement | null> = ref(null)
 onMounted(() => {
   const chart = drawer.quantileChart(props.quantileStack, props.medianDataInHours, {})
-  drawer.applySVG(svg, chart)
+  applySVG(div, chart)
 })
 </script>

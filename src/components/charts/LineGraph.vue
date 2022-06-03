@@ -1,22 +1,24 @@
 <template>
-  <svg ref="svg"></svg>
+  <div ref="div"></div>
 </template>
 
-
 <script setup lang="ts">
-import {onMounted, ref, Ref} from "vue";
+import {onMounted, ref, watchEffect} from "vue";
+import type {Ref} from "vue"
 
-import {GraphDrawer} from "@/services/graphs/oldgraphs"
-import type {DataPoint, SortedData} from "@/services/graphs/oldgraphs";
+import applySVG from "@/services/core/applySVG";
+import lineGraph from "@/services/graphs/lineGraph";
+import type {DateValue, Point} from "@/services/core/datatypes";
 
-const drawer = new GraphDrawer();
+const div : Ref<HTMLDivElement | null> = ref(null)
+
 const props = defineProps<{
-  data : SortedData,
+  data : DateValue[],
 }>()
 
-const svg : Ref<SVGElement | null> = ref(null)
-onMounted(() => {
-  const chart = drawer.lineChart(props.data, {})
-  drawer.applySVG(svg, chart)
+watchEffect(() => {
+  console.log(props.data)
+  const chart = lineGraph(props.data, {})
+  applySVG(div, chart)
 })
 </script>

@@ -1,12 +1,12 @@
 import {SPLIT_BY_DAY} from "@/services/core/datatypes";
 
-export {colorScheme, HealthLevel, healthLevelToColor, thresholds, dateToSeconds}
+export {COLOR_SCHEME, HealthLevel, healthLevelToColor, CGM_THRESHOLDS, dateToSeconds}
 
 // For graphs
-export const MAX_CGM = 350, MIN_CGM = 0
+export const CGM_RANGE = [0, 350]
 
 // Coloring
-const colorScheme : string[] = ["#33658a","#78c0e0","#5da271","#dda448","#92140c"]
+const COLOR_SCHEME : string[] = ["#33658a","#78c0e0","#5da271","#dda448","#92140c"]
 
 // Health levels
 enum HealthLevel {
@@ -16,10 +16,10 @@ enum HealthLevel {
     High,
     VeryHigh
 }
-const healthLevelToColor = (healthLevel : HealthLevel) : string  => colorScheme[healthLevel]
+const healthLevelToColor = (healthLevel : HealthLevel) : string  => COLOR_SCHEME[healthLevel]
 
 // Thresholds
-const thresholds =
+const CGM_THRESHOLDS =
     [{x0 : 0, x1 : 54}
         ,{x0 : 54, x1 : 70}
         ,{x0 : 70, x1 : 180}
@@ -34,3 +34,5 @@ const dateToSeconds = (date : Date) : number =>
     date.getHours() * 3600 +
     date.getMinutes() * 60 +
     date.getSeconds()
+
+
