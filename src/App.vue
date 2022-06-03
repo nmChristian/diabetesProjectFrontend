@@ -37,9 +37,18 @@
 </template>
 
 
-<script setup>
+<script lang="ts">
 
 import {RouterLink, RouterView} from 'vue-router'
+import {defineComponent} from "vue";
+
+export default defineComponent({
+  components: {
+    RouterLink,
+    RouterView
+  },
+
+})
 
 </script>
 
