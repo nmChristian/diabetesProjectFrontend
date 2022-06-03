@@ -1,16 +1,16 @@
 <template>
     <img src="@/assets/logo.svg" width="250" height="250" />
     <div>
-        <animated-text-input label-text="E-mail" />
+        <animated-text-input label-text="E-mail" v-model='emailValue' />
     </div>
     <div>
-        <animated-text-input label-text="Password" type="password" />
+        <animated-text-input label-text="Password" type="password" v-model='passwordValue' />
     </div>
     <div class="forgot-link">
         <a href="https://example.com">Forgot your password?</a>
     </div>
     <div>
-        <button class="sign-in-button">Sign-in</button>
+        <button class="sign-in-button" @click="onSignInClick">Sign-in</button>
     </div>
     <div>
 
@@ -22,13 +22,35 @@
 </template>
 
 <script lang = "ts">
+import { defineComponent } from "vue";
+import axios from "axios";
 import animatedTextInput from "../../components/input/AnimatedTextInput.vue"
 
-export default {
+export default defineComponent({
+    name: "sign-in",
     components: {
         animatedTextInput
+    },
+    data() {
+        return {
+            emailValue: "",
+            passwordValue: "",
+            apiKey: null
+        }
+    },
+    methods: {
+        onSignInClick: function () {
+          axios.post("http://localhost:5000/api/v1/user/login", { email: this.emailValue, password: this.passwordValue })
+                .then(response => {
+                    this.apiKey = response.data.api_key;
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        }
     }
-}
+
+});
 </script>
 
 <style scoped>
