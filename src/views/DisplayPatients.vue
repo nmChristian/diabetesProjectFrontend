@@ -1,5 +1,8 @@
 <template xmlns="http://www.w3.org/1999/html">
-<div>
+
+  <!-- TODO Måske lav en fom for overskift -->
+
+<div class = outerGridHolder>
     <div v-for="index in Math.floor((Patients.length+1)/2)">
       <div class="collum">
         <gallaery-view-patient-element
@@ -59,5 +62,13 @@ export default {
 <style scoped>
 .collum{
   display: flex;
+}
+
+.outerGridHolder{
+  margin: auto;
+  padding-top: 20px;
+  width: 60%;
+  min-width: 740px;
+  max-width: 900px;
 }
 </style>
