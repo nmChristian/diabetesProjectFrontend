@@ -147,12 +147,14 @@ export class CGMData {
         return {quantileData: quantileData, quantiles: qs}
     }
 
-    public quantileStack (daysBackData : SortedData, dataPointsPerHour : number) : QuantileStack | undefined {
+    //  d3.Series<any, Number>[]
+    public quantileStack (daysBackData : SortedData, dataPointsPerHour : number) : d3.Series<any, Number>[] | undefined {
 
         // The quantile values we want, [5%, 25%, 75%, 95%]
         const qs = [0.05, 0.25, 0.75, 0.95]
 
-        const quantileData = this.quantileData(daysBackData, dataPointsPerHour, qs)
+        const quantileData : {quantileData: BucketQuantiles[], quantiles: number[]} | undefined =
+            this.quantileData(daysBackData, dataPointsPerHour, qs)
         if (quantileData == undefined) {
             return undefined
         }
@@ -222,7 +224,7 @@ export class GraphDrawer {
         + "; font-weight: " + this.isTarget(i - 1) ? "bold" : "normal" + ";"
 
 
-    public quantileChart (quantileStack : QuantileStack, median : DataPoint[],
+    public quantileChart (quantileStack : d3.Series<any, Number>[], median : DataPoint[],
                      {
                          marginTop = 20, // top margin, in pixels
                          marginRight = 30, // right margin, in pixels

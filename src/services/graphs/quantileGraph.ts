@@ -5,7 +5,9 @@ import {generateGradientCGMCSS} from "@/services/graphs/generateGradientCSS";
 import {getFontStyle, getLineStyle} from "@/services/core/graphMethods";
 import {pointIsValid} from "@/services/core/datatypes";
 
-export function quantileGraph (bucketsOfQuantilesSplitByDayInHour : BucketPoint[], medianPointsSplitByDayInHour : Point[],
+export function quantileGraph (bucketSeriesOfQuantilesSplitByDayInHour : d3.Series<BucketPoint, number>[],
+                               quantilesUsedInBucket : number[],
+                               medianPointsSplitByDayInHour : Point[],
                                {
         marginTop = 20, // top margin, in pixels
         marginRight = 30, // right margin, in pixels
@@ -17,8 +19,9 @@ export function quantileGraph (bucketsOfQuantilesSplitByDayInHour : BucketPoint[
         curveType = d3.curveMonotoneX
     })
 {
+    //TODO: Add assert that can check if buckets of quantiles is the same size as quantiles
 
-    const n = bucketsOfQuantilesSplitByDayInHour.length
+    const n = bucketSeriesOfQuantilesSplitByDayInHour.length
     const centerIndex = Math.floor(n / 2)
 
     const xScale = d3.scaleLinear( [0, 24], [0, width])
@@ -65,16 +68,18 @@ export function quantileGraph (bucketsOfQuantilesSplitByDayInHour : BucketPoint[
 
 
     // Area generator
-    const areaGenerator = d3.area<d3.SeriesPoint<BucketQuantiles>>()
+    const areaGenerator = d3.area<d3.SeriesPoint<BucketPoint>>()
         .curve(curveType)
-        .x ((d) => xScale(d.data[0].hour))
-        .y0((d) => yScale(d[0]))
-        .y1((d) => yScale(d[1]))
+        // Get x value of bucket point
+        .x ((d) => xScale(d.data[0]))
+        // Get y values
+        .y0(([y0]) => yScale(y0))
+        .y1(([,y1]) => yScale(y1))
 
     // Draw Area
     svg.append("g")
         .selectAll("path")
-        .data(bucketsOfQuantilesSplitByDayInHour)
+        .data(bucketSeriesOfQuantilesSplitByDayInHour)
         .join("path")
         .attr("d", areaGenerator)
         .attr("style", "fill: " + generateGradientCGMCSS(yScale) + ";")
@@ -129,4 +134,42 @@ export function quantileGraph (bucketsOfQuantilesSplitByDayInHour : BucketPoint[
 
     }
     return out.node()
+}
+
+
+/**
+ * Get the quantiles of all the data in each bucket, and return a bucket with the quantiles
+ * Each bucket returned has the size of quantiles.length
+ * @param bucketPoints - The buckets with data
+ * @param quantiles - The quantiles ex. [0.05, 0.25, 0.75, 0.95]
+ */
+export function calculateQuantiles (bucketPoints : BucketPoint[], quantiles : number[] = [0.05, 0.25, 0.75, 0.95]) : BucketPoint[] {
+    // Sort data in buckets for faster quantile calculation
+    const sortedBuckets = bucketPoints.map<BucketPoint>(([x,values]) => [x, values.sort(d3.ascending)])
+
+    // For each bucket point
+    return sortedBuckets.map<BucketPoint>(([x, values]) =>
+        // Calculate each quantile
+        [x, quantiles.map<number>(quantile => d3.quantileSorted(values, quantile) ?? NaN)])
+}
+
+/**
+ * http://using-d3js.com/05_06_stacks.html
+ * Converts a bucketpoint into a d3.Series which is a y0 y1 and a data element, every d3.series is the same index in the bucketpoint array
+ * Example: toSeries(bp)[0] is a reference to all
+ * @param bucketPoints - The buckets with data (requirement all values has to be the same length)
+ */
+export function toSeries (bucketPoints : BucketPoint[]) : d3.Series<BucketPoint, number>[] {
+    //TODO: Add assert that all items in bucketpoints has the same size
+    //TODO: assert bucketpoints is not empty if (bucketPoints.length == 0)
+
+    const n = bucketPoints[0]?.length ?? 0
+
+    return d3.stack<any, any, number>()
+        .keys(d3.range(n))
+        .order(d3.stackOrderNone)
+        .value((bucketPoint, key) => bucketPoint[key]) // Only get the data element from it
+        (bucketPoints)
+
+    //out.shift()  // Remove the lowest area from (0%, 5%)
 }
