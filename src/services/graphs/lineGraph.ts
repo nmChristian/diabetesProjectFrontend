@@ -2,7 +2,8 @@ import * as d3 from "d3";
 import type {DateValue, Point} from "@/services/core/datatypes";
 import {CGM_RANGE, CGM_THRESHOLDS, COLOR_SCHEME} from "@/services/core/shared";
 import {getFontStyle, getLineStyle} from "@/services/core/graphMethods";
-import {getLinearGradientCGMCSS} from "@/services/graphs/generateGradientCSS";
+import {generateGradientCGMCSS} from "@/services/graphs/generateGradientCSS";
+import {dateValueIsValid} from "@/services/core/datatypes";
 
 export default function lineGraph (dateValues : DateValue[] ,
                                    {
@@ -22,15 +23,9 @@ export default function lineGraph (dateValues : DateValue[] ,
         .attr("transform",
             "translate(" + marginLeft + "," + marginTop + ")");
 
-    const ext = d3.extent(dateValues, ([x,]) => x)
-    if (ext === [undefined, undefined]) {
-        console.error("Can't find extent, cannot create the graph")
-        return out.node()
-    }
-
     const xScale = d3.scaleTime()
         // @ts-ignore
-        .domain(ext)
+        .domain(d3.extent(dateValues, ([x,]) => x))
         .range([0, width])
 
     const yScale = d3.scaleLinear(CGM_RANGE, [height, 0])
@@ -42,15 +37,15 @@ export default function lineGraph (dateValues : DateValue[] ,
 
     // The Line
     const lineGen = d3.line<DateValue>()
+        .defined(dateValueIsValid)
         .x(([x,]) => xScale(x))
         .y(([,y]) => yScale(y))(dateValues)
+
     svg.append("path")
         .attr("fill", "none")
-        .attr("style", "stroke: "+ getLinearGradientCGMCSS(yScale) + ";") // + getLinearGradientCGMCSS() + ";")  url(#line-gradient)
+        .attr("style", "stroke: "+ generateGradientCGMCSS(yScale) + ";") // + getLinearGradientCGMCSS() + ";")  url(#line-gradient)
         .attr("stroke-width", 3)
         .attr("d", lineGen)
-
-    console.log(lineGen)
 
 // Gradient colors
 // Small helper function that converts number to sting

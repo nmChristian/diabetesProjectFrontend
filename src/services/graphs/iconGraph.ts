@@ -1,6 +1,7 @@
 import * as d3 from "d3";
 import type {Point} from "@/services/core/datatypes"
 import {CGM_RANGE, HealthLevel, healthLevelToColor} from "@/services/core/shared";
+import {pointIsValid} from "@/services/core/datatypes";
 
 /**
  * Draws a small graph given the data (in hours)
@@ -30,7 +31,7 @@ export default function iconGraph (dataInHoursSplitByDay : Point[], healthLevel 
 
     // DRAW MEDIAN
     const medianLineGen = d3.line<Point>()
-        .defined(([x,y] : Point) =>!isNaN(x) && !isNaN(y))
+        .defined(pointIsValid)
         .curve(d3.curveLinear)
         .x(([x,] : Point) => xScale(x))
         .y(([,y] : Point) => yScale(y))

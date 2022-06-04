@@ -111,7 +111,8 @@ export class CGMData {
     // Quantile Chart
 
     // Get the data so it is easy to convert to stack
-    private quantileData (daysBackData : SortedData, dataPointsPerHour : number, qs : number[]) : {quantileData: BucketQuantiles[], quantiles: number[]} | undefined {
+    private quantileData (daysBackData : SortedData, dataPointsPerHour : number, qs : number[]) :
+        {quantileData: BucketQuantiles[], quantiles: number[]} | undefined {
 
         // Split data into ranges
         const dataBuckets = this.splitByTimeOfDay(daysBackData, dataPointsPerHour)

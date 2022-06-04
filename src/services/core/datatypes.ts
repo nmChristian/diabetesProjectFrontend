@@ -18,12 +18,18 @@ enum TimeUnit {
     Day = 3600 * 24,
 }
 
+export const pointIsValid : (point :Point) => boolean = ([x,y]) =>
+    !(isNaN(x) || isNaN(y))
+export const bucketPointIsValid : (bucketPoint : BucketPoint) => boolean = ([x, values]) =>
+    !(isNaN(x) || values.includes(NaN))
+export const dateValueIsValid : (dateValue : DateValue) => boolean = ([date, value]) =>
+    !(isNaN(date.getTime()) || isNaN(value))
+// DateValue
 const toDateValue  = <T>(rawDataArray: T[], conversion: (rawData: T) => DateValue): DateValue[] =>
     rawDataArray.map<DateValue>(conversion)
 
 
-
-
+// Buckets
 const binToBuckets = (bins: d3.Bin<DateValue, number>[]): BucketPoint[] =>
     bins.map<BucketPoint>((bin: d3.Bin<DateValue, number>) =>
         // Convert each bin to a bucket, by taking the average of its max and min value
@@ -82,13 +88,6 @@ function bucketToQuantile(bucketPoints: BucketPoint[], quantiles: number[]): Buc
 }
 
 // Create a value at 00:00 and 24:00 so that graph line goes all the way to the end
-
-
-// How do I convert Point to DBType
-export class CGMData {
-
-}
-
 
 
 

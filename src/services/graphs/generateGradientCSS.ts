@@ -5,7 +5,11 @@ import {CGM_THRESHOLDS, COLOR_SCHEME} from "@/services/core/shared";
 let svgGradientElement : HTMLDivElement | undefined = undefined
 let linearID = 0
 // TODO: IDFK Rename this shit
-export function getLinearGradientCGMCSS (yScale : d3.ScaleLinear<number, number, never>) : string {
+/**
+ * Returns the link to the gradient generated example: url(#line-gradient-2)
+ * @param yScale - the scale used in the graph, this is used because the gradient works in percentages or something
+ */
+export function generateGradientCGMCSS (yScale : d3.ScaleLinear<number, number, never>) : string {
     const id : string = "line-gradient-" + linearID
     linearID++
 

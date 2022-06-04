@@ -17,7 +17,6 @@ const props = defineProps<{
 }>()
 
 watchEffect(() => {
-  console.log(props.data)
   const chart = lineGraph(props.data, {})
   applySVG(div, chart)
 })
