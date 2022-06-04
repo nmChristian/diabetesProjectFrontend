@@ -1,6 +1,6 @@
 <template>
-  <div class="jonasdiv">
-    <JonasWrapper
+  <div class="graphdiv">
+    <GraphWrapper
       :user="user"
     />
   </div>
@@ -17,9 +17,9 @@ import cgm_538 from "@/assets/demo/users/cgm_538.json"  // Lowest and nice 100%
 
 import {CGMData} from "@/services/graphs/oldgraphs";
 import {User} from "@/services/user";
-import JonasWrapper from "@/components/jonasview/JonasWrapper.vue";
 
 import axios from "axios";
+import GraphWrapper from "@/components/graphview/GraphWrapper.vue";
 
 const cgmMGDL_083 = new CGMData(cgm_083)
 const cgmMGDL_200 = new CGMData(cgm_200)

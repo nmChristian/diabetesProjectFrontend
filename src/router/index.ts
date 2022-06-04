@@ -20,9 +20,9 @@ const router = createRouter({
             component: () => import('../views/authentication/SignUpView.vue')
         },
         {
-            path: '/JonasView',
-            name: 'JonasView',
-            component: () => import('../views/JonasView.vue')
+            path: '/GraphView',
+            name: 'GraphView',
+            component: () => import('../views/GraphView.vue')
         },
         {
             path: "/DisplayPatients",

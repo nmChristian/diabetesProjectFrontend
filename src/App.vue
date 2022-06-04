@@ -26,7 +26,7 @@
       <div class="wrapper">
         <nav>
           <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/JonasView">Jonas</RouterLink>
+          <RouterLink to="/GraphView">Graph demo</RouterLink>
           <RouterLink to="/DisplayPatients"> display patients</RouterLink>
           <RouterLink to="/DisplayPatientsList"> display patients list</RouterLink>
         </nav>
