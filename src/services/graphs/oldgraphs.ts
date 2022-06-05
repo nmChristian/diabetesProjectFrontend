@@ -15,11 +15,6 @@ type DataBucket = {hour: number, data: number[]}
 type BucketQuantiles = {hour: number, data: number}[]
 export type QuantileStack = d3.Series<any, Number>[]
 
-class DataManipulation {
-
-}
-
-
 
 export class CGMData {
     public data : RawData

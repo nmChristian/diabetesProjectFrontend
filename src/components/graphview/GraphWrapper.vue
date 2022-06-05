@@ -9,7 +9,7 @@
 
     <h1>Here is the icon graph</h1>
     <icon-graph
-        :medianDataInHours="medianDataInHours"
+        :medianDataInHours="medianDataSplitByDayInHours"
         :healthLevel="HealthLevel.Good"
     />
 
@@ -18,21 +18,16 @@
     <line-graph
       :data="data"
     />
-    <!--
-        <h1>Here is the quantile  graph</h1>
-        <quantile-chart
-            :median-data="data.medData"
-            :quantile-stack="data.quantileData"
-        />
 
-        <h1>Here is the icon graph</h1>
-        <icon-graph
-          :status="0"
-          :median-data="data.medData"
-        />
+    <h1>Here is the quantile  graph</h1>
+    <quantile-graph
+        :bucket-series-of-quantiles-split-by-day-in-hour="bucketSeriesOfQuantilesSplitByDayInHour"
+        :quantiles-used-in-bucket="quantiles"
+        :median-points-split-by-day-in-hour="medianDataSplitByDayInHours"
+      />
 
 
-        -->
+
 
 
 
@@ -46,12 +41,14 @@ import {computed, onMounted, ref} from "vue";
 import type {Ref} from "vue"
 
 import LineGraph from "@/components/charts/LineGraph.vue"
+import QuantileGraph from "@/components/charts/QuantileGraph.vue"
 
 import axios from "axios";
 import backend from "@/services/backend";
-import type {DateValue, Point} from "@/services/core/datatypes";
+import type {BucketPoint, DateValue, Point} from "@/services/core/datatypes";
 import {bucketToMedian, SPLIT_BY_DAY, toBuckets, toDateValue} from "@/services/core/datatypes";
 import {HealthLevel} from "@/services/core/shared";
+import {calculateQuantiles, toBucketSeries} from "@/services/graphs/quantileGraph";
 
 const props = defineProps<{
   user: User,
@@ -77,7 +74,7 @@ const RESOLUTION = 96
 const dataToMedian = (data : DateValue[], split : number) : Point[] =>
     bucketToMedian(toBuckets(data, split, RESOLUTION))
 
-const medianDataInHours = computed(() =>
+const medianDataSplitByDayInHours = computed(() =>
     dataInDateValue.value.length != 0 ?
         dataToMedian(dataInDateValue.value, SPLIT_BY_DAY) :
         []
@@ -85,7 +82,13 @@ const medianDataInHours = computed(() =>
 
 const data = computed(() => dataInDateValue.value)
 
+const quantiles = [0.05, 0.25, 0.75, 0.95]
+const bucketSeriesOfQuantilesSplitByDayInHour = computed(() => {
+  const quantileBuckets: BucketPoint[] =
+      calculateQuantiles(toBuckets(dataInDateValue.value, SPLIT_BY_DAY, RESOLUTION), quantiles)
 
+  return toBucketSeries(quantileBuckets)
+})
 </script>
 
 

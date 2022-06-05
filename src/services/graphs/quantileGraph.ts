@@ -19,6 +19,8 @@ export function quantileGraph (bucketSeriesOfQuantilesSplitByDayInHour : d3.Seri
         curveType = d3.curveMonotoneX
     })
 {
+    console.log("Drawing")
+    console.log(bucketSeriesOfQuantilesSplitByDayInHour)
     //TODO: Add assert that can check if buckets of quantiles is the same size as quantiles
 
     const n = bucketSeriesOfQuantilesSplitByDayInHour.length
@@ -70,6 +72,7 @@ export function quantileGraph (bucketSeriesOfQuantilesSplitByDayInHour : d3.Seri
     // Area generator
     const areaGenerator = d3.area<d3.SeriesPoint<BucketPoint>>()
         .curve(curveType)
+        .defined(d => !(isNaN(d[0]) || isNaN(d[1])))
         // Get x value of bucket point
         .x ((d) => xScale(d.data[0]))
         // Get y values
@@ -159,7 +162,7 @@ export function calculateQuantiles (bucketPoints : BucketPoint[], quantiles : nu
  * Example: toSeries(bp)[0] is a reference to all
  * @param bucketPoints - The buckets with data (requirement all values has to be the same length)
  */
-export function toSeries (bucketPoints : BucketPoint[]) : d3.Series<BucketPoint, number>[] {
+export function toBucketSeries (bucketPoints : BucketPoint[]) : d3.Series<BucketPoint, number>[] {
     //TODO: Add assert that all items in bucketpoints has the same size
     //TODO: assert bucketpoints is not empty if (bucketPoints.length == 0)
 

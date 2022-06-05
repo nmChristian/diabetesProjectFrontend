@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import {dateToSeconds} from "@/services/core/shared";
 
 export type {DateValue, Point, BucketPoint}
-export {toDateValue, toBuckets, bucketToMedian, bucketToQuantile}
+export {toDateValue, toBuckets, bucketToMedian}
 
 // The data
 type DateValue = [Date, number]
