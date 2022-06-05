@@ -31,6 +31,7 @@
 
 
 
+
   </div>
 </template>
 
@@ -83,12 +84,26 @@ const medianDataSplitByDayInHours = computed(() =>
 const data = computed(() => dataInDateValue.value)
 
 const quantiles = [0.05, 0.25, 0.75, 0.95]
-const bucketSeriesOfQuantilesSplitByDayInHour = computed(() => {
-  const quantileBuckets: BucketPoint[] =
-      calculateQuantiles(toBuckets(dataInDateValue.value, SPLIT_BY_DAY, RESOLUTION), quantiles)
 
-  return toBucketSeries(quantileBuckets)
+const bucketSeriesOfQuantilesSplitByDayInHour = computed(() => {
+  const buckets : BucketPoint[] =
+      toBuckets(dataInDateValue.value, SPLIT_BY_DAY, RESOLUTION)
+  const quantileBuckets: BucketPoint[] =
+      calculateQuantiles(buckets, quantiles)
+
+  // When generating the stack, you need to make it relative since the algorithm stacks the element on top of each other
+  // (the first element is not gonna be relative though)
+  const relativeQuantileBuckets = quantileBuckets.map<BucketPoint>(([x, values]) =>
+      [x, values.map<number>((v, i) => v - (values[i - 1]??0))])
+
+  const quantileSeries : d3.Series<BucketPoint, number>[] =
+      toBucketSeries(relativeQuantileBuckets)
+
+  quantileSeries.shift()
+  console.log(quantileSeries)
+  return quantileSeries
 })
+
 </script>
 
 

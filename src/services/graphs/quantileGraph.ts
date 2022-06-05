@@ -19,8 +19,6 @@ export function quantileGraph (bucketSeriesOfQuantilesSplitByDayInHour : d3.Seri
         curveType = d3.curveMonotoneX
     })
 {
-    console.log("Drawing")
-    console.log(bucketSeriesOfQuantilesSplitByDayInHour)
     //TODO: Add assert that can check if buckets of quantiles is the same size as quantiles
 
     const n = bucketSeriesOfQuantilesSplitByDayInHour.length
@@ -28,6 +26,8 @@ export function quantileGraph (bucketSeriesOfQuantilesSplitByDayInHour : d3.Seri
 
     const xScale = d3.scaleLinear( [0, 24], [0, width])
     const yScale = d3.scaleLinear(CGM_RANGE, [height, 0])
+
+    // TODO: Make this here customizable
     const opacityScale = d3.scaleLinear([0, centerIndex, n - 1], [.2, .4, .2])
 
     const yMin = yScale.range()[1]
@@ -80,12 +80,13 @@ export function quantileGraph (bucketSeriesOfQuantilesSplitByDayInHour : d3.Seri
         .y1(([,y1]) => yScale(y1))
 
     // Draw Area
+    const cssIDForGradient = generateGradientCGMCSS(yScale)
     svg.append("g")
         .selectAll("path")
         .data(bucketSeriesOfQuantilesSplitByDayInHour)
         .join("path")
         .attr("d", areaGenerator)
-        .attr("style", "fill: " + generateGradientCGMCSS(yScale) + ";")
+        .attr("style", "fill: " + cssIDForGradient + ";")
         .attr("opacity", (d,i) => opacityScale(i))
 
     // Draw Median
@@ -98,7 +99,7 @@ export function quantileGraph (bucketSeriesOfQuantilesSplitByDayInHour : d3.Seri
 
     svg.append("path")
         .attr("d", medianLineGen)
-        .attr("style", "stroke-width: 3;fill: none; stroke: url(#line-gradient);  opacity: 1;")
+        .attr("style", "stroke-width: 3;fill: none; stroke: " + cssIDForGradient + ";  opacity: 1;")
 
 
     // Axises
@@ -166,12 +167,13 @@ export function toBucketSeries (bucketPoints : BucketPoint[]) : d3.Series<Bucket
     //TODO: Add assert that all items in bucketpoints has the same size
     //TODO: assert bucketpoints is not empty if (bucketPoints.length == 0)
 
-    const n = bucketPoints[0]?.length ?? 0
+
+    const n = bucketPoints[0][1]?.length ?? 0
 
     return d3.stack<any, any, number>()
         .keys(d3.range(n))
         .order(d3.stackOrderNone)
-        .value((bucketPoint, key) => bucketPoint[key]) // Only get the data element from it
+        .value(([x, values], key) => values[key]) // Only get the data element from it
         (bucketPoints)
 
     //out.shift()  // Remove the lowest area from (0%, 5%)

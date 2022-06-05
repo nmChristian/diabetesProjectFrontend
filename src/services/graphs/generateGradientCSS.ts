@@ -35,7 +35,7 @@ export function generateGradientCGMCSS (yScale : d3.ScaleLinear<number, number, 
         document.body.appendChild(svgGradientElement)
     }
     // @ts-ignore
-    svgGradientElement.innerHTML = node.outerHTML
+    svgGradientElement.innerHTML += node.outerHTML
     return "url(#" + id +  ")"
 
 }

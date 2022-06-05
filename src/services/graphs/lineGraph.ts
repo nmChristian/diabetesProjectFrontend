@@ -39,7 +39,8 @@ export default function lineGraph (dateValues : DateValue[] ,
     const lineGen = d3.line<DateValue>()
         .defined(dateValueIsValid)
         .x(([x,]) => xScale(x))
-        .y(([,y]) => yScale(y))(dateValues)
+        .y(([,y]) => yScale(y))
+        (dateValues)
 
     svg.append("path")
         .attr("fill", "none")

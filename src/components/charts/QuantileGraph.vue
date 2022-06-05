@@ -4,7 +4,7 @@
 
 
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watchEffect} from "vue";
 import type {Ref} from "vue"
 
 import applySVG from "@/services/core/applySVG";
@@ -19,7 +19,7 @@ const props = defineProps<{
   medianPointsSplitByDayInHour : Point[],
 }>()
 
-onMounted(() => {
+watchEffect(() => {
   const chart = quantileGraph(
       props.bucketSeriesOfQuantilesSplitByDayInHour,
       props.quantilesUsedInBucket,
