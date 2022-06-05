@@ -14,16 +14,16 @@ import type {BucketPoint, Point} from "@/services/core/datatypes";
 const div : Ref<HTMLDivElement | null> = ref(null)
 
 const props = defineProps<{
-  bucketSeriesOfQuantilesSplitByDayInHour : d3.Series<BucketPoint, number>[],
+  bucketSeriesOfQuantiles : d3.Series<BucketPoint, number>[],
   quantilesUsedInBucket : number[]
-  medianPointsSplitByDayInHour : Point[],
+  medianDataInHours : Point[],
 }>()
 
 watchEffect(() => {
   const chart = quantileGraph(
-      props.bucketSeriesOfQuantilesSplitByDayInHour,
+      props.bucketSeriesOfQuantiles,
       props.quantilesUsedInBucket,
-      props.medianPointsSplitByDayInHour,
+      props.medianDataInHours,
       {})
   applySVG(div, chart)
 })

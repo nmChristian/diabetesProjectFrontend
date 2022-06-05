@@ -3,6 +3,7 @@ import {dateToSeconds} from "@/services/core/shared";
 
 export type {DateValue, Point, BucketPoint}
 export {toDateValue, toBuckets, bucketToMedian}
+export {addEdgesToSplit, addEdgesToSplitBucket}
 
 // The data
 type DateValue = [Date, number]
@@ -24,30 +25,24 @@ export const bucketPointIsValid : (bucketPoint : BucketPoint) => boolean = ([x, 
     !(isNaN(x) || values.includes(NaN))
 export const dateValueIsValid : (dateValue : DateValue) => boolean = ([date, value]) =>
     !(isNaN(date.getTime()) || isNaN(value))
+
 // DateValue
 const toDateValue  = <T>(rawDataArray: T[], conversion: (rawData: T) => DateValue): DateValue[] =>
     rawDataArray.map<DateValue>(conversion)
 
 
 // Buckets
-const binToBuckets = (bins: d3.Bin<DateValue, number>[]): BucketPoint[] =>
-    bins.map<BucketPoint>((bin: d3.Bin<DateValue, number>) =>
-        // Convert each bin to a bucket, by taking the average of its max and min value
-        [
-            // @ts-ignore
-            (bin.x0 + bin.x1) / 2,
-            bin.map<number>((data: DateValue) => data[1])
-        ]
-    )
 export const
     SPLIT_BY_HOUR = 3600,
     SPLIT_BY_DAY = SPLIT_BY_HOUR * 24,
     SPLIT_BY_WEEK = SPLIT_BY_DAY * 7
 
+const TIME_UNIT_DEFAULT = TimeUnit.Hour
+
 // Collect data into buckets based on the time of day it was taken
 function toBuckets(dateValues: DateValue[],
                    splitAfterSeconds: number, resolution : number,
-                   outputUnit: TimeUnit = TimeUnit.Hour): BucketPoint[] {
+                   outputUnit: TimeUnit = TIME_UNIT_DEFAULT): BucketPoint[] {
 
     // TODO: FIX THIS, UPGRADE THE METHOD SO LONGER SPLIT IS POSSIBLE (HOPEFULLY YEAR)
     if (splitAfterSeconds > SPLIT_BY_DAY * 31)
@@ -67,7 +62,41 @@ function toBuckets(dateValues: DateValue[],
     // Therefore we artificially increase it, so the graph will go all the way to the end
     bins[resolution - 1].x1 = splitAfterSeconds
 
-    return binToBuckets(bins).map<BucketPoint>(([x, values]) => [x / outputUnit, values])
+    // Bin To Bucket, by taking the average of its max and min value
+    const unconvertedBuckets : BucketPoint[] = bins.map<BucketPoint>((bin: d3.Bin<DateValue, number>) =>
+        [
+            // @ts-ignore
+            (bin.x0 + bin.x1) / 2,
+            bin.map<number>((data: DateValue) => data[1])
+        ]
+    )
+    // Convert to timeunit
+    return unconvertedBuckets.map<BucketPoint>(([x, values]) => [x / outputUnit, values])
+/*
+    // Add edge values
+    const zeroVal = (medData[0].y + medData[medData.length - 1].y)/2
+    medData.splice(0, 0, {x:0, y:zeroVal})
+    medData.push({x:24, y:zeroVal})
+*/
+}
+function addEdgesToSplit (points : Point[], splitAfterSeconds : number, timeUnit : TimeUnit = TIME_UNIT_DEFAULT) {
+    const [, start] = points[0]
+    const [, stop] = points[points.length - 1]
+    const edge = (start + stop) / 2
+
+    // Add edge values
+    points.splice(0, 0, [0, edge])
+    points.push([splitAfterSeconds / timeUnit, edge])
+}
+
+function addEdgesToSplitBucket (bucketPoints : BucketPoint[], splitAfterSeconds : number, timeUnit : TimeUnit = TIME_UNIT_DEFAULT) {
+    const [, startValues] = bucketPoints[0]
+    const [, stopValues] = bucketPoints[bucketPoints.length - 1]
+    const edge = startValues.map<number>((_,i) => (startValues[i] + stopValues[i]) / 2)
+
+    // Add edge values
+    bucketPoints.splice(0, 0, [0, edge])
+    bucketPoints.push([splitAfterSeconds / timeUnit, edge])
 }
 
 const bucketToMedian = (bucketPoints: BucketPoint[]): Point[] =>

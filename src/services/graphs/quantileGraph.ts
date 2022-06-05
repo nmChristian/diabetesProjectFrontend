@@ -4,10 +4,11 @@ import {CGM_RANGE, CGM_THRESHOLDS, COLOR_SCHEME} from "@/services/core/shared";
 import {generateGradientCGMCSS} from "@/services/graphs/generateGradientCSS";
 import {getFontStyle, getLineStyle} from "@/services/core/graphMethods";
 import {pointIsValid} from "@/services/core/datatypes";
+import type {SeriesPoint} from "d3";
 
-export function quantileGraph (bucketSeriesOfQuantilesSplitByDayInHour : d3.Series<BucketPoint, number>[],
+export function quantileGraph (bucketSeriesOfQuantiles : d3.Series<BucketPoint, number>[],
                                quantilesUsedInBucket : number[],
-                               medianPointsSplitByDayInHour : Point[],
+                               medianPoints : Point[],
                                {
         marginTop = 20, // top margin, in pixels
         marginRight = 30, // right margin, in pixels
@@ -21,10 +22,19 @@ export function quantileGraph (bucketSeriesOfQuantilesSplitByDayInHour : d3.Seri
 {
     //TODO: Add assert that can check if buckets of quantiles is the same size as quantiles
 
-    const n = bucketSeriesOfQuantilesSplitByDayInHour.length
+    const n = bucketSeriesOfQuantiles.length
     const centerIndex = Math.floor(n / 2)
 
-    const xScale = d3.scaleLinear( [0, 24], [0, width])
+    // Gets the min and max values (if undefined, then default to 0)
+    const extents : [number, number][] = [
+            d3.extent(bucketSeriesOfQuantiles[0], d => d.data[0]),
+            d3.extent(medianPoints, ([x,]) => x)
+        ].map(e => e as [number, number])
+
+
+    const xScale = d3.scaleLinear()
+        .domain([d3.min(extents, e => e[0]), d3.max(extents, e => e[1])].map(d => d??0))
+        .range([0, width])
     const yScale = d3.scaleLinear(CGM_RANGE, [height, 0])
 
     // TODO: Make this here customizable
@@ -83,7 +93,7 @@ export function quantileGraph (bucketSeriesOfQuantilesSplitByDayInHour : d3.Seri
     const cssIDForGradient = generateGradientCGMCSS(yScale)
     svg.append("g")
         .selectAll("path")
-        .data(bucketSeriesOfQuantilesSplitByDayInHour)
+        .data(bucketSeriesOfQuantiles)
         .join("path")
         .attr("d", areaGenerator)
         .attr("style", "fill: " + cssIDForGradient + ";")
@@ -95,7 +105,7 @@ export function quantileGraph (bucketSeriesOfQuantilesSplitByDayInHour : d3.Seri
         .defined(pointIsValid)
         .x(([x,]) => xScale(x))
         .y(([,y]) => yScale(y))
-        (medianPointsSplitByDayInHour)
+        (medianPoints)
 
     svg.append("path")
         .attr("d", medianLineGen)

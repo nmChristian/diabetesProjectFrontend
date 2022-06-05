@@ -48,24 +48,6 @@ export default function lineGraph (dateValues : DateValue[] ,
         .attr("stroke-width", 3)
         .attr("d", lineGen)
 
-// Gradient colors
-// Small helper function that converts number to sting
-    const getCGMThresholdPercentage = (d : any) => d === undefined ? "100%" : 100 * d / yMax + "%"
-// @ts-ignore
-    const cgmThresholdColors = CGM_THRESHOLDS.flatMap((d : any, i : any) =>
-        [{offset:getCGMThresholdPercentage(d.x0), color: COLOR_SCHEME[i]},
-            {offset:getCGMThresholdPercentage(d.x1), color: COLOR_SCHEME[i]}])
-
-    const gradient = d3.creator("linearGradient")
-    svg.append(gradient)
-        .attr("id", "line-gradient")
-        .attr("gradientUnits", "userSpaceOnUse")
-        .attr("x1", 0).attr("y1", yScale(0))
-        .attr("x2", 0).attr("y2", yScale(yMax))
-        .selectAll("stop").data(cgmThresholdColors).join("stop")
-        .attr("offset", (d: any) => d.offset)
-        .attr("stop-color", (d: any) => d.color)
-
     // Horizontal lines
     // Helper function returns the x and y coords for a given line from a stack
     const lineCoords = function (d : any) : [[number, number], [number, number]] {
