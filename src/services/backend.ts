@@ -1,3 +1,5 @@
+import {getApiKey} from "@/services/authentication";
+
 class Backend {
     public url: string
 
@@ -20,6 +22,20 @@ class Backend {
             show: ["cgm"]
         }
     }
+
+    public generateHeader() : { headers: { api_key: string } } {
+        const api : string = getApiKey() ?? ""
+        return {
+            headers: {api_key: api}
+        }
+    }
+
+    /*
+    *   import cgm_083 from "@/assets/demo/users/cgm_083.json"  // 95% 5%
+        import cgm_123 from "@/assets/demo/users/cgm_123.json"  // 76% 21% 3%
+        import cgm_200 from "@/assets/demo/users/cgm_200.json"  // 2% 80% 15% 4%
+        import cgm_538 from "@/assets/demo/users/cgm_538.json"  // Lowest and nice 100%
+    * */
 
     public getHeader(user: number) {
         let api = this.getHeader0();

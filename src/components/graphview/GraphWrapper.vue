@@ -4,8 +4,9 @@
       <h2>Welcome {{user.name}} </h2>
       <p class="user-id"> with id {{user.id}}</p>
     </div>
-
-
+    <router-link to=""></router-link>
+    <router-view></router-view>
+    <icon-test :median-data-in-hours="medianDataInHours"/>
     <h1> Testing whether it is possible to do 24 hours with dates</h1>
     <line-graph
         :data="medianDateInDateValue"
@@ -23,11 +24,8 @@
         :x-domain="[0, 24]"
     />
 
-    <h1>Here is the icon graph</h1>
-    <icon-graph
-        :medianDataInHours="medianDataInHours"
-        :healthLevel="HealthLevel.Good"
-    />
+
+
 
     <h1>Here is the Line Graph graph</h1>
     <line-graph
@@ -40,12 +38,6 @@
         :quantiles-used-in-bucket="quantiles"
         :median-data-in-hours="medianDataInHours"
       />
-
-
-
-
-
-
   </div>
 </template>
 
@@ -55,7 +47,8 @@ import type {User} from "@/services/user";
 import {computed, onMounted, ref} from "vue";
 import type {Ref} from "vue"
 
-import IconGraph from "@/components/charts/IconGraph.vue"
+import IconTest from "@/components/graphview/IconTest.vue"
+
 import LineGraph from "@/components/charts/LineGraph.vue"
 import QuantileGraph from "@/components/charts/QuantileGraph.vue"
 import LineGraphDaily from "@/components/charts/LineGraphDaily.vue";
@@ -71,6 +64,7 @@ import {
   toBuckets,
   toDateValue
 } from "@/services/core/datatypes";
+
 import {HealthLevel} from "@/services/core/shared";
 import {calculateQuantiles, toBucketSeries} from "@/services/graphs/quantileGraph";
 
@@ -79,12 +73,11 @@ const props = defineProps<{
 }>()
 
 
-
 let dataInDateValue : Ref<never[] | DateValue[]>= ref([])
 onMounted(() => {
   axios.post(backend.getUrlData(),
       backend.getCGMDaysBack(7),
-      backend.getHeader(200))
+      backend.generateHeader())
       .then(response => {
         //        react = reactive({data: response.data})
         dataInDateValue.value = toDateValue<{t : number, v : number}>(
