@@ -1,5 +1,6 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import {isAuthenticated} from "@/services/authentication";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -47,6 +48,17 @@ const router = createRouter({
             component: () => import('../views/PatientInfo.vue')
         }
     ]
-})
+});
+
+router.beforeEach((to, from, next) => {
+    if (to.path === "/sign-in") {
+        next()
+    } else if (isAuthenticated()) {
+        next()
+    } else {
+        next("/sign-in")
+    }
+});
+
 
 export default router
