@@ -72,12 +72,6 @@ function toBuckets(dateValues: DateValue[],
     )
     // Convert to timeunit
     return unconvertedBuckets.map<BucketPoint>(([x, values]) => [x / outputUnit, values])
-    /*
-        // Add edge values
-        const zeroVal = (medData[0].y + medData[medData.length - 1].y)/2
-        medData.splice(0, 0, {x:0, y:zeroVal})
-        medData.push({x:24, y:zeroVal})
-    */
 }
 
 function addEdgesToSplit(points: Point[], splitAfterSeconds: number, timeUnit: TimeUnit = TIME_UNIT_DEFAULT) {

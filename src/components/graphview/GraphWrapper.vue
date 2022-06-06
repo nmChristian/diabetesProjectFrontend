@@ -5,6 +5,7 @@
       <p class="user-id"> with id {{user.id}}</p>
     </div>
 
+
     <h1> Testing whether it is possible to do 24 hours with dates</h1>
     <line-graph
         :data="medianDateInDateValue"
@@ -89,7 +90,7 @@ onMounted(() => {
         dataInDateValue.value = toDateValue<{t : number, v : number}>(
             response.data.cgm,
             ({t, v}) => [new Date(t* 1000), v * 18])
-        console.log("RESPONSE")
+        console.log("Updated data in GraphWrapper.vue")
       })
 })
 

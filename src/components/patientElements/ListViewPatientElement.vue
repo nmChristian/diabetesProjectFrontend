@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang = "ts">
-import {computed} from 'vue'
+import IconGraph from "@/components/charts/IconGraph.vue"
 import type {User} from "@/services/user"
 
 defineProps<{
