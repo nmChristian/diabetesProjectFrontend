@@ -1,10 +1,10 @@
 <template>
-	<img src="@/assets/logo.svg" width="250" height="250" />
+	<img src="@/assets/logo.svg" width="250" height="250" alt=""/>
 	<div>
-		<animated-text-input label-text="E-mail" v-model='emailValue' />
+		<animated-text-input label-text="E-mail" v-model='emailValue'/>
 	</div>
 	<div>
-		<animated-text-input label-text="Password" type="password" v-model='passwordValue' />
+		<animated-text-input label-text="Password" type="password" v-model='passwordValue'/>
 	</div>
 	<div class="forgot-link">
 		<a href="https://example.com">Forgot your password?</a>
@@ -22,9 +22,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import axios from "axios";
+import {defineComponent} from "vue";
 import animatedTextInput from "../../components/input/AnimatedTextInput.vue"
+import {signIn} from "@/services/authentication";
+import router from "@/router";
 
 export default defineComponent({
 	name: "sign-in",
@@ -39,15 +40,10 @@ export default defineComponent({
 		}
 	},
 	methods: {
-		onSignInClick: function () {
-			axios.post("http://localhost:5000/api/v1/user/login", { email: this.emailValue, password: this.passwordValue })
-				.then(response => {
-					this.apiKey = response.data.api_key;
-					sessionStorage.setItem("status", "signedIn")
-				})
-				.catch(error => {
-					console.log(error);
-				})
+		onSignInClick: async function () {
+			if (await signIn(this.emailValue, this.passwordValue)) {
+				await router.push("/")
+			}
 		}
 	}
 
@@ -106,7 +102,7 @@ div a {
 	box-shadow: 0 4px 15px 0 rgba(137, 43, 226, 0.4);
 }
 
-.sign-in-button.focus {
+.sign-in-button:focus {
 	outline: none;
 }
 
