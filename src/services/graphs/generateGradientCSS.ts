@@ -2,16 +2,17 @@
 import * as d3 from 'd3';
 import {CGM_THRESHOLDS, COLOR_SCHEME} from "@/services/core/shared";
 
-let svgGradientElement : HTMLDivElement | undefined = undefined
+let svgGradientElement: HTMLDivElement | undefined = undefined
 let linearID = 0
+
 // TODO: IDFK Rename this shit
 /**
  * Returns the link to the gradient generated example: url(#line-gradient-2)
  * @param svg - The object its going to append to
  * @param yScale - the scale used in the graph, this is used because the gradient works in percentages or something
  */
-export function generateGradientCGMCSSApply (svg : d3.Selection<SVGGElement, undefined, null, undefined>, yScale : d3.ScaleLinear<number, number, never>) : string {
-    const id : string = "line-gradient-" + linearID
+export function generateGradientCGMCSSApply(svg: d3.Selection<SVGGElement, undefined, null, undefined>, yScale: d3.ScaleLinear<number, number, never>): string {
+    const id: string = "line-gradient-" + linearID
     linearID++
 
     const minYValue = yScale(0)
@@ -27,15 +28,15 @@ export function generateGradientCGMCSSApply (svg : d3.Selection<SVGGElement, und
         .attr("offset", (d: any) => d.offset)
         .attr("stop-color", (d: any) => d.color)
 
-    return "url(#" + id +  ")"
+    return "url(#" + id + ")"
 }
 
 // Gradient colors
 // Small helper function that converts number to sting
-const getCGMThresholdPercentage = (d : any, yMax : number) => d === undefined ? "100%" : 100 * d / yMax + "%"
+const getCGMThresholdPercentage = (d: any, yMax: number) => d === undefined ? "100%" : 100 * d / yMax + "%"
 // @ts-ignore
-const cgmThresholdColors  = (yMax : number) => CGM_THRESHOLDS.flatMap((d : any, i : any) =>
+const cgmThresholdColors = (yMax: number) => CGM_THRESHOLDS.flatMap((d: any, i: any) =>
     [
-        {offset:getCGMThresholdPercentage(d.x0, yMax), color: COLOR_SCHEME[i]},
-        {offset:getCGMThresholdPercentage(d.x1, yMax), color: COLOR_SCHEME[i]}
+        {offset: getCGMThresholdPercentage(d.x0, yMax), color: COLOR_SCHEME[i]},
+        {offset: getCGMThresholdPercentage(d.x1, yMax), color: COLOR_SCHEME[i]}
     ])

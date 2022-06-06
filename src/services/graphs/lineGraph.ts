@@ -1,28 +1,25 @@
 import * as d3 from "d3";
-import type {DateValue, Point} from "@/services/core/datatypes";
-import {CGM_RANGE, CGM_THRESHOLDS, COLOR_SCHEME} from "@/services/core/shared";
-import {drawYAxis, getLineStyle} from "@/services/core/graphMethods";
-import {generateGradientCGMCSSApply} from "@/services/graphs/generateGradientCSS";
+import type {DateValue} from "@/services/core/datatypes";
 import {dateValueIsValid} from "@/services/core/datatypes";
+import {CGM_RANGE, CGM_THRESHOLDS} from "@/services/core/shared";
+import {generateSVG, getLineStyle} from "@/services/core/graphMethods";
+import {generateGradientCGMCSSApply} from "@/services/graphs/generateGradientCSS";
+import {drawXAxis, drawYAxisCGM} from "@/services/core/graph/axisDrawer";
 
 
-export default function lineGraph (dateValues : DateValue[] ,
-                                   {
-        marginTop = 20, // top margin, in pixels
-        marginRight = 30, // right margin, in pixels
-        marginBottom = 20, // bottom margin, in pixels
-        marginLeft = 40, // left margin, in pixels
-        width = 1200, // outer width, in pixels
-        height = 400, // outer height, in pixels
-    }) {
+export default function lineGraph(dateValues: DateValue[],
+                                  {
+                                      marginTop = 20, // top margin, in pixels
+                                      marginRight = 30, // right margin, in pixels
+                                      marginBottom = 20, // bottom margin, in pixels
+                                      marginLeft = 40, // left margin, in pixels
+                                      width = 1200, // outer width, in pixels
+                                      height = 400, // outer height, in pixels
+                                  }) {
 
-    const out = d3.create("svg")
-        .attr("width", width+ marginLeft+ marginRight)
-        .attr("height", height+ marginTop + marginBottom)
-        .attr("style", "max-width: 100%; height: auto; height: intrinsic;")
-    const svg = out.append("g")
-        .attr("transform",
-            "translate(" + marginLeft + "," + marginTop + ")");
+
+    const {out, svg} = generateSVG(width, height,
+        {marginTop, marginRight, marginLeft, marginBottom})
 
     const xScale = d3.scaleTime()
         // @ts-ignore
@@ -40,22 +37,21 @@ export default function lineGraph (dateValues : DateValue[] ,
     const lineGen = d3.line<DateValue>()
         .defined(dateValueIsValid)
         .x(([x,]) => xScale(x))
-        .y(([,y]) => yScale(y))
+        .y(([, y]) => yScale(y))
         (dateValues)
 
     svg.append("path")
         .attr("fill", "none")
-        .attr("style", "stroke: "+ generateGradientCGMCSSApply(svg, yScale) + ";") // + getLinearGradientCGMCSS() + ";")  url(#line-gradient)
+        .attr("style", "stroke: " + generateGradientCGMCSSApply(svg, yScale) + ";") // + getLinearGradientCGMCSS() + ";")  url(#line-gradient)
         .attr("stroke-width", 3)
         .attr("d", lineGen)
 
     // Horizontal lines
     // Helper function returns the x and y coords for a given line from a stack
-    const lineCoords = function (d : any) : [[number, number], [number, number]] {
-        let y : number = d.x1 === undefined ? yMax : yScale(d.x1) + .5  // plus by .5 to center it relative to its stroke width
-        return [[xMin, y], [xMax,  y]]
+    const lineCoords = function (d: any): [[number, number], [number, number]] {
+        let y: number = d.x1 === undefined ? yMax : yScale(d.x1) + .5  // plus by .5 to center it relative to its stroke width
+        return [[xMin, y], [xMax, y]]
     }
-
 
 
     // Draw lines
@@ -64,7 +60,7 @@ export default function lineGraph (dateValues : DateValue[] ,
         .data(CGM_THRESHOLDS)
         .join("path")
         .attr("d", (d) => d3.line()(lineCoords(d)))
-        .attr("style", (d,i) => getLineStyle(i))
+        .attr("style", (d, i) => getLineStyle(i))
     // Vertical lines
 
     //const days = Array((ext[1]?.getTime() ?? 0 - (ext[0]?.getTime() ?? 0) / (1000 * 3600 * 24)))
@@ -79,17 +75,14 @@ export default function lineGraph (dateValues : DateValue[] ,
         .selectAll("path")
         .data(days)
         .join("path")
-        .attr("d", (d,i) => d3.line()([[xScale(d) + vertStrokeWidth / 2, yMin], [xScale(d)+vertStrokeWidth / 2, yMax]])) //
+        .attr("d", (d, i) => d3.line()([[xScale(d) + vertStrokeWidth / 2, yMin], [xScale(d) + vertStrokeWidth / 2, yMax]])) //
         .attr("style", "opacity: .1;fill: none; stroke: black;")
         .attr("stroke-width", vertStrokeWidth)
 
 
     // Axis
-    svg.append("g")
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(xScale))
-
-    drawYAxis(svg, yScale)
+    drawXAxis(svg, xScale, height)
+    drawYAxisCGM(svg, yScale)
 
     return out.node()
 }

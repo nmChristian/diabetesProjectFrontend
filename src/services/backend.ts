@@ -1,10 +1,11 @@
 class Backend {
-    public url : string
+    public url: string
+
     constructor() {
         this.url = "http://localhost:5000/api/v1"
     }
-    
-    public getUrlData () {
+
+    public getUrlData() {
         return this.url + "/data/get"
     }
 
@@ -12,7 +13,7 @@ class Backend {
      * Returns the data type that is used to request the GCM data N days back
      * @param daysBack - The amount of days we have to go back
      */
-    public getCGMDaysBack (daysBack : number) {
+    public getCGMDaysBack(daysBack: number) {
         const daysSince = (new Date().getTime() - new Date("2022-01-30").getTime()) / (3600 * 1000 * 24)
         return {
             ndays: Math.ceil(daysBack + daysSince),
@@ -20,7 +21,7 @@ class Backend {
         }
     }
 
-    public getHeader (user : number) {
+    public getHeader(user: number) {
         let api = this.getHeader0();
         if (user == 200) api = this.getHeader200()
 
@@ -30,7 +31,8 @@ class Backend {
     }
 
     readonly LAPTOP = false;
-    private getHeader0 () {
+
+    private getHeader0() {
         if (this.LAPTOP) return {
             api_key: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYyNzI3ZWNhYWNiNjQzY2FiYzY1Y2Y0ZiIsInRpbWVzdGFtcCI6MTY1MTY3NTUzMn0.7EOfpKouDZYiw5xueIKubKuJyUnj3YXVPfKJfRTCBi0"
         }
@@ -38,7 +40,8 @@ class Backend {
             api_key: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYyOWExYzAzOTRjMzBhYjMxMTllOWQwNyIsInRpbWVzdGFtcCI6MTY1NDI2NzEwNH0.o_Fggo1_c_8lwgqsy0reabizk4MdFGAWgE91pUjAKVg"
         }
     }
-    private getHeader200 () {
+
+    private getHeader200() {
         if (this.LAPTOP) return {
             api_key: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYyNzI3ZWNhYWNiNjQzY2FiYzY1ZDAxNyIsInRpbWVzdGFtcCI6MTY1MTY3NjY0NX0.xVffLQzpt0qtkwucOel24WHad_wTM3fGI9INLHCZUxk"
         }
@@ -48,5 +51,5 @@ class Backend {
     }
 }
 
-const backend : Backend = new Backend()
+const backend: Backend = new Backend()
 export default backend
