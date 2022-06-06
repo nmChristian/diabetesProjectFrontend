@@ -23,7 +23,14 @@ const router = createRouter({
         {
             path: '/GraphView',
             name: 'GraphView',
-            component: () => import('../views/GraphView.vue')
+            component: () => import('../views/GraphView.vue'),
+            children: [
+                {
+                    path: "Fisk",
+                    name: "Fisk",
+                    component: () => import("@/components/graphview/IconTest.vue")
+                }
+            ]
         },
         {
             path: "/DisplayPatients",
@@ -47,7 +54,8 @@ const router = createRouter({
             name: "patientInfo",
             component: () => import('../views/PatientInfo.vue')
         }
-    ]
+    ],
+    linkActiveClass: "fullstack-active-link"
 });
 
 router.beforeEach((to, from, next) => {
