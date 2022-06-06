@@ -51,7 +51,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    if (to.path === "/sign-in") {
+    if (to.path === "/sign-in" || to.path === "/sign-up") {
         next()
     } else if (isAuthenticated()) {
         next()
