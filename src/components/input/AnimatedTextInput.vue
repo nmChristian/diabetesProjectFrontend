@@ -1,22 +1,27 @@
 <template>
     <div class="form">
-        <input class="input" placeholder=" " :type="type" />
+        <input class="input" placeholder=" " :type="type" :value='modelValue'
+            @input='$emit("update:modelValue", $event.target.value)' />
         <label class="label">{{ labelText }}</label>
     </div>
 </template>
 
 <script lang="ts">
-export default {
+
+import { defineComponent } from "vue";
+
+export default defineComponent({
     name: "animatedTextInput",
     props: {
         labelText: String,
         type: {
             type: String,
             default: 'text'
-        }
-    }
-}
+        },
+        modelValue: String
+    },
 
+})
 </script>
 
 <style scoped>
@@ -59,6 +64,5 @@ input:focus~.label,
 .input:not(:placeholder-shown).input:not(:focus)~label {
     top: -1.4rem;
     font-size: 50%;
-    color: lightgray;
 }
 </style>

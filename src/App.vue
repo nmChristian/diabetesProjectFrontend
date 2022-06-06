@@ -1,16 +1,19 @@
 <template>
   <div class="top-bar">
-    <img class=user-icon src="@/assets/user.png" @click="$router.push('/sign-up')" />
+    <img class=user-icon src="@/assets/user.png" @click="$router.push('/sign-up')" alt="User icon"/>
 
-    <div class=curentUserInfo>
-      <p>Navn</p>
+    <div class=currentUserInfo>
+      <p>Name</p>
       <p>Email</p>
     </div>
 
-    <input class=sheachField type="text" value="Søge bar ting (ikke funktionel)">
-    <div class = iconGroup v-if="String(this.$router.currentRoute.value.fullPath).toLowerCase().includes('displaypatients')">
-      <img class=navigationIcon src="@/assets/icons/gridViewIcon.svg" @click="$router.push('/DisplayPatients')"/>
-      <img class=navigationIcon src="@/assets/icons/listViewIcon.svg" @click="$router.push('/DisplayPatientsList')"/>
+    <input class=searchField type="text" placeholder="Search bar (not functional)">
+    <div class=iconGroup
+         v-if="String(this.$router.currentRoute.value.fullPath).toLowerCase().includes('displaypatients')">
+      <img class=navigationIcon src="@/assets/icons/gridViewIcon.svg" @click="$router.push('/DisplayPatients')"
+           alt=""/>
+      <img class=navigationIcon src="@/assets/icons/listViewIcon.svg" @click="$router.push('/DisplayPatientsList')"
+           alt=""/>
     </div>
   </div>
 
@@ -18,37 +21,42 @@
 
   <div id="content-view" class="content-view">
     <header>
-      <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+      <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125"/>
 
       <div class="wrapper">
         <nav>
           <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/sign-in">Sign-in</RouterLink>
-          <RouterLink to="/sign-up">Sign up</RouterLink>
-          <RouterLink to="/about">About</RouterLink>
           <RouterLink to="/JonasView">Jonas</RouterLink>
           <RouterLink to="/DisplayPatients"> display patients</RouterLink>
           <RouterLink to="/DisplayPatientsList"> display patients list</RouterLink>
         </nav>
       </div>
     </header>
-    <RouterView />
+    <RouterView/>
   </div>
 </template>
 
 
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from '@/components/HelloWorld.vue'
-import GallaeryViewPatientElement from "@/components/patientElements/GallaeryViewPatientElement.vue";
-import InfoElement from "@/components/patientElements/InfoElement.vue";
+<script lang="ts">
+
+import {RouterLink, RouterView} from 'vue-router'
+import {defineComponent} from "vue";
+
+export default defineComponent({
+  components: {
+    RouterLink,
+    RouterView
+  },
+
+})
+
 </script>
 
 
 <style>
 @import '@/assets/base.css';
 
-.sheachField{
+.searchField {
   height: 70%;
   width: 300px;
   margin: auto;
@@ -56,19 +64,19 @@ import InfoElement from "@/components/patientElements/InfoElement.vue";
   border-radius: 10px;
 }
 
-.spacer{
+.spacer {
   height: 75px;
 }
 
-.iconGroup{
+.iconGroup {
   padding-right: 10px;
   height: 100%;
   display: flex;
   align-items: center;
 }
 
-.content-view{
-  padding: 0px;
+.content-view {
+  padding: 0;
   margin: 100px;
 }
 
@@ -76,7 +84,8 @@ import InfoElement from "@/components/patientElements/InfoElement.vue";
   z-index: 10;
   height: 75px;
   width: 100%;
-  top: 0px; left: 0px;
+  top: 0;
+  left: 0;
   background-color: lightgrey;
   display: flex;
   align-items: center;
@@ -84,15 +93,16 @@ import InfoElement from "@/components/patientElements/InfoElement.vue";
   border-bottom: 1px grey solid;
 }
 
-.navigationIcon{
+.navigationIcon {
   border: 1px black solid;
   background-color: white;
   height: 55%;
   aspect-ratio: 1 / 1;
   margin: 5px;
   padding: 3px;
-  border-radius:6px;
+  border-radius: 6px;
 }
+
 .user-icon {
   margin: 10px;
   width: 55px;
@@ -101,7 +111,7 @@ import InfoElement from "@/components/patientElements/InfoElement.vue";
 #content-view {
   /*max-width: 1280px; */
   margin: 0 auto;
-  padding: 0rem;
+  padding: 0;
 
   font-weight: normal;
 }
@@ -116,8 +126,7 @@ header {
   margin: 0 auto 2rem;
 }
 
-a,
-.green {
+a {
   text-decoration: none;
   color: hsla(160, 100%, 37%, 1);
   transition: 0.4s;
@@ -134,14 +143,6 @@ nav {
   font-size: 1rem;
   text-align: center;
   margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
 }
 
 nav a {
