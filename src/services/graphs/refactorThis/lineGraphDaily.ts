@@ -4,6 +4,7 @@ import * as d3 from "d3";
 import {CGM_RANGE, COLOR_SCHEME} from "@/services/core/shared";
 import {drawXAxis, drawYAxisCGM} from "@/services/core/graph/axisDrawer";
 import {generateSVG} from "@/services/core/graphMethods";
+import {drawHorizontalCGMIndicatorLines, drawVerticalLines} from "@/services/core/graph/lineDrawer";
 
 export default function lineGraphDaily(points: Point[],
                                        {
@@ -35,12 +36,15 @@ export default function lineGraphDaily(points: Point[],
         (points)
 
     svg.append("path")
-        .attr("style", "fill: none; stroke: " + COLOR_SCHEME[2] + "; stroke-width: 3;") // + getLinearGradientCGMCSS() + ";")  url(#line-gradient)
+        .attr("style", "fill: none; stroke: " + COLOR_SCHEME[1] + "; stroke-width: 3;") // + getLinearGradientCGMCSS() + ";")  url(#line-gradient)
         .attr("d", lineGen)
 
 
+    //drawVerticalLines(svg, xScale, yScale, [12])
+    drawHorizontalCGMIndicatorLines(svg, xScale, yScale)
+
     // Axis
-    drawXAxis(svg, xScale, height)
+    drawXAxis(svg, xScale, height, (d) => "font-weight: " + (d == 12 ? "bold;" : "normal;") , (d) => d + ":00")
     drawYAxisCGM(svg, yScale)
 
     return out.node()

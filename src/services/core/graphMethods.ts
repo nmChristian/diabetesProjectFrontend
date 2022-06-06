@@ -5,11 +5,11 @@ import * as d3 from "d3";
 export type SVG = d3.Selection<SVGGElement, undefined, null, undefined>
 
 
-const targetLineStyle = "stroke-width: 1.5; opacity: .5; stroke: " + COLOR_SCHEME[2] + ";"
-const otherLineStyle = "stroke-width: 1; opacity: .1; stroke: black;"
+const targetLineStyle = "opacity: .5; stroke: " + COLOR_SCHEME[2] + ";"
+const otherLineStyle = "opacity: .1; stroke: black;"
 export const isTarget = (i: number) => i === 1 || i === 2
 
-export const getLineStyle = (i: number) =>
+export const highlightTargetLineStyle = (i: number) =>
     "fill: none;" + (isTarget(i) ? targetLineStyle : otherLineStyle)
 
 

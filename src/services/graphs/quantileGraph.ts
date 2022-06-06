@@ -3,9 +3,9 @@ import type {BucketPoint, Point} from "@/services/core/datatypes";
 import {pointIsValid} from "@/services/core/datatypes";
 import {CGM_RANGE, CGM_THRESHOLDS, COLOR_SCHEME} from "@/services/core/shared";
 import {generateGradientCGMCSSApply} from "@/services/graphs/generateGradientCSS";
-import {generateSVG, getLineStyle} from "@/services/core/graphMethods";
+import {generateSVG} from "@/services/core/graphMethods";
 import {drawXAxisHighlightEvery12Hours, drawYAxisCGM} from "@/services/core/graph/axisDrawer";
-import {drawHorizontalLines, drawVerticalLines} from "@/services/core/graph/lineDrawer";
+import {drawHorizontalCGMIndicatorLines, drawVerticalLines} from "@/services/core/graph/lineDrawer";
 
 export function quantileGraph(bucketSeriesOfQuantiles: d3.Series<BucketPoint, number>[],
                               quantilesUsedInBucket: number[],
@@ -50,19 +50,6 @@ export function quantileGraph(bucketSeriesOfQuantiles: d3.Series<BucketPoint, nu
     const dateMax = xScale.domain()[1]
 
 
-    // Horizontal lines
-    // Helper function returns the x and y coords for a given line from a stack
-    const lineCoords = function (d: any): [[number, number], [number, number]] {
-        let y: number = d.x1 === undefined ? yMax : yScale(d.x1) + .5  // plus by .5 to center it relative to its stroke width
-        return [[xMin, y], [xMax, y]]
-    }
-
-    drawHorizontalLines<number, number>(svg, xScale, yScale,
-        CGM_THRESHOLDS.map<number>(d => d.x1??yScale.domain()[1]),
-        (d,i) => getLineStyle(i))
-    drawVerticalLines<number, number>(svg, xScale, yScale,
-        [0, 6, 12, 18, 24])
-
     // Area generator
     const areaGenerator = d3.area<d3.SeriesPoint<BucketPoint>>()
         .curve(curveType)
@@ -99,6 +86,11 @@ export function quantileGraph(bucketSeriesOfQuantiles: d3.Series<BucketPoint, nu
     // Axises
     drawYAxisCGM(svg, yScale)
     drawXAxisHighlightEvery12Hours(svg, xScale, height)
+
+    // Draw lines
+    drawHorizontalCGMIndicatorLines(svg, xScale, yScale)
+    drawVerticalLines<number, number>(svg, xScale, yScale, [ 6, 12, 18, 24])
+
 
     // mg / dl text
     svg.append("text")

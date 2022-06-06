@@ -1,8 +1,7 @@
 // Gradient method
-import * as d3 from 'd3';
+import type * as d3 from "d3"
 import {CGM_THRESHOLDS, COLOR_SCHEME} from "@/services/core/shared";
 
-let svgGradientElement: HTMLDivElement | undefined = undefined
 let linearID = 0
 
 // TODO: IDFK Rename this shit
@@ -11,7 +10,7 @@ let linearID = 0
  * @param svg - The object its going to append to
  * @param yScale - the scale used in the graph, this is used because the gradient works in percentages or something
  */
-export function generateGradientCGMCSSApply(svg: d3.Selection<SVGGElement, undefined, null, undefined>, yScale: d3.ScaleLinear<number, number, never>): string {
+export function generateGradientCGMCSSApply(svg: d3.Selection<SVGGElement, undefined, null, undefined>, yScale: d3.ScaleLinear<number, number>): string {
     const id: string = "line-gradient-" + linearID
     linearID++
 

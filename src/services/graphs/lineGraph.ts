@@ -2,9 +2,15 @@ import * as d3 from "d3";
 import type {DateValue} from "@/services/core/datatypes";
 import {dateValueIsValid} from "@/services/core/datatypes";
 import {CGM_RANGE, CGM_THRESHOLDS} from "@/services/core/shared";
-import {generateSVG, getLineStyle} from "@/services/core/graphMethods";
+import {generateSVG, highlightTargetLineStyle} from "@/services/core/graphMethods";
 import {generateGradientCGMCSSApply} from "@/services/graphs/generateGradientCSS";
 import {drawXAxis, drawYAxisCGM} from "@/services/core/graph/axisDrawer";
+import {
+    drawHorizontalCGMIndicatorLines,
+    drawHorizontalLines,
+    drawVerticalLines
+} from "@/services/core/graph/lineDrawer";
+import {timeDays} from "d3-time";
 
 
 export default function lineGraph(dateValues: DateValue[],
@@ -22,16 +28,10 @@ export default function lineGraph(dateValues: DateValue[],
         {marginTop, marginRight, marginLeft, marginBottom})
 
     const xScale = d3.scaleTime()
-        // @ts-ignore
-        .domain(d3.extent(dateValues, ([x,]) => x))
+        .domain(d3.extent(dateValues, ([x,]) => x) as [Date, Date])
         .range([0, width])
 
     const yScale = d3.scaleLinear(CGM_RANGE, [height, 0])
-    const yMin = yScale.range()[1]
-    const yMax = yScale.range()[0]
-    const xMin = xScale.range()[0]
-    const xMax = xScale.range()[1]
-    const dateMax = xScale.domain()[1]
 
     // The Line
     const lineGen = d3.line<DateValue>()
@@ -46,39 +46,13 @@ export default function lineGraph(dateValues: DateValue[],
         .attr("stroke-width", 3)
         .attr("d", lineGen)
 
-    // Horizontal lines
-    // Helper function returns the x and y coords for a given line from a stack
-    const lineCoords = function (d: any): [[number, number], [number, number]] {
-        let y: number = d.x1 === undefined ? yMax : yScale(d.x1) + .5  // plus by .5 to center it relative to its stroke width
-        return [[xMin, y], [xMax, y]]
-    }
-
 
     // Draw lines
-    svg.append("g")
-        .selectAll("path")
-        .data(CGM_THRESHOLDS)
-        .join("path")
-        .attr("d", (d) => d3.line()(lineCoords(d)))
-        .attr("style", (d, i) => getLineStyle(i))
-    // Vertical lines
-
-    //const days = Array((ext[1]?.getTime() ?? 0 - (ext[0]?.getTime() ?? 0) / (1000 * 3600 * 24)))
-
-    const days = []
-    for (let i = 0; i < days.length; i++) {
-        days[i] = new Date(dateMax).setDate(dateMax.getDate() - i + 1)
-    }
-
-    const vertStrokeWidth = 1
-    svg.append("g")
-        .selectAll("path")
-        .data(days)
-        .join("path")
-        .attr("d", (d, i) => d3.line()([[xScale(d) + vertStrokeWidth / 2, yMin], [xScale(d) + vertStrokeWidth / 2, yMax]])) //
-        .attr("style", "opacity: .1;fill: none; stroke: black;")
-        .attr("stroke-width", vertStrokeWidth)
-
+    drawHorizontalCGMIndicatorLines(svg, xScale, yScale)
+    // Drawing
+    drawVerticalLines<Date, number>(svg, xScale, yScale,
+        // List of days between start and stop
+        d3.timeDays(xScale.domain()[0], xScale.domain()[1]))
 
     // Axis
     drawXAxis(svg, xScale, height)
