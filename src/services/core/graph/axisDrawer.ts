@@ -3,8 +3,8 @@ import type {ValueFn} from "d3";
 import * as d3 from "d3";
 import {CGM_THRESHOLDS} from "@/services/core/shared";
 import {isTarget} from "@/services/core/graphMethods";
+import type {SVG} from "@/services/core/graphMethods";
 
-type SVG = d3.Selection<SVGGElement, undefined, null, undefined>
 
 export function drawXAxis<Domain extends AxisDomain>(svg: SVG, xScale: d3.AxisScale<Domain>, height: number,
                                                      textCSS?: ValueFn<d3.BaseType, unknown, string>,

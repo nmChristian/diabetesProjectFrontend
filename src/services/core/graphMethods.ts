@@ -2,7 +2,10 @@
 import {COLOR_SCHEME} from "@/services/core/shared";
 import * as d3 from "d3";
 
-const targetLineStyle = "stroke-width: 1.5; opacity: .5; stroke: " + COLOR_SCHEME[COLOR_SCHEME.length / 2 + 1] + ";"
+export type SVG = d3.Selection<SVGGElement, undefined, null, undefined>
+
+
+const targetLineStyle = "stroke-width: 1.5; opacity: .5; stroke: " + COLOR_SCHEME[2] + ";"
 const otherLineStyle = "stroke-width: 1; opacity: .1; stroke: black;"
 export const isTarget = (i: number) => i === 1 || i === 2
 
