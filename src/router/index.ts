@@ -26,9 +26,10 @@ const router = createRouter({
             component: () => import('../views/GraphView.vue'),
             children: [
                 {
-                    path: "Fisk",
-                    name: "Fisk",
-                    component: () => import("@/components/graphview/IconTest.vue")
+                    path: "IconTest",
+                    name: "graphview.icontest",
+                    component: () => import("@/components/graphview/IconTest.vue"),
+                    props: true
                 }
             ]
         },

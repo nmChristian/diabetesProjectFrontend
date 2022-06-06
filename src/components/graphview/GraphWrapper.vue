@@ -1,12 +1,16 @@
 <template>
   <div>
+    <nav>
+      <router-link :to="{name: 'graphview.icontest', params:{medianDataInHours: medianDataInHours}}">Icon Test</router-link>
+    </nav>
+    <router-view/>
+
     <div class="user-info">
       <h2>Welcome {{user.name}} </h2>
       <p class="user-id"> with id {{user.id}}</p>
     </div>
-    <router-link to=""></router-link>
-    <router-view></router-view>
-    <icon-test :median-data-in-hours="medianDataInHours"/>
+
+    <!-- <icon-test :median-data-in-hours="medianDataInHours"/> -->
     <h1> Testing whether it is possible to do 24 hours with dates</h1>
     <line-graph
         :data="medianDateInDateValue"
