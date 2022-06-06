@@ -15,7 +15,7 @@ import cgm_538 from "@/assets/demo/users/cgm_538.json"  // Lowest and nice 100%
 
 
 
-import {CGMData} from "@/services/graphs/oldgraphs";
+import {CGMData} from "@/services/graphs/old/oldgraphs";
 import {User} from "@/services/user";
 
 import axios from "axios";

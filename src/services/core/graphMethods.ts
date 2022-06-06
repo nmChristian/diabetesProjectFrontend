@@ -10,8 +10,13 @@ const isTarget = (i : number) => i === 1 || i === 2
 
 export const getLineStyle = (i : number) =>
     "fill: none;" + (isTarget(i) ?  targetLineStyle : otherLineStyle)
-export const getFontStyle = (i : number) =>
+const getFontStyle = (i : number) =>
     "font-size: " + isTarget(i - 1) ? "12" : "10"
     + "; font-weight: " + isTarget(i - 1) ? "bold" : "normal" + ";"
 
-
+export function drawYAxis (svg : d3.Selection<SVGGElement, undefined, null, undefined>, yScale : d3.ScaleLinear<number, number>) {
+    svg.append("g")
+        .call(d3.axisLeft(yScale).tickValues(CGM_THRESHOLDS.map(d => d.x0)))
+        .selectAll("text")
+        .attr("style",(d,i) => getFontStyle(i))
+}

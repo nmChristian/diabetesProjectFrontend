@@ -5,6 +5,11 @@
       <p class="user-id"> with id {{user.id}}</p>
     </div>
 
+    <h1> Testing whether it is possible to do 24 hours with dates</h1>
+    <line-graph
+        :data="medianDateInDateValue"
+    />
+
 
     <h1>Here is two graphs used for comparing functionality</h1>
     <p>Dynamic domain</p>
@@ -24,7 +29,6 @@
     />
 
     <h1>Here is the Line Graph graph</h1>
-
     <line-graph
       :data="data"
     />
@@ -61,7 +65,7 @@ import type {BucketPoint, DateValue, Point} from "@/services/core/datatypes";
 import {
   addEdgesToSplit,
   addEdgesToSplitBucket,
-  bucketToMedian,
+  bucketToMedian, dateValueIsValid,
   SPLIT_BY_DAY, SPLIT_BY_WEEK,
   toBuckets,
   toDateValue
@@ -99,7 +103,7 @@ const dataToMedian = (data : DateValue[], split : number) : Point[] => {
 
 const medianDataInHours = computed(() =>
     dataInDateValue.value.length != 0 ?
-        dataToMedian(dataInDateValue.value, SPLIT_BY_DAY * 2) :
+        dataToMedian(dataInDateValue.value, SPLIT_BY_DAY) :
         []
 )
 
@@ -134,6 +138,11 @@ const bucketSeriesOfQuantiles = computed(() => {
   return quantileSeries
 })
 
+
+const medianDateInDateValue = computed(() =>
+  medianDataInHours.value.map<DateValue>(([x,y]) =>
+  { const date = new Date(); date.setHours(x); return [date, y]})
+)
 </script>
 
 

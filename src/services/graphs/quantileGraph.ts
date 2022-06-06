@@ -1,8 +1,8 @@
 import * as d3 from "d3";
 import type {BucketPoint, Point} from "@/services/core/datatypes";
 import {CGM_RANGE, CGM_THRESHOLDS, COLOR_SCHEME} from "@/services/core/shared";
-import {generateGradientCGMCSS} from "@/services/graphs/generateGradientCSS";
-import {getFontStyle, getLineStyle} from "@/services/core/graphMethods";
+import {generateGradientCGMCSSApply} from "@/services/graphs/generateGradientCSS";
+import {drawYAxis, getLineStyle} from "@/services/core/graphMethods";
 import {pointIsValid} from "@/services/core/datatypes";
 import type {SeriesPoint} from "d3";
 
@@ -90,7 +90,7 @@ export function quantileGraph (bucketSeriesOfQuantiles : d3.Series<BucketPoint, 
         .y1(([,y1]) => yScale(y1))
 
     // Draw Area
-    const cssIDForGradient = generateGradientCGMCSS(yScale)
+    const cssIDForGradient = generateGradientCGMCSSApply(svg, yScale)
     svg.append("g")
         .selectAll("path")
         .data(bucketSeriesOfQuantiles)
@@ -113,10 +113,8 @@ export function quantileGraph (bucketSeriesOfQuantiles : d3.Series<BucketPoint, 
 
 
     // Axises
-    svg.append("g")
-        .call(d3.axisLeft(yScale).tickValues(CGM_THRESHOLDS.map(d => d.x0)))
-        .selectAll("text")
-        .attr("style", (d,i) => getFontStyle(i))
+    drawYAxis(svg, yScale)
+
     const highlightedTime = (d : number) => d % 12 === 0
     svg.append("g")
         .attr("transform", "translate(0," + height + ")")

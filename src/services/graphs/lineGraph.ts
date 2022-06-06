@@ -1,9 +1,10 @@
 import * as d3 from "d3";
 import type {DateValue, Point} from "@/services/core/datatypes";
 import {CGM_RANGE, CGM_THRESHOLDS, COLOR_SCHEME} from "@/services/core/shared";
-import {getFontStyle, getLineStyle} from "@/services/core/graphMethods";
-import {generateGradientCGMCSS} from "@/services/graphs/generateGradientCSS";
+import {drawYAxis, getLineStyle} from "@/services/core/graphMethods";
+import {generateGradientCGMCSSApply} from "@/services/graphs/generateGradientCSS";
 import {dateValueIsValid} from "@/services/core/datatypes";
+
 
 export default function lineGraph (dateValues : DateValue[] ,
                                    {
@@ -44,7 +45,7 @@ export default function lineGraph (dateValues : DateValue[] ,
 
     svg.append("path")
         .attr("fill", "none")
-        .attr("style", "stroke: "+ generateGradientCGMCSS(yScale) + ";") // + getLinearGradientCGMCSS() + ";")  url(#line-gradient)
+        .attr("style", "stroke: "+ generateGradientCGMCSSApply(svg, yScale) + ";") // + getLinearGradientCGMCSS() + ";")  url(#line-gradient)
         .attr("stroke-width", 3)
         .attr("d", lineGen)
 
@@ -88,10 +89,7 @@ export default function lineGraph (dateValues : DateValue[] ,
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(xScale))
 
-    svg.append("g")
-        .call(d3.axisLeft(yScale).tickValues(CGM_THRESHOLDS.map(d => d.x0)))
-        .selectAll("text")
-        .attr("style",(d,i) => getFontStyle(i))
+    drawYAxis(svg, yScale)
 
     return out.node()
 }

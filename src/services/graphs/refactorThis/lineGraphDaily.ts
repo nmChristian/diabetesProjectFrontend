@@ -2,8 +2,8 @@ import {pointIsValid} from "@/services/core/datatypes";
 import type {Point} from "@/services/core/datatypes";
 import * as d3 from "d3";
 import {CGM_RANGE, CGM_THRESHOLDS, COLOR_SCHEME} from "@/services/core/shared";
-import {generateGradientCGMCSS} from "@/services/graphs/generateGradientCSS";
-import {getFontStyle, getLineStyle} from "@/services/core/graphMethods";
+import {generateGradientCGMCSSApply} from "@/services/graphs/generateGradientCSS";
+import {drawYAxis} from "@/services/core/graphMethods";
 
 export default function lineGraphDaily (points : Point[],
                                    {
@@ -44,16 +44,28 @@ export default function lineGraphDaily (points : Point[],
 
 
 
-    // Y-axis
+    // X-axis
     svg.append("g")
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(xScale))
 
-    // X-axis
+    // Y-axis
+    // Methode 2
+    drawYAxis(svg, yScale)
+
+    /*
+    const g = d3.create("g")
+    g.call(d3.axisLeft(yScale).tickValues(CGM_THRESHOLDS.map(d => d.x0)))
+        .selectAll("text")
+        .attr("style",(d,i) => getFontStyle(i))
+
+    svg.append(() => g.node())//*/
+
+    /*
     svg.append("g")
         .call(d3.axisLeft(yScale).tickValues(CGM_THRESHOLDS.map(d => d.x0)))
         .selectAll("text")
-        .attr("style",(d,i) => getFontStyle(i))
+        .attr("style",(d,i) => getFontStyle(i))//*/
 
     return out.node()
 }

@@ -1,5 +1,5 @@
 // Gradient method
-import * as d3 from "d3";
+import * as d3 from 'd3';
 import {CGM_THRESHOLDS, COLOR_SCHEME} from "@/services/core/shared";
 
 let svgGradientElement : HTMLDivElement | undefined = undefined
@@ -7,9 +7,10 @@ let linearID = 0
 // TODO: IDFK Rename this shit
 /**
  * Returns the link to the gradient generated example: url(#line-gradient-2)
+ * @param svg - The object its going to append to
  * @param yScale - the scale used in the graph, this is used because the gradient works in percentages or something
  */
-export function generateGradientCGMCSS (yScale : d3.ScaleLinear<number, number, never>) : string {
+export function generateGradientCGMCSSApply (svg : d3.Selection<SVGGElement, undefined, null, undefined>, yScale : d3.ScaleLinear<number, number, never>) : string {
     const id : string = "line-gradient-" + linearID
     linearID++
 
@@ -17,10 +18,7 @@ export function generateGradientCGMCSS (yScale : d3.ScaleLinear<number, number, 
     const yMax = Math.max(yScale.range()[0], yScale.range()[1])
     const maxYValue = yScale(yMax)
 
-    const svg = d3.create("svg")
-    const gradient = d3.creator("linearGradient")
-
-    svg.append(gradient)
+    svg.append("linearGradient")
         .attr("id", id)
         .attr("gradientUnits", "userSpaceOnUse")
         .attr("x1", 0).attr("y1", minYValue)
@@ -29,15 +27,7 @@ export function generateGradientCGMCSS (yScale : d3.ScaleLinear<number, number, 
         .attr("offset", (d: any) => d.offset)
         .attr("stop-color", (d: any) => d.color)
 
-    const node = svg.node()
-    if (svgGradientElement === undefined) {
-        svgGradientElement = svgGradientElement ?? document.createElement("div")
-        document.body.appendChild(svgGradientElement)
-    }
-    // @ts-ignore
-    svgGradientElement.innerHTML += node.outerHTML
     return "url(#" + id +  ")"
-
 }
 
 // Gradient colors
