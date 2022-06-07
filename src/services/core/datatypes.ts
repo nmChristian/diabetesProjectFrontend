@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import {dateToSeconds} from "@/services/core/shared";
 
 export type {DateValue, Point, BucketPoint}
-export {toDateValue, toBuckets, bucketToMedian}
+export {toDateValue, timeSeriesToDateValue, toBuckets, bucketToMedian}
 export {addEdgesToSplit, addEdgesToSplitBucket}
 
 // The data
@@ -30,6 +30,11 @@ export const dateValueIsValid: (dateValue: DateValue) => boolean = ([date, value
 const toDateValue = <T>(rawDataArray: T[], conversion: (rawData: T) => DateValue): DateValue[] =>
     rawDataArray.map<DateValue>(conversion)
 
+const timeSeriesToDateValue = (timeSeries : {t : number, v : number}[],
+                               modifyValueBy : (value : number) => number = (v) => v) =>
+    toDateValue<{t : number, v : number}>(
+        timeSeries,
+        ({t, v}) => [new Date(t* 1000), modifyValueBy(v)])
 
 // Buckets
 export const

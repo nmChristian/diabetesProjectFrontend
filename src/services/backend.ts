@@ -1,5 +1,7 @@
 import {getApiKey} from "@/services/authentication";
 import axios from "axios";
+import {timeSeriesToDateValue} from "@/services/core/datatypes";
+import type {DateValue} from "@/services/core/datatypes";
 
 class Backend {
     public url: string
@@ -11,11 +13,14 @@ class Backend {
     public getUrlData() {
         return this.url + "/data/get"
     }
-    public getCGMData (daysBack : number) {
-        return axios.post(backend.getUrlData(),
-            backend.getCGMDaysBack(7),
+    public async getCGMData (daysBack : number) : Promise<DateValue[]> {
+        const response = await axios.post(backend.getUrlData(),
+            backend.getCGMDaysBack(daysBack),
             backend.generateHeader())
+
+        return timeSeriesToDateValue(response.data.cgm, (v) => v * 18)
     }
+
     /**
      * Returns the data type that is used to request the GCM data N days back
      * @param daysBack - The amount of days we have to go back
