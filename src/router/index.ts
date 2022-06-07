@@ -39,7 +39,12 @@ const router = createRouter({
                     path: "QuantileTest",
                     name: "graphview.quantiletest",
                     component: () => import("@/components/graphview/test/QuantileTest.vue")
-                }
+                },                {
+                    path: "CGMGraphsTest",
+                    name: "graphview.cgmgraphstest",
+                    component: () => import("@/components/graphview/test/CGMGraphsTest.vue")
+                },
+
             ]
         },
         {

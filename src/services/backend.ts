@@ -2,6 +2,7 @@ import {getApiKey} from "@/services/authentication";
 import axios from "axios";
 import {timeSeriesToDateValue} from "@/services/core/datatypes";
 import type {DateValue} from "@/services/core/datatypes";
+import type {UserDetails} from "@/services/core/dbtypes";
 
 class Backend {
     public url: string
@@ -10,15 +11,23 @@ class Backend {
         this.url = "http://localhost:5000/api/v1"
     }
 
-    public getUrlData() {
-        return this.url + "/data/get"
-    }
-    public async getCGMData (daysBack : number) : Promise<DateValue[]> {
-        const response = await axios.post(backend.getUrlData(),
-            backend.getCGMDaysBack(daysBack),
-            backend.generateHeader())
+    public getDataURL = () => this.url + "/data/get"
+    public getNameURL = () => this.url + "/user"
 
-        return timeSeriesToDateValue(response.data.cgm, (v) => v * 18)
+    public async getUserDetails () : Promise<UserDetails> {
+        const response = await axios.get(
+            this.getNameURL(),
+            this.generateHeader())
+        return response.data[0]
+    }
+
+    public async getCGMData (daysBack : number) : Promise<DateValue[]> {
+        const response = await axios.post(
+            this.getDataURL(),
+            this.getCGMDaysBack(daysBack),
+            this.generateHeader())
+
+        return timeSeriesToDateValue(response.data.cgm, v => v * 18)
     }
 
     /**

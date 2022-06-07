@@ -1,15 +1,15 @@
 <template>
   <div>
     <nav>
-      <router-link :to="{name: 'graphview.icontest'}">Icon Test</router-link>
-      <router-link :to="{name: 'graphview.linetest'}">Line Test</router-link>
-      <router-link :to="{name: 'graphview.quantiletest'}">Quantile Test</router-link>
-
+      <router-link :to="{name: 'graphview.cgmgraphstest'}">CGM Graphs</router-link>
+      <router-link :to="{name: 'graphview.icontest'}">Icon</router-link>
+      <router-link :to="{name: 'graphview.linetest'}">Line</router-link>
+      <router-link :to="{name: 'graphview.quantiletest'}">Quantile</router-link>
     </nav>
 
     <div class="user-info">
-      <h2>Welcome {{ user.name }} </h2>
-      <p class="user-id"> with id {{ user.id }}</p>
+      <h2>Welcome {{ userDetails.first_name }} </h2>
+      <p class="user-id"> with id {{ userDetails.last_name }}</p>
     </div>
 
     <router-view
@@ -26,17 +26,19 @@ import {computed, onMounted, ref,} from "vue";
 import type {DateValue, Point} from "@/services/core/datatypes"
 import {addEdgesToSplit, bucketToMedian, SPLIT_BY_DAY, toBuckets} from "@/services/core/datatypes";
 import backend from "@/services/backend";
-
-const props = defineProps<{
-  user: User,
-}>()
+import type {UserDetails} from "@/services/core/dbtypes";
 
 // Loading data
 let dataInDateValue: Ref<never[] | DateValue[]> = ref([])
+let userDetails : Ref<{} | UserDetails> = ref({})
+
 onMounted(() => {
   loadData()
+  loadUserDetails()
 })
-
+async function loadUserDetails () {
+  userDetails.value = await backend.getUserDetails()
+}
 async function loadData() {
   dataInDateValue.value = await backend.getCGMData(7)
 }

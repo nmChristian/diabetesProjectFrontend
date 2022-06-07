@@ -1,5 +1,6 @@
 import * as d3 from "d3";
 import {dateToSeconds} from "@/services/core/shared";
+import type {TimeSeries} from "@/services/core/dbtypes";
 
 export type {DateValue, Point, BucketPoint}
 export {toDateValue, timeSeriesToDateValue, toBuckets, bucketToMedian}
@@ -30,9 +31,9 @@ export const dateValueIsValid: (dateValue: DateValue) => boolean = ([date, value
 const toDateValue = <T>(rawDataArray: T[], conversion: (rawData: T) => DateValue): DateValue[] =>
     rawDataArray.map<DateValue>(conversion)
 
-const timeSeriesToDateValue = (timeSeries : {t : number, v : number}[],
+const timeSeriesToDateValue = (timeSeries : TimeSeries[],
                                modifyValueBy : (value : number) => number = (v) => v) =>
-    toDateValue<{t : number, v : number}>(
+    toDateValue<TimeSeries>(
         timeSeries,
         ({t, v}) => [new Date(t* 1000), modifyValueBy(v)])
 

@@ -19,7 +19,7 @@ app
 app.config.globalProperties.axios = axios
 app.config.globalProperties.$backend = backend
 
-console.log(backend.getUrlData())
+console.log(backend.getDataURL())
 
 app.config.globalProperties.msg = "fem"
 
