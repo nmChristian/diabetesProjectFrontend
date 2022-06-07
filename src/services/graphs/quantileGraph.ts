@@ -15,7 +15,7 @@ export function quantileGraph(bucketSeriesOfQuantiles: d3.Series<BucketPoint, nu
                                   marginRight = 30, // right margin, in pixels
                                   marginBottom = 20, // bottom margin, in pixels
                                   marginLeft = 40, // left margin, in pixels
-                                  width = 1000, // outer width, in pixels
+                                  width = 800, // outer width, in pixels
                                   height = 400, // outer height, in pixels
                                   indicators = false,
                                   curveType = d3.curveMonotoneX
