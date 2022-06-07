@@ -79,14 +79,11 @@ const props = defineProps<{
 
 let dataInDateValue : Ref<never[] | DateValue[]>= ref([])
 onMounted(() => {
-  axios.post(backend.getUrlData(),
-      backend.getCGMDaysBack(7),
-      backend.generateHeader())
+  backend.getCGMData(7)
       .then(response => {
-        //        react = reactive({data: response.data})
-        dataInDateValue.value = toDateValue<{t : number, v : number}>(
-            response.data.cgm,
-            ({t, v}) => [new Date(t* 1000), v * 18])
+          dataInDateValue.value = toDateValue<{t : number, v : number}>(
+          response.data.cgm,
+          ({t, v}) => [new Date(t* 1000), v * 18])
         console.log("Updated data in GraphWrapper.vue")
       })
 })
