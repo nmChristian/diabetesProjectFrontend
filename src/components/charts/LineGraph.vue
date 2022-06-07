@@ -3,12 +3,12 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref, watchEffect} from "vue";
 import type {Ref} from "vue"
+import {ref, watchEffect} from "vue";
 
 import applySVG from "@/services/core/applySVG";
 import lineGraph from "@/services/graphs/lineGraph";
-import type {DateValue, Point} from "@/services/core/datatypes";
+import type {DateValue} from "@/services/core/datatypes";
 
 const div : Ref<HTMLDivElement | null> = ref(null)
 

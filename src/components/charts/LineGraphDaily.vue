@@ -3,8 +3,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watchEffect} from "vue";
 import type {Ref} from "vue"
+import {ref, watchEffect} from "vue";
 
 import applySVG from "@/services/core/applySVG";
 import type {Point} from "@/services/core/datatypes";
