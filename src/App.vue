@@ -1,39 +1,38 @@
 <template>
-  <div class="top-bar">
-    <img class=user-icon src="@/assets/user.png" @click="$router.push('/sign-up')" alt="User icon"/>
+	<div class="top-bar">
+		<img class=user-icon src="@/assets/user.png" @click="$router.push('/sign-up')" alt="User icon"/>
 
-    <div class=currentUserInfo>
-      <p>Name</p>
-      <p>Email</p>
-    </div>
+		<div class=currentUserInfo>
+			<p>Name</p>
+			<p>Email</p>
+		</div>
 
-    <input class=searchField type="text" placeholder="Search bar (not functional)">
-    <div class=iconGroup
-         v-if="String(this.$router.currentRoute.value.fullPath).toLowerCase().includes('displaypatients')">
-      <img class=navigationIcon src="@/assets/icons/gridViewIcon.svg" @click="$router.push('/DisplayPatients')"
-           alt=""/>
-      <img class=navigationIcon src="@/assets/icons/listViewIcon.svg" @click="$router.push('/DisplayPatientsList')"
-           alt=""/>
-    </div>
-  </div>
+		<input class=searchField type="text" placeholder="Search bar (not functional)">
+		<div class=iconGroup
+			 v-if="String(this.$router.currentRoute.value.fullPath).toLowerCase().includes('displaypatients')">
+			<img class=navigationIcon src="@/assets/icons/gridViewIcon.svg" @click="$router.push('/DisplayPatients')"
+				 alt=""/>
+			<img class=navigationIcon src="@/assets/icons/listViewIcon.svg"
+				 @click="$router.push('/DisplayPatientsList')"
+				 alt=""/>
+		</div>
+	</div>
 
-  <div class="spacer"></div>
+	<div class="spacer"></div>
 
-  <div id="content-view" class="content-view">
-    <header>
-      <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125"/>
-
-      <div class="wrapper">
-        <nav>
-          <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/GraphView">Graph demo</RouterLink>
-          <RouterLink to="/DisplayPatients"> display patients</RouterLink>
-          <RouterLink to="/DisplayPatientsList"> display patients list</RouterLink>
-        </nav>
-      </div>
-    </header>
-    <RouterView/>
-  </div>
+	<div id="content-view" class="content-view">
+		<header>
+			<div class="wrapper">
+				<nav>
+					<RouterLink to="/">Home</RouterLink>
+					<RouterLink to="/GraphView">Graph demo</RouterLink>
+					<RouterLink to="/DisplayPatients"> display patients</RouterLink>
+					<RouterLink to="/DisplayPatientsList"> display patients list</RouterLink>
+				</nav>
+			</div>
+		</header>
+		<RouterView/>
+	</div>
 </template>
 
 
@@ -43,10 +42,10 @@ import {RouterLink, RouterView} from 'vue-router'
 import {defineComponent} from "vue";
 
 export default defineComponent({
-  components: {
-    RouterLink,
-    RouterView
-  },
+	components: {
+		RouterLink,
+		RouterView
+	},
 
 })
 
@@ -57,102 +56,97 @@ export default defineComponent({
 @import '@/assets/base.css';
 
 .searchField {
-  height: 70%;
-  width: 300px;
-  margin: auto;
-  opacity: 30%;
-  border-radius: 10px;
+	height: 70%;
+	width: 300px;
+	margin: auto;
+	opacity: 30%;
+	border-radius: 10px;
 }
 
 .spacer {
-  height: 75px;
+	height: 75px;
 }
 
 .iconGroup {
-  padding-right: 10px;
-  height: 100%;
-  display: flex;
-  align-items: center;
+	padding-right: 10px;
+	height: 100%;
+	display: flex;
+	align-items: center;
 }
 
 .content-view {
-  padding: 0;
-  margin: 100px;
+	padding: 0;
+	margin: 100px;
 }
 
 .top-bar {
-  z-index: 10;
-  height: 75px;
-  width: 100%;
-  top: 0;
-  left: 0;
-  background-color: lightgrey;
-  box-shadow: #2c3e50 5px 5px 5px;
-  display: flex;
-  align-items: center;
-  position: fixed;
+	z-index: 10;
+	height: 75px;
+	width: 100%;
+	top: 0;
+	left: 0;
+	background-color: lightgrey;
+	box-shadow: #2c3e50 5px 5px 5px;
+	display: flex;
+	align-items: center;
+	position: fixed;
 }
 
 .navigationIcon {
-  border: 1px black solid;
-  background-color: white;
-  height: 55%;
-  aspect-ratio: 1 / 1;
-  margin: 5px;
-  padding: 3px;
-  border-radius: 6px;
+	border: 1px black solid;
+	background-color: white;
+	height: 55%;
+	aspect-ratio: 1 / 1;
+	margin: 5px;
+	padding: 3px;
+	border-radius: 6px;
 }
 
 .user-icon {
-  margin: 10px;
-  width: 55px;
+	margin: 10px;
+	width: 55px;
 }
 
 #content-view {
-  /*max-width: 1280px; */
-  margin: 0 auto;
-  padding: 0;
+	/*max-width: 1280px; */
+	margin: 0 auto;
+	padding: 0;
 
-  font-weight: normal;
+	font-weight: normal;
 }
 
 header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+	line-height: 1.5;
+	max-height: 100vh;
 }
 
 a {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
+	text-decoration: none;
+	color: hsla(160, 100%, 37%, 1);
+	transition: 0.4s;
 }
 
 @media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+	a:hover {
+		background-color: hsla(160, 100%, 37%, 0.2);
+	}
 }
 
 nav {
-  width: 100%;
-  font-size: 1rem;
-  text-align: center;
-  margin-top: 2rem;
+	width: 100%;
+	font-size: 1rem;
+	text-align: center;
+	margin-top: 2rem;
 }
 
 nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
+	display: inline-block;
+	padding: 0 1rem;
+	border-left: 1px solid var(--color-border);
 }
 
 nav a:first-of-type {
-  border: 0;
+	border: 0;
 }
 
 /*
