@@ -3,8 +3,8 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, ref, watch, watchEffect} from "vue";
 import type {Ref} from "vue";
+import {ref, watchEffect} from "vue";
 
 import applySVG from "@/services/core/applySVG";
 import iconGraph from "@/services/graphs/iconGraph";

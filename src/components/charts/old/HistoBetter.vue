@@ -9,10 +9,10 @@
 <script>
 
 //import {unemployment} from "@/assets/chart/examples/unemployment.json";
-import {ref, onMounted } from "vue"
 
 
 import * as d3 from "d3"
+
 function Histogram2(data, {
   value = d => d, // convenience alias for x
   domain, // convenience alias for xDomain

@@ -8,23 +8,54 @@
     </nav>
 
     <div class="user-info">
-      {{theUser}}
-      <h2>Welcome {{user.name}} </h2>
-      <p class="user-id"> with id {{user.id}}</p>
+      <h2>Welcome {{ user.name }} </h2>
+      <p class="user-id"> with id {{ user.id }}</p>
     </div>
 
-    <router-view/>
+    <router-view
+        :data="data"
+        :median-data-in-hours="medianDataInHours"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import type {User} from "@/services/user";
-import {computed} from "vue";
+import type {Ref} from "vue"
+import {computed, onMounted, ref,} from "vue";
+import type {DateValue, Point} from "@/services/core/datatypes"
+import {addEdgesToSplit, bucketToMedian, SPLIT_BY_DAY, toBuckets} from "@/services/core/datatypes";
+import backend from "@/services/backend";
+
 const props = defineProps<{
   user: User,
 }>()
 
-const theUser = computed(() => { console.log("Reloading user"); return props.user })
+// Loading data
+let dataInDateValue: Ref<never[] | DateValue[]> = ref([])
+onMounted(() => {
+  loadData()
+})
+
+async function loadData() {
+  dataInDateValue.value = await backend.getCGMData(7)
+}
+
+const RESOLUTION = 96
+const dataToMedian = (data: DateValue[], split: number): Point[] => {
+  const splitData = toBuckets(data, split, RESOLUTION)
+  const median: Point[] = bucketToMedian(splitData)
+  addEdgesToSplit(median, split)
+  return median
+}
+const medianDataInHours = computed(() =>
+    dataInDateValue.value.length != 0 ?
+        dataToMedian(dataInDateValue.value, SPLIT_BY_DAY) :
+        []
+)
+
+const data = computed((): DateValue[] => dataInDateValue.value)
+
 </script>
 
 
