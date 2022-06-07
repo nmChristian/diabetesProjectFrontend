@@ -1,5 +1,6 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import {isAuthenticated} from "@/services/authentication";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,9 +21,17 @@ const router = createRouter({
             component: () => import('../views/authentication/SignUpView.vue')
         },
         {
-            path: '/JonasView',
-            name: 'JonasView',
-            component: () => import('../views/JonasView.vue')
+            path: '/GraphView',
+            name: 'GraphView',
+            component: () => import('../views/GraphView.vue'),
+            children: [
+                {
+                    path: "IconTest",
+                    name: "graphview.icontest",
+                    component: () => import("@/components/graphview/IconTest.vue"),
+                    props: true
+                }
+            ]
         },
         {
             path: "/DisplayPatients",
@@ -54,7 +63,19 @@ const router = createRouter({
             name: "patientInfo",
             component: () => import('../views/PatientInfo.vue')
         }
-    ]
-})
+    ],
+    linkActiveClass: "fullstack-active-link"
+});
+
+router.beforeEach((to, from, next) => {
+    if (to.path === "/sign-in" || to.path === "/sign-up") {
+        next()
+    } else if (isAuthenticated()) {
+        next()
+    } else {
+        next("/sign-in")
+    }
+});
+
 
 export default router

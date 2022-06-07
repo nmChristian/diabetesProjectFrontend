@@ -3,21 +3,23 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref, watchEffect} from "vue";
+import { ref, watchEffect} from "vue";
 import type {Ref} from "vue"
 
 import applySVG from "@/services/core/applySVG";
-import lineGraph from "@/services/graphs/lineGraph";
-import type {DateValue, Point} from "@/services/core/datatypes";
+import type {Point} from "@/services/core/datatypes";
+import lineGraphDaily from "@/services/graphs/refactorThis/lineGraphDaily";
 
 const div : Ref<HTMLDivElement | null> = ref(null)
 
 const props = defineProps<{
-  data : DateValue[],
+  data : Point[],
+  xDomain? : [number, number]
 }>()
 
 watchEffect(() => {
-  const chart = lineGraph(props.data, {})
+  const chart = lineGraphDaily(props.data,
+      {}, props.xDomain)
   applySVG(div, chart)
 })
 </script>

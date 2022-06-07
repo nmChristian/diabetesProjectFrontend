@@ -5,8 +5,8 @@
       v-bind:class ="{outerHolderSelected:(user.id === selected)}" >
     <div class="icon">
       <IconGraph
-          :median-data="data"
-          :status="status"></IconGraph>
+          :medianDataInHours="medianDataInHours"
+          :healthLevel="healthLevel"></IconGraph>
       <!--<img src="@/assets/logo.svg" class="icon"> -->
     </div>
     <div class="generalInfo">
@@ -18,16 +18,16 @@
 </template>
 
 <script setup lang = "ts">
-import {computed} from 'vue'
+import IconGraph from "@/components/charts/IconGraph.vue"
 import type {User} from "@/services/user"
 
 defineProps<{
   user: User,
   cpr: string,
-  data: object,
+  medianDataInHours: object,
   doctor: boolean,
   selected: number,
-  status: number,
+  healthLevel: number,
 }>()
 
 </script>

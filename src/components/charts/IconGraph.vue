@@ -1,22 +1,28 @@
 <template>
-  <svg ref="svg"></svg>
+  <div ref="div"></div>
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref, Ref} from "vue";
+import {computed, onMounted, ref, watch, watchEffect} from "vue";
+import type {Ref} from "vue";
 
-import {GraphDrawer} from "@/services/graphs/graphs"
-import type {DataPoint} from "@/services/graphs/graphs";
+import applySVG from "@/services/core/applySVG";
+import iconGraph from "@/services/graphs/iconGraph";
+import type {Point} from "@/services/core/datatypes";
+import type {HealthLevel} from "@/services/core/shared";
 
-const drawer = new GraphDrawer();
+const div : Ref<HTMLDivElement | null> = ref(null)
+
 const props = defineProps<{
-  status : number,
-  medianData : DataPoint[],
+  medianDataInHours : Point[],
+  healthLevel : HealthLevel,
 }>()
 
-const svg : Ref<SVGElement | null> = ref(null)
-onMounted(() => {
-  const chart = drawer.iconChart(props.medianData, drawer.colorScheme[props.status + 2], {})
-  drawer.applySVG(svg, chart)
+
+// WatchEffects gets called immediately and when any of the variables in it changes
+watchEffect(() => {
+  const chart = iconGraph(props.medianDataInHours, props.healthLevel, {})
+  applySVG(div, chart)
 })
+
 </script>
