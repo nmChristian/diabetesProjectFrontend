@@ -114,14 +114,14 @@ div a {
 	width: 200px;
 	padding-top: 3px;
 	padding-bottom: 3px;
-	border: 1px solid black;
+	border: 1px solid var(--vt-c-black);
 	border-radius: 15px;
 	font-size: 150%;
-	color: white;
+	color: var(--vt-c-white);
 	background-size: 300% 100%;
 	transition: all .4s ease-in-out;
-	background-image: linear-gradient(to right, #667eea, #764ba2, #6B8DD6, blueviolet);
-	box-shadow: 0 4px 15px 0 rgba(137, 43, 226, 0.4);
+	background-image: linear-gradient(to right, var(--color-secondary), var(--color-primary-dark), var(--color-secondary-pale), var(--color-primary));
+	box-shadow: 0 4px 15px 0 var(--color-primary-light);
 }
 
 .sign-up-button:hover {
