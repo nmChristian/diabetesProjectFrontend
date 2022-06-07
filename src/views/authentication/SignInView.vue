@@ -1,19 +1,16 @@
 <template>
-	<img src="@/assets/logo.svg" width="250" height="250" alt=""/>
+	<img src="@/assets/logo.svg" width="250" height="250" alt="" />
 	<div>
-		<animated-text-input label-text="E-mail" v-model='emailValue'/>
+		<animated-text-input label-text="E-mail" v-model='emailValue' />
 	</div>
 	<div>
-		<animated-text-input label-text="Password" type="password" v-model='passwordValue'/>
+		<animated-text-input label-text="Password" type="password" v-model='passwordValue' />
 	</div>
 	<div class="forgot-link">
 		<a href="https://example.com">Forgot your password?</a>
 	</div>
 	<div>
 		<button class="sign-in-button" @click="onSignInClick">Sign-in</button>
-	</div>
-	<div>
-
 	</div>
 	<p>Or</p>
 	<div class="sing-up-link">
@@ -22,9 +19,9 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from "vue";
+import { defineComponent } from "vue";
 import animatedTextInput from "../../components/input/AnimatedTextInput.vue"
-import {signIn} from "@/services/authentication";
+import { signIn } from "@/services/authentication";
 import router from "@/router";
 
 export default defineComponent({
@@ -102,12 +99,7 @@ div a {
 	box-shadow: 0 4px 15px 0 rgba(137, 43, 226, 0.4);
 }
 
-.sign-in-button:focus {
-	outline: none;
-}
-
 .sign-in-button:hover {
-	border: 2px solid black;
 	background-position: 99% 0;
 	transition: all .4s ease-in-out;
 }

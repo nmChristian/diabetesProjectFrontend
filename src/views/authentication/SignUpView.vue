@@ -124,12 +124,7 @@ div a {
 	box-shadow: 0 4px 15px 0 rgba(137, 43, 226, 0.4);
 }
 
-.sign-up-button:focus {
-	outline: none;
-}
-
 .sign-up-button:hover {
-	border: 2px solid black;
 	background-position: 99% 0;
 	transition: all .4s ease-in-out;
 }
