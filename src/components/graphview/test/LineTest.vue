@@ -28,7 +28,7 @@ import type {DateValue, Point} from "@/services/core/datatypes";
 
 const props = defineProps<{
   data: DateValue[],
-  medianDataInHours: Point[]
-}>()
+  medianDataInHours: Point[]}>
+()
 
 </script>

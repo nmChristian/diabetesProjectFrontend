@@ -5,20 +5,15 @@ import {CGM_RANGE, COLOR_SCHEME} from "@/services/core/shared";
 import {drawXAxis, drawYAxisCGM} from "@/services/core/graph/axisDrawer";
 import {generateSVG} from "@/services/core/graphMethods";
 import {drawHorizontalCGMIndicatorLines, drawVerticalLines} from "@/services/core/graph/lineDrawer";
+import {GraphLayout} from "@/services/core/graphtypes";
 
 export default function lineGraphDaily(points: Point[],
                                        {
-                                           marginTop = 20, // top margin, in pixels
-                                           marginRight = 30, // right margin, in pixels
-                                           marginBottom = 20, // bottom margin, in pixels
-                                           marginLeft = 40, // left margin, in pixels
-                                           width = 800, // outer width, in pixels
-                                           height = 400, // outer height, in pixels
-                                       }, xDomain: [number, number] | undefined = undefined) {
-
-    const {out, svg} = generateSVG(width, height,
-        {marginTop, marginRight, marginLeft, marginBottom})
-
+                                           graphLayout = new GraphLayout(800,400, 20, 30, 20, 40),
+                                       }, xDomain: [number, number] | undefined = undefined)
+{
+    const {width, height} = graphLayout
+    const {out, svg} = generateSVG(width, height, graphLayout)
 
     const xScale = d3.scaleLinear()
         // @ts-ignore

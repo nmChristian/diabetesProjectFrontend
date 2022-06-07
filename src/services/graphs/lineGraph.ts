@@ -1,31 +1,21 @@
 import * as d3 from "d3";
 import type {DateValue} from "@/services/core/datatypes";
 import {dateValueIsValid} from "@/services/core/datatypes";
-import {CGM_RANGE, CGM_THRESHOLDS} from "@/services/core/shared";
-import {generateSVG, highlightTargetLineStyle} from "@/services/core/graphMethods";
+import {CGM_RANGE} from "@/services/core/shared";
+import {generateSVG} from "@/services/core/graphMethods";
 import {generateGradientCGMCSSApply} from "@/services/graphs/generateGradientCSS";
 import {drawXAxis, drawYAxisCGM} from "@/services/core/graph/axisDrawer";
-import {
-    drawHorizontalCGMIndicatorLines,
-    drawHorizontalLines,
-    drawVerticalLines
-} from "@/services/core/graph/lineDrawer";
-import {timeDays} from "d3-time";
+import {drawHorizontalCGMIndicatorLines, drawVerticalLines} from "@/services/core/graph/lineDrawer";
+import {GraphLayout} from "@/services/core/graphtypes";
 
 
 export default function lineGraph(dateValues: DateValue[],
                                   {
-                                      marginTop = 20, // top margin, in pixels
-                                      marginRight = 30, // right margin, in pixels
-                                      marginBottom = 20, // bottom margin, in pixels
-                                      marginLeft = 40, // left margin, in pixels
-                                      width = 800, // outer width, in pixels
-                                      height = 400, // outer height, in pixels
-                                  }) {
-
-
-    const {out, svg} = generateSVG(width, height,
-        {marginTop, marginRight, marginLeft, marginBottom})
+                                      graphLayout = new GraphLayout(800,400, 20, 30, 20, 40),
+                                  })
+{
+    const {width, height} = graphLayout
+    const {out, svg} = generateSVG(width, height, graphLayout)
 
     const xScale = d3.scaleTime()
         .domain(d3.extent(dateValues, ([x,]) => x) as [Date, Date])

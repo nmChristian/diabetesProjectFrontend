@@ -18,7 +18,7 @@ export default function iconGraph(dataInHours: Point[], healthLevel: HealthLevel
     strokeWidth = 3,    // Background and stroke
 }) {
     const clr = healthLevelToColor(healthLevel)
-    const {out, svg} = generateSVG(width, height, {})
+    const {out, svg} = generateSVG(width, height)
     // Draw border
     out.attr("style", "border:" + clr + "  solid " + strokeWidth + "px; border-radius: 20px;")
 
