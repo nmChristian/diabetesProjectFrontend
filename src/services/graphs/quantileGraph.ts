@@ -6,25 +6,21 @@ import {generateGradientCGMCSSApply} from "@/services/graphs/generateGradientCSS
 import {generateSVG} from "@/services/core/graphMethods";
 import {drawXAxisHighlightEvery12Hours, drawYAxisCGM} from "@/services/core/graph/axisDrawer";
 import {drawHorizontalCGMIndicatorLines, drawVerticalLines} from "@/services/core/graph/lineDrawer";
+import {GraphLayout} from "@/services/core/graphtypes";
 
 export function quantileGraph(bucketSeriesOfQuantiles: d3.Series<BucketPoint, number>[],
                               quantilesUsedInBucket: number[],
                               medianPoints: Point[],
                               {
-                                  marginTop = 20, // top margin, in pixels
-                                  marginRight = 30, // right margin, in pixels
-                                  marginBottom = 20, // bottom margin, in pixels
-                                  marginLeft = 40, // left margin, in pixels
-                                  width = 800, // outer width, in pixels
-                                  height = 400, // outer height, in pixels
+                                  graphLayout = new GraphLayout(800,400, 20, 30, 20, 40),
                                   indicators = false,
-                                  curveType = d3.curveMonotoneX
-                              }) {
-    const {out, svg} = generateSVG(width, height,
-        {marginTop, marginRight, marginLeft, marginBottom})
+                                  curveType = d3.curveMonotoneX,
+                              })
+{
+    const {width, height, marginLeft} = graphLayout
+    const {out, svg} = generateSVG(graphLayout)
 
     //TODO: Add assert that can check if buckets of quantiles is the same size as quantiles
-
     const n = bucketSeriesOfQuantiles.length
     const centerIndex = Math.floor(n / 2)
 
@@ -61,7 +57,7 @@ export function quantileGraph(bucketSeriesOfQuantiles: d3.Series<BucketPoint, nu
         .y1(([, y1]) => yScale(y1))
 
     // Draw Area
-    const cssIDForGradient = generateGradientCGMCSSApply(svg, yScale)
+    const cssIDForGradient = generateGradientCGMCSSApply(svg, height)
     svg.append("g")
         .selectAll("path")
         .data(bucketSeriesOfQuantiles)

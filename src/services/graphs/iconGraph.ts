@@ -3,6 +3,7 @@ import type {Point} from "@/services/core/datatypes"
 import {pointIsValid} from "@/services/core/datatypes";
 import {CGM_RANGE, HealthLevel, healthLevelToColor} from "@/services/core/shared";
 import {generateSVG} from "@/services/core/graphMethods";
+import {GraphLayout} from "@/services/core/graphtypes";
 
 /**
  * Draws a small graph given the data (in hours)
@@ -13,12 +14,13 @@ import {generateSVG} from "@/services/core/graphMethods";
  * @param strokeWidth - The width of line in px
  */
 export default function iconGraph(dataInHours: Point[], healthLevel: HealthLevel, {
-    width = 80, // outer width, in pixels
-    height = 60, // outer height, in pixels
+    graphLayout = new GraphLayout(80, 60),
     strokeWidth = 3,    // Background and stroke
 }) {
+    const {width, height} = graphLayout
+    const {out, svg} = generateSVG(graphLayout)
+
     const clr = healthLevelToColor(healthLevel)
-    const {out, svg} = generateSVG(width, height, {})
     // Draw border
     out.attr("style", "border:" + clr + "  solid " + strokeWidth + "px; border-radius: 20px;")
 

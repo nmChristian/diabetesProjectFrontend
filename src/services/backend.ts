@@ -1,4 +1,8 @@
 import {getApiKey} from "@/services/authentication";
+import axios from "axios";
+import {timeSeriesToDateValue} from "@/services/core/datatypes";
+import type {DateValue} from "@/services/core/datatypes";
+import type {UserDetails} from "@/services/core/dbtypes";
 
 class Backend {
     public url: string
@@ -7,8 +11,23 @@ class Backend {
         this.url = "http://localhost:5000/api/v1"
     }
 
-    public getUrlData() {
-        return this.url + "/data/get"
+    public getDataURL = () => this.url + "/data/get"
+    public getNameURL = () => this.url + "/user"
+
+    public async getUserDetails () : Promise<UserDetails> {
+        const response = await axios.get(
+            this.getNameURL(),
+            this.generateHeader())
+        return response.data[0]
+    }
+
+    public async getCGMData (daysBack : number) : Promise<DateValue[]> {
+        const response = await axios.post(
+            this.getDataURL(),
+            this.getCGMDaysBack(daysBack),
+            this.generateHeader())
+
+        return timeSeriesToDateValue(response.data.cgm, v => v * 18)
     }
 
     /**
@@ -30,41 +49,13 @@ class Backend {
         }
     }
 
+
     /*
     *   import cgm_083 from "@/assets/demo/users/cgm_083.json"  // 95% 5%
         import cgm_123 from "@/assets/demo/users/cgm_123.json"  // 76% 21% 3%
         import cgm_200 from "@/assets/demo/users/cgm_200.json"  // 2% 80% 15% 4%
         import cgm_538 from "@/assets/demo/users/cgm_538.json"  // Lowest and nice 100%
     * */
-
-    public getHeader(user: number) {
-        let api = this.getHeader0();
-        if (user == 200) api = this.getHeader200()
-
-        return {
-            headers: api
-        }
-    }
-
-    readonly LAPTOP = false;
-
-    private getHeader0() {
-        if (this.LAPTOP) return {
-            api_key: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYyNzI3ZWNhYWNiNjQzY2FiYzY1Y2Y0ZiIsInRpbWVzdGFtcCI6MTY1MTY3NTUzMn0.7EOfpKouDZYiw5xueIKubKuJyUnj3YXVPfKJfRTCBi0"
-        }
-        else return {
-            api_key: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYyOWExYzAzOTRjMzBhYjMxMTllOWQwNyIsInRpbWVzdGFtcCI6MTY1NDI2NzEwNH0.o_Fggo1_c_8lwgqsy0reabizk4MdFGAWgE91pUjAKVg"
-        }
-    }
-
-    private getHeader200() {
-        if (this.LAPTOP) return {
-            api_key: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYyNzI3ZWNhYWNiNjQzY2FiYzY1ZDAxNyIsInRpbWVzdGFtcCI6MTY1MTY3NjY0NX0.xVffLQzpt0qtkwucOel24WHad_wTM3fGI9INLHCZUxk"
-        }
-        else return {
-            api_key: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYyOWExYzAzOTRjMzBhYjMxMTllOWRjZiIsInRpbWVzdGFtcCI6MTY1NDI2NzE5NH0.kN4bJCQx9S9Cq-pC6fnhGIG6GM3da8HBce0vUabBxiw"
-        }
-    }
 }
 
 const backend: Backend = new Backend()

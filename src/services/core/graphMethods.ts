@@ -1,6 +1,7 @@
 // Target is the are which is green
 import {COLOR_SCHEME} from "@/services/core/shared";
 import * as d3 from "d3";
+import {GraphLayout} from "@/services/core/graphtypes";
 
 export type SVG = d3.Selection<SVGGElement, undefined, null, undefined>
 
@@ -13,13 +14,8 @@ export const highlightTargetLineStyle = (i: number) =>
     "fill: none;" + (isTarget(i) ? targetLineStyle : otherLineStyle)
 
 
-export function generateSVG (width : number, height : number,
-                             {
-                                 marginTop = 0,
-                                 marginRight = 0,
-                                 marginBottom = 0,
-                                 marginLeft = 0
-                             }) {
+export function generateSVG (graphLayout : GraphLayout = new GraphLayout(0,0, 0, 0, 0, 0)) {
+    const {width, height, marginTop, marginRight, marginBottom, marginLeft} = graphLayout
 
     const out = d3.create("svg")
         .attr("width", width + marginLeft + marginRight)

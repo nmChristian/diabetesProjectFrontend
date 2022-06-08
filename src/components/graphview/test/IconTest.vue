@@ -28,11 +28,8 @@ import {HealthLevel} from "@/services/core/shared";
 import type {Point} from "@/services/core/datatypes";
 
 const props = defineProps<{
-  medianDataInHours : Point[]
+  medianDataInHours: Point[]
 }>()
 
+
 </script>
-
-<style scoped>
-
-</style>
