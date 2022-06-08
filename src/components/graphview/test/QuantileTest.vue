@@ -52,4 +52,3 @@ const bucketSeriesOfQuantiles = computed(() => {
   return quantileSeries
 })
 </script>
-

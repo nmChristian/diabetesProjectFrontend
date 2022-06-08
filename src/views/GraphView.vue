@@ -1,13 +1,9 @@
 <template>
   <div class="graphdiv">
-    <GraphWrapper/>
+    <graph-wrapper/>
   </div>
 </template>
 
 <script setup lang="ts">
 import GraphWrapper from "@/components/graphview/GraphWrapper.vue";
 </script>
-
-<style>
-
-</style>
