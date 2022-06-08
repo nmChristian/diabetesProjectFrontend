@@ -34,10 +34,7 @@ export default defineComponent({
 		animatedTextInput
 	},
 	setup() {
-		return {
-			v$: useVuelidate(),
-			validate: false
-		}
+		return {v$: useVuelidate()}
 	},
 	data() {
 		return {
