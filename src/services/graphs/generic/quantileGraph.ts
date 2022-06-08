@@ -85,7 +85,7 @@ export function quantileGraph(bucketSeriesOfQuantiles: d3.Series<BucketPoint, nu
 
     // Draw lines
     drawHorizontalCGMIndicatorLines(svg, xScale, yScale)
-    drawVerticalLines<number, number>(svg, xScale, yScale, [ 6, 12, 18, 24])
+    drawVerticalLines<number, number>(svg, xScale, yScale, [6, 12, 18, 24])
 
 
     // mg / dl text

@@ -25,7 +25,8 @@ const router = createRouter({
             name: 'GraphView',
             component: () => import('@/views/GraphView.vue'),
             redirect: {name: "graphview.cgmgraphstest"},
-            children: [
+            children:
+            [
                 {
                     path: "IconTest",
                     name: "graphview.icontest",
@@ -34,18 +35,23 @@ const router = createRouter({
                 {
                     path: "LineTest",
                     name: "graphview.linetest",
-                    component: () => import("@/components/graphview/test/LineTest.vue")
+                    component: () => import("@/components/graphview/test/LineTest.vue"),
                 },
                 {
                     path: "QuantileTest",
                     name: "graphview.quantiletest",
-                    component: () => import("@/components/graphview/test/QuantileTest.vue")
-                },                {
+                    component: () => import("@/components/graphview/test/QuantileTest.vue"),
+                },
+                {
                     path: "CGMGraphsTest",
                     name: "graphview.cgmgraphstest",
-                    component: () => import("@/components/graphview/test/CGMGraphsTest.vue")
+                    component: () => import("@/components/graphview/test/CGMGraphsTest.vue"),
                 },
-
+                {
+                    path: "TIRTest",
+                    name: "graphview.tirtest",
+                    component: () => import("@/components/graphview/test/TIRTest.vue"),
+                },
             ]
         },
         {

@@ -4,11 +4,9 @@ import {dateValueIsValid} from "@/services/core/datatypes";
 import {CGM_RANGE} from "@/services/core/shared";
 import {generateSVG} from "@/services/core/graphMethods";
 import {generateGradientCGMCSSApply} from "@/services/graphs/generic/generateGradientCSS";
-import {applyAxis, AxisDirection, drawYAxisCGM} from "@/services/core/graph/axisDrawer";
+import {applyAxis, drawYAxisCGM} from "@/services/core/graph/axisDrawer";
 import {drawHorizontalCGMIndicatorLines, drawVerticalLines} from "@/services/core/graph/lineDrawer";
 import {GraphLayout} from "@/services/core/graphtypes";
-import app from "@/App.vue";
-
 
 export default function lineGraph(dateValues: DateValue[],
                                   {
@@ -16,6 +14,7 @@ export default function lineGraph(dateValues: DateValue[],
                                   }) {
     const {width, height} = graphLayout
     const {out, svg} = generateSVG(graphLayout)
+
     const xScale = d3.scaleTime()
         .domain(d3.extent(dateValues, ([x,]) => x) as [Date, Date])
         .range([0, width])

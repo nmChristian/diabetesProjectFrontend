@@ -49,7 +49,7 @@ const lastDateInDataSet = computed( () => props.data.length === 0 ? new Date() :
 const lastThreeIntervals = computed( () => [0,1,2].map<Date>(back => interval.value.offset(interval.value(lastDateInDataSet.value), - back)))
 const dataSplitIntoIntervals = computed( () => d3.group(props.data, ([date,]) => interval.value(date)))
 
-const graphLayout = new GraphLayout(1000,100, 30, 40, 10, 40)
+const graphLayout = new GraphLayout(1000,100, 15, 40, 5, 40)
 
 
 </script>

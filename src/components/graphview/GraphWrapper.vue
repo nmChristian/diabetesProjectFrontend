@@ -5,6 +5,8 @@
       <router-link :to="{name: 'graphview.icontest'}">Icon</router-link>
       <router-link :to="{name: 'graphview.linetest'}">Line</router-link>
       <router-link :to="{name: 'graphview.quantiletest'}">Quantile</router-link>
+      <router-link :to="{name: 'graphview.tirtest'}">TIR (Time in Range)</router-link>
+
     </nav>
 
     <div class="user-info">
