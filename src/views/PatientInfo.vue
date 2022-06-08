@@ -1,11 +1,21 @@
 <template>
+
+  <!-- POP UP -->
+  <div v-if="$router.currentRoute.value.fullPath.includes('#')" class="popupBackground" @click="closePopUp()"> </div>
+  <div v-if="$router.currentRoute.value.fullPath.includes('#weight')" class="popup">
+
+    <h1>Ting om vægt</h1>
+  </div>
+
+
+
   <div class = holderInfo >
 
     <h1>This is patient info for: {{$route.params.id}} </h1>
 
     <div class="infoItem startInfoHolderLine">
         <info-element @showData="showElementData('HbALc')" title="HbALc:" :number= 0></info-element>
-        <info-element @showData="showElementData('Hypos')" title="Hypos:" :number= 1></info-element>
+        <info-element @showData="$router.push('#weight')" title="weight:" :number= 1></info-element>
         <info-element @showData="showElementData('Hypos')" title="Hypos:" :number= 2></info-element>
         <info-element @showData="showElementData('Hypos')" title="Hypos:" :number= 3></info-element>
         <info-element @showData="showElementData('Hypos')" title="Hypos:" :number= 4></info-element>
@@ -19,7 +29,7 @@
       <template v-for="diag in diagnoser">
         <p class="diagnoseAndMedicinItems">{{diag.name}}</p>
 
-        <p class="diagnoseAndMedicinItems">{{test(diag.medecin)}}</p>
+        <p class="diagnoseAndMedicinItems">{{ listToString(diag.medecin) }}</p>
       </template>
     </div>
  </div>
@@ -29,9 +39,19 @@
 
 <script setup>
 
-import {ref} from "vue";
 
-function test(inListe){
+
+import {ref} from "vue";
+import router from "../router";
+
+function closePopUp(){
+  let currentRoute = router.currentRoute.value.fullPath
+  let indexOfHash = currentRoute.indexOf("#")
+  let newRoute = currentRoute.substring(0,indexOfHash)
+  router.push(newRoute)
+}
+
+function listToString(inListe){
   let re =""
 
   if(inListe ===undefined ){
@@ -63,6 +83,26 @@ const diagnoser = [
 
 
 <style scoped>
+.popupBackground{
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  border-radius: 15px;
+  z-index: 11;
+}
+.popup{
+  position: fixed;
+  left: 15%;
+  top: 10%;
+  height: 80%;
+  width: 70%;
+  border-radius: 15px;
+  background: pink;
+  border: blue 1px dashed;
+  z-index: 12;
+}
 
 .infoItem{
   padding: 10px;
