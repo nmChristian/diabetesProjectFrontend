@@ -4,6 +4,7 @@
 
 <script setup lang="ts">
 import {computed} from "vue";
+import * as d3 from "d3"
 
 import Graph from "./shared/Graph.vue"
 import type {GraphLayout} from "@/services/core/graphtypes";
@@ -17,6 +18,6 @@ const props = defineProps<{
 }>()
 
 const graph = computed(() =>
-    forecastGraph(props.data, { graphLayout : props.graphLayout }))
+    forecastGraph(props.data, d3.timeMonday, { graphLayout : props.graphLayout }))
 
 </script>

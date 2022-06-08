@@ -8,9 +8,10 @@ import {generateGradientCGMCSSApply} from "@/services/graphs/generic/generateGra
 import {drawHorizontalLines, drawVerticalLines} from "@/services/core/graph/lineDrawer";
 import {drawXAxis, drawYAxis} from "@/services/core/graph/axisDrawer";
 import {fillHorizontalArea} from "@/services/core/graph/shapeDrawer";
+import type {TimeInterval} from "d3";
 
 //TODO: Implement måltider
-export default function forecastGraph(dateValues: DateValue[],
+export default function forecastGraph(dateValues: DateValue[], timeInterval : TimeInterval,
                                   {
                                       graphLayout = new GraphLayout(800,400, 20, 30, 20, 40),
                                   })
@@ -18,9 +19,9 @@ export default function forecastGraph(dateValues: DateValue[],
     const {width, height} = graphLayout
     const {out, svg} = generateSVG(graphLayout)
 
-    // Date is the first then by one week
-    const minDate = d3.min(dateValues, ([date,]) => date) as Date
-    const maxDate = d3.timeWeek.offset(minDate, 1)
+    // Show graph within this interval
+    const minDate = timeInterval(d3.min(dateValues, ([date,]) => date) as Date)
+    const maxDate = timeInterval.offset(minDate, 1)
 
     const xScale = d3.scaleTime()
         .domain([minDate, maxDate] )
