@@ -10,14 +10,16 @@ import Graph from "./shared/Graph.vue"
 import type {GraphLayout} from "@/services/core/graphtypes";
 import type {DateValue} from "@/services/core/datatypes";
 import forecastGraph from "@/services/graphs/forecastGraph";
+import type {TimeInterval} from "d3";
 
 
 const props = defineProps<{
   data : DateValue[],
+  timeInterval : TimeInterval,
   graphLayout? : GraphLayout,
 }>()
 
 const graph = computed(() =>
-    forecastGraph(props.data, d3.timeMonday, { graphLayout : props.graphLayout }))
+    forecastGraph(props.data, props.timeInterval, { graphLayout : props.graphLayout }))
 
 </script>
