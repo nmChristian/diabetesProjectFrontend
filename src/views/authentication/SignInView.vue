@@ -18,6 +18,9 @@
 	<div class="sing-up-link">
 		<a href="/sign-up">SIGN UP</a>
 	</div>
+	<div class="spinner-container">
+		<spinner v-show="loading"></spinner>
+	</div>
 </template>
 
 <script lang="ts">
@@ -27,19 +30,24 @@ import {signIn} from "@/services/authentication";
 import router from "@/router";
 import useVuelidate from "@vuelidate/core";
 import {required, email} from '@vuelidate/validators'
+import spinner from "../../components/spinner.vue";
 
 export default defineComponent({
 	name: "sign-in",
 	components: {
+		spinner,
 		animatedTextInput
 	},
 	setup() {
-		return {v$: useVuelidate()}
+		return {
+			v$: useVuelidate()
+		}
 	},
 	data() {
 		return {
 			emailValue: "",
-			passwordValue: ""
+			passwordValue: "",
+			loading: false
 		}
 	},
 	validations() {
@@ -54,9 +62,11 @@ export default defineComponent({
 			(this.$refs.password as HTMLFormElement).$emit('input');
 			(this.$refs.email as HTMLFormElement).$emit('input');
 			if (!this.v$.$invalid) {
+				this.loading = true;
 				if (await signIn(this.emailValue, this.passwordValue)) {
 					await router.push("/")
 				}
+				this.loading = false
 			}
 		}
 	}
@@ -83,6 +93,10 @@ p {
 
 div a {
 	text-decoration: underline;
+}
+
+.spinner-container {
+	margin-top: 3rem;
 }
 
 .forgot-link {
