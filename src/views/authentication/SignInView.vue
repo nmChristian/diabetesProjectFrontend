@@ -1,10 +1,12 @@
 <template>
 	<img src="@/assets/logo.svg" width="250" height="250" alt=""/>
 	<div>
-		<animated-text-input label-text="E-mail" v-model='emailValue'/>
+		<animated-text-input label-text="E-mail" v-model='emailValue' ref="email"
+							 @input="$refs.email.setError(v$.emailValue.$errors)"/>
 	</div>
 	<div>
-		<animated-text-input label-text="Password" type="password" v-model='passwordValue'/>
+		<animated-text-input label-text="Password" type="password" v-model='passwordValue' ref="password"
+							 @input="$refs.password.setError(v$.passwordValue.$errors)"/>
 	</div>
 	<div class="forgot-link">
 		<a href="https://example.com">Forgot your password?</a>
@@ -23,11 +25,19 @@ import {defineComponent} from "vue";
 import animatedTextInput from "../../components/input/AnimatedTextInput.vue"
 import {signIn} from "@/services/authentication";
 import router from "@/router";
+import useVuelidate from "@vuelidate/core";
+import {required, email} from '@vuelidate/validators'
 
 export default defineComponent({
 	name: "sign-in",
 	components: {
 		animatedTextInput
+	},
+	setup() {
+		return {
+			v$: useVuelidate(),
+			validate: false
+		}
 	},
 	data() {
 		return {
@@ -36,10 +46,21 @@ export default defineComponent({
 			apiKey: null
 		}
 	},
+	validations() {
+		return {
+			emailValue: {required, email},
+			passwordValue: {required}
+		}
+	},
 	methods: {
 		onSignInClick: async function () {
-			if (await signIn(this.emailValue, this.passwordValue)) {
-				await router.push("/")
+			this.v$.$touch();
+			(this.$refs.password as HTMLFormElement).$emit('input');
+			(this.$refs.email as HTMLFormElement).$emit('input');
+			if (!this.v$.$invalid) {
+				if (await signIn(this.emailValue, this.passwordValue)) {
+					await router.push("/")
+				}
 			}
 		}
 	}
