@@ -1,5 +1,4 @@
 <template>
-  <button onclick="this.isScrolled = (!this.isScrolled);alert('is sclorred is ' + this.isScrolled)">Skift + {{test()}}</button>
   <div class = holderInfo >
 
     <h1>This is patient info for: {{$route.params.id}} </h1>
@@ -99,6 +98,7 @@ const diagnoser = [
 }
 
 .holderInfo{
+  max-width: 1100px;
   padding: 2rem;
   margin: auto;
  width: 100%;
