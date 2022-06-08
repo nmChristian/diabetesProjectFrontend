@@ -4,7 +4,7 @@ import * as d3 from "d3";
 import {CGM_RANGE, COLOR_SCHEME} from "@/services/core/shared";
 import {drawXAxis, drawYAxisCGM} from "@/services/core/graph/axisDrawer";
 import {generateSVG} from "@/services/core/graphMethods";
-import {drawHorizontalCGMIndicatorLines, drawVerticalLines} from "@/services/core/graph/lineDrawer";
+import {drawHorizontalCGMIndicatorLines} from "@/services/core/graph/lineDrawer";
 import {GraphLayout} from "@/services/core/graphtypes";
 
 export default function lineGraphDaily(points: Point[],

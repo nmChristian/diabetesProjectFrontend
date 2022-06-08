@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Working line graph over the span of days</h1>
+    <h1>Vejrudsigt graf</h1>
     <forecast-graph
         :data="data"
         :graph-layout="graphLayout"
@@ -18,6 +18,6 @@ const props = defineProps<{
   medianDataInHours: Point[]}>
 ()
 
-const graphLayout = new GraphLayout(400,100, 30, 40, 40, 40)
+const graphLayout = new GraphLayout(1000,100, 30, 40, 40, 40)
 
 </script>

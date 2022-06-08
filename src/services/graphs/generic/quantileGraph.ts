@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import type {BucketPoint, Point} from "@/services/core/datatypes";
 import {pointIsValid} from "@/services/core/datatypes";
 import {CGM_RANGE, CGM_THRESHOLDS, COLOR_SCHEME} from "@/services/core/shared";
-import {generateGradientCGMCSSApply} from "@/services/graphs/generateGradientCSS";
+import {generateGradientCGMCSSApply} from "@/services/graphs/generic/generateGradientCSS";
 import {generateSVG} from "@/services/core/graphMethods";
 import {drawXAxisHighlightEvery12Hours, drawYAxisCGM} from "@/services/core/graph/axisDrawer";
 import {drawHorizontalCGMIndicatorLines, drawVerticalLines} from "@/services/core/graph/lineDrawer";

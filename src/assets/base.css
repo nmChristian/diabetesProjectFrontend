@@ -70,5 +70,5 @@ body {
 
 
 nav .fullstack-active-link {
-    font-weight: bold;
+    border-bottom: solid green 2px;
 }
