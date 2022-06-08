@@ -24,7 +24,6 @@
 .holder{
   display: grid;
   grid-template-columns: max-content auto;
-
   width: 100%;
   height: 100%;
 }
