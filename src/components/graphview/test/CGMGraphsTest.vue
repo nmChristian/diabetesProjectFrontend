@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Working line graph over the span of days</h1>
-    <line-graph
+    <forecast-graph
         :data="data"
         :graph-layout="graphLayout"
     />
@@ -9,9 +9,9 @@
 </template>
 
 <script setup lang="ts">
-import LineGraph from "@/components/charts/generic/LineGraph.vue"
 import type {DateValue, Point} from "@/services/core/datatypes";
 import {GraphLayout} from "@/services/core/graphtypes";
+import ForecastGraph from "@/components/charts/ForecastGraph.vue";
 
 const props = defineProps<{
   data: DateValue[],

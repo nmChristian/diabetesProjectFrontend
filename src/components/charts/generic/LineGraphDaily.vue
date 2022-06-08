@@ -8,7 +8,7 @@ import {computed} from "vue";
 
 import Graph from "../shared/Graph.vue"
 import type {Point} from "@/services/core/datatypes";
-import lineGraphDaily from "@/services/graphs/refactorThis/lineGraphDaily";
+import lineGraphDaily from "@/services/graphs/generic/lineGraphDaily";
 import type {GraphLayout} from "@/services/core/graphtypes";
 
 

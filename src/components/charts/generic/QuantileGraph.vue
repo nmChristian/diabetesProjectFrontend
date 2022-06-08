@@ -6,7 +6,7 @@
 import type {Ref} from "vue"
 import {computed, ref} from "vue";
 import Graph from "../shared/Graph.vue"
-import {quantileGraph} from "@/services/graphs/quantileGraph";
+import {quantileGraph} from "@/services/graphs/generic/quantileGraph";
 import type {BucketPoint, Point} from "@/services/core/datatypes";
 import type {GraphLayout} from "@/services/core/graphtypes";
 

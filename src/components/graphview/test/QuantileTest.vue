@@ -15,7 +15,7 @@ import QuantileGraph from "@/components/charts/generic/QuantileGraph.vue"
 import {computed} from "vue";
 import type {BucketPoint, DateValue, Point} from "@/services/core/datatypes";
 import {addEdgesToSplitBucket, SPLIT_BY_DAY, toBuckets} from "@/services/core/datatypes";
-import {calculateQuantiles, toBucketSeries} from "@/services/graphs/quantileGraph";
+import {calculateQuantiles, toBucketSeries} from "@/services/graphs/generic/quantileGraph";
 
 const props = defineProps<{
   data: DateValue[],
