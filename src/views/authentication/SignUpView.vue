@@ -4,24 +4,30 @@
 	</div>
 	<img src="@/assets/logo.svg" width="100" height="100" alt=""/>
 	<div>
-		<animated-text-input label-text="First name" v-model="firstNameValue"/>
+		<animated-text-input ref="firstName" label-text="First name" v-model="firstNameValue"
+							 @input="$refs.firstName.setError(v$.firstNameValue.$errors)"/>
 	</div>
 	<div>
-		<animated-text-input label-text="Last name" v-model="lastNameValue"/>
+		<animated-text-input ref="lastName" label-text="Last name" v-model="lastNameValue"
+							 @input="$refs.lastName.setError(v$.lastNameValue.$errors)"/>
 	</div>
 	<div class="date">
 		<label class="date-label">Date of birth
-			<input class="date-picker" type="date" v-model="dateValue"/>
+			<input ref="date" class="date-picker" type="date" v-model="dateValue"/>
 		</label>
 	</div>
 	<div>
-		<animated-text-input label-text="E-mail" v-model="emailValue"/>
+		<animated-text-input ref="email" label-text="E-mail" v-model="emailValue"
+							 @input="$refs.email.setError(v$.emailValue.$errors)"/>
 	</div>
 	<div>
-		<animated-text-input label-text="Password" type="password" v-model="passwordValue"/>
+		<animated-text-input ref="password" label-text="Password" type="password" v-model="passwordValue"
+							 @input="$refs.password.setError(v$.passwordValue.$errors)"/>
 	</div>
 	<div>
-		<animated-text-input label-text="Repeat password" type="password" v-model="passwordRepeatValue"/>
+		<animated-text-input ref="passwordRepeat" label-text="Repeat password" type="password"
+							 v-model="passwordRepeatValue"
+							 @input="$refs.passwordRepeat.setError(v$.passwordRepeatValue.$errors)"/>
 	</div>
 	<div>
 		<button class="sign-up-button" @click="onSignUpClick">Sign up</button>
@@ -37,36 +43,63 @@ import animatedTextInput from "../../components/input/AnimatedTextInput.vue"
 import {signIn, signUp} from "@/services/authentication";
 import router from "@/router";
 import {defineComponent} from "vue";
+import useVuelidate from "@vuelidate/core";
+import {email, required, sameAs, helpers, between} from "@vuelidate/validators";
 
 export default defineComponent({
 	components: {
 		animatedTextInput
 	},
+	setup() {
+		return {v$: useVuelidate()}
+	},
 	data() {
 		return {
-			emailValue: "",
 			firstNameValue: "",
 			lastNameValue: "",
 			dateValue: "",
+			emailValue: "",
 			passwordValue: "",
 			passwordRepeatValue: "",
 		}
 	},
-	methods: {
-		onSignUpClick: async function () {
-			if (await signUp(this.emailValue, this.firstNameValue, this.lastNameValue, this.dateValue, this.passwordValue, this.passwordRepeatValue)) {
-				if (await signIn(this.emailValue, this.passwordValue)) {
-					await router.push("/")
-				}
+	validations() {
+		return {
+			firstNameValue: {required},
+			lastNameValue: {required},
+			dateValue: {
+				required: required,
+			},
+			emailValue: {required, email},
+			passwordValue: {required},
+			passwordRepeatValue: {
+				required: required,
+				sameAs: sameAs(this.passwordValue)
 			}
 		}
+	},
+	methods: {
+		onSignUpClick: async function () {
+			this.v$.$touch();
+			(this.$refs.firstName as HTMLFormElement).$emit('input');
+			(this.$refs.lastName as HTMLFormElement).$emit('input');
+			(this.$refs.email as HTMLFormElement).$emit('input');
+			(this.$refs.password as HTMLFormElement).$emit('input');
+			(this.$refs.passwordRepeat as HTMLFormElement).$emit('input');
+
+			if (!this.v$.$invalid) {
+				if (await signUp(this.emailValue, this.firstNameValue, this.lastNameValue, this.dateValue, this.passwordValue, this.passwordRepeatValue)) {
+					if (await signIn(this.emailValue, this.passwordValue)) {
+						await router.push("/")
+					}
+				}
+			}
+		},
 	}
 })
 </script>
 
 <style scoped>
-
-
 div {
 	display: block;
 	margin: auto;
