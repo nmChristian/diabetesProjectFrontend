@@ -17,8 +17,13 @@ export default function forecastGraph(dateValues: DateValue[],
 {
     const {width, height} = graphLayout
     const {out, svg} = generateSVG(graphLayout)
+
+    // Date is the first then by one week
+    const minDate = d3.min(dateValues, ([date,]) => date) as Date
+    const maxDate = d3.timeWeek.offset(minDate, 1)
+
     const xScale = d3.scaleTime()
-        .domain(d3.extent(dateValues, ([x,]) => x) as [Date, Date])
+        .domain([minDate, maxDate] )
         .range([0, width])
 
     const yScale = d3.scaleLinear(CGM_RANGE, [height, 0])
