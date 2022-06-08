@@ -10,17 +10,29 @@ export {applyAxis, drawXAxisHighlightEvery12Hours, drawYAxisCGM}
 export type AxisModifier<Domain extends AxisDomain> = {
     xOffset?: number,
     yOffset?: number,
-    css? : ValueFn<d3.BaseType, unknown, string>,
+    textCSS? : ValueFn<d3.BaseType, unknown, string>,
+    lineCSS? : ValueFn<d3.BaseType, unknown, string>,
+    removeDomain? : boolean,
 }
 
 export enum AxisDirection {Top, Right, Left, Bottom}
 
-function applyAxis<Domain extends AxisDomain> (svg: SVG, axis : Axis<Domain>, axisModifier : AxisModifier<Domain>) {
-    svg.append("g")
+function applyAxis<Domain extends AxisDomain> (svg: SVG, axis : Axis<Domain>, axisModifier : AxisModifier<Domain>) : d3.Selection<SVGGElement, undefined, null, undefined> {
+    const svgAxis = svg.append("g")
         .attr("transform", "translate(" + (axisModifier.xOffset ?? 0) + "," + (axisModifier.yOffset ?? 0) + ")" )
         .call(axis)
+
+    svgAxis
         .selectAll("text")
-        .attr("style", axisModifier.css ?? "")
+        .attr("style", axisModifier.textCSS ?? "")
+
+    svgAxis.selectAll(".tick line")
+        .attr("style", axisModifier.lineCSS ?? "")
+
+    if (axisModifier.removeDomain === true)
+        svgAxis.select(".domain").remove()
+
+    return svgAxis
 }
 
 function drawYAxisCGM<Domain extends AxisDomain>(svg: SVG, yScale: d3.AxisScale<Domain>) {
@@ -30,7 +42,7 @@ function drawYAxisCGM<Domain extends AxisDomain>(svg: SVG, yScale: d3.AxisScale<
 
     const axis = d3.axisLeft(yScale)
         .tickValues(CGM_THRESHOLDS.map(d => d.x0) as Iterable<Domain>)
-    applyAxis(svg, axis, {css : (d, i) => highlightTarget(i)})
+    applyAxis(svg, axis, {textCSS : (d, i) => highlightTarget(i)})
 }
 
 function drawXAxisHighlightEvery12Hours(svg: SVG, xScale: d3.AxisScale<number>, height: number) {
@@ -41,7 +53,7 @@ function drawXAxisHighlightEvery12Hours(svg: SVG, xScale: d3.AxisScale<number>, 
     )
     const axis = d3.axisBottom(xScale)
         .tickFormat(d => d + ":00")
-    applyAxis(svg, axis, {yOffset: height, css : textCSS})
+    applyAxis(svg, axis, {yOffset: height, textCSS : textCSS})
 }
 
 

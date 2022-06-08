@@ -40,7 +40,7 @@ export default function lineGraphDaily(points: Point[],
 
     // Axis
     const xAxis = d3.axisBottom(xScale).tickFormat(d => d + ":00")
-    applyAxis<number>(svg, xAxis, { yOffset: height, css: d => "font-weight: " + (d == 12 ? "bold;" : "normal;")})
+    applyAxis<number>(svg, xAxis, { yOffset: height, textCSS: d => "font-weight: " + (d == 12 ? "bold;" : "normal;")})
     drawYAxisCGM(svg, yScale)
 
     return out.node()

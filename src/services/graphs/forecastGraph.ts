@@ -59,31 +59,34 @@ export default function forecastGraph(dateValues: DateValue[], timeInterval : Ti
     // Draw rectangle to show target area
     fillHorizontalArea<Date, number>(svg, xScale, yScale, CGM_TARGET[0], CGM_TARGET[1], "fill: #3c5e66; opacity: .1; ");
 
-
     // Draw lines
-    //@ts-ignore
-    const yLines = [yScale.domain(), CGM_TARGET].flat()
-    // If it is the target area
-    const yCSS = (d : any, i : number) => (i >= yLines.length - CGM_TARGET.length) ?
-        "stroke-width: .5; opacity: 1; stroke: black;" :
-        "stroke-width: .5; opacity: .2; stroke: black;"
-    drawHorizontalLines<Date, number>(svg, xScale, yScale,
-        yLines, yCSS)
-    drawVerticalLines<Date, number>(svg, xScale, yScale,
-        // List of days between start and stop
-        xScale.ticks(d3.timeDay))
+    const lineCSS = () => "opacity: .3; stroke: black;"
+    // @ts-ignore
+    const horizontalLines = [yScale.domain(), CGM_TARGET].flat()
+    drawHorizontalLines(svg, xScale, yScale, horizontalLines, lineCSS)
+
+    const verticalLines = xScale.ticks(d3.timeDay)
+    drawVerticalLines(svg, xScale, yScale, verticalLines, lineCSS)
+
 
     // Axis
-    console.log(xScale.ticks(d3.timeDay))
+    // Remove last day of the week
+    const xAxisValues = xScale.ticks(d3.timeDay)
+    xAxisValues.pop()
 
-    const xAxis = d3.axisTop(xScale)
-        .tickValues(xScale.ticks())
+    const xAxis = d3.axisTop<Date>(xScale)
+        .tickValues(xAxisValues)
         .tickSize(0)
-    applyAxis(svg, xAxis, {yOffset: height})
+        .tickFormat(d => d3.timeFormat("%A")(d))
+
+    // TODO: Fix this hack where you just offset the label
+    applyAxis(svg, xAxis, {xOffset: 40, yOffset: 0, removeDomain: true})
 
     const yAxis = d3.axisLeft(yScale)
+        .tickSize(0)
         .tickValues(CGM_TARGET)
-    applyAxis(svg, yAxis, { css : () => "font-weight: bold;"} )
+
+    applyAxis(svg, yAxis, { textCSS : () => "font-weight: bold;", removeDomain: true} )
 
     return out.node()
 }

@@ -12,6 +12,7 @@
     }
   ],
   "compilerOptions": {
+    "target": "es6",
     "lib": [
       "es2019"
     ]
