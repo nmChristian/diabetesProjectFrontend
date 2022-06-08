@@ -67,19 +67,18 @@ export default defineComponent({
 
 <style scoped>
 img {
-	display: block;
+	display: flex;
 	margin: auto;
 	padding: 2rem;
 }
 
 div {
-	display: block;
 	margin: auto;
 	padding: 0.2em;
 }
 
 p {
-	top: 80px;
+	top: 3em;
 	text-align: center;
 }
 
@@ -88,22 +87,23 @@ div a {
 }
 
 .forgot-link {
-	font-size: 0.8rem;
+	top: -0.6rem;
+	padding-left: 12rem;
+	font-size: 0.8em;
 	text-align: center;
-	bottom: 12px;
-	left: 100px;
+
 }
 
 .sing-up-link {
-	top: 80px;
-	font-size: 0.8rem;
+	top: 3.5em;
+	font-size: 0.8em;
 	text-align: center;
 }
 
 .sign-in-button {
 	display: block;
 	margin: auto;
-	top: 20px;
+	top: 1rem;
 	width: 200px;
 	padding-top: 3px;
 	padding-bottom: 3px;
