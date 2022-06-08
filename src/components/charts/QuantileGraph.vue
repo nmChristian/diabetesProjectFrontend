@@ -1,13 +1,11 @@
 <template>
-  <div ref="div"></div>
+  <Graph :svg="graph"/>
 </template>
-
 
 <script setup lang="ts">
 import type {Ref} from "vue"
-import {ref, watchEffect} from "vue";
-
-import applySVG from "@/services/core/applySVG";
+import {computed, ref} from "vue";
+import Graph from "./shared/Graph.vue"
 import {quantileGraph} from "@/services/graphs/quantileGraph";
 import type {BucketPoint, Point} from "@/services/core/datatypes";
 import type {GraphLayout} from "@/services/core/graphtypes";
@@ -21,12 +19,9 @@ const props = defineProps<{
   graphLayout? : GraphLayout,
 }>()
 
-watchEffect(() => {
-  const chart = quantileGraph(
-      props.bucketSeriesOfQuantiles,
-      props.quantilesUsedInBucket,
-      props.medianDataInHours,
-      { graphLayout : props.graphLayout })
-  applySVG(div, chart)
-})
+const graph = computed(() =>quantileGraph(
+    props.bucketSeriesOfQuantiles,
+    props.quantilesUsedInBucket,
+    props.medianDataInHours,
+    { graphLayout : props.graphLayout }))
 </script>

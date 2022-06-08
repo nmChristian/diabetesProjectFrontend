@@ -16,7 +16,6 @@ export default function lineGraph(dateValues: DateValue[],
 {
     const {width, height} = graphLayout
     const {out, svg} = generateSVG(graphLayout)
-    console.log(graphLayout)
     const xScale = d3.scaleTime()
         .domain(d3.extent(dateValues, ([x,]) => x) as [Date, Date])
         .range([0, width])
