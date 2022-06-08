@@ -39,8 +39,7 @@ export default defineComponent({
 	data() {
 		return {
 			emailValue: "",
-			passwordValue: "",
-			apiKey: null
+			passwordValue: ""
 		}
 	},
 	validations() {
