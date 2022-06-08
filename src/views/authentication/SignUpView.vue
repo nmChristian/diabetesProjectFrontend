@@ -36,6 +36,9 @@
 	<div class="sing-in-link">
 		<a href="/sign-in">SIGN IN</a>
 	</div>
+	<div class="spinner-container">
+		<spinner v-show="loading"></spinner>
+	</div>
 </template>
 
 <script lang="ts">
@@ -45,9 +48,11 @@ import router from "@/router";
 import {defineComponent} from "vue";
 import useVuelidate from "@vuelidate/core";
 import {email, required, sameAs, helpers, between} from "@vuelidate/validators";
+import spinner from "../../components/spinner.vue";
 
 export default defineComponent({
 	components: {
+		spinner,
 		animatedTextInput
 	},
 	setup() {
@@ -61,6 +66,7 @@ export default defineComponent({
 			emailValue: "",
 			passwordValue: "",
 			passwordRepeatValue: "",
+			loading: false
 		}
 	},
 	validations() {
@@ -88,11 +94,13 @@ export default defineComponent({
 			(this.$refs.passwordRepeat as HTMLFormElement).$emit('input');
 
 			if (!this.v$.$invalid) {
+				this.loading = true;
 				if (await signUp(this.emailValue, this.firstNameValue, this.lastNameValue, this.dateValue, this.passwordValue, this.passwordRepeatValue)) {
 					if (await signIn(this.emailValue, this.passwordValue)) {
 						await router.push("/")
 					}
 				}
+				this.loading = false;
 			}
 		},
 	}
@@ -119,7 +127,7 @@ img {
 }
 
 p {
-	top: 80px;
+	top: 3rem;
 	text-align: center;
 }
 
@@ -134,10 +142,13 @@ div a {
 }
 
 .sing-in-link {
-	top: 80px;
+	margin-top: 2.75rem;
 	font-size: 0.8rem;
 	text-align: center;
-	margin-bottom: 100px;
+}
+
+.spinner-container {
+	margin-top: 1rem;
 }
 
 .sign-up-button {

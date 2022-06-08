@@ -88,7 +88,8 @@ input:focus {
 
 input:focus ~ .label,
 .input:not(:placeholder-shown).input:not(:focus) ~ label {
-	top: -0.3rem;
+	top: -0.35rem;
+	height: 13px;
 	font-size: 50%;
 	background-color: var(--color-background);
 }
