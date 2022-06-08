@@ -12,6 +12,7 @@
     }
   ],
   "compilerOptions": {
+    "importsNotUsedAsValues": "error",
     "target": "es6",
     "lib": [
       "es2019"
