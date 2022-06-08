@@ -1,14 +1,16 @@
 <template>
 	<div class="form">
-		<input class="input" placeholder=" " :type="type" :value='modelValue'
+		<input class="input" :class="{error: !!errorText}" placeholder=" " :type="type" :value='modelValue'
 			   @input='$emit("update:modelValue", $event.target.value)'/>
 		<label class="label">{{ labelText }}</label>
+		<span class="error-text"> {{ errorText }}</span>
 	</div>
 </template>
 
 <script lang="ts">
 
 import {defineComponent} from "vue";
+import type {ErrorObject} from "@vuelidate/core";
 
 export default defineComponent({
 	name: "animatedTextInput",
@@ -18,21 +20,33 @@ export default defineComponent({
 			type: String,
 			default: 'text'
 		},
-		modelValue: String
+		modelValue: String,
 	},
+	data() {
+		return {
+			errorText: ''
+		}
+	},
+	methods: {
+		setError(errors: ErrorObject[]) {
+			if (errors.length > 0) {
+				this.errorText = errors[0].$message.toString()
+			} else {
+				this.errorText = ""
+			}
+		}
+	}
 
 })
 </script>
 
 <style scoped>
 .form {
-	position: relative;
 	width: 20rem;
 	font-size: 1.4rem;
 }
 
 input {
-	position: absolute;
 	width: 100%;
 	padding-left: 0.6rem;
 	background: none;
@@ -44,12 +58,20 @@ input {
 }
 
 label {
-	top: -1px;
+	position: absolute;
+	top: 3px;
 	left: 0.6rem;
 	transition: all .4s;
-	background-color: var(--color-background);
 	color: var(--vt-c-text-light-2);
 	pointer-events: none;
+	user-select: none;
+}
+
+span {
+	display: flex;
+	justify-content: right;
+	font-size: 0.5em;
+	color: var(--color-error)
 }
 
 input:hover {
@@ -60,9 +82,14 @@ input:focus {
 	border: 1px solid var(--color-primary);
 }
 
+.error {
+	border: 1px solid var(--color-error) !important;
+}
+
 input:focus ~ .label,
 .input:not(:placeholder-shown).input:not(:focus) ~ label {
-	top: -1.4rem;
+	top: -0.3rem;
 	font-size: 50%;
+	background-color: var(--color-background);
 }
 </style>
