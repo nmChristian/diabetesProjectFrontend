@@ -14,8 +14,8 @@ export const highlightTargetLineStyle = (i: number) =>
     "fill: none;" + (isTarget(i) ? targetLineStyle : otherLineStyle)
 
 
-export function generateSVG (width : number, height : number, graphLayout : GraphLayout = new GraphLayout(0,0, 0, 0, 0, 0)) {
-    const {marginTop, marginRight, marginBottom, marginLeft} = graphLayout
+export function generateSVG (graphLayout : GraphLayout = new GraphLayout(0,0, 0, 0, 0, 0)) {
+    const {width, height, marginTop, marginRight, marginBottom, marginLeft} = graphLayout
 
     const out = d3.create("svg")
         .attr("width", width + marginLeft + marginRight)

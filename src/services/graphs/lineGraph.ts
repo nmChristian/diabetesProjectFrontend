@@ -15,8 +15,8 @@ export default function lineGraph(dateValues: DateValue[],
                                   })
 {
     const {width, height} = graphLayout
-    const {out, svg} = generateSVG(width, height, graphLayout)
-
+    const {out, svg} = generateSVG(graphLayout)
+    console.log(graphLayout)
     const xScale = d3.scaleTime()
         .domain(d3.extent(dateValues, ([x,]) => x) as [Date, Date])
         .range([0, width])
@@ -32,7 +32,7 @@ export default function lineGraph(dateValues: DateValue[],
 
     svg.append("path")
         .attr("fill", "none")
-        .attr("style", "stroke: " + generateGradientCGMCSSApply(svg, yScale) + ";") // + getLinearGradientCGMCSS() + ";")  url(#line-gradient)
+        .attr("style", "stroke: " + generateGradientCGMCSSApply(svg, height) + ";") // + getLinearGradientCGMCSS() + ";")  url(#line-gradient)
         .attr("stroke-width", 3)
         .attr("d", lineGen)
 

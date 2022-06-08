@@ -13,7 +13,7 @@ export default function lineGraphDaily(points: Point[],
                                        }, xDomain: [number, number] | undefined = undefined)
 {
     const {width, height} = graphLayout
-    const {out, svg} = generateSVG(width, height, graphLayout)
+    const {out, svg} = generateSVG(graphLayout)
 
     const xScale = d3.scaleLinear()
         // @ts-ignore

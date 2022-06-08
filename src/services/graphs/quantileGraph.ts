@@ -18,7 +18,7 @@ export function quantileGraph(bucketSeriesOfQuantiles: d3.Series<BucketPoint, nu
                               })
 {
     const {width, height, marginLeft} = graphLayout
-    const {out, svg} = generateSVG(width, height, graphLayout)
+    const {out, svg} = generateSVG(graphLayout)
 
     //TODO: Add assert that can check if buckets of quantiles is the same size as quantiles
     const n = bucketSeriesOfQuantiles.length
@@ -57,7 +57,7 @@ export function quantileGraph(bucketSeriesOfQuantiles: d3.Series<BucketPoint, nu
         .y1(([, y1]) => yScale(y1))
 
     // Draw Area
-    const cssIDForGradient = generateGradientCGMCSSApply(svg, yScale)
+    const cssIDForGradient = generateGradientCGMCSSApply(svg, height)
     svg.append("g")
         .selectAll("path")
         .data(bucketSeriesOfQuantiles)
