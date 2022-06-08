@@ -3,6 +3,7 @@ import axios from "axios";
 import {timeSeriesToDateValue} from "@/services/core/datatypes";
 import type {DateValue} from "@/services/core/datatypes";
 import type {UserDetails} from "@/services/core/dbtypes";
+import * as d3 from "d3";
 
 class Backend {
     public url: string
@@ -22,9 +23,11 @@ class Backend {
     }
 
     public async getCGMData (daysBack : number) : Promise<DateValue[]> {
+        const daysSinceLastData = d3.timeDays(new Date("2022-01-29"), new Date()).length
+
         const response = await axios.post(
             this.getDataURL(),
-            this.getCGMDaysBack(daysBack),
+            this.getCGMDaysBack(daysSinceLastData + daysBack),
             this.generateHeader())
 
         return timeSeriesToDateValue(response.data.cgm, v => v * 18)
@@ -34,13 +37,8 @@ class Backend {
      * Returns the data type that is used to request the GCM data N days back
      * @param daysBack - The amount of days we have to go back
      */
-    public getCGMDaysBack(daysBack: number) {
-        const daysSince = (new Date().getTime() - new Date("2022-01-30").getTime()) / (3600 * 1000 * 24)
-        return {
-            ndays: Math.ceil(daysBack + daysSince),
-            show: ["cgm"]
-        }
-    }
+    public getCGMDaysBack = (daysBack: number) => ({ ndays: daysBack, show: ["cgm"] })
+
 
     public generateHeader() : { headers: { api_key: string } } {
         const api : string = getApiKey() ?? ""
