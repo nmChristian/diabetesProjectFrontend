@@ -61,6 +61,14 @@ const router = createRouter({
                     //TODO håndter id der ikke eksistere
                     path: "patientInfo/:id",
                     component: () => import('../views/PatientInfo.vue')
+                },
+                {
+                    path: "",
+                    component: () => import('../views/Summary.vue')
+                },
+                {
+                    path: "patientInfo/",
+                    component: () => import('../views/Summary.vue')
                 }
             ]
         },

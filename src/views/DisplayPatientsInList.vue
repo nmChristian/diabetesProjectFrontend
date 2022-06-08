@@ -5,8 +5,8 @@
     </PatientsFullList>
 
     <div class="info">
-      <RouterView />
-      <h1>{{$route.params.id}}</h1>
+      <RouterView class="routerInfo" />
+      <!--<h1>{{$route.params.id}}</h1> -->
     </div>
   </div>
 </template>
@@ -16,16 +16,21 @@
 </script>
 
 <style scoped>
-.holder{
-
-  overflow: auto;
-  flex: 1;
+.routerInfo{
+  height: 100%;
   width: 100%;
 }
+
+.holder{
+  display: grid;
+  grid-template-columns: max-content auto;
+
+  width: 100%;
+  height: 100%;
+}
 .list{
-  display: inline-block;
 }
 .info{
-  display: inline-block;
+  height: 100%;
 }
 </style>
