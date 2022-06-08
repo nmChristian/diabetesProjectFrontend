@@ -2,13 +2,13 @@ import type {DateValue} from "@/services/core/datatypes";
 import {dateValueIsValid} from "@/services/core/datatypes";
 import {GraphLayout} from "@/services/core/graphtypes";
 import {generateSVG} from "@/services/core/graphMethods";
+import type {TimeInterval} from "d3";
 import * as d3 from "d3";
 import {CGM_RANGE, CGM_TARGET} from "@/services/core/shared";
 import {generateGradientCGMCSSApply} from "@/services/graphs/generic/generateGradientCSS";
 import {drawHorizontalLines, drawVerticalLines} from "@/services/core/graph/lineDrawer";
-import {drawXAxis, drawYAxis} from "@/services/core/graph/axisDrawer";
+import {applyAxis} from "@/services/core/graph/axisDrawer";
 import {fillHorizontalArea} from "@/services/core/graph/shapeDrawer";
-import type {TimeInterval} from "d3";
 
 //TODO: Implement måltider
 export default function forecastGraph(dateValues: DateValue[], timeInterval : TimeInterval,
@@ -26,6 +26,7 @@ export default function forecastGraph(dateValues: DateValue[], timeInterval : Ti
     const xScale = d3.scaleTime()
         .domain([minDate, maxDate] )
         .range([0, width])
+
 
     const yScale = d3.scaleLinear(CGM_RANGE, [height, 0])
 
@@ -70,12 +71,19 @@ export default function forecastGraph(dateValues: DateValue[], timeInterval : Ti
         yLines, yCSS)
     drawVerticalLines<Date, number>(svg, xScale, yScale,
         // List of days between start and stop
-        //@ts-ignore
-        [d3.timeDays(xScale.domain()[0], xScale.domain()[1]), xScale.domain()[1]].flat())
+        xScale.ticks(d3.timeDay))
 
     // Axis
-    drawXAxis(svg, xScale, height)
-    drawYAxis(svg, yScale, () => "font-weight: bold;", CGM_TARGET )
+    console.log(xScale.ticks(d3.timeDay))
+
+    const xAxis = d3.axisTop(xScale)
+        .tickValues(xScale.ticks())
+        .tickSize(0)
+    applyAxis(svg, xAxis, {yOffset: height})
+
+    const yAxis = d3.axisLeft(yScale)
+        .tickValues(CGM_TARGET)
+    applyAxis(svg, yAxis, { css : () => "font-weight: bold;"} )
 
     return out.node()
 }

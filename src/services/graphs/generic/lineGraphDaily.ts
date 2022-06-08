@@ -2,7 +2,7 @@ import type {Point} from "@/services/core/datatypes";
 import {pointIsValid} from "@/services/core/datatypes";
 import * as d3 from "d3";
 import {CGM_RANGE, COLOR_SCHEME} from "@/services/core/shared";
-import {drawXAxis, drawYAxisCGM} from "@/services/core/graph/axisDrawer";
+import {applyAxis, AxisDirection, drawYAxisCGM} from "@/services/core/graph/axisDrawer";
 import {generateSVG} from "@/services/core/graphMethods";
 import {drawHorizontalCGMIndicatorLines} from "@/services/core/graph/lineDrawer";
 import {GraphLayout} from "@/services/core/graphtypes";
@@ -39,7 +39,8 @@ export default function lineGraphDaily(points: Point[],
     drawHorizontalCGMIndicatorLines(svg, xScale, yScale)
 
     // Axis
-    drawXAxis(svg, xScale, height, (d) => "font-weight: " + (d == 12 ? "bold;" : "normal;") , (d) => d + ":00")
+    const xAxis = d3.axisBottom(xScale).tickFormat(d => d + ":00")
+    applyAxis<number>(svg, xAxis, { yOffset: height, css: d => "font-weight: " + (d == 12 ? "bold;" : "normal;")})
     drawYAxisCGM(svg, yScale)
 
     return out.node()
