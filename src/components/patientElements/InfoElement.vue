@@ -27,10 +27,11 @@ export default {
   }
   .inderBox{
     padding: 5px;
+    border: 1px solid transparent;
+    border-radius: 5px;
   }
   .inderBox:hover{
-    border: solid 1px #555;
-    border-radius: 5px;
+    border-color: #555;
   }
   .title{
     color: #181818;

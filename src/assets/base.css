@@ -70,7 +70,9 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-
-nav .fullstack-active-link {
-    border-bottom: solid green 2px;
+nav>a {
+    border-bottom: 2px solid transparent;
+}
+nav>.fullstack-active-link {
+    border-bottom-color: green;
 }
