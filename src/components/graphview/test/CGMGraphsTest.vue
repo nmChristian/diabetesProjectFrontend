@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import LineGraph from "@/components/charts/LineGraph.vue"
+import LineGraph from "@/components/charts/generic/LineGraph.vue"
 import type {DateValue, Point} from "@/services/core/datatypes";
 import {GraphLayout} from "@/services/core/graphtypes";
 

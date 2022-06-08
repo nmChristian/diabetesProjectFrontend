@@ -22,8 +22,8 @@
 </template>
 
 <script setup lang="ts">
-import LineGraph from "@/components/charts/LineGraph.vue"
-import LineGraphDaily from "@/components/charts/LineGraphDaily.vue";
+import LineGraph from "@/components/charts/generic/LineGraph.vue"
+import LineGraphDaily from "@/components/charts/generic/LineGraphDaily.vue";
 import type {DateValue, Point} from "@/services/core/datatypes";
 
 const props = defineProps<{
