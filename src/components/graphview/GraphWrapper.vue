@@ -20,7 +20,6 @@
 </template>
 
 <script setup lang="ts">
-import type {User} from "@/services/user";
 import type {Ref} from "vue"
 import {computed, onMounted, ref,} from "vue";
 import type {DateValue, Point} from "@/services/core/datatypes"

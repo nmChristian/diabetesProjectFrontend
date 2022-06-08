@@ -24,7 +24,6 @@ import type {DateValue, Point} from "@/services/core/datatypes";
 import {GraphLayout} from "@/services/core/graphtypes";
 import ForecastGraph from "@/components/charts/ForecastGraph.vue";
 import {computed} from "vue";
-import * as d3 from "d3";
 import {getLastMondays} from "@/services/core/dateMethods";
 
 const props = defineProps<{

@@ -2,7 +2,6 @@
 import {COLOR_SCHEME} from "@/services/core/shared";
 import * as d3 from "d3";
 import {GraphLayout} from "@/services/core/graphtypes";
-import type {BaseType, ValueFn} from "d3";
 
 export type SVG = d3.Selection<SVGGElement, undefined, null, undefined>
 
