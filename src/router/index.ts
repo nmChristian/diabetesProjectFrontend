@@ -8,22 +8,23 @@ const router = createRouter({
         {
             path: '/',
             name: 'home',
-            component: HomeView
+            component: () => import("@/views/HomeView.vue")
         },
         {
             path: '/sign-in',
             name: 'sign-in',
-            component: () => import('../views/authentication/SignInView.vue')
+            component: () => import('@/views/authentication/SignInView.vue')
         },
         {
             path: '/sign-up',
             name: 'sign-up',
-            component: () => import('../views/authentication/SignUpView.vue')
+            component: () => import('@/views/authentication/SignUpView.vue')
         },
         {
             path: '/GraphView',
             name: 'GraphView',
-            component: () => import('../views/GraphView.vue'),
+            component: () => import('@/views/GraphView.vue'),
+            redirect: {name: "graphview.cgmgraphstest"},
             children: [
                 {
                     path: "IconTest",
@@ -50,32 +51,32 @@ const router = createRouter({
         {
             path: "/DisplayPatients",
             name: "DisplayPatients",
-            component: () => import('../views/DisplayPatients.vue')
+            component: () => import('@/views/DisplayPatients.vue')
         },
         {
             path: "/DisplayPatientsList",
             name: "DisplayPatientsList",
-            component: () => import('../views/DisplayPatientsInList.vue'),
+            component: () => import('@/views/DisplayPatientsInList.vue'),
             children: [
                 {
                     //TODO håndter id der ikke eksistere
                     path: "patientInfo/:id",
-                    component: () => import('../views/PatientInfo.vue')
+                    component: () => import('@/views/PatientInfo.vue')
                 },
                 {
                     path: "",
-                    component: () => import('../views/Summary.vue')
+                    component: () => import('@/views/Summary.vue')
                 },
                 {
                     path: "patientInfo/",
-                    component: () => import('../views/Summary.vue')
+                    component: () => import('@/views/Summary.vue')
                 }
             ]
         },
         {
             path: "/patientInfo/:id",
             name: "patientInfo",
-            component: () => import('../views/PatientInfo.vue')
+            component: () => import('@/views/PatientInfo.vue')
         }
     ],
     linkActiveClass: "fullstack-active-link"

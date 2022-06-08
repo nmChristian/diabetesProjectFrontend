@@ -29,6 +29,7 @@ export default function forecastGraph(dateValues: DateValue[], timeInterval : Ti
 
     const yScale = d3.scaleLinear(CGM_RANGE, [height, 0])
 
+    // TODO: Set curve type
     // Draw Line
     const lineGen = d3.line<DateValue>()
         .defined(dateValueIsValid)

@@ -39,7 +39,7 @@ async function loadUserDetails () {
   userDetails.value = await backend.getUserDetails()
 }
 async function loadData() {
-  dataInDateValue.value = await backend.getCGMData(12)
+  dataInDateValue.value = await backend.getCGMData(21)
 }
 
 const RESOLUTION = 96

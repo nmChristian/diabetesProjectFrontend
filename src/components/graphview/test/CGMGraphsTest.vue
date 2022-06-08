@@ -31,7 +31,7 @@ const props = defineProps<{
   data: DateValue[],
   medianDataInHours: Point[]}>
 ()
-const timeInterval = d3.timeFriday
+const timeInterval = d3.timeMonday
 const lastDateInDataSet = computed( () => props.data.length === 0 ? new Date() : props.data[props.data.length - 1][0])
 const lastThreeIntervals = computed( () => [0,1,2].map<Date>(back => timeInterval.offset(timeInterval(lastDateInDataSet.value), - back)))
 const dataSplitIntoIntervals = computed( () => d3.group(props.data, ([date,]) => timeInterval(date)))
