@@ -12,9 +12,10 @@ const props = defineProps<{
   sizes : number[],
   colors : string[]
   graphLayout? : GraphLayout,
+  offset?: number,
 }>()
 
 const graph = computed(() =>
-    tirGraph(props.sizes, props.colors,{ graphLayout : props.graphLayout }))
+    tirGraph(props.sizes, props.colors,{ graphLayout : props.graphLayout, offset : props.offset}))
 </script>
 

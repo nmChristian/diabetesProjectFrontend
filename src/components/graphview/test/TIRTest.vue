@@ -1,10 +1,65 @@
 <template>
   <div>
     <h1>Here is a TIR graph</h1>
-    <t-i-r-graph
-        :sizes="dateSplitIntoCGMThresholds"
-        :colors="COLOR_SCHEME"
-    />
+    <div class="graphs">
+      <t-i-r-graph
+          :sizes="dateSplitIntoCGMThresholds"
+          :colors="COLOR_SCHEME"
+          :graph-layout="layout"
+          :offset="5"
+      />
+      <t-i-r-graph
+          :sizes="dateSplitIntoCGMThresholds"
+          :colors="COLOR_SCHEME"
+          :graph-layout="layout"
+          :offset="0"
+      />
+      <t-i-r-graph
+          :sizes="dateSplitIntoCGMThresholds"
+          :colors="COLOR_SCHEME"
+          :graph-layout="layout"
+          :offset="10"
+      />
+      <t-i-r-graph
+          :sizes="dateSplitIntoCGMThresholds"
+          :colors="COLOR_SCHEME"
+          :graph-layout="layout"
+          :offset="20"
+      />
+      <t-i-r-graph
+          :sizes="dateSplitIntoCGMThresholds"
+          :colors="COLOR_SCHEME"
+          :graph-layout="layout"
+          :offset="50"
+      />
+    </div>
+    <h2>Testing offset</h2>
+    <div class="graphs">
+      <t-i-r-graph
+          :sizes="[0.2, 0.1, 0.2, 0.3, 0.2]"
+          :colors="COLOR_SCHEME"
+          :graph-layout="layout"
+          :offset="5"
+      />
+      <t-i-r-graph
+          :sizes="[0.2, 0.1, 0.2, 0.3, 0.2]"
+          :colors="COLOR_SCHEME"
+          :graph-layout="layout"
+          :offset="0"
+      />
+      <t-i-r-graph
+          :sizes="[0.2, 0, 0.2, 0.3, 0.3]"
+          :colors="COLOR_SCHEME"
+          :graph-layout="layout"
+          :offset="5"
+      />
+      <t-i-r-graph
+          :sizes="[0.5, 0.2, 0, 0.3, 0]"
+          :colors="COLOR_SCHEME"
+          :graph-layout="layout"
+          :offset="5"
+      />
+    </div>
   </div>
 </template>
 
@@ -15,6 +70,7 @@ import {computed} from "vue";
 import type {DateValue} from "@/services/core/datatypes";
 import {CGM_THRESHOLDS, COLOR_SCHEME} from "@/services/core/shared";
 import * as d3 from "d3";
+import {GraphLayout} from "@/services/core/graphtypes";
 
 const props = defineProps<{
   data: DateValue[],
@@ -36,4 +92,12 @@ const dateSplitIntoCGMThresholds = computed( () => {
   return occurrences.map<number>(v => v / sum || 0)
 })
 
+const layout = new GraphLayout(50, 400, 0, 10, 0, 10)
+
 </script>
+
+<style scoped>
+.graphs {
+  display: flex;
+}
+</style>
