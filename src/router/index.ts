@@ -1,5 +1,4 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 import {isAuthenticated} from "@/services/authentication";
 
 const router = createRouter({

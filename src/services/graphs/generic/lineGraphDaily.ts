@@ -2,7 +2,7 @@ import type {Point} from "@/services/core/datatypes";
 import {pointIsValid} from "@/services/core/datatypes";
 import * as d3 from "d3";
 import {CGM_RANGE, COLOR_SCHEME} from "@/services/core/shared";
-import {applyAxis, AxisDirection, drawYAxisCGM} from "@/services/core/graph/axisDrawer";
+import {applyAxis, drawYAxisCGM} from "@/services/core/graph/axisDrawer";
 import {generateSVG} from "@/services/core/graphMethods";
 import {drawHorizontalCGMIndicatorLines} from "@/services/core/graph/lineDrawer";
 import {GraphLayout} from "@/services/core/graphtypes";

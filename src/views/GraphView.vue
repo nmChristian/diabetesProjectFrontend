@@ -5,5 +5,4 @@
 </template>
 
 <script setup lang="ts">
-import GraphWrapper from "@/components/graphview/GraphWrapper.vue";
-</script>
+import GraphWrapper from "@/components/graphview/GraphWrapper.vue";</script>

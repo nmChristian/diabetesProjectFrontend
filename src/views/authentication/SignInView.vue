@@ -34,7 +34,7 @@ import animatedTextInput from "../../components/input/AnimatedTextInput.vue"
 import {signIn} from "@/services/authentication";
 import router from "@/router";
 import useVuelidate from "@vuelidate/core";
-import {required, email} from '@vuelidate/validators'
+import {email, required} from '@vuelidate/validators'
 import spinner from "../../components/spinner.vue";
 import failureIcon from "../../components/icons/failureIcon.vue";
 

@@ -1,5 +1,5 @@
 import type {Axis, AxisDomain, AxisScale} from "d3-axis";
-import type {BaseType, ValueFn} from "d3";
+import type {ValueFn} from "d3";
 import * as d3 from "d3";
 import {CGM_THRESHOLDS} from "@/services/core/shared";
 import type {SVG} from "@/services/core/graphMethods";
