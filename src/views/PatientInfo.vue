@@ -7,6 +7,12 @@
     <h1>Ting om vægt</h1>
   </div>
 
+  <div class="navButtons">
+    <!-- TODO erstat med smukke symboler :) -->
+    <button @click="crossClicked()">Kryds</button>
+    <button v-if="router.currentRoute.value.fullPath.toLowerCase().includes('list')" @click="fullScreenClicked()">Fuld skærm</button>
+  </div>
+
 
 
   <div class = holderInfo >
@@ -49,6 +55,21 @@ function closePopUp(){
   let indexOfHash = currentRoute.indexOf("#")
   let newRoute = currentRoute.substring(0,indexOfHash)
   router.push(newRoute)
+}
+
+function crossClicked() {
+  if(router.currentRoute.value.fullPath.includes("List")){
+    router.push("/DisplayPatientsList")
+  }else{
+    router.back()
+  }
+}
+
+function fullScreenClicked(){
+  //TODO find noget smartere, så hele siden ikke skal læses igen.
+  let current = router.currentRoute.value.fullPath
+  let newPath = current.replace("/DisplayPatientsList","")
+  router.push(newPath)
 }
 
 function listToString(inListe){
@@ -102,6 +123,11 @@ const diagnoser = [
   background: pink;
   border: blue 1px dashed;
   z-index: 12;
+}
+
+.navButtons{
+  position: absolute;
+  right: 1rem;
 }
 
 .infoItem{
