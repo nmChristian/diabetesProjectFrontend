@@ -3,8 +3,8 @@ import {generateSVG} from "@/services/core/graphMethods";
 import * as d3 from "d3";
 
 export default function tirGraph (frequencies: number[], colors: string[], {
-    graphLayout = new GraphLayout(50, 400, 0, 10, 0, 10),
-    offset = 2,
+    graphLayout = new GraphLayout(50, 400, 10, 10, 10, 10),
+    offset = 1,
 })
 {
     const {width, height} = graphLayout
@@ -36,6 +36,7 @@ export default function tirGraph (frequencies: number[], colors: string[], {
             .attr("height", (_, i) => heights[i])
             .attr("width", width)
             .attr("fill", (_,i) => colors[i])
+            .attr("style", "fill-opacity: 0.9;")
 
     return out.node()
 }
