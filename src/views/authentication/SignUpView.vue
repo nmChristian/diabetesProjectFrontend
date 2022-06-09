@@ -1,44 +1,46 @@
 <template>
-	<img src="@/assets/logo.svg" alt=""/>
-	<div>
-		<animated-text-input ref="firstName" label-text="First name" v-model="firstNameValue"
-							 @input="$refs.firstName.setError(v$.firstNameValue.$errors)"/>
-	</div>
-	<div>
-		<animated-text-input ref="lastName" label-text="Last name" v-model="lastNameValue"
-							 @input="$refs.lastName.setError(v$.lastNameValue.$errors)"/>
-	</div>
-	<div class="date">
-		<label class="date-label">Date of birth
-			<input ref="date" class="date-picker" type="date" v-model="dateValue"/>
-		</label>
-	</div>
-	<div>
-		<animated-text-input ref="email" label-text="E-mail" v-model="emailValue"
-							 @input="$refs.email.setError(v$.emailValue.$errors)"/>
-	</div>
-	<div>
-		<animated-text-input ref="password" label-text="Password" type="password" v-model="passwordValue"
-							 @input="$refs.password.setError(v$.passwordValue.$errors)"/>
-	</div>
-	<div>
-		<animated-text-input ref="passwordRepeat" label-text="Repeat password" type="password"
-							 v-model="passwordRepeatValue"
-							 @input="$refs.passwordRepeat.setError(v$.passwordRepeatValue.$errors)"/>
-	</div>
-	<div>
-		<button class="sign-up-button" @click="onSignUpClick">Sign up</button>
-	</div>
-	<p>Or</p>
-	<div class="sing-in-link">
-		<a href="/sign-in">SIGN IN</a>
-	</div>
-	<div class="spinner-container">
-		<spinner v-show="loading"></spinner>
-	</div>
-	<div>
-		<failure-icon ref="failureIcon"></failure-icon>
-	</div>
+	<form onsubmit="return false">
+		<img src="@/assets/logo.svg" alt=""/>
+		<div>
+			<animated-text-input ref="firstName" label-text="First name" v-model="firstNameValue"
+								 @input="$refs.firstName.setError(v$.firstNameValue.$errors)"/>
+		</div>
+		<div>
+			<animated-text-input ref="lastName" label-text="Last name" v-model="lastNameValue"
+								 @input="$refs.lastName.setError(v$.lastNameValue.$errors)"/>
+		</div>
+		<div class="date">
+			<label class="date-label">Date of birth
+				<input ref="date" class="date-picker" type="date" v-model="dateValue" required/>
+			</label>
+		</div>
+		<div>
+			<animated-text-input ref="email" label-text="E-mail" v-model="emailValue"
+								 @input="$refs.email.setError(v$.emailValue.$errors)"/>
+		</div>
+		<div>
+			<animated-text-input ref="password" label-text="Password" type="password" v-model="passwordValue"
+								 @input="$refs.password.setError(v$.passwordValue.$errors)"/>
+		</div>
+		<div>
+			<animated-text-input ref="passwordRepeat" label-text="Repeat password" type="password"
+								 v-model="passwordRepeatValue"
+								 @input="$refs.passwordRepeat.setError(v$.passwordRepeatValue.$errors)"/>
+		</div>
+		<div>
+			<button type="submit" class="sign-up-button" @click="onSignUpClick">Sign up</button>
+		</div>
+		<p>Or</p>
+		<div class="sing-in-link">
+			<a href="/sign-in">SIGN IN</a>
+		</div>
+		<div class="spinner-container">
+			<spinner v-show="loading"></spinner>
+		</div>
+		<div>
+			<failure-icon ref="failureIcon"></failure-icon>
+		</div>
+	</form>
 </template>
 
 <script lang="ts">
