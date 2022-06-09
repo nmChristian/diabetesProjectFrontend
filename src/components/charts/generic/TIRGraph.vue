@@ -10,14 +10,14 @@ import tirGraph from "@/services/graphs/generic/tirGraph";
 import type {GraphLayout} from "@/services/core/graphtypes";
 
 const props = defineProps<{
-  frequencies : number[],
+  occurrences : number[],
   colors : string[]
   graphLayout? : GraphLayout,
   offset?: number,
 }>()
 
 const graph = computed(() =>
-    tirGraph(props.frequencies, props.colors,{ graphLayout : props.graphLayout, offset : props.offset}))
+    tirGraph(props.occurrences, props.colors,{ graphLayout : props.graphLayout, offset : props.offset}))
 
 </script>
 
