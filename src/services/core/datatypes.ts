@@ -1,10 +1,11 @@
 import * as d3 from "d3";
-import {dateToSeconds} from "@/services/core/shared";
+import {CGM_THRESHOLDS, dateToSeconds} from "@/services/core/shared";
 import type {TimeSeries} from "@/services/core/dbtypes";
 
 export type {DateValue, Point, BucketPoint}
 export {toDateValue, timeSeriesToDateValue, toBuckets, bucketToMedian}
 export {addEdgesToSplit, addEdgesToSplitBucket}
+export {getCGMFrequency}
 
 // The data
 type DateValue = [Date, number]
@@ -117,7 +118,21 @@ function bucketToQuantile(bucketPoints: BucketPoint[], quantiles: number[]): Buc
     )
 }
 
-// Create a value at 00:00 and 24:00 so that graph line goes all the way to the end
+function getCGMFrequency (data : DateValue[]) {
+    const occurrences : number[] = Array(CGM_THRESHOLDS.length).fill(0)
+
+    // Place each point based on the x0 value
+    const bisect = d3.bisector<{x0 : number}, number>(d => d.x0)
+
+    // Its weight is half the time between each neighbor date
+    // For example, if a point is good and the next data is in the bad area in 1 hour, followed by good after 30 mins, then the data will be (30 mins of good, (30 + 15) mins of bad, 15 mins of good)
+    data.map<number>(([date,value], i, data) => occurrences[bisect.right(CGM_THRESHOLDS, value) - 1] += (d3.timeSecond.count(data[i - 1]?.[0] ?? date, data[i + 1]?.[0] ?? date) / 2))
+    const sum = d3.sum(occurrences)
+
+    // HAHA, Ok so this will convert NaN to 0, since NaN is false
+    // Damn i love js <3
+    return occurrences.map<number>(v => v / sum || 0)
+}
 
 
 

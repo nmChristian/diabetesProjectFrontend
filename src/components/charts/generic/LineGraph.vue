@@ -1,11 +1,11 @@
 <template>
- <Graph :svg="graph"/>
+  <Graph :svg="graph"/>
 </template>
 
 <script setup lang="ts">
-import {computed} from "vue";
-
 import Graph from "../shared/Graph.vue"
+
+import {computed} from "vue";
 import lineGraph from "@/services/graphs/generic/lineGraph";
 import type {DateValue} from "@/services/core/datatypes";
 import type {GraphLayout} from "@/services/core/graphtypes";
