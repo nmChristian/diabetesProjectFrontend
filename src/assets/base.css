@@ -43,6 +43,7 @@
     --color-text: var(--vt-c-text-light-1);
 
     --color-error: rgb(203, 47, 47);
+    --color-error-dark: rgba(175, 57, 55, .8);
 
     --section-gap: 160px;
 }
@@ -70,9 +71,10 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-nav>a {
+nav > a {
     border-bottom: 2px solid transparent;
 }
-nav>.fullstack-active-link {
+
+nav > .fullstack-active-link {
     border-bottom-color: green;
 }

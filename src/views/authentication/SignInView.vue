@@ -1,5 +1,5 @@
 <template>
-	<img src="@/assets/logo.svg" width="250" height="250" alt=""/>
+	<img src="@/assets/logo.svg" alt=""/>
 	<div>
 		<animated-text-input label-text="E-mail" v-model='emailValue' ref="email"
 							 @input="$refs.email.setError(v$.emailValue.$errors)"/>
@@ -21,6 +21,9 @@
 	<div class="spinner-container">
 		<spinner v-show="loading"></spinner>
 	</div>
+	<div>
+		<failure-icon ref="failureIcon"></failure-icon>
+	</div>
 </template>
 
 <script lang="ts">
@@ -31,12 +34,14 @@ import router from "@/router";
 import useVuelidate from "@vuelidate/core";
 import {required, email} from '@vuelidate/validators'
 import spinner from "../../components/spinner.vue";
+import failureIcon from "../../components/icons/failureIcon.vue";
 
 export default defineComponent({
 	name: "sign-in",
 	components: {
 		spinner,
-		animatedTextInput
+		animatedTextInput,
+		failureIcon
 	},
 	setup() {
 		return {
@@ -59,14 +64,18 @@ export default defineComponent({
 	methods: {
 		onSignInClick: async function () {
 			this.v$.$touch();
-			(this.$refs.password as HTMLFormElement).$emit('input');
-			(this.$refs.email as HTMLFormElement).$emit('input');
+			(this.$refs.password as typeof animatedTextInput).$emit('input');
+			(this.$refs.email as typeof animatedTextInput).$emit('input');
 			if (!this.v$.$invalid) {
 				this.loading = true;
-				if (await signIn(this.emailValue, this.passwordValue)) {
+				(this.$refs.failureIcon as typeof failureIcon).setText('')
+				const result = await signIn(this.emailValue, this.passwordValue)
+				if (result.success) {
 					await router.push("/")
+				} else {
+					this.loading = false;
+					(this.$refs.failureIcon as typeof failureIcon).setText(result.error)
 				}
-				this.loading = false
 			}
 		}
 	}
@@ -76,6 +85,8 @@ export default defineComponent({
 
 <style scoped>
 img {
+	width: 175px;
+	height: 175px;
 	display: flex;
 	margin: auto;
 	padding: 2rem;

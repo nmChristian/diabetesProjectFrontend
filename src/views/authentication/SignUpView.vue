@@ -1,8 +1,5 @@
 <template>
-	<div class="title">
-		<label>Sign Up</label>
-	</div>
-	<img src="@/assets/logo.svg" width="100" height="100" alt=""/>
+	<img src="@/assets/logo.svg" alt=""/>
 	<div>
 		<animated-text-input ref="firstName" label-text="First name" v-model="firstNameValue"
 							 @input="$refs.firstName.setError(v$.firstNameValue.$errors)"/>
@@ -47,7 +44,7 @@ import {signIn, signUp} from "@/services/authentication";
 import router from "@/router";
 import {defineComponent} from "vue";
 import useVuelidate from "@vuelidate/core";
-import {email, required, sameAs, helpers, between} from "@vuelidate/validators";
+import {email, required, sameAs} from "@vuelidate/validators";
 import spinner from "../../components/spinner.vue";
 
 export default defineComponent({
@@ -96,7 +93,8 @@ export default defineComponent({
 			if (!this.v$.$invalid) {
 				this.loading = true;
 				if (await signUp(this.emailValue, this.firstNameValue, this.lastNameValue, this.dateValue, this.passwordValue, this.passwordRepeatValue)) {
-					if (await signIn(this.emailValue, this.passwordValue)) {
+					const result = await signIn(this.emailValue, this.passwordValue)
+					if (result.success) {
 						await router.push("/")
 					}
 				}
@@ -115,9 +113,11 @@ div {
 }
 
 img {
-	display: block;
+	width: 175px;
+	height: 175px;
+	display: flex;
 	margin: auto;
-	padding: 10px;
+	padding: 2rem;
 }
 
 .date {
@@ -133,12 +133,6 @@ p {
 
 div a {
 	text-decoration: underline;
-}
-
-.title {
-	text-align: center;
-	margin: auto;
-	font-size: 250%;
 }
 
 .sing-in-link {
