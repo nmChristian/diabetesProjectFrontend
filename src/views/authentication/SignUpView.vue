@@ -96,7 +96,8 @@ export default defineComponent({
 			if (!this.v$.$invalid) {
 				this.loading = true;
 				if (await signUp(this.emailValue, this.firstNameValue, this.lastNameValue, this.dateValue, this.passwordValue, this.passwordRepeatValue)) {
-					if (await signIn(this.emailValue, this.passwordValue)) {
+					const result = await signIn(this.emailValue, this.passwordValue)
+					if (result.success) {
 						await router.push("/")
 					}
 				}
