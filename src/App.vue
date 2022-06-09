@@ -56,6 +56,7 @@ export default defineComponent({
 @import '@/assets/base.css';
 
 .searchField {
+  /*TODO Sikre den altid er holder samme pos. ligemeget om ikonerne til højre er der*/
 	height: 70%;
 	width: 300px;
 	margin: auto;
