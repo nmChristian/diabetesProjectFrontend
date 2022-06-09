@@ -1,7 +1,7 @@
 <template>
   <div>
+    <!-- TODO soter listen efter hvor kritisk de er -->
     <ListViewPatientElement
-        <!-- TODO soter listen efter hvor kritisk de er -->
         v-for="u in users"
         :user="u.user"
         :cpr = 'u.cpr'
