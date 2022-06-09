@@ -7,14 +7,14 @@ export default function tirGraph (sizes: number[], colors: string[], {
     graphLayout = new GraphLayout(100, 400, 20, 30, 20, 40),
 })
 {
-    // TODO: Force sizes and colors to be the same length
-    if (sizes.length != colors.length)
-        console.error("NOT SAME LENGTH")
-
-    console.log(sizes)
-
     const {width, height} = graphLayout
     const {out, svg} = generateSVG(graphLayout)
+
+    // TODO: Force sizes and colors to be the same length
+    if (sizes.length != colors.length) {
+        console.error("NOT SAME LENGTH")
+        return out.node()
+    }
 
     const yScale = d3.scaleLinear([0,1], [height, 0])
 
