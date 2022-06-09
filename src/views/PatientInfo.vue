@@ -10,7 +10,7 @@
   <div class="navButtons">
     <!-- TODO erstat med smukke symboler :) -->
     <button @click="crossClicked()">Kryds</button>
-    <button v-if="router.currentRoute.value.fullPath.toLowerCase().includes('list')" @click="fullScreenClicked()">Fuld skærm</button>
+    <button v-if="$router.currentRoute.value.fullPath.toLowerCase().includes('list')" @click="fullScreenClicked()">Fuld skærm</button>
   </div>
 
 
