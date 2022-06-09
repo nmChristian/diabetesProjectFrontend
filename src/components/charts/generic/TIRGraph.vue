@@ -9,11 +9,12 @@ import tirGraph from "@/services/graphs/generic/tirGraph";
 import type {GraphLayout} from "@/services/core/graphtypes";
 
 const props = defineProps<{
-  quantiles : number[],
+  sizes : number[],
+  colors : string[]
   graphLayout? : GraphLayout,
 }>()
 
 const graph = computed(() =>
-    tirGraph(props.quantiles, { graphLayout : props.graphLayout }))
+    tirGraph(props.sizes, props.colors,{ graphLayout : props.graphLayout }))
 </script>
 
