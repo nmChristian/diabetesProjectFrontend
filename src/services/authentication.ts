@@ -9,7 +9,7 @@ async function signUp(email: string, firstName: string, lastName: string, birthD
         success: false,
         errorMessage: ""
     }
-    await axios.post("http://localhost:5000/api/v1/v1/user", {
+    await axios.post(baseUrl + "/user", {
         email: email,
         first_name: firstName,
         last_name: lastName,
