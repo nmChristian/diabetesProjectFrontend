@@ -1,29 +1,31 @@
 <template>
-	<img src="@/assets/logo.svg" alt=""/>
-	<div>
-		<animated-text-input label-text="E-mail" v-model='emailValue' ref="email"
-							 @input="$refs.email.setError(v$.emailValue.$errors)"/>
-	</div>
-	<div>
-		<animated-text-input label-text="Password" type="password" v-model='passwordValue' ref="password"
-							 @input="$refs.password.setError(v$.passwordValue.$errors)"/>
-	</div>
-	<div class="forgot-link">
-		<a href="https://example.com">Forgot your password?</a>
-	</div>
-	<div>
-		<button class="sign-in-button" @click="onSignInClick">Sign-in</button>
-	</div>
-	<p>Or</p>
-	<div class="sing-up-link">
-		<a href="/sign-up">SIGN UP</a>
-	</div>
-	<div class="spinner-container">
-		<spinner v-show="loading"></spinner>
-	</div>
-	<div>
-		<failure-icon ref="failureIcon"></failure-icon>
-	</div>
+	<form onsubmit="return false">
+		<img src="@/assets/logo.svg" alt=""/>
+		<div>
+			<animated-text-input label-text="E-mail" v-model='emailValue' ref="email"
+								 @input="$refs.email.setError(v$.emailValue.$errors)"/>
+		</div>
+		<div>
+			<animated-text-input label-text="Password" type="password" v-model='passwordValue' ref="password"
+								 @input="$refs.password.setError(v$.passwordValue.$errors)"/>
+		</div>
+		<div class="forgot-link">
+			<a href="https://example.com">Forgot your password?</a>
+		</div>
+		<div>
+			<button type="submit" class="sign-in-button" @click="onSignInClick">Sign-in</button>
+		</div>
+		<p>Or</p>
+		<div class="sing-up-link">
+			<a href="/sign-up">SIGN UP</a>
+		</div>
+		<div class="spinner-container">
+			<spinner v-show="loading"></spinner>
+		</div>
+		<div>
+			<failure-icon ref="failureIcon"></failure-icon>
+		</div>
+	</form>
 </template>
 
 <script lang="ts">
@@ -69,12 +71,13 @@ export default defineComponent({
 			if (!this.v$.$invalid) {
 				this.loading = true;
 				(this.$refs.failureIcon as typeof failureIcon).setText('')
+
 				const result = await signIn(this.emailValue, this.passwordValue)
 				if (result.success) {
 					await router.push("/")
 				} else {
 					this.loading = false;
-					(this.$refs.failureIcon as typeof failureIcon).setText(result.error)
+					(this.$refs.failureIcon as typeof failureIcon).setText(result.errorMessage)
 				}
 			}
 		}

@@ -1,29 +1,33 @@
 import axios from "axios";
+import type {Answer} from "@/services/core/dbtypes";
 
 const key = "authentication"
 const baseUrl = "http://localhost:5000/api/v1"
 
-async function signUp(email: string, firstName: string, lastName: string, birthDate: string, password: string, passwordRepeat: string): Promise<boolean> {
-    try {
-        await axios.post(baseUrl + "/v1/user", {
-            email: email,
-            first_name: firstName,
-            last_name: lastName,
-            birthdate: birthDate,
-            password: password,
-            password_check: passwordRepeat
-        });
-
-        return true;
-    } catch (e) {
-        return false;
+async function signUp(email: string, firstName: string, lastName: string, birthDate: string, password: string, passwordRepeat: string): Promise<Answer> {
+    let result: Answer = {
+        success: false,
+        errorMessage: ""
     }
+    await axios.post(baseUrl + "/user", {
+        email: email,
+        first_name: firstName,
+        last_name: lastName,
+        birthdate: birthDate,
+        password: password,
+        password_check: passwordRepeat
+    }).then(response => {
+        result.success = true
+    }).catch(error => {
+        result.errorMessage = error.response.data.error
+    })
+    return result;
 }
 
-async function signIn(email: string, password: string): Promise<{ success: boolean; error: string }> {
-    let result = {
+async function signIn(email: string, password: string): Promise<Answer> {
+    let result: Answer = {
         success: false,
-        error: ""
+        errorMessage: ""
     }
     await axios.post(baseUrl + "/user/login", {
         email: email,
@@ -32,18 +36,17 @@ async function signIn(email: string, password: string): Promise<{ success: boole
         sessionStorage.setItem(key, response.data.api_key);
         result.success = true
     }).catch(error => {
-        result.error = error.response.data.error
+        result.errorMessage = error.response.data.error
     })
     return result;
 }
 
-function isAuthenticated(): boolean {
-    const res = sessionStorage.getItem(key);
-    return !!res;
-}
-
 function getApiKey(): string | null {
     return sessionStorage.getItem(key);
+}
+
+function isAuthenticated(): boolean {
+    return !!getApiKey();
 }
 
 export {signUp, signIn, isAuthenticated, getApiKey}

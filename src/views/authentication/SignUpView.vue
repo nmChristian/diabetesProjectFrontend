@@ -1,41 +1,46 @@
 <template>
-	<img src="@/assets/logo.svg" alt=""/>
-	<div>
-		<animated-text-input ref="firstName" label-text="First name" v-model="firstNameValue"
-							 @input="$refs.firstName.setError(v$.firstNameValue.$errors)"/>
-	</div>
-	<div>
-		<animated-text-input ref="lastName" label-text="Last name" v-model="lastNameValue"
-							 @input="$refs.lastName.setError(v$.lastNameValue.$errors)"/>
-	</div>
-	<div class="date">
-		<label class="date-label">Date of birth
-			<input ref="date" class="date-picker" type="date" v-model="dateValue"/>
-		</label>
-	</div>
-	<div>
-		<animated-text-input ref="email" label-text="E-mail" v-model="emailValue"
-							 @input="$refs.email.setError(v$.emailValue.$errors)"/>
-	</div>
-	<div>
-		<animated-text-input ref="password" label-text="Password" type="password" v-model="passwordValue"
-							 @input="$refs.password.setError(v$.passwordValue.$errors)"/>
-	</div>
-	<div>
-		<animated-text-input ref="passwordRepeat" label-text="Repeat password" type="password"
-							 v-model="passwordRepeatValue"
-							 @input="$refs.passwordRepeat.setError(v$.passwordRepeatValue.$errors)"/>
-	</div>
-	<div>
-		<button class="sign-up-button" @click="onSignUpClick">Sign up</button>
-	</div>
-	<p>Or</p>
-	<div class="sing-in-link">
-		<a href="/sign-in">SIGN IN</a>
-	</div>
-	<div class="spinner-container">
-		<spinner v-show="loading"></spinner>
-	</div>
+	<form onsubmit="return false">
+		<img src="@/assets/logo.svg" alt=""/>
+		<div>
+			<animated-text-input ref="firstName" label-text="First name" v-model="firstNameValue"
+								 @input="$refs.firstName.setError(v$.firstNameValue.$errors)"/>
+		</div>
+		<div>
+			<animated-text-input ref="lastName" label-text="Last name" v-model="lastNameValue"
+								 @input="$refs.lastName.setError(v$.lastNameValue.$errors)"/>
+		</div>
+		<div class="date">
+			<label class="date-label">Date of birth
+				<input ref="date" class="date-picker" type="date" v-model="dateValue" required/>
+			</label>
+		</div>
+		<div>
+			<animated-text-input ref="email" label-text="E-mail" v-model="emailValue"
+								 @input="$refs.email.setError(v$.emailValue.$errors)"/>
+		</div>
+		<div>
+			<animated-text-input ref="password" label-text="Password" type="password" v-model="passwordValue"
+								 @input="$refs.password.setError(v$.passwordValue.$errors)"/>
+		</div>
+		<div>
+			<animated-text-input ref="passwordRepeat" label-text="Repeat password" type="password"
+								 v-model="passwordRepeatValue"
+								 @input="$refs.passwordRepeat.setError(v$.passwordRepeatValue.$errors)"/>
+		</div>
+		<div>
+			<button type="submit" class="sign-up-button" @click="onSignUpClick">Sign up</button>
+		</div>
+		<p>Or</p>
+		<div class="sing-in-link">
+			<a href="/sign-in">SIGN IN</a>
+		</div>
+		<div class="spinner-container">
+			<spinner v-show="loading"></spinner>
+		</div>
+		<div>
+			<failure-icon ref="failureIcon"></failure-icon>
+		</div>
+	</form>
 </template>
 
 <script lang="ts">
@@ -46,11 +51,13 @@ import {defineComponent} from "vue";
 import useVuelidate from "@vuelidate/core";
 import {email, required, sameAs} from "@vuelidate/validators";
 import spinner from "../../components/spinner.vue";
+import failureIcon from "../../components/icons/failureIcon.vue";
 
 export default defineComponent({
 	components: {
 		spinner,
-		animatedTextInput
+		animatedTextInput,
+		failureIcon
 	},
 	setup() {
 		return {v$: useVuelidate()}
@@ -84,21 +91,28 @@ export default defineComponent({
 	methods: {
 		onSignUpClick: async function () {
 			this.v$.$touch();
-			(this.$refs.firstName as HTMLFormElement).$emit('input');
-			(this.$refs.lastName as HTMLFormElement).$emit('input');
-			(this.$refs.email as HTMLFormElement).$emit('input');
-			(this.$refs.password as HTMLFormElement).$emit('input');
-			(this.$refs.passwordRepeat as HTMLFormElement).$emit('input');
-
+			(this.$refs.firstName as typeof animatedTextInput).$emit('input');
+			(this.$refs.lastName as typeof animatedTextInput).$emit('input');
+			(this.$refs.email as typeof animatedTextInput).$emit('input');
+			(this.$refs.password as typeof animatedTextInput).$emit('input');
+			(this.$refs.passwordRepeat as typeof animatedTextInput).$emit('input');
 			if (!this.v$.$invalid) {
 				this.loading = true;
-				if (await signUp(this.emailValue, this.firstNameValue, this.lastNameValue, this.dateValue, this.passwordValue, this.passwordRepeatValue)) {
-					const result = await signIn(this.emailValue, this.passwordValue)
-					if (result.success) {
+				(this.$refs.failureIcon as typeof failureIcon).setText('')
+
+				const signUpResult = await signUp(this.emailValue, this.firstNameValue, this.lastNameValue, this.dateValue, this.passwordValue, this.passwordRepeatValue)
+				if (signUpResult.success) {
+					const signInResult = await signIn(this.emailValue, this.passwordValue)
+					if (signInResult.success) {
 						await router.push("/")
+					} else {
+						this.loading = false;
+						(this.$refs.failureIcon as typeof failureIcon).setText(signInResult.errorMessage)
 					}
+				} else {
+					this.loading = false;
+					(this.$refs.failureIcon as typeof failureIcon).setText(signUpResult.errorMessage)
 				}
-				this.loading = false;
 			}
 		},
 	}

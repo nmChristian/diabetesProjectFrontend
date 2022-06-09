@@ -1,6 +1,6 @@
 <template>
-  <div class="container" @click = "mainClicked()">
-    <div class="allSides">
+  <div class="container">
+    <div class="allSides" @click = "mainClicked()">
       <div class="topDiv" > <!-- Overskrift -->
         <div style="width: 20%; float:left">
           <img src="@/assets/logo.svg">
@@ -12,7 +12,7 @@
           <h2 class="ageAndWheight"> Vægt: {{weight}} </h2>
         </div>
       </div>
-      <div class="infoBoxes">
+      <div class="infoBoxes" v-on:click.stop>
         <info-element @showData="showElementData('HbALc')" title="HbALc:" :number= hbalc></info-element>
         <info-element @showData="showElementData('Hypos')" title="Hypos:" :number= hypos></info-element>
         <info-element @showData="showElementData('eGFR')" title="eGFR:" :number= eGFR></info-element>
@@ -40,9 +40,7 @@ export default {
       router.push('/patientInfo/' + (this.$props.id))
     },
     showElementData(dataType){
-      console.log("Vi er i elementet")
-      //TODO lav redirect der fremhæver data
-      alert("Show " + dataType + " data for id " + this.$props.id)
+      router.push('/patientInfo/' + (this.$props.id) + "#" + (String(dataType)).toLowerCase())
     }
   }
 }
