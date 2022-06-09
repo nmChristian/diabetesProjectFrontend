@@ -36,6 +36,9 @@
 	<div class="spinner-container">
 		<spinner v-show="loading"></spinner>
 	</div>
+	<div>
+		<failure-icon ref="failureIcon"></failure-icon>
+	</div>
 </template>
 
 <script lang="ts">
@@ -46,11 +49,13 @@ import {defineComponent} from "vue";
 import useVuelidate from "@vuelidate/core";
 import {email, required, sameAs} from "@vuelidate/validators";
 import spinner from "../../components/spinner.vue";
+import failureIcon from "../../components/icons/failureIcon.vue";
 
 export default defineComponent({
 	components: {
 		spinner,
-		animatedTextInput
+		animatedTextInput,
+		failureIcon
 	},
 	setup() {
 		return {v$: useVuelidate()}
@@ -84,21 +89,28 @@ export default defineComponent({
 	methods: {
 		onSignUpClick: async function () {
 			this.v$.$touch();
-			(this.$refs.firstName as HTMLFormElement).$emit('input');
-			(this.$refs.lastName as HTMLFormElement).$emit('input');
-			(this.$refs.email as HTMLFormElement).$emit('input');
-			(this.$refs.password as HTMLFormElement).$emit('input');
-			(this.$refs.passwordRepeat as HTMLFormElement).$emit('input');
-
+			(this.$refs.firstName as typeof animatedTextInput).$emit('input');
+			(this.$refs.lastName as typeof animatedTextInput).$emit('input');
+			(this.$refs.email as typeof animatedTextInput).$emit('input');
+			(this.$refs.password as typeof animatedTextInput).$emit('input');
+			(this.$refs.passwordRepeat as typeof animatedTextInput).$emit('input');
 			if (!this.v$.$invalid) {
 				this.loading = true;
-				if (await signUp(this.emailValue, this.firstNameValue, this.lastNameValue, this.dateValue, this.passwordValue, this.passwordRepeatValue)) {
-					const result = await signIn(this.emailValue, this.passwordValue)
-					if (result.success) {
+				(this.$refs.failureIcon as typeof failureIcon).setText('')
+
+				const signUpResult = await signUp(this.emailValue, this.firstNameValue, this.lastNameValue, this.dateValue, this.passwordValue, this.passwordRepeatValue)
+				if (signUpResult.success) {
+					const signInResult = await signIn(this.emailValue, this.passwordValue)
+					if (signInResult.success) {
 						await router.push("/")
+					} else {
+						this.loading = false;
+						(this.$refs.failureIcon as typeof failureIcon).setText(signInResult.errorMessage)
 					}
+				} else {
+					this.loading = false;
+					(this.$refs.failureIcon as typeof failureIcon).setText(signUpResult.errorMessage)
 				}
-				this.loading = false;
 			}
 		},
 	}

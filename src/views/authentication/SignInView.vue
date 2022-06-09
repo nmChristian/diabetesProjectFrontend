@@ -69,12 +69,13 @@ export default defineComponent({
 			if (!this.v$.$invalid) {
 				this.loading = true;
 				(this.$refs.failureIcon as typeof failureIcon).setText('')
+
 				const result = await signIn(this.emailValue, this.passwordValue)
 				if (result.success) {
 					await router.push("/")
 				} else {
 					this.loading = false;
-					(this.$refs.failureIcon as typeof failureIcon).setText(result.error)
+					(this.$refs.failureIcon as typeof failureIcon).setText(result.errorMessage)
 				}
 			}
 		}
