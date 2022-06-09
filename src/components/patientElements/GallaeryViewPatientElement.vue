@@ -40,9 +40,7 @@ export default {
       router.push('/patientInfo/' + (this.$props.id))
     },
     showElementData(dataType){
-      //TODO lav redirect der fremhæver data
-      router.push('/patientInfo/' + (this.$props.id) + "#" + dataType)
-      alert("Show " + dataType + " data for id " + this.$props.id)
+      router.push('/patientInfo/' + (this.$props.id) + "#" + (String(dataType)).toLowerCase())
     }
   }
 }
