@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-
+import * as d3 from "d3"
 import type {Ref} from "vue";
 import {ref, watchEffect} from "vue";
 import applySVG from "@/services/core/applySVG";
@@ -14,5 +14,5 @@ const props = defineProps<{
 }>()
 
 // WatchEffects gets called immediately and when any of the variables in it changes
-watchEffect(() => applySVG(div, props.svg))
+watchEffect(() => { div.value?.append(props.svg) })
 </script>

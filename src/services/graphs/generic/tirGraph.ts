@@ -44,7 +44,7 @@ export default function tirGraph (occurrences: number[], colors: string[], {
             .attr("fill", (_,i) => colors[i])
             .attr("style", "fill-opacity: 0.9;")
 
-    bars.call(() => console.log("Stuff changed"))
+    //bars.call(() => console.log("Stuff changed"))
     bars.on("mouseover", function (e,d) { console.log("FEM FLADE FISK"); console.log(e); console.log(d)})
     bars.on('enter',() => console.log("MY MAN"))
     return out.node()
