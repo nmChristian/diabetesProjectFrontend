@@ -52,8 +52,8 @@ export default defineComponent({
   mounted(){
     let userData = backend.getUserDetails()
     userData.then(data => {
-      document.getElementById('currentUserName').innerText =   data.last_name + ", " + data.first_name
-      document.getElementById('currentUserEmail').innerText = data.email
+      (document.getElementById('currentUserName') as HTMLInputElement).innerText =   data.last_name + ", " + data.first_name
+      (document.getElementById('currentUserEmail') as HTMLInputElement).innerText = data.email
     })
   },
 })
