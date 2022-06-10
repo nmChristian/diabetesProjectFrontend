@@ -101,5 +101,5 @@ export default function forecastGraph(dateValues: DateValue[], timeInterval: Tim
     }
 
 
-    return out.node()
+    return out
 }

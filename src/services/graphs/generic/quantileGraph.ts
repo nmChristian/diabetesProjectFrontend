@@ -111,7 +111,7 @@ export function quantileGraph(bucketSeriesOfQuantiles: d3.Series<BucketPoint, nu
 
 
     }
-    return out.node()
+    return out
 }
 
 

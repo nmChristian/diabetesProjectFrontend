@@ -46,5 +46,5 @@ export default function lineGraph(dateValues: DateValue[],
     applyAxis(svg, xAxis, {yOffset: height})
     drawYAxisCGM(svg, yScale)
 
-    return out.node()
+    return out
 }

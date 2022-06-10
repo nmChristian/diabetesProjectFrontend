@@ -13,7 +13,7 @@ export default function tirGraph (occurrences: number[], colors: string[], {
     // TODO: Force sizes and colors to be the same length
     if (occurrences.length != colors.length) {
         console.error("NOT SAME LENGTH")
-        return out.node()
+        return out
     }
 
     // HAHA i love js <3, Ok so this will convert NaN to 0, since NaN is false
@@ -37,17 +37,16 @@ export default function tirGraph (occurrences: number[], colors: string[], {
         .data(frequencies)
         .join("g")
 
+    const animationTime = 1000;
     const getY = (index : number) => startPos[index] - heights[index]
     const barRect = bars.append("rect")
             .attr("width", width)
             .attr("y", (_,i) => getY(i))
             .attr("fill", (_,i) => colors[i])
             .attr("style", "fill-opacity: 0.9;")
-            .transition().duration(d => d * 1000).delay((_,i) => getY(i) * 1000 / height)
-        .ease(d3.easeSinOut)
+            .transition().duration(d => d * animationTime).delay((_,i) => getY(i) * animationTime / height).ease(d3.easePolyIn.exponent(1.5))
             .attr("height", (_, i) => heights[i])
 
 
-
-    return out.node()
+    return out
 }

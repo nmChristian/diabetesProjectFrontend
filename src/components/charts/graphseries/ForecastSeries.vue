@@ -66,7 +66,6 @@ const getDataBack = (dateValues : DateValue[], timeInterval : TimeInterval, back
 
 const lastThreeMondaysData = computed( () => getDataBack(props.data, d3.timeMonday, 2))
 const lastDayData = computed( () => getDataBack(props.data, d3.timeDay, 1))
-const frequencies = computed(() => getCGMOccurrences(getDataBack(props.data, d3.timeDay, -1)))
 
 const selectedData = computed( () : DateValue[] => {
   if (datesData.value === undefined)

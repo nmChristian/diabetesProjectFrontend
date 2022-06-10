@@ -43,5 +43,5 @@ export default function lineGraphDaily(points: Point[],
     applyAxis<number>(svg, xAxis, { yOffset: height, textCSS: d => "font-weight: " + (d == 12 ? "bold;" : "normal;")})
     drawYAxisCGM(svg, yScale)
 
-    return out.node()
+    return out
 }
