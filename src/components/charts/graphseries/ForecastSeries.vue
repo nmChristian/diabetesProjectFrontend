@@ -14,7 +14,6 @@
     <br>
     <div style="display: flex">
       <div>
-          {{datesData}}
           <forecast-graph
               v-for="week in  [...weeksBack].reverse()"
               :data="dataSplitIntoIntervals.get(lastThreeIntervals[week]) ?? []"

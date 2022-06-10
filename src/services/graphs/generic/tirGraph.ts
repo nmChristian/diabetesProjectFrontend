@@ -28,7 +28,8 @@ export default function tirGraph (occurrences: number[], colors: string[], {
     const heights = frequencies.map<number>(heightScale)
     const offsets = frequencies.map<number>(d => (d == 0) ? 0 : offset)
     // startPos = previousPos + previousHeight + previousOffset
-    const startPos : number[] = frequencies.reduce<number[]>((startPos, _, i) => startPos.concat(i == 0 ? posScale(0) :  startPos[i - 1] - heights[i - 1] - offsets[i - 1]), [])
+    const startPos : number[] = frequencies.reduce<number[]>((startPos, _, i) =>
+        startPos.concat(i == 0 ? posScale(0) :  startPos[i - 1] - heights[i - 1] - offsets[i - 1]), [])
 
     // Bars
     const bars  = svg.append("g")
@@ -36,14 +37,14 @@ export default function tirGraph (occurrences: number[], colors: string[], {
         .data(frequencies)
         .join("g")
 
-
+    const getY = (index : number) => startPos[index] - heights[index]
     const barRect = bars.append("rect")
             .attr("width", width)
-            .attr("y", (_,i) => startPos[i] - heights[i])
+            .attr("y", (_,i) => getY(i))
             .attr("fill", (_,i) => colors[i])
             .attr("style", "fill-opacity: 0.9;")
-            .transition().duration(500).delay((d,i, a) => posScale.invert(startPos[(a.length - i)]) * 500)
-        .ease(d3.easeBackOut)
+            .transition().duration(d => d * 1000).delay((_,i) => getY(i) * 1000 / height)
+        .ease(d3.easeSinOut)
             .attr("height", (_, i) => heights[i])
 
 
