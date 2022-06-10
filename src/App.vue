@@ -41,6 +41,7 @@
 import {RouterLink, RouterView} from 'vue-router'
 import {defineComponent} from "vue";
 import backend from "@/services/backend";
+import type {UserDetails} from "@/services/core/dbtypes";
 
 let name = ""
 
@@ -52,8 +53,8 @@ export default defineComponent({
   mounted(){
     let userData = backend.getUserDetails()
     userData.then(data => {
-      (document.getElementById('currentUserName') as HTMLInputElement).innerText =   data.last_name + ", " + data.first_name
-      (document.getElementById('currentUserEmail') as HTMLInputElement).innerText = data.email
+      (document.getElementById('currentUserName') as any).innerText = (data.last_name + ", " + data.first_name);
+      (document.getElementById('currentUserEmail') as any).innerText = data.email
     })
   },
 })
