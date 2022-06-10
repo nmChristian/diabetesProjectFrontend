@@ -37,14 +37,14 @@ export default function tirGraph (occurrences: number[], colors: string[], {
         .data(frequencies)
         .join("g")
 
-    const animationTime = 1000;
+    const animationTime = 200;
     const getY = (index : number) => startPos[index] - heights[index]
     const barRect = bars.append("rect")
             .attr("width", width)
             .attr("y", (_,i) => getY(i))
             .attr("fill", (_,i) => colors[i])
             .attr("style", "fill-opacity: 0.9;")
-            .transition().duration(d => d * animationTime).delay((_,i) => getY(i) * animationTime / height).ease(d3.easePolyIn.exponent(1.5))
+            .transition().duration(d => d * animationTime).delay((_,i) => getY(i) * animationTime / height).ease(d3.easeLinear)
             .attr("height", (_, i) => heights[i])
 
 
