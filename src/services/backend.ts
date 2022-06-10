@@ -23,6 +23,14 @@ class Backend {
         return response.data.self
     }
 
+    public async getViewvabel () : Promise<Array<UserDetails>>  {
+        const response = await axios.get(
+            this.getNameURL(),
+            this.generateHeader())
+        console.log(response)
+        return response.data.viewable
+    }
+
     public async getCGMData (daysBack : number) : Promise<DateValue[]> {
         const daysSinceLastData = d3.timeDays(new Date("2022-01-29"), new Date()).length
 

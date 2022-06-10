@@ -49,7 +49,6 @@ function loadName(){
   userData.then(data => {
     if (isAuthenticated()) {
       console.log(data);
-      //alert(data.isDoctor);
       (document.getElementById('currentUserName') as any).innerText = (data.last_name + ", " + data.first_name);
       (document.getElementById('currentUserEmail') as any).innerText = data.email
     }
