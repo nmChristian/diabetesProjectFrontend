@@ -1,6 +1,5 @@
 <template>
   <div>
-      <svg></svg>
       <forecast-series
           :data="data"
       />

@@ -16,9 +16,10 @@ const props = defineProps<{
   data : DateValue[],
   timeInterval : TimeInterval,
   graphLayout? : GraphLayout,
+  onBrushEnd? : any,
 }>()
 
 const graph = computed(() =>
-    forecastGraph(props.data, props.timeInterval, { graphLayout : props.graphLayout }))
+    forecastGraph(props.data, props.timeInterval, { graphLayout : props.graphLayout, onBrushEnd : props.onBrushEnd }))
 
 </script>

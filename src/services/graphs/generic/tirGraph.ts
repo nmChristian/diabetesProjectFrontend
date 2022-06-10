@@ -37,15 +37,16 @@ export default function tirGraph (occurrences: number[], colors: string[], {
         .join("g")
 
 
-    bars.append("rect")
-            .attr("y", (_,i) => startPos[i] - heights[i])
-            .attr("height", (_, i) => heights[i])
+    const barRect = bars.append("rect")
             .attr("width", width)
+            .attr("y", (_,i) => startPos[i] - heights[i])
             .attr("fill", (_,i) => colors[i])
             .attr("style", "fill-opacity: 0.9;")
+            .transition().duration(500).delay((d,i, a) => posScale.invert(startPos[(a.length - i)]) * 500)
+        .ease(d3.easeBackOut)
+            .attr("height", (_, i) => heights[i])
 
-    //bars.call(() => console.log("Stuff changed"))
-    bars.on("mouseover", function (e,d) { console.log("FEM FLADE FISK"); console.log(e); console.log(d)})
-    bars.on('enter',() => console.log("MY MAN"))
+
+
     return out.node()
 }
