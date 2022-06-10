@@ -41,8 +41,19 @@
 import {RouterLink, RouterView} from 'vue-router'
 import {defineComponent} from "vue";
 import backend from "@/services/backend";
+import type {UserDetails} from "@/services/core/dbtypes";
+import {isAuthenticated} from "@/services/authentication";
 
-let name = ""
+function loadName(){
+  let userData = backend.getUserDetails()
+  userData.then(data => {
+    if (isAuthenticated()) {
+      console.log(data);
+      (document.getElementById('currentUserName') as any).innerText = (data.last_name + ", " + data.first_name);
+      (document.getElementById('currentUserEmail') as any).innerText = data.email
+    }
+  })
+}
 
 export default defineComponent({
 	components: {
@@ -50,12 +61,15 @@ export default defineComponent({
 		RouterView
 	},
   mounted(){
-    let userData = backend.getUserDetails()
-    userData.then(data => {
-      document.getElementById('currentUserName').innerText =   data.last_name + ", " + data.first_name
-      document.getElementById('currentUserEmail').innerText = data.email
-    })
+    loadName()
   },
+  watch:{
+    $route (to, from){
+      if(from.fullPath.toLowerCase() === "/sign-in"){
+        loadName()
+      }
+    }
+  }
 })
 
 </script>

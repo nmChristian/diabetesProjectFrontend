@@ -19,7 +19,16 @@ class Backend {
         const response = await axios.get(
             this.getNameURL(),
             this.generateHeader())
-        return response.data[0]
+        console.log(response)
+        return response.data.self
+    }
+
+    public async getViewvabel () : Promise<Array<UserDetails>>  {
+        const response = await axios.get(
+            this.getNameURL(),
+            this.generateHeader())
+        console.log(response)
+        return response.data.viewable
     }
 
     public async getCGMData (daysBack : number) : Promise<DateValue[]> {
