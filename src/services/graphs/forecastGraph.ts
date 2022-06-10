@@ -92,12 +92,12 @@ export default function forecastGraph(dateValues: DateValue[], timeInterval : Ti
 
 
     applyAxis(svg, yAxis, { textCSS : () => "font-weight: bold;", removeDomain: true} )
-    console.log("VALUES")
-    console.log(xScale.domain())
+    //console.log("VALUES")
+    //console.log(xScale.domain())
     const brush = d3.brushX<any>()
         .extent([[0,0],[width, height]])
-        .on("start brush end", ({selection}) =>  { console.log("SELECTION"); console.log(selection) } )
-    console.log(brush.touchable())
+        .on("start brush end", ({selection}) =>  { })//console.log("SELECTION"); console.log(selection) } )
+    //console.log(brush.touchable())
     svg.append("g")
         .attr("class", "brush")
         .call(brush)

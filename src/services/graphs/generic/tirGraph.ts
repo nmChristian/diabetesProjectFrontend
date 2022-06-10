@@ -31,10 +31,11 @@ export default function tirGraph (occurrences: number[], colors: string[], {
     const startPos : number[] = frequencies.reduce<number[]>((startPos, _, i) => startPos.concat(i == 0 ? posScale(0) :  startPos[i - 1] - heights[i - 1] - offsets[i - 1]), [])
 
     // Bars
-    const bars = svg.append("g")
+    const bars  = svg.append("g")
         .selectAll("g")
         .data(frequencies)
         .join("g")
+
 
     bars.append("rect")
             .attr("y", (_,i) => startPos[i] - heights[i])
@@ -43,5 +44,8 @@ export default function tirGraph (occurrences: number[], colors: string[], {
             .attr("fill", (_,i) => colors[i])
             .attr("style", "fill-opacity: 0.9;")
 
+    bars.call(() => console.log("Stuff changed"))
+    bars.on("mouseover", function (e,d) { console.log("FEM FLADE FISK"); console.log(e); console.log(d)})
+    bars.on('enter',() => console.log("MY MAN"))
     return out.node()
 }

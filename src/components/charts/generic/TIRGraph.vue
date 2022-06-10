@@ -17,7 +17,9 @@ const props = defineProps<{
 }>()
 
 const graph = computed(() =>
-    tirGraph(props.occurrences, props.colors,{ graphLayout : props.graphLayout, offset : props.offset}))
+    //@ts-ignore
+    tirGraph(props.occurrences, props.colors,{ graphLayout : props.graphLayout, offset : props.offset})
+)
 
 </script>
 
