@@ -3,8 +3,8 @@
 		<img class=user-icon src="@/assets/user.png" @click="$router.push('/sign-up')" alt="User icon"/>
 
 		<div class=currentUserInfo>
-			<p>Name</p>
-			<p>Email</p>
+			<p id="currentUserName"></p>
+			<p id="currentUserEmail"></p>
 		</div>
 
 		<input class=searchField type="text" placeholder="Search bar (not functional)">
@@ -40,13 +40,22 @@
 
 import {RouterLink, RouterView} from 'vue-router'
 import {defineComponent} from "vue";
+import backend from "@/services/backend";
+
+let name = ""
 
 export default defineComponent({
 	components: {
 		RouterLink,
 		RouterView
 	},
-
+  mounted(){
+    let userData = backend.getUserDetails()
+    userData.then(data => {
+      document.getElementById('currentUserName').innerText =   data.last_name + ", " + data.first_name
+      document.getElementById('currentUserEmail').innerText = data.email
+    })
+  },
 })
 
 </script>
