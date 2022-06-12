@@ -1,7 +1,7 @@
 import {getApiKey} from "@/services/authentication";
 import axios from "axios";
 import type {DateValue} from "@/services/core/datatypes";
-import {timeSeriesToDateValue} from "@/services/core/datatypes";
+import {mMolPerLToMgPerL, timeSeriesToDateValue} from "@/services/core/datatypes";
 import type {UserDetails} from "@/services/core/dbtypes";
 import * as d3 from "d3";
 
@@ -19,7 +19,6 @@ class Backend {
         const response = await axios.get(
             this.getNameURL(),
             this.generateHeader())
-        console.log(response)
         return response.data.self
     }
 
@@ -27,19 +26,28 @@ class Backend {
         const response = await axios.get(
             this.getNameURL(),
             this.generateHeader())
-        console.log(response)
         return response.data.viewable
     }
 
-    public async getCGMData (daysBack : number) : Promise<DateValue[]> {
+    public async getCGMDataMGDL (daysBack : number) : Promise<DateValue[]> {
         const daysSinceLastData = d3.timeDays(new Date("2022-01-29"), new Date()).length
-
         const response = await axios.post(
             this.getDataURL(),
             this.getCGMDaysBack(daysSinceLastData + daysBack),
             this.generateHeader())
 
-        return timeSeriesToDateValue(response.data.cgm, v => v * 18)
+        console.log(response.data)
+        return timeSeriesToDateValue(response.data.cgm, mMolPerLToMgPerL    )
+    }
+    public async getData (daysBack : number = 7, show : string[] = ["cgm"]) {
+        const daysSinceLastData = d3.timeDays(new Date("2022-01-29"), new Date()).length
+        const response = await axios.post(
+            this.getDataURL(),
+            { ndays: (daysSinceLastData + daysBack), show: show },
+            this.generateHeader())
+
+        console.log(response.data)
+        return response.data
     }
 
     /**

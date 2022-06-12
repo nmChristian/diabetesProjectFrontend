@@ -1,17 +1,17 @@
 import * as d3 from "d3";
 import type {DateValue} from "@/services/core/datatypes";
 import {dateValueIsValid} from "@/services/core/datatypes";
-import {CGM_RANGE, COLOR_SCHEME} from "@/services/core/shared";
+import {CGM_RANGE} from "@/services/core/shared";
 import {generateSVG} from "@/services/core/graphMethods";
 import {generateGradientCGMCSSApply} from "@/services/graphs/generic/generateGradientCSS";
 import {applyAxis, drawYAxisCGM} from "@/services/core/graph/axisDrawer";
 import {drawHorizontalCGMIndicatorLines, drawVerticalLines} from "@/services/core/graph/lineDrawer";
 import {GraphLayout} from "@/services/core/graphtypes";
 
-export default function lineGraph(dateValues: DateValue[],
+export default function lineGraphCGM(dateValues: DateValue[],
                                      {
-                                         graphLayout = new GraphLayout(800, 400, 20, 30, 20, 40),
-                                     }) {
+                                      graphLayout = new GraphLayout(800, 400, 20, 30, 20, 40),
+                                  }) {
     const {width, height} = graphLayout
     const {out, svg} = generateSVG(graphLayout)
 
@@ -19,10 +19,7 @@ export default function lineGraph(dateValues: DateValue[],
         .domain(d3.extent(dateValues, ([date,]) => date) as [Date, Date])
         .range([0, width])
 
-    const yScale = d3.scaleLinear()
-        .domain([0, d3.max(dateValues, ([,value]) => value)] as [number, number])
-        .range([height, 0])
-        .nice()
+    const yScale = d3.scaleLinear(CGM_RANGE, [height, 0])
 
     // The Line
     const lineGen = d3.line<DateValue>()
@@ -33,14 +30,21 @@ export default function lineGraph(dateValues: DateValue[],
 
     svg.append("path")
         .attr("fill", "none")
-        .attr("style", "stroke: " + COLOR_SCHEME[0] + "; stroke-width: 3;")
+        .attr("style", "stroke: " + generateGradientCGMCSSApply(svg, height) + "; stroke-width: 3;")
         .attr("d", lineGen)
+
+
+    // Draw lines
+    drawHorizontalCGMIndicatorLines(svg, xScale, yScale)
+    // Drawing
+    drawVerticalLines<Date, number>(svg, xScale, yScale,
+        // List of days between start and stop
+        d3.timeDays(xScale.domain()[0], xScale.domain()[1]))
 
     // Axis
     const xAxis = d3.axisBottom(xScale)
     applyAxis(svg, xAxis, {yOffset: height})
-    const yAxis = d3.axisLeft(yScale).ticks(4)
-    applyAxis(svg, yAxis, {})
+    drawYAxisCGM(svg, yScale)
 
     return out
 }

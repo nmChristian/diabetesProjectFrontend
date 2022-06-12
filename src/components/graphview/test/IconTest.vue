@@ -2,20 +2,20 @@
   <div>
     <h1>Icon graphs</h1>
     <icon-graph
-        :median-data-in-hours="medianDataInHours"
+        :median-data-in-hours="medianCGMInHours"
         :health-level="HealthLevel.Good"
     />
 
     <icon-graph
-        :median-data-in-hours="medianDataInHours"
+        :median-data-in-hours="medianCGMInHours"
         :health-level="HealthLevel.High"
     />
     <icon-graph
-        :median-data-in-hours="medianDataInHours"
+        :median-data-in-hours="medianCGMInHours"
         :health-level="HealthLevel.Low"
     />
     <icon-graph
-        :median-data-in-hours="medianDataInHours"
+        :median-data-in-hours="medianCGMInHours"
         :health-level="HealthLevel.VeryHigh"
     />
   </div>
@@ -28,7 +28,7 @@ import {HealthLevel} from "@/services/core/shared";
 import type {Point} from "@/services/core/datatypes";
 
 const props = defineProps<{
-  medianDataInHours: Point[]
+  medianCGMInHours: Point[]
 }>()
 
 

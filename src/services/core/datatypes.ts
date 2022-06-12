@@ -131,5 +131,5 @@ function getCGMOccurrences (data : DateValue[]) {
     return occurrences
 }
 
-
+export const mMolPerLToMgPerL = (v : number) => v * 18
 

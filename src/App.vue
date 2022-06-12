@@ -48,7 +48,6 @@ function loadName(){
   let userData = backend.getUserDetails()
   userData.then(data => {
     if (isAuthenticated()) {
-      console.log(data);
       (document.getElementById('currentUserName') as any).innerText = (data.last_name + ", " + data.first_name);
       (document.getElementById('currentUserEmail') as any).innerText = data.email
     }

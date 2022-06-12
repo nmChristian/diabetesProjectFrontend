@@ -73,10 +73,10 @@ import {COLOR_SCHEME} from "@/services/core/shared";
 import {GraphLayout} from "@/services/core/graphtypes";
 
 const props = defineProps<{
-  data: DateValue[],
+  cgm: DateValue[],
 }> ()
 
-const occurrences = computed (() => getCGMOccurrences(props.data))
+const occurrences = computed (() => getCGMOccurrences(props.cgm))
 
 const layout = new GraphLayout(50, 400, 0, 10, 0, 10)
 

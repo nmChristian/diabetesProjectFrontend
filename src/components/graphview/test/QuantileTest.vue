@@ -4,7 +4,7 @@
     <quantile-graph
         :bucket-series-of-quantiles="bucketSeriesOfQuantiles"
         :quantiles-used-in-bucket="quantiles"
-        :median-data-in-hours="medianDataInHours"
+        :median-data-in-hours="medianCGMInHours"
     />
   </div>
 
@@ -18,8 +18,8 @@ import {addEdgesToSplitBucket, SPLIT_BY_DAY, toBuckets} from "@/services/core/da
 import {calculateQuantiles, toBucketSeries} from "@/services/graphs/generic/quantileGraph";
 
 const props = defineProps<{
-  data: DateValue[],
-  medianDataInHours: Point[],
+  cgm: DateValue[],
+  medianCGMInHours: Point[],
 }>()
 
 const RESOLUTION = 96
@@ -30,7 +30,7 @@ const bucketSeriesOfQuantiles = computed(() => {
   const split = SPLIT_BY_DAY
 
   const buckets: BucketPoint[] =
-      toBuckets(props.data, split, RESOLUTION)
+      toBuckets(props.cgm, split, RESOLUTION)
 
   const quantileBuckets: BucketPoint[] =
       calculateQuantiles(buckets, quantiles)

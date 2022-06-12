@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Vejrudsigt graf</h1>
+    <h2>Vejrudsigt graf</h2>
 
     <div style="display: grid; place-items: center;">
       <p>Split by</p>
