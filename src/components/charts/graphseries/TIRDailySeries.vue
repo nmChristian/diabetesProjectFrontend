@@ -4,14 +4,14 @@
       <div
           v-for="(hour, i) in hours"
       >
-        <p>{{ hour }} - {{ hours[i + 1] ?? 24}}</p>
+        <p>{{ hour }} - {{ hours[i + 1] ?? 24 }}</p>
         <t-i-r-graph
             :colors="colors"
             :graph-layout="graphLayout"
             :occurrences="occurences[i]"
         />
-        <p>{{averages[i].toFixed(2)}}</p>
-        <p>{{deviations[i].toFixed(2)}}</p>
+        <p>{{ averages[i].toFixed(2) }}</p>
+        <p>{{ deviations[i].toFixed(2) }}</p>
       </div>
     </div>
   </div>
@@ -19,8 +19,8 @@
 
 <script lang="ts" setup>
 
-import type {BucketPoint, DateValue} from "@/services/core/datatypes";
-import {getCGMOccurrences, SPLIT_BY_DAY, TimeUnit} from "@/services/core/datatypes";
+import type {DateValue} from "@/services/core/datatypes";
+import {getCGMOccurrences, SPLIT_BY_DAY} from "@/services/core/datatypes";
 import {computed} from "vue";
 import {COLOR_SCHEME, dateToSeconds} from "@/services/core/shared";
 import * as d3 from "d3";
@@ -38,7 +38,7 @@ const props = defineProps<{
 }>()
 
 // Ranges [0, 6, 12, 18],
-const hours : number[] = [...Array(24 / hoursPerRange).keys()].map(hour => hour * hoursPerRange)
+const hours: number[] = [...Array(24 / hoursPerRange).keys()].map(hour => hour * hoursPerRange)
 // in seconds => [0, 6 * 3600, 12 * 3600, 18 * 3600]
 const ranges: number[] = hours.map<number>(hour => hour * 60 * 60)
 
@@ -48,14 +48,11 @@ const splitDateValues = computed(() => d3.bin<DateValue, number>()
     .thresholds(ranges)(props.data) as DateValue[][]
 )
 
+// Convert the bin into date values
+const occurences = computed(() => splitDateValues.value.map<number[]>(getCGMOccurrences))
 
-const occurences = computed(() =>
-    // Convert the bin into date values
-    splitDateValues.value.map<number[]>(getCGMOccurrences)
-)
-
-const averages = computed ( () => splitDateValues.value.map<number>(dateValues => d3.mean(dateValues, ([,value]) => value) ?? NaN))
-const deviations = computed ( () => splitDateValues.value.map<number>(dateValues => d3.deviation(dateValues, ([,value]) => value) ?? NaN))
+const averages = computed(() => splitDateValues.value.map<number>(dateValues => d3.mean(dateValues, ([, value]) => value) ?? NaN))
+const deviations = computed(() => splitDateValues.value.map<number>(dateValues => d3.deviation(dateValues, ([, value]) => value) ?? NaN))
 
 
 </script>
