@@ -8,7 +8,6 @@
         :colors="COLOR_SCHEME"
         :occurrences="frequencies"
     />
-    <h3>TIR Series daily split into 1 hour intervals</h3>
     <t-i-r-daily-series :data="cgm"/>
 
     <raw-series

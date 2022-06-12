@@ -3,7 +3,7 @@ import {CGM_THRESHOLDS, dateToSeconds} from "@/services/core/shared";
 import type {TimeSeries} from "@/services/core/dbtypes";
 
 export type {DateValue, Point, BucketPoint}
-export {toDateValue, timeSeriesToDateValue, toBuckets, toBucketOfDateValues, bucketToMedian}
+export {toDateValue, timeSeriesToDateValue, toBuckets, bucketToMedian}
 export {addEdgesToSplit, addEdgesToSplitBucket}
 export {getCGMOccurrences}
 
