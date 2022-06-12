@@ -1,17 +1,18 @@
 <template>
   <div>
-    <div style="display: flex">
+    <div style="display: flex; text-align: center;">
       <div
-          v-for="occurrence in occurences"
+          v-for="(hour, i) in hours"
       >
-        <h3>{{ occurrence[0] }}</h3>
+        <p>{{ hour }} - {{ hours[i + 1] ?? 24}}</p>
         <t-i-r-graph
             :colors="colors"
             :graph-layout="graphLayout"
-            :occurrences="occurrence[1]"
+            :occurrences="occurences[i]"
         />
+        <p>{{averages[i].toFixed(2)}}</p>
+        <p>{{deviations[i].toFixed(2)}}</p>
       </div>
-      <h3>24</h3>
     </div>
   </div>
 </template>
@@ -26,29 +27,35 @@ import * as d3 from "d3";
 import TIRGraph from "@/components/charts/generic/TIRGraph.vue";
 import {GraphLayout} from "@/services/core/graphtypes";
 
-const hoursPerRange = 1
+const hoursPerRange = 2
 
 const colors = COLOR_SCHEME
-const graphLayout = new GraphLayout(30, 400, 0, 10, 0, 10)
+const graphLayout = new GraphLayout(50, 400, 0, 10, 0, 10)
 
 
 const props = defineProps<{
   data: DateValue[]
 }>()
 
-// Ranges [0, 6, 12, 18], in seconds => [0, 6 * 3600, 12 * 3600, 18 * 3600]
-const ranges: number[] = [...Array(24 / hoursPerRange).keys()].map<number>(hour => hour * hoursPerRange * 60 * 60)
+// Ranges [0, 6, 12, 18],
+const hours : number[] = [...Array(24 / hoursPerRange).keys()].map(hour => hour * hoursPerRange)
+// in seconds => [0, 6 * 3600, 12 * 3600, 18 * 3600]
+const ranges: number[] = hours.map<number>(hour => hour * 60 * 60)
 
 // Split data into hour intervals of a day
-const bins = computed(() => d3.bin<DateValue, number>()
+const splitDateValues = computed(() => d3.bin<DateValue, number>()
     .value(([date,]) => dateToSeconds(date) % SPLIT_BY_DAY)
-    .thresholds(ranges)(props.data))
+    .thresholds(ranges)(props.data) as DateValue[][]
+)
+
 
 const occurences = computed(() =>
     // Convert the bin into date values
-    bins.value.map<BucketPoint>((bin: d3.Bin<DateValue, number>) =>
-        [(bin.x0 ?? 0) / TimeUnit.Hour, getCGMOccurrences(bin)])
+    splitDateValues.value.map<number[]>(getCGMOccurrences)
 )
+
+const averages = computed ( () => splitDateValues.value.map<number>(dateValues => d3.mean(dateValues, ([,value]) => value) ?? NaN))
+const deviations = computed ( () => splitDateValues.value.map<number>(dateValues => d3.deviation(dateValues, ([,value]) => value) ?? NaN))
 
 
 </script>

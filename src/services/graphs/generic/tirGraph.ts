@@ -11,7 +11,7 @@ export default function tirGraph(occurrences: number[], colors: string[], {
 
     // TODO: Force sizes and colors to be the same length
     if (occurrences.length != colors.length) {
-        console.error("NOT SAME LENGTH")
+        console.error("NOT SAME LENGTH data length: " +  occurrences.length + " - colors length "  +  colors.length)
         return out
     }
 
