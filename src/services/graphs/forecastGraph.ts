@@ -14,8 +14,7 @@ import {fillHorizontalArea} from "@/services/core/graph/shapeDrawer";
 export default function forecastGraph(dateValues: DateValue[], timeInterval: TimeInterval,
                                       {
                                           graphLayout = new GraphLayout(800, 400, 20, 30, 20, 40),
-                                          onBrushEnd = (event: d3.BrushBehavior<any>, graphData: any) => {
-                                          },
+                                          onBrushEnd = (event: d3.D3BrushEvent<any>) => {},
                                       }) {
     const {width, height} = graphLayout
     const {out, svg} = generateSVG(graphLayout)
@@ -89,17 +88,19 @@ export default function forecastGraph(dateValues: DateValue[], timeInterval: Tim
 
     applyAxis(svg, yAxis, {textCSS: () => "font-weight: bold;", removeDomain: true})
 
+    ///*
+    let brush, brushGroup
     // Brush
     if (onBrushEnd !== undefined) {
-        const group = svg.append("g")
-        const brush = d3.brushX<undefined>()
+
+        brushGroup = svg.append("g")
+        brush = d3.brushX<undefined>()
             .extent([[0, 0], [width, height]])
-            .on("end", (event) => onBrushEnd(event, {group: group, xScale: xScale}))
+            .on("end", onBrushEnd)
 
-        group
-            .call(brush)
-    }
+        brushGroup.call(brush)
+    }//*/
 
-
-    return out
+    return {svg: out, xScale: xScale, brush: brush, brushGroup: brushGroup}
 }
+

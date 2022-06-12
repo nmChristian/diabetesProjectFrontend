@@ -20,6 +20,6 @@ const props = defineProps<{
 }>()
 
 const graph = computed(() =>
-    forecastGraph(props.data, props.timeInterval, { graphLayout : props.graphLayout, onBrushEnd : props.onBrushEnd }))
+    forecastGraph(props.data, props.timeInterval, { graphLayout : props.graphLayout, onBrushEnd : props.onBrushEnd }).svg)
 
 </script>

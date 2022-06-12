@@ -37,6 +37,7 @@ onMounted(() => {
   loadData()
   loadUserDetails()
 })
+
 async function loadUserDetails () {
   userDetails.value = await backend.getUserDetails()
 }
