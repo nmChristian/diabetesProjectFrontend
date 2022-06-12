@@ -14,7 +14,8 @@ import {fillHorizontalArea} from "@/services/core/graph/shapeDrawer";
 export default function forecastGraph(dateValues: DateValue[], timeInterval: TimeInterval,
                                       {
                                           graphLayout = new GraphLayout(800, 400, 20, 30, 20, 40),
-                                          onBrushEnd = (event: d3.D3BrushEvent<any>) => {},
+                                          onBrushEnd = (event: d3.D3BrushEvent<any>) => {
+                                          },
                                       }) {
     const {width, height} = graphLayout
     const {out, svg} = generateSVG(graphLayout)

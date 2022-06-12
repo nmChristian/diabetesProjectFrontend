@@ -4,10 +4,10 @@ const width = 800
 const height = 120
 const margin = ({top: 10, right: 0, bottom: 20, left: 0})
 //@ts-ignore
-const interval : d3.TimeInterval = d3.timeHour.every(12)
+const interval: d3.TimeInterval = d3.timeHour.every(12)
 
 
-export function brushExample () {
+export function brushExample() {
     console.log("sdasd")
 
     const svg = d3.select("svg")
@@ -24,7 +24,7 @@ export function brushExample () {
     svg.append("g")
         .call(brush);
 
-    function brushed(event : any, d : any) {
+    function brushed(event: any, d: any) {
         if (!event.sourceEvent) return;
         const d0 = event.selection.map(x.invert);
         const d1 = d0.map(interval.round);
@@ -38,7 +38,7 @@ export function brushExample () {
         d3.select(d).call(brush.move, d1.map(x));
     }
 
-return svg.node();
+    return svg.node();
 }
 
 
@@ -51,18 +51,18 @@ const axisBottom = d3.axisBottom(x)
     .tickFormat(() => "")
 const xAxis = (g: any) => g
     .attr("transform", `translate(0,${height - margin.bottom})`)
-    .call((g : any) => g.append("g")
+    .call((g: any) => g.append("g")
         .call(axisBottom)
-        .call((g : any) => g.select(".domain")
+        .call((g: any) => g.select(".domain")
             .attr("fill", "#ddd")
             .attr("stroke", null))
-        .call((g : any)=> g.selectAll(".tick line")
+        .call((g: any) => g.selectAll(".tick line")
             .attr("stroke", "#fff")
-            .attr("stroke-opacity", (d : any) => d <= d3.timeDay(d) ? 1 : 0.5)))
-    .call((g : any) => g.append("g")
+            .attr("stroke-opacity", (d: any) => d <= d3.timeDay(d) ? 1 : 0.5)))
+    .call((g: any) => g.append("g")
         .call(d3.axisBottom(x)
             .ticks(d3.timeDay)
             .tickPadding(0))
         .attr("text-anchor", null)
-        .call((g : any) => g.select(".domain").remove())
-        .call((g : any) => g.selectAll("text").attr("x", 6)))
+        .call((g: any) => g.select(".domain").remove())
+        .call((g: any) => g.selectAll("text").attr("x", 6)))

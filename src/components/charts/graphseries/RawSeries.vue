@@ -2,7 +2,7 @@
   <div>
     <h2>Raw Data Graph Series</h2>
     <div v-for="dataset in datasets">
-      <p>{{dataset.title}}</p>
+      <p>{{ dataset.title }}</p>
       <graph
           :svg="dataset.graph"
       />
@@ -11,7 +11,7 @@
 
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import type {DateValue} from "@/services/core/datatypes";
 import {GraphLayout} from "@/services/core/graphtypes";
 import {computed} from "vue";
@@ -27,17 +27,21 @@ const props = defineProps<{
   bolus: DateValue[],
 }>()
 // Zip titles and values
-const datasets = computed ( () => titles.map((title, i) => ({title: title, data: values.value[i], graph: graphs.value[i]})))
+const datasets = computed(() => titles.map((title, i) => ({
+  title: title,
+  data: values.value[i],
+  graph: graphs.value[i]
+})))
 
 const titles = ["CGM", "MEALS", "BASAL", "BOLUS"]
-const values = computed( () => [props.cgm, props.meals, props.basal, props.bolus])
-const graphs = computed( () => values.value.map((data, i)  => {
+const values = computed(() => [props.cgm, props.meals, props.basal, props.bolus])
+const graphs = computed(() => values.value.map((data, i) => {
   if (i == 3)
-    return dotGraph(data, {graphLayout : graphLayout} )
+    return dotGraph(data, {graphLayout: graphLayout})
   if (i == 1)
-    return barGraph(data, {graphLayout : graphLayout})
+    return barGraph(data, {graphLayout: graphLayout})
   else
-    return lineGraph(data, {graphLayout : graphLayout} )
+    return lineGraph(data, {graphLayout: graphLayout})
 }))
 
 const graphLayout = new GraphLayout(1000, 150, 20, 20, 20, 40)

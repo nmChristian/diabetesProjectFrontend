@@ -15,21 +15,21 @@ class Backend {
     public getDataURL = () => this.url + "/data/get"
     public getNameURL = () => this.url + "/user"
 
-    public async getUserDetails () : Promise<UserDetails> {
+    public async getUserDetails(): Promise<UserDetails> {
         const response = await axios.get(
             this.getNameURL(),
             this.generateHeader())
         return response.data.self
     }
 
-    public async getViewvabel () : Promise<Array<UserDetails>>  {
+    public async getViewvabel(): Promise<Array<UserDetails>> {
         const response = await axios.get(
             this.getNameURL(),
             this.generateHeader())
         return response.data.viewable
     }
 
-    public async getCGMDataMGDL (daysBack : number) : Promise<DateValue[]> {
+    public async getCGMDataMGDL(daysBack: number): Promise<DateValue[]> {
         const daysSinceLastData = d3.timeDays(new Date("2022-01-29"), new Date()).length
         const response = await axios.post(
             this.getDataURL(),
@@ -37,13 +37,14 @@ class Backend {
             this.generateHeader())
 
         console.log(response.data)
-        return timeSeriesToDateValue(response.data.cgm, mMolPerLToMgPerL    )
+        return timeSeriesToDateValue(response.data.cgm, mMolPerLToMgPerL)
     }
-    public async getData (daysBack : number = 7, show : string[] = ["cgm"]) {
+
+    public async getData(daysBack: number = 7, show: string[] = ["cgm"]) {
         const daysSinceLastData = d3.timeDays(new Date("2022-01-29"), new Date()).length
         const response = await axios.post(
             this.getDataURL(),
-            { ndays: (daysSinceLastData + daysBack), show: show },
+            {ndays: (daysSinceLastData + daysBack), show: show},
             this.generateHeader())
 
         return response.data
@@ -53,11 +54,11 @@ class Backend {
      * Returns the data type that is used to request the GCM data N days back
      * @param daysBack - The amount of days we have to go back
      */
-    public getCGMDaysBack = (daysBack: number) => ({ ndays: daysBack, show: ["cgm"] })
+    public getCGMDaysBack = (daysBack: number) => ({ndays: daysBack, show: ["cgm"]})
 
 
-    public generateHeader() : { headers: { api_key: string } } {
-        const api : string = getApiKey() ?? ""
+    public generateHeader(): { headers: { api_key: string } } {
+        const api: string = getApiKey() ?? ""
         return {
             headers: {api_key: api}
         }

@@ -1,26 +1,26 @@
 <template>
   <div>
 
-    <forecast-series :data="cgm" />
+    <forecast-series :data="cgm"/>
 
     <h3>24 Hour back Time in Range Graph</h3>
-      <t-i-r-graph
-          :occurrences="frequencies"
-          :colors="COLOR_SCHEME"
-      />
+    <t-i-r-graph
+        :colors="COLOR_SCHEME"
+        :occurrences="frequencies"
+    />
     <h3>TIR Series daily split into 1 hour intervals</h3>
-    <t-i-r-daily-series :data="cgm" />
+    <t-i-r-daily-series :data="cgm"/>
 
     <raw-series
-      :cgm="cgm"
-      :meals="meals"
-      :basal="basal"
-      :bolus="bolus"
+        :basal="basal"
+        :bolus="bolus"
+        :cgm="cgm"
+        :meals="meals"
     />
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import * as d3 from "d3";
 import type {DateValue} from "@/services/core/datatypes";
 import {getCGMOccurrences} from "@/services/core/datatypes";
@@ -41,8 +41,8 @@ const props = defineProps<{
 }>()
 
 // TIR Methods
-const lastDateInDataSet = computed( () => props.cgm.length === 0 ? new Date() : props.cgm[props.cgm.length - 1][0])
-const lastDayData = computed (() => props.cgm.filter(([date,]) => date > d3.timeDay.offset(lastDateInDataSet.value, -1)))
+const lastDateInDataSet = computed(() => props.cgm.length === 0 ? new Date() : props.cgm[props.cgm.length - 1][0])
+const lastDayData = computed(() => props.cgm.filter(([date,]) => date > d3.timeDay.offset(lastDateInDataSet.value, -1)))
 const frequencies = computed(() => getCGMOccurrences(lastDayData.value))
 
 </script>

@@ -21,14 +21,15 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import LineGraph from "@/components/charts/generic/LineGraph.vue"
 import LineGraphDaily from "@/components/charts/generic/LineGraphDaily.vue";
 import type {DateValue, Point} from "@/services/core/datatypes";
 
 const props = defineProps<{
   cgm: DateValue[],
-  medianCGMInHours: Point[]}>
+  medianCGMInHours: Point[]
+}>
 ()
 
 </script>

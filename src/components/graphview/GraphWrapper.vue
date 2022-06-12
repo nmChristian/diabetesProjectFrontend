@@ -14,16 +14,16 @@
     </div>
 
     <router-view
-        :cgm="cgmInDateValue"
-        :median-c-g-m-in-hours="medianCGMInHours"
-        :meals="mealsInDateValue"
         :basal="basalInDateValue"
         :bolus="bolusInDateValue"
+        :cgm="cgmInDateValue"
+        :meals="mealsInDateValue"
+        :median-c-g-m-in-hours="medianCGMInHours"
     />
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import type {Ref} from "vue"
 import {computed, onMounted, ref,} from "vue";
 import type {DateValue, Point} from "@/services/core/datatypes"

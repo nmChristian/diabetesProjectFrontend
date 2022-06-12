@@ -3,18 +3,18 @@
     <!-- TODO soter listen efter hvor kritisk de er -->
     <ListViewPatientElement
         v-for="u in users"
-        :user="u.user"
-        :cpr = 'u.cpr'
-        :medianDataInHours = 'u.medianDataInHours'
+        :cpr='u.cpr'
         :doctor="false"
+        :healthLevel='u.healthLevel'
+        :medianDataInHours='u.medianDataInHours'
         :selected="parseInt($route.params.id)"
-        :healthLevel = 'u.healthLevel'
+        :user="u.user"
         @click="clickedItem(u.user.id)">
     </ListViewPatientElement>
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {computed} from 'vue'
 
 import cgm_083 from "@/assets/demo/users/cgm_083.json" // 95% 5%
@@ -30,23 +30,43 @@ import {HealthLevel} from "@/services/core/shared";
 const daysBack = 28
 const RESOLUTION = 96
 const userlist = [
-    new User(0, "Alexander", 199),
-    new User(1, "Christian", 21),
-    new User(2, "Niels", 34),
-    new User(3, "Jonas", 21)]
+  new User(0, "Alexander", 199),
+  new User(1, "Christian", 21),
+  new User(2, "Niels", 34),
+  new User(3, "Jonas", 21)]
 
-const cgmToData  = (cgmData : {date: string, cgm: number}[]) : DateValue[] =>
+const cgmToData = (cgmData: { date: string, cgm: number }[]): DateValue[] =>
     toDateValue(cgmData, (data => [new Date(data.date), data.cgm * 18]))
 
-const dataToMedian = (data : DateValue[], split : number) : Point[] =>
+const dataToMedian = (data: DateValue[], split: number): Point[] =>
     bucketToMedian(toBuckets(data, split, RESOLUTION))
 
 
 const users = computed(() =>
-    [ {user: userlist[0], cpr:"ddmmyy-xxx1", healthLevel: HealthLevel.Good ,medianDataInHours: dataToMedian(cgmToData(cgm_083), SPLIT_BY_DAY)},
-      {user: userlist[1], cpr:"ddmmyy-xxx2", healthLevel: HealthLevel.Good, medianDataInHours: dataToMedian(cgmToData(cgm_123), SPLIT_BY_DAY)},
-      {user: userlist[2], cpr:"ddmmyy-xxx3", healthLevel: HealthLevel.High, medianDataInHours: dataToMedian(cgmToData(cgm_200), SPLIT_BY_DAY)},
-      {user: userlist[3], cpr:"ddmmyy-xxx4", healthLevel: HealthLevel.Low, medianDataInHours: dataToMedian(cgmToData(cgm_538), SPLIT_BY_DAY)}
+    [{
+      user: userlist[0],
+      cpr: "ddmmyy-xxx1",
+      healthLevel: HealthLevel.Good,
+      medianDataInHours: dataToMedian(cgmToData(cgm_083), SPLIT_BY_DAY)
+    },
+      {
+        user: userlist[1],
+        cpr: "ddmmyy-xxx2",
+        healthLevel: HealthLevel.Good,
+        medianDataInHours: dataToMedian(cgmToData(cgm_123), SPLIT_BY_DAY)
+      },
+      {
+        user: userlist[2],
+        cpr: "ddmmyy-xxx3",
+        healthLevel: HealthLevel.High,
+        medianDataInHours: dataToMedian(cgmToData(cgm_200), SPLIT_BY_DAY)
+      },
+      {
+        user: userlist[3],
+        cpr: "ddmmyy-xxx4",
+        healthLevel: HealthLevel.Low,
+        medianDataInHours: dataToMedian(cgmToData(cgm_538), SPLIT_BY_DAY)
+      }
     ]
 )
 

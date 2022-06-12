@@ -2,26 +2,26 @@
   <div>
     <h1>Icon graphs</h1>
     <icon-graph
-        :median-data-in-hours="medianCGMInHours"
         :health-level="HealthLevel.Good"
+        :median-data-in-hours="medianCGMInHours"
     />
 
     <icon-graph
-        :median-data-in-hours="medianCGMInHours"
         :health-level="HealthLevel.High"
+        :median-data-in-hours="medianCGMInHours"
     />
     <icon-graph
-        :median-data-in-hours="medianCGMInHours"
         :health-level="HealthLevel.Low"
+        :median-data-in-hours="medianCGMInHours"
     />
     <icon-graph
-        :median-data-in-hours="medianCGMInHours"
         :health-level="HealthLevel.VeryHigh"
+        :median-data-in-hours="medianCGMInHours"
     />
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 
 import IconGraph from "@/components/charts/IconGraph.vue"
 import {HealthLevel} from "@/services/core/shared";

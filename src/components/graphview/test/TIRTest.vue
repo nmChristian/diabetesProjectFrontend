@@ -4,9 +4,9 @@
     <div class="graphs">
       <t-i-r-graph
           v-for="offset in [5,0,10,20,50]"
-          :occurrences="occurrences"
           :colors="COLOR_SCHEME"
           :graph-layout="layout"
+          :occurrences="occurrences"
           :offset="offset"
       />
     </div>
@@ -14,28 +14,28 @@
     <div class="graphs">
       <t-i-r-graph
           v-for="offset in [5, 0]"
-          :occurrences="[0.2, 0.1, 0.2, 0.3, 0.2]"
           :colors="COLOR_SCHEME"
           :graph-layout="layout"
+          :occurrences="[0.2, 0.1, 0.2, 0.3, 0.2]"
           :offset="offset"
       />
       <t-i-r-graph
-          :occurrences="[0.2, 0, 0.2, 0.3, 0.3]"
           :colors="COLOR_SCHEME"
           :graph-layout="layout"
+          :occurrences="[0.2, 0, 0.2, 0.3, 0.3]"
           :offset="5"
       />
       <t-i-r-graph
-          :occurrences="[0.5, 0.2, 0, 0.3, 0]"
           :colors="COLOR_SCHEME"
           :graph-layout="layout"
+          :occurrences="[0.5, 0.2, 0, 0.3, 0]"
           :offset="5"
       />
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 
 import TIRGraph from "@/components/charts/generic/TIRGraph.vue";
 import {computed} from "vue";
@@ -46,9 +46,9 @@ import {GraphLayout} from "@/services/core/graphtypes";
 
 const props = defineProps<{
   cgm: DateValue[],
-}> ()
+}>()
 
-const occurrences = computed (() => getCGMOccurrences(props.cgm))
+const occurrences = computed(() => getCGMOccurrences(props.cgm))
 
 const layout = new GraphLayout(50, 400, 0, 10, 0, 10)
 

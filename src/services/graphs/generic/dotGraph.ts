@@ -1,11 +1,7 @@
 import * as d3 from "d3";
 import type {DateValue} from "@/services/core/datatypes";
-import {dateValueIsValid} from "@/services/core/datatypes";
-import {CGM_RANGE, COLOR_SCHEME} from "@/services/core/shared";
 import {generateSVG} from "@/services/core/graphMethods";
-import {generateGradientCGMCSSApply} from "@/services/graphs/generic/generateGradientCSS";
-import {applyAxis, drawYAxisCGM} from "@/services/core/graph/axisDrawer";
-import {drawHorizontalCGMIndicatorLines, drawVerticalLines} from "@/services/core/graph/lineDrawer";
+import {applyAxis} from "@/services/core/graph/axisDrawer";
 import {GraphLayout} from "@/services/core/graphtypes";
 
 export default function dotGraph(dateValues: DateValue[],
@@ -18,7 +14,7 @@ export default function dotGraph(dateValues: DateValue[],
     const maxDate = d3.max(dateValues, ([date,]) => date)
 
     const xScale = d3.scaleTime()
-        .domain([d3.min(dateValues, ([date,]) => date),maxDate] as [Date, Date])
+        .domain([d3.min(dateValues, ([date,]) => date), maxDate] as [Date, Date])
         .range([0, width])
         .nice()
 
@@ -32,10 +28,10 @@ export default function dotGraph(dateValues: DateValue[],
         .selectAll("circle")
         .data(dateValues)
         .join("circle")
-            .style("fill", "black")
-            .attr("r", 1.5)
-            .attr("cx", ([date,]) => xScale(date))
-            .attr("cy", ([,value]) => yScale(value))
+        .style("fill", "black")
+        .attr("r", 1.5)
+        .attr("cx", ([date,]) => xScale(date))
+        .attr("cy", ([, value]) => yScale(value))
 
     // Axis
     const xAxis = d3.axisBottom(xScale)

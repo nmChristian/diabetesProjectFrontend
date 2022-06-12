@@ -1,17 +1,15 @@
 import * as d3 from "d3";
 import type {DateValue} from "@/services/core/datatypes";
 import {dateValueIsValid} from "@/services/core/datatypes";
-import {CGM_RANGE, COLOR_SCHEME} from "@/services/core/shared";
+import {COLOR_SCHEME} from "@/services/core/shared";
 import {generateSVG} from "@/services/core/graphMethods";
-import {generateGradientCGMCSSApply} from "@/services/graphs/generic/generateGradientCSS";
-import {applyAxis, drawYAxisCGM} from "@/services/core/graph/axisDrawer";
-import {drawHorizontalCGMIndicatorLines, drawVerticalLines} from "@/services/core/graph/lineDrawer";
+import {applyAxis} from "@/services/core/graph/axisDrawer";
 import {GraphLayout} from "@/services/core/graphtypes";
 
 export default function lineGraph(dateValues: DateValue[],
-                                     {
-                                         graphLayout = new GraphLayout(800, 400, 20, 30, 20, 40),
-                                     }) {
+                                  {
+                                      graphLayout = new GraphLayout(800, 400, 20, 30, 20, 40),
+                                  }) {
     const {width, height} = graphLayout
     const {out, svg} = generateSVG(graphLayout)
 
@@ -21,7 +19,7 @@ export default function lineGraph(dateValues: DateValue[],
 
 
     const yScale = d3.scaleLinear()
-        .domain([0, d3.max(dateValues, ([,value]) => value)] as [number, number])
+        .domain([0, d3.max(dateValues, ([, value]) => value)] as [number, number])
         .range([height, 0])
         .nice()
 

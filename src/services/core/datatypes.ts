@@ -32,11 +32,11 @@ export const dateValueIsValid: (dateValue: DateValue) => boolean = ([date, value
 const toDateValue = <T>(rawDataArray: T[], conversion: (rawData: T) => DateValue): DateValue[] =>
     rawDataArray.map<DateValue>(conversion)
 
-const timeSeriesToDateValue = (timeSeries : TimeSeries[],
-                               modifyValueBy : (value : number) => number = (v) => v) =>
+const timeSeriesToDateValue = (timeSeries: TimeSeries[],
+                               modifyValueBy: (value: number) => number = (v) => v) =>
     toDateValue<TimeSeries>(
         timeSeries,
-        ({t, v}) => [new Date(t* 1000), modifyValueBy(v)])
+        ({t, v}) => [new Date(t * 1000), modifyValueBy(v)])
 
 // Buckets
 export const
@@ -80,9 +80,10 @@ function toBuckets(dateValues: DateValue[],
     // Convert to timeunit
     return unconvertedBuckets.map<BucketPoint>(([x, values]) => [x / outputUnit, values])
 }
-function toBucketOfDateValues (dateValues: DateValue[],
-                               splitAfterSeconds: number, resolution: number,
-                               outputUnit: TimeUnit = TIME_UNIT_DEFAULT): [number, DateValue[]][] {
+
+function toBucketOfDateValues(dateValues: DateValue[],
+                              splitAfterSeconds: number, resolution: number,
+                              outputUnit: TimeUnit = TIME_UNIT_DEFAULT): [number, DateValue[]][] {
 
     const inc = splitAfterSeconds / resolution
     const ranges = new Array<number>(resolution)
@@ -101,12 +102,12 @@ function toBucketOfDateValues (dateValues: DateValue[],
     // Bin To Bucket, by taking the average of its max and min value
     const unconvertedBuckets: [number, DateValue[]][] =
         bins.map<[number, DateValue[]]>((bin: d3.Bin<DateValue, number>) =>
-        [
-            // @ts-ignore
-            (bin.x0 + bin.x1) / 2,
-            bin
-        ]
-    )
+            [
+                // @ts-ignore
+                (bin.x0 + bin.x1) / 2,
+                bin
+            ]
+        )
     // Convert to timeunit
     return unconvertedBuckets.map<[number, DateValue[]]>(([x, values]) => [x / outputUnit, values])
 
@@ -149,18 +150,18 @@ function bucketToQuantile(bucketPoints: BucketPoint[], quantiles: number[]): Buc
     )
 }
 
-function getCGMOccurrences (data : DateValue[]) : number[] {
-    const occurrences : number[] = Array(CGM_THRESHOLDS.length).fill(0)
+function getCGMOccurrences(data: DateValue[]): number[] {
+    const occurrences: number[] = Array(CGM_THRESHOLDS.length).fill(0)
 
     // Place each point based on the x0 value
-    const bisect = d3.bisector<{x0 : number}, number>(d => d.x0)
+    const bisect = d3.bisector<{ x0: number }, number>(d => d.x0)
 
     // Its weight is half the time between each neighbor date
     // For example, if a point is good and the next data is in the bad area in 1 hour, followed by good after 30 mins, then the data will be (30 mins of good, (30 + 15) mins of bad, 15 mins of good)
-    data.map<number>(([date,value], i, data) => occurrences[bisect.right(CGM_THRESHOLDS, value) - 1] += (d3.timeSecond.count(data[i - 1]?.[0] ?? date, data[i + 1]?.[0] ?? date) / 2))
+    data.map<number>(([date, value], i, data) => occurrences[bisect.right(CGM_THRESHOLDS, value) - 1] += (d3.timeSecond.count(data[i - 1]?.[0] ?? date, data[i + 1]?.[0] ?? date) / 2))
 
     return occurrences
 }
 
-export const mMolPerLToMgPerL = (v : number) => v * 18
+export const mMolPerLToMgPerL = (v: number) => v * 18
 

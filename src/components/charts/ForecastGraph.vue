@@ -2,7 +2,7 @@
   <Graph :svg="graph"/>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {computed} from "vue";
 import type {TimeInterval} from "d3";
 
@@ -13,13 +13,13 @@ import forecastGraph from "@/services/graphs/forecastGraph";
 
 
 const props = defineProps<{
-  data : DateValue[],
-  timeInterval : TimeInterval,
-  graphLayout? : GraphLayout,
-  onBrushEnd? : any,
+  data: DateValue[],
+  timeInterval: TimeInterval,
+  graphLayout?: GraphLayout,
+  onBrushEnd?: any,
 }>()
 
 const graph = computed(() =>
-    forecastGraph(props.data, props.timeInterval, { graphLayout : props.graphLayout, onBrushEnd : props.onBrushEnd }).svg)
+    forecastGraph(props.data, props.timeInterval, {graphLayout: props.graphLayout, onBrushEnd: props.onBrushEnd}).svg)
 
 </script>

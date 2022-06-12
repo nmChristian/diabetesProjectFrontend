@@ -10,8 +10,8 @@ import {GraphLayout} from "@/services/core/graphtypes";
 
 export default function lineGraphCGM(dateValues: DateValue[],
                                      {
-                                      graphLayout = new GraphLayout(800, 400, 20, 30, 20, 40),
-                                  }) {
+                                         graphLayout = new GraphLayout(800, 400, 20, 30, 20, 40),
+                                     }) {
     const {width, height} = graphLayout
     const {out, svg} = generateSVG(graphLayout)
 

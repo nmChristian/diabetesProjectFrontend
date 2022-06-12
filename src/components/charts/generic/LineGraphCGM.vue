@@ -2,7 +2,7 @@
   <Graph :svg="graph"/>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import Graph from "../shared/Graph.vue"
 
 import {computed} from "vue";
@@ -12,11 +12,11 @@ import type {GraphLayout} from "@/services/core/graphtypes";
 
 
 const props = defineProps<{
-  data : DateValue[],
-  graphLayout? : GraphLayout,
+  data: DateValue[],
+  graphLayout?: GraphLayout,
 }>()
 
 const graph = computed(() =>
-    lineGraphCGM(props.data, { graphLayout : props.graphLayout }))
+    lineGraphCGM(props.data, {graphLayout: props.graphLayout}))
 
 </script>

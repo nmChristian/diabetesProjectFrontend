@@ -3,14 +3,14 @@
     <h1>Here is a working quantile graph</h1>
     <quantile-graph
         :bucket-series-of-quantiles="bucketSeriesOfQuantiles"
-        :quantiles-used-in-bucket="quantiles"
         :median-data-in-hours="medianCGMInHours"
+        :quantiles-used-in-bucket="quantiles"
     />
   </div>
 
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import QuantileGraph from "@/components/charts/generic/QuantileGraph.vue"
 import {computed} from "vue";
 import type {BucketPoint, DateValue, Point} from "@/services/core/datatypes";

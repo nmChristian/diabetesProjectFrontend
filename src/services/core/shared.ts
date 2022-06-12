@@ -1,7 +1,7 @@
 export {COLOR_SCHEME, HealthLevel, healthLevelToColor, CGM_THRESHOLDS, CGM_TARGET, dateToSeconds}
 
 // For graphs
-export const CGM_RANGE : [number, number] = [0, 350]
+export const CGM_RANGE: [number, number] = [0, 350]
 
 // Coloring
 const COLOR_SCHEME: string[] = ["#33658a", "#78c0e0", "#5da271", "#dda448", "#92140c"]
@@ -25,7 +25,7 @@ const CGM_THRESHOLDS =
         , {x0: 180, x1: 250}
         , {x0: 250, x1: undefined}]
 const CGM_TARGET_INDEX = 2
-const CGM_TARGET : [number, number] = [CGM_THRESHOLDS[CGM_TARGET_INDEX].x0, CGM_THRESHOLDS[CGM_TARGET_INDEX].x1 ?? NaN]
+const CGM_TARGET: [number, number] = [CGM_THRESHOLDS[CGM_TARGET_INDEX].x0, CGM_THRESHOLDS[CGM_TARGET_INDEX].x1 ?? NaN]
 
 // Methods
 // Converts date into seconds

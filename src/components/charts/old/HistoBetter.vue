@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h3>{{title}}</h3>
-    <br />
+    <h3>{{ title }}</h3>
+    <br/>
     <svg id="svgRef"></svg>
   </div>
 </template>
@@ -36,7 +36,7 @@ function Histogram2(data, {
   xLabel = label, // a label for the x-axis
   xFormat = format, // a format specifier string for the x-axis
   yType = d3.scaleLinear, // type of y-scale
-  yDomain , // [ymin, ymax]
+  yDomain, // [ymin, ymax]
   yRange = [height - marginBottom, marginTop], // [bottom, top]
   yLabel = "↑ Frequency", // a label for the y-axis
   yFormat, // a format specifier string for the y-axis

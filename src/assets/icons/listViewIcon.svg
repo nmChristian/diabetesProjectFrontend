@@ -3,4 +3,20 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="263px" height="202px" viewBox="-0.5 -0.5 263 202"
      content="&lt;mxfile host=&quot;app.diagrams.net&quot; modified=&quot;2022-06-02T10:27:39.097Z&quot; agent=&quot;5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36&quot; etag=&quot;foa8I-wrWGY3V8zatrl0&quot; version=&quot;18.2.0&quot; type=&quot;device&quot;&gt;&lt;diagram id=&quot;8CVMPhHFSd8Jk44p5KBC&quot; name=&quot;Page-1&quot;&gt;5ZZRT4MwEMc/DY9LKBW2vYJTE2OM7kFfGyi0sXBYOgE/vWUUWDMXNWZZsr2Qu3+vvd6v/wccHOXNrSQle4CECsdzk8bB147nLbCvv53Q9oJ/teiFTPKkl9AkrPknNaJr1A1PaGUVKgCheGmLMRQFjZWlESmhtstSEHbXkmR0T1jHROyrLzxRzIzlzSf9jvKMDZ1RsOxXcjIUm0kqRhKodyS8cnAkAVQf5U1ERcdu4NLvuzmwOl5M0kL9ZgN7bZAHlZs+0ncRPD1n9zM0M6d8ELExA5vLqnYgUDOu6LokcZfX+pEdHDKVC50hHZKq7LmnvKG6VZgJUnXQXR1XSsLbCA7pmUMJmyLpCre7Uy5EBAKkzgsodIvQ3IhKRZuDo6IRoDYehZwq2eqSxjZPa6f19IC+kdjO2w0aMZbJxnMnqjowYP8A2fs3ZBvaD4SPw3RpM/X8PaZo/g1U71hQ8SU4d3Fi516doXOXp3aufwnORf6JrRucoXVRcDzv6nT6F9mu7fzQ4dUX&lt;/diagram&gt;&lt;/mxfile&gt;"
-     style="background-color: rgb(255, 255, 255);"><defs/><g><rect x="6" y="6" width="50" height="50" rx="7.5" ry="7.5" fill="none" stroke="rgb(0, 0, 0)" stroke-width="12" pointer-events="all"/><rect x="86" y="21" width="170" height="20" rx="3" ry="3" fill="none" stroke="rgb(0, 0, 0)" stroke-width="12" pointer-events="all"/><rect x="6" y="76" width="50" height="50" rx="7.5" ry="7.5" fill="none" stroke="rgb(0, 0, 0)" stroke-width="12" pointer-events="all"/><rect x="86" y="91" width="170" height="20" rx="3" ry="3" fill="none" stroke="rgb(0, 0, 0)" stroke-width="12" pointer-events="all"/><rect x="6" y="146" width="50" height="50" rx="7.5" ry="7.5" fill="none" stroke="rgb(0, 0, 0)" stroke-width="12" pointer-events="all"/><rect x="86" y="161" width="170" height="20" rx="3" ry="3" fill="none" stroke="rgb(0, 0, 0)" stroke-width="12" pointer-events="all"/></g></svg>
+     style="background-color: rgb(255, 255, 255);">
+    <defs/>
+    <g>
+        <rect x="6" y="6" width="50" height="50" rx="7.5" ry="7.5" fill="none" stroke="rgb(0, 0, 0)" stroke-width="12"
+              pointer-events="all"/>
+        <rect x="86" y="21" width="170" height="20" rx="3" ry="3" fill="none" stroke="rgb(0, 0, 0)" stroke-width="12"
+              pointer-events="all"/>
+        <rect x="6" y="76" width="50" height="50" rx="7.5" ry="7.5" fill="none" stroke="rgb(0, 0, 0)" stroke-width="12"
+              pointer-events="all"/>
+        <rect x="86" y="91" width="170" height="20" rx="3" ry="3" fill="none" stroke="rgb(0, 0, 0)" stroke-width="12"
+              pointer-events="all"/>
+        <rect x="6" y="146" width="50" height="50" rx="7.5" ry="7.5" fill="none" stroke="rgb(0, 0, 0)" stroke-width="12"
+              pointer-events="all"/>
+        <rect x="86" y="161" width="170" height="20" rx="3" ry="3" fill="none" stroke="rgb(0, 0, 0)" stroke-width="12"
+              pointer-events="all"/>
+    </g>
+</svg>

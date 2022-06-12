@@ -1,10 +1,10 @@
 <template>
   <div>
-    <h3>{{title}}</h3>
-    <select v-model="selected" >
-      <option v-for="company in companies" :key="company" :value="company">{{titleCase(company)}}</option>
+    <h3>{{ title }}</h3>
+    <select v-model="selected">
+      <option v-for="company in companies" :key="company" :value="company">{{ titleCase(company) }}</option>
     </select>
-    <br />
+    <br/>
     <svg id="normal"></svg>
   </div>
 </template>
@@ -34,7 +34,7 @@ export default {
     },
     renderChart() {
       const height = 300
-      const roundedHeight = Math.ceil((height + 1)/10) * 10
+      const roundedHeight = Math.ceil((height + 1) / 10) * 10
       const width = 800
 
       // set the ranges

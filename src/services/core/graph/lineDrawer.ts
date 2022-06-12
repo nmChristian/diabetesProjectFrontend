@@ -7,12 +7,12 @@ import {pointIsValid} from "@/services/core/datatypes";
 import {CGM_THRESHOLDS} from "@/services/core/shared";
 
 const defaultLineCSS = "stroke-width: 1; opacity: .3; fill: none; stroke: black;"
-export function drawVerticalLines<XDomain extends AxisDomain, YDomain> (svg : SVG,
-                                                                        xScale : d3.AxisScale<XDomain>,
-                                                                        yScale : d3.AxisScale<YDomain>,
-                                                                        xCoords : XDomain[],
-                                                                        lineCSS?: ValueFn<d3.BaseType, unknown, string>)
-{
+
+export function drawVerticalLines<XDomain extends AxisDomain, YDomain>(svg: SVG,
+                                                                       xScale: d3.AxisScale<XDomain>,
+                                                                       yScale: d3.AxisScale<YDomain>,
+                                                                       xCoords: XDomain[],
+                                                                       lineCSS?: ValueFn<d3.BaseType, unknown, string>) {
     const yMin = yScale.range()[1]
     const yMax = yScale.range()[0]
 
@@ -32,8 +32,7 @@ export function drawHorizontalLines<XDomain extends AxisDomain, YDomain extends 
                                                                                             xScale: AxisScale<XDomain>,
                                                                                             yScale: AxisScale<YDomain>,
                                                                                             yCoords: YDomain[],
-                                                                                            lineCSS?: ValueFn<BaseType, unknown, string>)
-{
+                                                                                            lineCSS?: ValueFn<BaseType, unknown, string>) {
     const xMin = xScale.range()[1]
     const xMax = xScale.range()[0]
 
@@ -50,11 +49,10 @@ export function drawHorizontalLines<XDomain extends AxisDomain, YDomain extends 
 /**
  * Draws the cgm thresholds lines and highlights the lines that enclose the target area
  */
-export function drawHorizontalCGMIndicatorLines<XDomain extends AxisDomain> (svg : SVG,
-                                                                             xScale : d3.AxisScale<XDomain>,
-                                                                             yScale : d3.AxisScale<number>,
-                                                                             )
-{
+export function drawHorizontalCGMIndicatorLines<XDomain extends AxisDomain>(svg: SVG,
+                                                                            xScale: d3.AxisScale<XDomain>,
+                                                                            yScale: d3.AxisScale<number>,
+) {
     drawHorizontalLines<XDomain, number>(svg, xScale, yScale,
         CGM_THRESHOLDS.map<number>(d => d.x1 ?? yScale.domain()[1]),
         (d, i) => highlightTargetLineStyle(i))

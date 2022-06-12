@@ -22,9 +22,9 @@
       </div>
       <div style="margin: auto 50px;">
         <t-i-r-graph
-            :occurrences="getCGMOccurrences(selectedData)"
             :colors="COLOR_SCHEME"
             :graph-layout="tirLayout"
+            :occurrences="getCGMOccurrences(selectedData)"
         />
       </div>
     </div>
@@ -32,7 +32,7 @@
 </template>
 
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import TIRGraph from "@/components/charts/generic/TIRGraph.vue";
 import type {Ref} from "vue"
 import {computed, ref} from "vue";

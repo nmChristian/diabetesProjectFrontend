@@ -11,10 +11,10 @@ import backend from "@/services/backend";
 const app = createApp(App)
 
 app
-    .component("InfoElement",InfoElement)
-    .component("ListViewPatientElement",ListViewPatientElement)
-    .component("GallaeryViewPatientElement",GallaeryViewPatientElement)
-    .component("PatientsFullList",DisplayPatientsFullList)
+    .component("InfoElement", InfoElement)
+    .component("ListViewPatientElement", ListViewPatientElement)
+    .component("GallaeryViewPatientElement", GallaeryViewPatientElement)
+    .component("PatientsFullList", DisplayPatientsFullList)
 
 app.config.globalProperties.axios = axios
 app.config.globalProperties.$backend = backend

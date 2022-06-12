@@ -4,5 +4,5 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import GraphWrapper from "@/components/graphview/GraphWrapper.vue";</script>

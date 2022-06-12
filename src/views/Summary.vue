@@ -1,8 +1,8 @@
 <template>
-<div class="outerHolderSummary">
-<h1>Summary information about all patients, accessible to the current user</h1>
+  <div class="outerHolderSummary">
+    <h1>Summary information about all patients, accessible to the current user</h1>
 
-</div>
+  </div>
 </template>
 
 <script>
@@ -13,7 +13,7 @@ export default {
 
 <style scoped>
 
-.outerHolderSummary{
+.outerHolderSummary {
   height: 100%;
   width: 100%;
   border: red 1px dotted;
