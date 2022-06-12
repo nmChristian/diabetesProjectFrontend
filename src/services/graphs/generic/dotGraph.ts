@@ -15,9 +15,12 @@ export default function dotGraph(dateValues: DateValue[],
     const {width, height} = graphLayout
     const {out, svg} = generateSVG(graphLayout)
 
+    const maxDate = d3.max(dateValues, ([date,]) => date)
+
     const xScale = d3.scaleTime()
-        .domain(d3.extent(dateValues, ([date,]) => date) as [Date, Date])
+        .domain([d3.min(dateValues, ([date,]) => date),maxDate] as [Date, Date])
         .range([0, width])
+        .nice()
 
     const yScale = d3.scaleLinear()
         .domain([0, d3.max(dateValues, ([, value]) => value)] as [number, number])
@@ -28,17 +31,16 @@ export default function dotGraph(dateValues: DateValue[],
     svg.append("g")
         .selectAll("circle")
         .data(dateValues)
-        .join("circles")
-            .style("stroke", "gray")
+        .join("circle")
             .style("fill", "black")
-            .attr("r", 10)
+            .attr("r", 1.5)
             .attr("cx", ([date,]) => xScale(date))
             .attr("cy", ([,value]) => yScale(value))
 
     // Axis
-    const xAxis = d3.axisBottom(xScale)
-    applyAxis(svg, xAxis, {yOffset: height})
-    const yAxis = d3.axisLeft(yScale).ticks(4)
+    const xAxis = d3.axisBottom(xScale).tickSize(-height)
+    applyAxis(svg, xAxis, {yOffset: height}).selectAll(".tick").attr("stroke-dasharray", 6)
+    const yAxis = d3.axisLeft(yScale).ticks(3).tickSizeOuter(-width)
     applyAxis(svg, yAxis, {})
 
     return out
