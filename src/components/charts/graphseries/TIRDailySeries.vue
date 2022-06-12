@@ -20,8 +20,8 @@
             :graph-layout="graphLayout"
             :occurrences="occurrences[i]"
         />
-        <p :style="{borderBottom: '7px solid', borderColor: getCGMColor(averages[i]) }">{{ averages[i].toFixed(2) }}</p>
-        <p :style="{borderBottom: '3px solid', borderColor: getCGMDeviationColor(deviations[i]), marginTop: '10px' }">{{ deviations[i].toFixed(2) }}</p>
+        <p :style="{borderBottom: '6px solid', borderColor: getCGMColor(averages[i]) }">{{ averages[i].toFixed(2) }}</p>
+        <p :style="{marginTop: '10px' }">{{ deviations[i].toFixed(2) }}</p>
       </div>
     </div>
   </div>
