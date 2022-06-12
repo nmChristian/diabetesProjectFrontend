@@ -16,8 +16,6 @@
 import * as d3 from "d3";
 import type {DateValue} from "@/services/core/datatypes";
 import {getCGMOccurrences} from "@/services/core/datatypes";
-import ForecastSeries from "@/components/charts/graphseries/ForecastSeries.vue";
-
 import TIRGraph from "@/components/charts/generic/TIRGraph.vue";
 
 import {COLOR_SCHEME} from "@/services/core/shared";
