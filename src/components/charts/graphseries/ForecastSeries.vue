@@ -1,5 +1,5 @@
 <template>
-  <div style="background-color: white">
+  <div class="forecast-series">
     <h2>Vejrudsigt graf</h2>
 
     <div style="display: grid; place-items: center;">
@@ -110,3 +110,10 @@ const graphs = computed(() => {
 
 
 </script>
+
+<style scoped>
+.forecast-series {
+  background-color: #fcfcfc;
+  padding: 10px 0 50px 0;
+}
+</style>
