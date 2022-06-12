@@ -27,6 +27,8 @@ const CGM_THRESHOLDS =
 const CGM_TARGET_INDEX = 2
 const CGM_TARGET: [number, number] = [CGM_THRESHOLDS[CGM_TARGET_INDEX].x0, CGM_THRESHOLDS[CGM_TARGET_INDEX].x1 ?? NaN]
 
+export const CGM_SD_THRESHOLDS = [0, 15, 30]    //TODO: GET REAL VALUES
+
 // Methods
 // Converts date into seconds
 const dateToSeconds = (date: Date): number =>

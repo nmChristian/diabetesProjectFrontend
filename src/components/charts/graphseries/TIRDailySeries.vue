@@ -21,7 +21,7 @@
             :occurrences="occurrences[i]"
         />
         <p :style="{borderBottom: '7px solid', borderColor: getCGMColor(averages[i]) }">{{ averages[i].toFixed(2) }}</p>
-        <p style="margin-top: 10px">{{ deviations[i].toFixed(2) }}</p>
+        <p :style="{borderBottom: '3px solid', borderColor: getCGMDeviationColor(deviations[i]), marginTop: '10px' }">{{ deviations[i].toFixed(2) }}</p>
       </div>
     </div>
   </div>
@@ -30,7 +30,7 @@
 <script lang="ts" setup>
 
 import type {DateValue} from "@/services/core/datatypes";
-import {getCGMColor, getCGMOccurrences, SPLIT_BY_DAY} from "@/services/core/datatypes";
+import {getCGMColor, getCGMDeviationColor, getCGMOccurrences, SPLIT_BY_DAY} from "@/services/core/datatypes";
 import {computed, ref} from "vue";
 import {COLOR_SCHEME, dateToSeconds} from "@/services/core/shared";
 import * as d3 from "d3";
@@ -41,7 +41,7 @@ const hoursPerRange = ref(2)
 
 const colors = COLOR_SCHEME
 // Make width smaller if only 1 hour, so it can fit
-const graphLayout = computed ( () => new GraphLayout(hoursPerRange.value === 1 ? 40 : 50, 400, 10))
+const graphLayout = computed ( () => new GraphLayout(hoursPerRange.value === 1 ? 40 : 50, 400, 10,0,20))
 
 
 const props = defineProps<{
