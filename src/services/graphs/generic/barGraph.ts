@@ -40,11 +40,8 @@ export default function barGraph(dateValues: DateValue[],
 
     // Axis
     const xAxis = d3.axisBottom(xScale)
-        //.tickSize(-height)
     applyAxis(svg, xAxis, {yOffset: height})
-        //.selectAll(".tick").attr("stroke-dasharray", 6)
     const yAxis = d3.axisLeft(yScale).ticks(3)
-        //.tickSizeOuter(-width)
     applyAxis(svg, yAxis, {})
 
     return out

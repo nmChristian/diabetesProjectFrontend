@@ -38,9 +38,9 @@ export default function dotGraph(dateValues: DateValue[],
             .attr("cy", ([,value]) => yScale(value))
 
     // Axis
-    const xAxis = d3.axisBottom(xScale).tickSize(-height)
-    applyAxis(svg, xAxis, {yOffset: height}).selectAll(".tick").attr("stroke-dasharray", 6)
-    const yAxis = d3.axisLeft(yScale).ticks(3).tickSizeOuter(-width)
+    const xAxis = d3.axisBottom(xScale)
+    applyAxis(svg, xAxis, {yOffset: height})
+    const yAxis = d3.axisLeft(yScale).ticks(3)
     applyAxis(svg, yAxis, {})
 
     return out
