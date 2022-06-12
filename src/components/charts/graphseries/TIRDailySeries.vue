@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="tir-daily-series">
     <div style="display: grid; place-items: center;">
       <p>Split by</p>
       <select v-model="hoursPerRange"
@@ -12,18 +12,16 @@
     </div>
 
     <br>
-    <div style="display: flex; text-align: center;">
-      <div
-          v-for="(hour, i) in hours"
-      >
+    <div class="tir-graphs">
+      <div v-for="(hour, i) in hours">
         <p>{{ hour }} - {{ hours[i + 1] ?? 24 }}</p>
         <t-i-r-graph
             :colors="colors"
             :graph-layout="graphLayout"
             :occurrences="occurrences[i]"
         />
-        <p>{{ averages[i].toFixed(2) }}</p>
-        <p>{{ deviations[i].toFixed(2) }}</p>
+        <p :style="{borderBottom: '7px solid', borderColor: getCGMColor(averages[i]) }">{{ averages[i].toFixed(2) }}</p>
+        <p style="margin-top: 10px">{{ deviations[i].toFixed(2) }}</p>
       </div>
     </div>
   </div>
@@ -32,7 +30,7 @@
 <script lang="ts" setup>
 
 import type {DateValue} from "@/services/core/datatypes";
-import {getCGMOccurrences, SPLIT_BY_DAY} from "@/services/core/datatypes";
+import {getCGMColor, getCGMOccurrences, SPLIT_BY_DAY} from "@/services/core/datatypes";
 import {computed, ref} from "vue";
 import {COLOR_SCHEME, dateToSeconds} from "@/services/core/shared";
 import * as d3 from "d3";
@@ -43,7 +41,7 @@ const hoursPerRange = ref(2)
 
 const colors = COLOR_SCHEME
 // Make width smaller if only 1 hour, so it can fit
-const graphLayout = computed ( () => new GraphLayout(hoursPerRange.value === 1 ? 40 : 50, 400, 0, 10, 0, 10))
+const graphLayout = computed ( () => new GraphLayout(hoursPerRange.value === 1 ? 40 : 50, 400, 10))
 
 
 const props = defineProps<{
@@ -70,3 +68,21 @@ const deviations = computed(() => splitDateValues.value.map<number>(dateValues =
 
 
 </script>
+
+<style scoped>
+.tir-daily-series {
+  background-color: #c0c0c0;
+  padding: 10px 0 30px 0;
+
+}
+.tir-graphs {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  text-align: center;
+}
+.tir-graphs p {
+  background-color: white;
+  border-radius: 5px;
+}
+</style>

@@ -14,10 +14,12 @@ const props = defineProps<{
   colors: string[]
   graphLayout?: GraphLayout,
   offset?: number,
+  rx? : number,
+  ry? : number
 }>()
 
 const graph = computed(() =>
-    tirGraph(props.occurrences, props.colors, {graphLayout: props.graphLayout, offset: props.offset})
+    tirGraph(props.occurrences, props.colors, {graphLayout: props.graphLayout, offset: props.offset, rx: props.rx, ry: props.ry})
 )
 
 </script>

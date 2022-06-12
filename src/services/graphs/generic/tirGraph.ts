@@ -4,7 +4,8 @@ import * as d3 from "d3";
 
 export default function tirGraph(occurrences: number[], colors: string[], {
     graphLayout = new GraphLayout(50, 400, 10, 10, 10, 10),
-    offset = 1,
+    offset = 2,
+    rx = 3, ry = 3
 }) {
     const {width, height} = graphLayout
     const {out, svg} = generateSVG(graphLayout)
@@ -45,6 +46,8 @@ export default function tirGraph(occurrences: number[], colors: string[], {
         .attr("style", "fill-opacity: 0.9;")
         .transition().duration(d => d * animationTime).delay((_, i) => getY(i) * animationTime / height).ease(d3.easeLinear)
         .attr("height", (_, i) => heights[i])
+        .attr("rx", rx)
+        .attr("ry", ry)
 
 
     return out

@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import {CGM_THRESHOLDS, dateToSeconds} from "@/services/core/shared";
+import {CGM_THRESHOLDS, COLOR_SCHEME, dateToSeconds} from "@/services/core/shared";
 import type {TimeSeries} from "@/services/core/dbtypes";
 
 export type {DateValue, Point, BucketPoint}
@@ -132,5 +132,6 @@ function getCGMOccurrences(data: DateValue[]): number[] {
     return occurrences
 }
 
-export const mMolPerLToMgPerL = (v: number) => v * 18
-
+export const mMolPerLToMgPerL = (cgm: number) => cgm * 18
+const cgmBisector = d3.bisector<{ x0: number }, number>(d => d.x0)
+export const getCGMColor = (cgm: number) => COLOR_SCHEME[cgmBisector.right(CGM_THRESHOLDS, cgm) - 1]
