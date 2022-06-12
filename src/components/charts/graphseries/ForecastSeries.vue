@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="background-color: white">
     <h2>Vejrudsigt graf</h2>
 
     <div style="display: grid; place-items: center;">
@@ -13,7 +13,7 @@
       </select>
     </div>
     <br>
-    <div style="display: flex">
+    <div style="display: flex; justify-content: center;">
       <div>
         <Graph
             v-for="graph in graphs.values()"

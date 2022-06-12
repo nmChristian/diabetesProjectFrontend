@@ -2,14 +2,12 @@
   <div>
 
     <forecast-series :data="cgm"/>
-
+    <t-i-r-daily-series :data="cgm"/>
     <h3>24 Hour back Time in Range Graph</h3>
     <t-i-r-graph
         :colors="COLOR_SCHEME"
         :occurrences="frequencies"
     />
-    <t-i-r-daily-series :data="cgm"/>
-
     <raw-series
         :basal="basal"
         :bolus="bolus"
