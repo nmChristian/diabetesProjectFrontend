@@ -46,7 +46,6 @@ class Backend {
             { ndays: (daysSinceLastData + daysBack), show: show },
             this.generateHeader())
 
-        console.log(response.data)
         return response.data
     }
 

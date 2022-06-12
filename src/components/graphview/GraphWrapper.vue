@@ -15,7 +15,7 @@
 
     <router-view
         :cgm="cgmInDateValue"
-        :median-cgm-in-hours="medianCGMInHours"
+        :median-c-g-m-in-hours="medianCGMInHours"
         :meals="mealsInDateValue"
         :basal="basalInDateValue"
         :bolus="bolusInDateValue"

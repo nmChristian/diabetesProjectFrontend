@@ -1,14 +1,16 @@
 <template>
   <div>
 
-    <forecast-series
-        :data="cgm"
-    />
+    <forecast-series :data="cgm" />
+
     <h3>24 Hour back Time in Range Graph</h3>
       <t-i-r-graph
           :occurrences="frequencies"
           :colors="COLOR_SCHEME"
       />
+    <h3>TIR Series daily split into 1 hour intervals</h3>
+    <t-i-r-daily-series :data="cgm" />
+
     <raw-series
       :cgm="cgm"
       :meals="meals"
@@ -28,6 +30,7 @@ import {COLOR_SCHEME} from "@/services/core/shared";
 import {computed} from "vue";
 import ForecastSeries from "@/components/charts/graphseries/ForecastSeries.vue";
 import RawSeries from "@/components/charts/graphseries/RawSeries.vue";
+import TIRDailySeries from "@/components/charts/graphseries/TIRDailySeries.vue";
 
 
 const props = defineProps<{

@@ -3,7 +3,7 @@ import {CGM_THRESHOLDS, dateToSeconds} from "@/services/core/shared";
 import type {TimeSeries} from "@/services/core/dbtypes";
 
 export type {DateValue, Point, BucketPoint}
-export {toDateValue, timeSeriesToDateValue, toBuckets, bucketToMedian}
+export {toDateValue, timeSeriesToDateValue, toBuckets, toBucketOfDateValues, bucketToMedian}
 export {addEdgesToSplit, addEdgesToSplitBucket}
 export {getCGMOccurrences}
 
@@ -14,7 +14,7 @@ type DateValue = [Date, number]
 type Point = [number, number]
 type BucketPoint = [number, number[]]
 
-enum TimeUnit {
+export enum TimeUnit {
     Seconds = 1,
     Minute = 60,
     Hour = 3600,
@@ -74,11 +74,42 @@ function toBuckets(dateValues: DateValue[],
         [
             // @ts-ignore
             (bin.x0 + bin.x1) / 2,
-            bin.map<number>((data: DateValue) => data[1])
+            bin.map<number>(([date, value]) => value)
         ]
     )
     // Convert to timeunit
     return unconvertedBuckets.map<BucketPoint>(([x, values]) => [x / outputUnit, values])
+}
+function toBucketOfDateValues (dateValues: DateValue[],
+                               splitAfterSeconds: number, resolution: number,
+                               outputUnit: TimeUnit = TIME_UNIT_DEFAULT): [number, DateValue[]][] {
+
+    const inc = splitAfterSeconds / resolution
+    const ranges = new Array<number>(resolution)
+    for (let i = 0; i < resolution; i++)
+        ranges[i] = inc * i
+
+    // Splits data into the ranges given
+    const bins: d3.Bin<DateValue, number>[] = d3.bin<DateValue, number>()
+        .value(([date,]) => dateToSeconds(date) % splitAfterSeconds)
+        .thresholds(ranges)(dateValues)
+
+    // Set the last range's max value, this needs to be done since the d3.bin method sets the upper threshold of last item to be max value of data.
+    // Therefore we artificially increase it, so the graph will go all the way to the end
+    bins[resolution - 1].x1 = splitAfterSeconds
+
+    // Bin To Bucket, by taking the average of its max and min value
+    const unconvertedBuckets: [number, DateValue[]][] =
+        bins.map<[number, DateValue[]]>((bin: d3.Bin<DateValue, number>) =>
+        [
+            // @ts-ignore
+            (bin.x0 + bin.x1) / 2,
+            bin
+        ]
+    )
+    // Convert to timeunit
+    return unconvertedBuckets.map<[number, DateValue[]]>(([x, values]) => [x / outputUnit, values])
+
 }
 
 function addEdgesToSplit(points: Point[], splitAfterSeconds: number, timeUnit: TimeUnit = TIME_UNIT_DEFAULT) {
@@ -118,7 +149,7 @@ function bucketToQuantile(bucketPoints: BucketPoint[], quantiles: number[]): Buc
     )
 }
 
-function getCGMOccurrences (data : DateValue[]) {
+function getCGMOccurrences (data : DateValue[]) : number[] {
     const occurrences : number[] = Array(CGM_THRESHOLDS.length).fill(0)
 
     // Place each point based on the x0 value

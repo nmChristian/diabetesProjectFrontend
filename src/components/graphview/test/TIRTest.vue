@@ -3,49 +3,21 @@
     <h1>Here is a TIR graph</h1>
     <div class="graphs">
       <t-i-r-graph
+          v-for="offset in [5,0,10,20,50]"
           :occurrences="occurrences"
           :colors="COLOR_SCHEME"
           :graph-layout="layout"
-          :offset="5"
-      />
-      <t-i-r-graph
-          :occurrences="occurrences"
-          :colors="COLOR_SCHEME"
-          :graph-layout="layout"
-          :offset="0"
-      />
-      <t-i-r-graph
-          :occurrences="occurrences"
-          :colors="COLOR_SCHEME"
-          :graph-layout="layout"
-          :offset="10"
-      />
-      <t-i-r-graph
-          :occurrences="occurrences"
-          :colors="COLOR_SCHEME"
-          :graph-layout="layout"
-          :offset="20"
-      />
-      <t-i-r-graph
-          :occurrences="occurrences"
-          :colors="COLOR_SCHEME"
-          :graph-layout="layout"
-          :offset="50"
+          :offset="offset"
       />
     </div>
     <h2>Testing offset</h2>
     <div class="graphs">
       <t-i-r-graph
+          v-for="offset in [5, 0]"
           :occurrences="[0.2, 0.1, 0.2, 0.3, 0.2]"
           :colors="COLOR_SCHEME"
           :graph-layout="layout"
-          :offset="5"
-      />
-      <t-i-r-graph
-          :occurrences="[0.2, 0.1, 0.2, 0.3, 0.2]"
-          :colors="COLOR_SCHEME"
-          :graph-layout="layout"
-          :offset="0"
+          :offset="offset"
       />
       <t-i-r-graph
           :occurrences="[0.2, 0, 0.2, 0.3, 0.3]"
