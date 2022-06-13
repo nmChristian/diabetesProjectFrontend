@@ -40,15 +40,35 @@
         <p class="diagnoseAndMedicinItems">{{ listToString(diag.medecin) }}</p>
       </template>
     </div>
+
+    <div class="infoItem" >
+      <forecast-series :data="cgmInDateValue"/>
+    </div>
+
   </div>
 
 
 </template>
 
-<script setup>
-
-
+<script lang="ts" setup>
 import router from "../router";
+import ForecastSeries from "@/components/charts/graphseries/ForecastSeries.vue";
+import backend from "../services/backend";
+import type {DateValue, Point} from "@/services/core/datatypes"
+import {ref, Ref, computed, onMounted} from "vue";
+import {
+  addEdgesToSplit,
+  bucketToMedian,
+  mMolPerLToMgPerL,
+  SPLIT_BY_DAY,
+  timeSeriesToDateValue,
+  toBuckets
+} from "@/services/core/datatypes";
+import type {UserDetails} from "@/services/core/dbtypes";
+
+onMounted(() => {
+  loadData()
+})
 
 function closePopUp() {
   let currentRoute = router.currentRoute.value.fullPath
@@ -72,7 +92,7 @@ function fullScreenClicked() {
   router.push(newPath)
 }
 
-function listToString(inListe) {
+function listToString(inListe: string | any[] | undefined) {
   let re = ""
 
   if (inListe === undefined) {
@@ -103,6 +123,20 @@ const diagnoser = [
     ]
   }
 ]
+
+let cgmInDateValue: Ref<never[] | DateValue[]> = ref([])
+let mealsInDateValue: Ref<never[] | DateValue[]> = ref([])
+let basalInDateValue: Ref<never[] | DateValue[]> = ref([])
+let bolusInDateValue: Ref<never[] | DateValue[]> = ref([])
+
+async function loadData() {
+  const response = await backend.getDataPatient(21, ["cgm", "meals", "basal", "bolus"],String(router.currentRoute.value.params.id))
+  console.log(response)
+  cgmInDateValue.value = timeSeriesToDateValue(response.cgm, mMolPerLToMgPerL)
+  mealsInDateValue.value = timeSeriesToDateValue(response.meals)
+  basalInDateValue.value = timeSeriesToDateValue(response.basal)
+  bolusInDateValue.value = timeSeriesToDateValue(response.bolus)
+}
 
 </script>
 

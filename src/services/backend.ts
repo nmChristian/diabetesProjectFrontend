@@ -53,6 +53,16 @@ class Backend {
         return timeSeriesToDateValue(response.data.cgm, mMolPerLToMgPerL)
     }
 
+    public async getDataPatient(daysBack: number = 7, show: string[] = ["cgm"] , patientId: string) {
+        const daysSinceLastData = d3.timeDays(new Date("2022-01-29"), new Date()).length
+        const response = await axios.post(
+            this.getDataURLPatient(patientId),
+            {ndays: (daysSinceLastData + daysBack), show: show},
+            this.generateHeader())
+
+        return response.data
+    }
+
     public async getData(daysBack: number = 7, show: string[] = ["cgm"]) {
         const daysSinceLastData = d3.timeDays(new Date("2022-01-29"), new Date()).length
         const response = await axios.post(
