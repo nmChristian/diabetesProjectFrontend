@@ -75,6 +75,8 @@ accessiblelUsersPromise.then((accessiblelUsers : Array<UserDetails>)  => {
 
       newUser.user = user
 
+      newUser.cpr = "Currently not used"
+
       //Do some calculation
       newUser.healthLevel = 1
       newUser.medianDataInHours = dataToMedian((CGMForUser), SPLIT_BY_DAY)
