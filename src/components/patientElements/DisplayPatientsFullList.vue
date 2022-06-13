@@ -1,7 +1,5 @@
 <template>
   <div>
-    <!-- TODO soter listen efter hvor kritisk de er -->
-
     <ListViewPatientElement
         v-for="u in usersWithData"
         :user="u.user"
