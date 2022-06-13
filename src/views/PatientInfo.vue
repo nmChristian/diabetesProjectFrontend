@@ -16,12 +16,16 @@
     </button>
   </div>
 
+  <div class="tableOfContext">
+    <p v-for="(item, index) in elemntsOnPage" :class="{markedTableOfContextItem :(index  === currentViewdElement) , unmarkedTableOfContextItem :(index  !== currentViewdElement) }">  {{item.text}} </p>
+  </div>
+
 
   <div class=holderInfo>
 
     <h1>This is patient info for: {{ $route.params.id }} </h1>
 
-    <div class="infoItem startInfoHolderLine">
+    <div class="infoItem startInfoHolderLine" id="summary">
       <info-element :number=0 title="HbALc:" @showData="showElementData('HbALc')"></info-element>
       <info-element :number=1 title="weight:" @showData="$router.replace('#weight')"></info-element>
       <info-element :number=2 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
@@ -30,7 +34,7 @@
       <info-element :number=5 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
     </div>
 
-    <div class="infoItem diagnoseAndMedicin">
+    <div class="infoItem diagnoseAndMedicine" id="diagnoseAndMedicine">
       <p class="diagnoseAndMedicinLabels">Diagnose</p>
       <p class="diagnoseAndMedicinLabels">Medecin</p>
 
@@ -41,9 +45,46 @@
       </template>
     </div>
 
-    <div class="infoItem" >
+    <div class="infoItem" id="forcast" >
       <forecast-series :data="cgmInDateValue"/>
     </div>
+
+    <div class="infoItem" id="testAScroll1">
+      <h1>Test a scroll 1</h1>
+    </div>
+
+    <div class="infoItem" id="testAScroll2">
+      <h1>Test a scroll 2</h1>
+    </div>
+
+    <div class="infoItem" id="testAScroll3" >
+      <h1>Test a scroll 3</h1>
+    </div>
+
+    <div class="infoItem" id="testAScroll4" >
+      <h1>Test a scroll 4</h1>
+      <h1>Test a scroll 4</h1>
+      <h1>Test a scroll 4</h1>
+      <h1>Test a scroll 4</h1>
+      <h1>Test a scroll 4</h1>
+      <h1>Test a scroll 4</h1><h1>Test a scroll 4</h1>
+      <h1>Test a scroll 4</h1>
+      <h1>Test a scroll 4</h1>
+      <h1>Test a scroll 4</h1>
+      <h1>Test a scroll 4</h1>
+      <h1>Test a scroll 4</h1>
+      <h1>Test a scroll 4</h1>
+      <h1>Test a scroll 4</h1>
+      <h1>Test a scroll 4</h1>
+      <h1>Test a scroll 4</h1>
+      <h1>Test a scroll 4</h1>
+      <h1>Test a scroll 4</h1>
+      <h1>Test a scroll 4</h1>
+      <h1>Test a scroll 4</h1>
+      <h1>Test a scroll 4</h1>
+      <h1>Test a scroll 4</h1>
+    </div>
+
 
   </div>
 
@@ -73,6 +114,38 @@ onMounted(() => {
 router.afterEach(() => {
   loadData()
 })
+
+window.addEventListener("scroll", onScroll)
+
+const elemntsOnPage = [
+  {id: "summary",text: "Summary"},
+  {id: "diagnoseAndMedicine", text: "Diagnose And Medicine"},
+  {id: "forcast", text: "3 week overview"},
+  {id: "testAScroll1", text: "testAScroll1"},   {id: "testAScroll2", text: "testAScroll2"},   {id: "testAScroll3", text: "testAScroll3"},   {id: "testAScroll4", text: "testAScroll4"}]
+
+let currentViewdElement = ref(0)
+
+function onScroll(e: any){
+  if(window.top == undefined){
+    currentViewdElement.value = 0
+    return
+  }
+
+/*
+  console.log((document.getElementById('summary') as HTMLBodyElement).getBoundingClientRect().top);
+
+  console.log((document.getElementById('testAScroll4') as HTMLBodyElement).getBoundingClientRect().top);
+*/
+
+  for(let i = 0; i < elemntsOnPage.length; i++){
+    if ((document.getElementById(elemntsOnPage[i].id) as HTMLBodyElement).getBoundingClientRect().bottom > 70){
+      currentViewdElement.value = i;
+      break
+    }
+  }
+
+  console.log(elemntsOnPage[currentViewdElement.value].text)
+}
 
 function closePopUp() {
   let currentRoute = router.currentRoute.value.fullPath
@@ -166,6 +239,23 @@ async function loadData() {
   background: pink;
   border: blue 1px dashed;
   z-index: 12;
+}
+
+.tableOfContext{
+  position: fixed;
+  left: 1rem;
+  z-index: 1;
+}
+
+.unmarkedTableOfContextItem{
+
+}
+.unmarkedTableOfContextItem:hover{
+  border: black 1px solid;
+}
+.markedTableOfContextItem{
+  text-underline: #764ba2;
+  background-color: #2c3e50;
 }
 
 .navButtons {
