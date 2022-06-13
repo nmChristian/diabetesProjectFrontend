@@ -10,17 +10,19 @@ const targetLineStyle = "opacity: .5; stroke: " + COLOR_SCHEME[2] + ";" + shared
 const otherLineStyle = "opacity: .1; stroke: black;" + sharedCSS
 export const isTarget = (i: number) => i === 1 || i === 2
 
-export const highlightTargetLineStyle = (i: number, targetCSS? : string, otherCSS? : string) =>
+export const highlightTargetLineStyle = (i: number, targetCSS?: string, otherCSS?: string) =>
     "fill: none;" + (isTarget(i) ? (targetCSS ?? targetLineStyle) : (otherCSS ?? otherLineStyle))
 
 
-export function generateSVG (graphLayout : GraphLayout = new GraphLayout(0,0, 0, 0, 0, 0)) {
+export function generateSVG(graphLayout: GraphLayout = new GraphLayout(0, 0, 0, 0, 0, 0)) {
     const {width, height, marginTop, marginRight, marginBottom, marginLeft} = graphLayout
 
     const out = d3.create("svg")
+        //.attr("viewBox", "0,0,50, 250")
         .attr("width", width + marginLeft + marginRight)
         .attr("height", height + marginTop + marginBottom)
-        .attr("style", "max-width: 100%; height: auto; height: intrinsic;")
+        .attr("style", "max-width: 100%; height: auto; height: intrinsic; pointer-events:all;")
+
 
     const svg = out.append("g")
         .attr("transform",

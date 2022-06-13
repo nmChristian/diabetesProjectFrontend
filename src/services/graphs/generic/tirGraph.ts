@@ -1,42 +1,54 @@
 import {GraphLayout} from "@/services/core/graphtypes";
 import {generateSVG} from "@/services/core/graphMethods";
 import * as d3 from "d3";
-import {COLOR_SCHEME} from "@/services/core/shared";
 
-export default function tirGraph (sizes: number[], colors: string[], {
-    graphLayout = new GraphLayout(100, 400, 20, 30, 20, 40),
-    offset = 5,
-})
-{
+export default function tirGraph(occurrences: number[], colors: string[], {
+    graphLayout = new GraphLayout(50, 400, 10, 10, 10, 10),
+    offset = 2,
+    rx = 3, ry = 3
+}) {
     const {width, height} = graphLayout
     const {out, svg} = generateSVG(graphLayout)
 
-    // TODO: Force sizes and colors to be the same length, and also if the sizes are not in percentages
-    if (sizes.length != colors.length) {
-        console.error("NOT SAME LENGTH")
-        return out.node()
+    // TODO: Force sizes and colors to be the same length
+    if (occurrences.length != colors.length) {
+        console.error("NOT SAME LENGTH data length: " +  occurrences.length + " - colors length "  +  colors.length)
+        return out
     }
 
-    const nOffsets = sizes.filter(d => d != 0).length - 1
-    const totalOffset = nOffsets * offset
-    const yScale = d3.scaleLinear([0,1], [height, 0])
-    const heightScale = d3.scaleLinear([0,1], [0, height - totalOffset])
+    // HAHA i love js <3, Ok so this will convert NaN to 0, since NaN is false
+    const sum = d3.sum(occurrences)
+    const frequencies: number[] = occurrences.map<number>(v => v / sum || 0)
 
-    // Gets difference between
-    const heights = sizes.map<number>(heightScale)
-    const offsets = sizes.map<number>((d: number) => (d == 0) ? 0 : offset)
+    const nOffsets = frequencies.filter(d => d != 0).length - 1
+    const totalOffset = nOffsets * offset
+
+    const posScale = d3.scaleLinear([0, 1], [height, 0])
+    const heightScale = d3.scaleLinear([0, 1], [0, height - totalOffset])
+    const heights = frequencies.map<number>(heightScale)
+    const offsets = frequencies.map<number>(d => (d == 0) ? 0 : offset)
     // startPos = previousPos + previousHeight + previousOffset
-    const startPos : number[] = sizes.reduce<number[]>((startPos: number[], d: number, i: number) => startPos.concat(i == 0 ? yScale(0) :  startPos[i - 1] - heights[i - 1] - offsets[i - 1]), [])
+    const startPos: number[] = frequencies.reduce<number[]>((startPos, _, i) =>
+        startPos.concat(i == 0 ? posScale(0) : startPos[i - 1] - heights[i - 1] - offsets[i - 1]), [])
 
     // Bars
-    svg.append("g")
-        .selectAll("rect")
-        .data(sizes)
-        .join("rect")
-            .attr("y", (_,i) => startPos[i] - heights[i])
-            .attr("height", (_, i) => heights[i])
-            .attr("width", 50)
-            .attr("fill", (_,i) => colors[i])
+    const bars = svg.append("g")
+        .selectAll("g")
+        .data(frequencies)
+        .join("g")
 
-    return out.node()
+    const animationTime = 200;
+    const getY = (index: number) => startPos[index] - heights[index]
+    const barRect = bars.append("rect")
+        .attr("width", width)
+        .attr("y", (_, i) => getY(i))
+        .attr("fill", (_, i) => colors[i])
+        .attr("style", "fill-opacity: 0.9;")
+        .transition().duration(d => d * animationTime).delay((_, i) => getY(i) * animationTime / height).ease(d3.easeLinear)
+        .attr("height", (_, i) => heights[i])
+        .attr("rx", rx)
+        .attr("ry", ry)
+
+
+    return out
 }

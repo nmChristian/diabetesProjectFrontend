@@ -1,46 +1,46 @@
 <template>
-	<form onsubmit="return false">
-		<img src="@/assets/logo.svg" alt=""/>
-		<div>
-			<animated-text-input ref="firstName" label-text="First name" v-model="firstNameValue"
-								 @input="$refs.firstName.setError(v$.firstNameValue.$errors)"/>
-		</div>
-		<div>
-			<animated-text-input ref="lastName" label-text="Last name" v-model="lastNameValue"
-								 @input="$refs.lastName.setError(v$.lastNameValue.$errors)"/>
-		</div>
-		<div class="date">
-			<label class="date-label">Date of birth
-				<input ref="date" class="date-picker" type="date" v-model="dateValue" required/>
-			</label>
-		</div>
-		<div>
-			<animated-text-input ref="email" label-text="E-mail" v-model="emailValue"
-								 @input="$refs.email.setError(v$.emailValue.$errors)"/>
-		</div>
-		<div>
-			<animated-text-input ref="password" label-text="Password" type="password" v-model="passwordValue"
-								 @input="$refs.password.setError(v$.passwordValue.$errors)"/>
-		</div>
-		<div>
-			<animated-text-input ref="passwordRepeat" label-text="Repeat password" type="password"
-								 v-model="passwordRepeatValue"
-								 @input="$refs.passwordRepeat.setError(v$.passwordRepeatValue.$errors)"/>
-		</div>
-		<div>
-			<button type="submit" class="sign-up-button" @click="onSignUpClick">Sign up</button>
-		</div>
-		<p>Or</p>
-		<div class="sing-in-link">
-			<a href="/sign-in">SIGN IN</a>
-		</div>
-		<div class="spinner-container">
-			<spinner v-show="loading"></spinner>
-		</div>
-		<div>
-			<failure-icon ref="failureIcon"></failure-icon>
-		</div>
-	</form>
+  <form onsubmit="return false">
+    <img alt="" src="@/assets/logo.svg"/>
+    <div>
+      <animated-text-input ref="firstName" v-model="firstNameValue" label-text="First name"
+                           @input="$refs.firstName.setError(v$.firstNameValue.$errors)"/>
+    </div>
+    <div>
+      <animated-text-input ref="lastName" v-model="lastNameValue" label-text="Last name"
+                           @input="$refs.lastName.setError(v$.lastNameValue.$errors)"/>
+    </div>
+    <div class="date">
+      <label class="date-label">Date of birth
+        <input ref="date" v-model="dateValue" class="date-picker" required type="date"/>
+      </label>
+    </div>
+    <div>
+      <animated-text-input ref="email" v-model="emailValue" label-text="E-mail"
+                           @input="$refs.email.setError(v$.emailValue.$errors)"/>
+    </div>
+    <div>
+      <animated-text-input ref="password" v-model="passwordValue" label-text="Password" type="password"
+                           @input="$refs.password.setError(v$.passwordValue.$errors)"/>
+    </div>
+    <div>
+      <animated-text-input ref="passwordRepeat" v-model="passwordRepeatValue" label-text="Repeat password"
+                           type="password"
+                           @input="$refs.passwordRepeat.setError(v$.passwordRepeatValue.$errors)"/>
+    </div>
+    <div>
+      <button class="sign-up-button" type="submit" @click="onSignUpClick">Sign up</button>
+    </div>
+    <p>Or</p>
+    <div class="sing-in-link">
+      <a href="/sign-in">SIGN IN</a>
+    </div>
+    <div class="spinner-container">
+      <spinner v-show="loading"></spinner>
+    </div>
+    <div>
+      <failure-icon ref="failureIcon"></failure-icon>
+    </div>
+  </form>
 </template>
 
 <script lang="ts">
@@ -54,130 +54,130 @@ import spinner from "../../components/spinner.vue";
 import failureIcon from "../../components/icons/failureIcon.vue";
 
 export default defineComponent({
-	components: {
-		spinner,
-		animatedTextInput,
-		failureIcon
-	},
-	setup() {
-		return {v$: useVuelidate()}
-	},
-	data() {
-		return {
-			firstNameValue: "",
-			lastNameValue: "",
-			dateValue: "",
-			emailValue: "",
-			passwordValue: "",
-			passwordRepeatValue: "",
-			loading: false
-		}
-	},
-	validations() {
-		return {
-			firstNameValue: {required},
-			lastNameValue: {required},
-			dateValue: {
-				required: required,
-			},
-			emailValue: {required, email},
-			passwordValue: {required},
-			passwordRepeatValue: {
-				required: required,
-				sameAs: sameAs(this.passwordValue)
-			}
-		}
-	},
-	methods: {
-		onSignUpClick: async function () {
-			this.v$.$touch();
-			(this.$refs.firstName as typeof animatedTextInput).$emit('input');
-			(this.$refs.lastName as typeof animatedTextInput).$emit('input');
-			(this.$refs.email as typeof animatedTextInput).$emit('input');
-			(this.$refs.password as typeof animatedTextInput).$emit('input');
-			(this.$refs.passwordRepeat as typeof animatedTextInput).$emit('input');
-			if (!this.v$.$invalid) {
-				this.loading = true;
-				(this.$refs.failureIcon as typeof failureIcon).setText('')
+  components: {
+    spinner,
+    animatedTextInput,
+    failureIcon
+  },
+  setup() {
+    return {v$: useVuelidate()}
+  },
+  data() {
+    return {
+      firstNameValue: "",
+      lastNameValue: "",
+      dateValue: "",
+      emailValue: "",
+      passwordValue: "",
+      passwordRepeatValue: "",
+      loading: false
+    }
+  },
+  validations() {
+    return {
+      firstNameValue: {required},
+      lastNameValue: {required},
+      dateValue: {
+        required: required,
+      },
+      emailValue: {required, email},
+      passwordValue: {required},
+      passwordRepeatValue: {
+        required: required,
+        sameAs: sameAs(this.passwordValue)
+      }
+    }
+  },
+  methods: {
+    onSignUpClick: async function () {
+      this.v$.$touch();
+      (this.$refs.firstName as typeof animatedTextInput).$emit('input');
+      (this.$refs.lastName as typeof animatedTextInput).$emit('input');
+      (this.$refs.email as typeof animatedTextInput).$emit('input');
+      (this.$refs.password as typeof animatedTextInput).$emit('input');
+      (this.$refs.passwordRepeat as typeof animatedTextInput).$emit('input');
+      if (!this.v$.$invalid) {
+        this.loading = true;
+        (this.$refs.failureIcon as typeof failureIcon).setText('')
 
-				const signUpResult = await signUp(this.emailValue, this.firstNameValue, this.lastNameValue, this.dateValue, this.passwordValue, this.passwordRepeatValue)
-				if (signUpResult.success) {
-					const signInResult = await signIn(this.emailValue, this.passwordValue)
-					if (signInResult.success) {
-						await router.push("/")
-					} else {
-						this.loading = false;
-						(this.$refs.failureIcon as typeof failureIcon).setText(signInResult.errorMessage)
-					}
-				} else {
-					this.loading = false;
-					(this.$refs.failureIcon as typeof failureIcon).setText(signUpResult.errorMessage)
-				}
-			}
-		},
-	}
+        const signUpResult = await signUp(this.emailValue, this.firstNameValue, this.lastNameValue, this.dateValue, this.passwordValue, this.passwordRepeatValue)
+        if (signUpResult.success) {
+          const signInResult = await signIn(this.emailValue, this.passwordValue)
+          if (signInResult.success) {
+            await router.push("/")
+          } else {
+            this.loading = false;
+            (this.$refs.failureIcon as typeof failureIcon).setText(signInResult.errorMessage)
+          }
+        } else {
+          this.loading = false;
+          (this.$refs.failureIcon as typeof failureIcon).setText(signUpResult.errorMessage)
+        }
+      }
+    },
+  }
 })
 </script>
 
 <style scoped>
 div {
-	display: block;
-	margin: auto;
-	padding: 0.2em;
+  display: block;
+  margin: auto;
+  padding: 0.2em;
 }
 
 img {
-	width: 175px;
-	height: 175px;
-	display: flex;
-	margin: auto;
-	padding: 2rem;
+  width: 175px;
+  height: 175px;
+  display: flex;
+  margin: auto;
+  padding: 2rem;
 }
 
 .date {
-	display: flex;
-	margin: auto;
-	justify-content: center;
+  display: flex;
+  margin: auto;
+  justify-content: center;
 }
 
 p {
-	top: 3rem;
-	text-align: center;
+  top: 3rem;
+  text-align: center;
 }
 
 div a {
-	text-decoration: underline;
+  text-decoration: underline;
 }
 
 .sing-in-link {
-	margin-top: 2.75rem;
-	font-size: 0.8rem;
-	text-align: center;
+  margin-top: 2.75rem;
+  font-size: 0.8rem;
+  text-align: center;
 }
 
 .spinner-container {
-	margin-top: 1rem;
+  margin-top: 1rem;
 }
 
 .sign-up-button {
-	display: block;
-	margin: auto;
-	top: 20px;
-	width: 200px;
-	padding-top: 3px;
-	padding-bottom: 3px;
-	border: 1px solid var(--vt-c-black);
-	border-radius: 15px;
-	font-size: 150%;
-	color: var(--vt-c-white);
-	background-size: 300% 100%;
-	transition: all .4s ease-in-out;
-	background-image: linear-gradient(to right, var(--color-secondary), var(--color-primary-dark), var(--color-secondary-pale), var(--color-primary));
-	box-shadow: 0 4px 15px 0 var(--color-primary-light);
+  display: block;
+  margin: auto;
+  top: 20px;
+  width: 200px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  border: 1px solid var(--vt-c-black);
+  border-radius: 15px;
+  font-size: 150%;
+  color: var(--vt-c-white);
+  background-size: 300% 100%;
+  transition: all .4s ease-in-out;
+  background-image: linear-gradient(to right, var(--color-secondary), var(--color-primary-dark), var(--color-secondary-pale), var(--color-primary));
+  box-shadow: 0 4px 15px 0 var(--color-primary-light);
 }
 
 .sign-up-button:hover {
-	background-position: 99% 0;
-	transition: all .4s ease-in-out;
+  background-position: 99% 0;
+  transition: all .4s ease-in-out;
 }
 </style>

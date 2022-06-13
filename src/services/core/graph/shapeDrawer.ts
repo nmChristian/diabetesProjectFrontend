@@ -4,13 +4,13 @@ import type {AxisScale} from "d3";
 
 export {fillHorizontalArea}
 
-function fillHorizontalArea <XDomain extends AxisDomain, YDomain extends AxisDomain>(svg: SVG,
-                                                                                     xScale: AxisScale<XDomain>,
-                                                                                     yScale: AxisScale<YDomain>,
-                                                                                     y : YDomain, height : YDomain,
-                                                                                     css? : string) {
-    const yPixel : number = yScale(y) ?? 0
-    const heightPixel : number = yScale(height) ?? 0
+function fillHorizontalArea<XDomain extends AxisDomain, YDomain extends AxisDomain>(svg: SVG,
+                                                                                    xScale: AxisScale<XDomain>,
+                                                                                    yScale: AxisScale<YDomain>,
+                                                                                    y: YDomain, height: YDomain,
+                                                                                    css?: string) {
+    const yPixel: number = yScale(y) ?? 0
+    const heightPixel: number = yScale(height) ?? 0
     const lowestPoint = Math.min(yPixel, heightPixel) ?? 0
     const diff = Math.abs(yPixel - heightPixel)
 

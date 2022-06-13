@@ -1,5 +1,4 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 import {isAuthenticated} from "@/services/authentication";
 
 const router = createRouter({
@@ -26,33 +25,33 @@ const router = createRouter({
             component: () => import('@/views/GraphView.vue'),
             redirect: {name: "graphview.cgmgraphstest"},
             children:
-            [
-                {
-                    path: "IconTest",
-                    name: "graphview.icontest",
-                    component: () => import("@/components/graphview/test/IconTest.vue"),
-                },
-                {
-                    path: "LineTest",
-                    name: "graphview.linetest",
-                    component: () => import("@/components/graphview/test/LineTest.vue"),
-                },
-                {
-                    path: "QuantileTest",
-                    name: "graphview.quantiletest",
-                    component: () => import("@/components/graphview/test/QuantileTest.vue"),
-                },
-                {
-                    path: "CGMGraphsTest",
-                    name: "graphview.cgmgraphstest",
-                    component: () => import("@/components/graphview/test/CGMGraphsTest.vue"),
-                },
-                {
-                    path: "TIRTest",
-                    name: "graphview.tirtest",
-                    component: () => import("@/components/graphview/test/TIRTest.vue"),
-                },
-            ]
+                [
+                    {
+                        path: "IconTest",
+                        name: "graphview.icontest",
+                        component: () => import("@/components/graphview/test/IconTest.vue"),
+                    },
+                    {
+                        path: "LineTest",
+                        name: "graphview.linetest",
+                        component: () => import("@/components/graphview/test/LineTest.vue"),
+                    },
+                    {
+                        path: "QuantileTest",
+                        name: "graphview.quantiletest",
+                        component: () => import("@/components/graphview/test/QuantileTest.vue"),
+                    },
+                    {
+                        path: "CGMGraphsTest",
+                        name: "graphview.cgmgraphstest",
+                        component: () => import("@/components/graphview/test/CGMGraphsTest.vue"),
+                    },
+                    {
+                        path: "TIRTest",
+                        name: "graphview.tirtest",
+                        component: () => import("@/components/graphview/test/TIRTest.vue"),
+                    },
+                ]
         },
         {
             path: "/DisplayPatients",

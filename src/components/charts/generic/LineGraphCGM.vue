@@ -6,7 +6,7 @@
 import Graph from "../shared/Graph.vue"
 
 import {computed} from "vue";
-import lineGraph from "@/services/graphs/generic/lineGraph";
+import lineGraphCGM from "@/services/graphs/generic/lineGraphCGM";
 import type {DateValue} from "@/services/core/datatypes";
 import type {GraphLayout} from "@/services/core/graphtypes";
 
@@ -17,6 +17,6 @@ const props = defineProps<{
 }>()
 
 const graph = computed(() =>
-    lineGraph(props.data, {graphLayout: props.graphLayout}))
+    lineGraphCGM(props.data, {graphLayout: props.graphLayout}))
 
 </script>

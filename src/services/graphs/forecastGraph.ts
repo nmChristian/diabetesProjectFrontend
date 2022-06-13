@@ -3,7 +3,7 @@ import {dateValueIsValid} from "@/services/core/datatypes";
 import {GraphLayout} from "@/services/core/graphtypes";
 import {generateSVG} from "@/services/core/graphMethods";
 import type {TimeInterval} from "d3";
-import * as d3 from "d3";
+import * as d3 from "d3"
 import {CGM_RANGE, CGM_TARGET} from "@/services/core/shared";
 import {generateGradientCGMCSSApply} from "@/services/graphs/generic/generateGradientCSS";
 import {drawHorizontalLines, drawVerticalLines} from "@/services/core/graph/lineDrawer";
@@ -11,11 +11,12 @@ import {applyAxis} from "@/services/core/graph/axisDrawer";
 import {fillHorizontalArea} from "@/services/core/graph/shapeDrawer";
 
 //TODO: Implement måltider
-export default function forecastGraph(dateValues: DateValue[], timeInterval : TimeInterval,
-                                  {
-                                      graphLayout = new GraphLayout(800,400, 20, 30, 20, 40),
-                                  })
-{
+export default function forecastGraph(dateValues: DateValue[], timeInterval: TimeInterval,
+                                      {
+                                          graphLayout = new GraphLayout(800, 400, 20, 30, 20, 40),
+                                          onBrushEnd = (event: d3.D3BrushEvent<any>) => {
+                                          },
+                                      }) {
     const {width, height} = graphLayout
     const {out, svg} = generateSVG(graphLayout)
 
@@ -24,7 +25,7 @@ export default function forecastGraph(dateValues: DateValue[], timeInterval : Ti
     const maxDate = timeInterval.offset(minDate, 1)
 
     const xScale = d3.scaleTime()
-        .domain([minDate, maxDate] )
+        .domain([minDate, maxDate])
         .range([0, width])
 
 
@@ -45,15 +46,14 @@ export default function forecastGraph(dateValues: DateValue[], timeInterval : Ti
 
     // Draw Area below and above targets
     const areaGen = d3.area<DateValue>()
-        .x(([date, ]) => xScale(date))
-        .y0(([,value]) => yScale(value > CGM_TARGET[1] ? CGM_TARGET[1] : Math.min(CGM_TARGET[0], value)))
-        .y1(([,value]) => yScale(value > CGM_TARGET[1] ? value : CGM_TARGET[0]))
+        .x(([date,]) => xScale(date))
+        .y0(([, value]) => yScale(value > CGM_TARGET[1] ? CGM_TARGET[1] : Math.min(CGM_TARGET[0], value)))
+        .y1(([, value]) => yScale(value > CGM_TARGET[1] ? value : CGM_TARGET[0]))
     svg.append("path")
         .datum(dateValues)
         .attr("fill", gradientURL)
         .attr("style", "opacity: 0.2;")
         .attr("d", areaGen)
-
 
 
     // Draw rectangle to show target area
@@ -86,7 +86,22 @@ export default function forecastGraph(dateValues: DateValue[], timeInterval : Ti
         .tickSize(0)
         .tickValues(CGM_TARGET)
 
-    applyAxis(svg, yAxis, { textCSS : () => "font-weight: bold;", removeDomain: true} )
 
-    return out.node()
+    applyAxis(svg, yAxis, {textCSS: () => "font-weight: bold;", removeDomain: true})
+
+    ///*
+    let brush, brushGroup
+    // Brush
+    if (onBrushEnd !== undefined) {
+
+        brushGroup = svg.append("g")
+        brush = d3.brushX<undefined>()
+            .extent([[0, 0], [width, height]])
+            .on("end", onBrushEnd)
+
+        brushGroup.call(brush)
+    }//*/
+
+    return {svg: out, xScale: xScale, brush: brush, brushGroup: brushGroup}
 }
+

@@ -2,33 +2,33 @@
   <div>
     <h1>Icon graphs</h1>
     <icon-graph
-        :median-data-in-hours="medianDataInHours"
         :health-level="HealthLevel.Good"
+        :median-data-in-hours="medianCGMInHours"
     />
 
     <icon-graph
-        :median-data-in-hours="medianDataInHours"
         :health-level="HealthLevel.High"
+        :median-data-in-hours="medianCGMInHours"
     />
     <icon-graph
-        :median-data-in-hours="medianDataInHours"
         :health-level="HealthLevel.Low"
+        :median-data-in-hours="medianCGMInHours"
     />
     <icon-graph
-        :median-data-in-hours="medianDataInHours"
         :health-level="HealthLevel.VeryHigh"
+        :median-data-in-hours="medianCGMInHours"
     />
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 
 import IconGraph from "@/components/charts/IconGraph.vue"
 import {HealthLevel} from "@/services/core/shared";
 import type {Point} from "@/services/core/datatypes";
 
 const props = defineProps<{
-  medianDataInHours: Point[]
+  medianCGMInHours: Point[]
 }>()
 
 

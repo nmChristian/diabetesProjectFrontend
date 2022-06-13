@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import {createApp} from 'vue'
 import App from './App.vue'
 import router from './router'
 import ListViewPatientElement from "@/components/patientElements/ListViewPatientElement.vue";
@@ -11,10 +11,10 @@ import backend from "@/services/backend";
 const app = createApp(App)
 
 app
-    .component("InfoElement",InfoElement)
-    .component("ListViewPatientElement",ListViewPatientElement)
-    .component("GallaeryViewPatientElement",GallaeryViewPatientElement)
-    .component("PatientsFullList",DisplayPatientsFullList)
+    .component("InfoElement", InfoElement)
+    .component("ListViewPatientElement", ListViewPatientElement)
+    .component("GallaeryViewPatientElement", GallaeryViewPatientElement)
+    .component("PatientsFullList", DisplayPatientsFullList)
 
 app.config.globalProperties.axios = axios
 app.config.globalProperties.$backend = backend

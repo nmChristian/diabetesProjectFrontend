@@ -3,14 +3,14 @@
     <h1>Here is a working quantile graph</h1>
     <quantile-graph
         :bucket-series-of-quantiles="bucketSeriesOfQuantiles"
+        :median-data-in-hours="medianCGMInHours"
         :quantiles-used-in-bucket="quantiles"
-        :median-data-in-hours="medianDataInHours"
     />
   </div>
 
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import QuantileGraph from "@/components/charts/generic/QuantileGraph.vue"
 import {computed} from "vue";
 import type {BucketPoint, DateValue, Point} from "@/services/core/datatypes";
@@ -18,8 +18,8 @@ import {addEdgesToSplitBucket, SPLIT_BY_DAY, toBuckets} from "@/services/core/da
 import {calculateQuantiles, toBucketSeries} from "@/services/graphs/generic/quantileGraph";
 
 const props = defineProps<{
-  data: DateValue[],
-  medianDataInHours: Point[],
+  cgm: DateValue[],
+  medianCGMInHours: Point[],
 }>()
 
 const RESOLUTION = 96
@@ -30,7 +30,7 @@ const bucketSeriesOfQuantiles = computed(() => {
   const split = SPLIT_BY_DAY
 
   const buckets: BucketPoint[] =
-      toBuckets(props.data, split, RESOLUTION)
+      toBuckets(props.cgm, split, RESOLUTION)
 
   const quantileBuckets: BucketPoint[] =
       calculateQuantiles(buckets, quantiles)

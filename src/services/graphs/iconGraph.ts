@@ -39,5 +39,5 @@ export default function iconGraph(dataInHours: Point[], healthLevel: HealthLevel
         .attr("style", "stroke-width: " + strokeWidth + "; fill: none; stroke: " + clr + ";  opacity: 1;")
         .attr("d", medianLineGen(dataInHours))
 
-    return out.node()
+    return out
 }

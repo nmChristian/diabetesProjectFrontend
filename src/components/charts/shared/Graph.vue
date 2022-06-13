@@ -2,17 +2,18 @@
   <div ref="div"></div>
 </template>
 
-<script setup lang="ts">
-
+<script lang="ts" setup>
 import type {Ref} from "vue";
 import {ref, watchEffect} from "vue";
-import applySVG from "@/services/core/applySVG";
 
-const div : Ref<HTMLDivElement | null> = ref(null)
+const div: Ref<HTMLDivElement | null> = ref(null)
 const props = defineProps<{
-  svg : SVGSVGElement
+  svg: d3.Selection<SVGSVGElement, undefined, null, undefined>
 }>()
 
 // WatchEffects gets called immediately and when any of the variables in it changes
-watchEffect(() => applySVG(div, props.svg))
+watchEffect(() => {
+  div.value?.children[0]?.remove();
+  div.value?.append(props.svg.node() ?? "")
+})
 </script>

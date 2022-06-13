@@ -17,12 +17,13 @@
 
 <script setup lang="ts">
 import {computed, ref} from 'vue'
+<script lang="ts" setup>
+import {computed} from 'vue'
 
 import cgm_083 from "@/assets/demo/users/cgm_083.json" // 95% 5%
 import cgm_123 from "@/assets/demo/users/cgm_123.json" // 76% 21% 3%
 import cgm_200 from "@/assets/demo/users/cgm_200.json" // 2% 80% 15% 4%
 import cgm_538 from "@/assets/demo/users/cgm_538.json" // Lowest and nice 100%
-
 import {User} from "@/services/user"
 import router from "@/router"
 import type {DateValue, Point} from "@/services/core/datatypes"
@@ -42,7 +43,7 @@ const userlist = [
 const cgmToData  = (cgmData : {date: string, cgm: number}[]) : DateValue[] =>
     toDateValue(cgmData, (data => [new Date(data.date), data.cgm * 18]))
 
-const dataToMedian = (data : DateValue[], split : number) : Point[] =>
+const dataToMedian = (data: DateValue[], split: number): Point[] =>
     bucketToMedian(toBuckets(data, split, RESOLUTION))
 
 

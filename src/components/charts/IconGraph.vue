@@ -2,7 +2,7 @@
   <Graph :svg="graph"/>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {computed} from "vue";
 
 import Graph from "./shared/Graph.vue"
@@ -12,12 +12,12 @@ import type {HealthLevel} from "@/services/core/shared";
 import type {GraphLayout} from "@/services/core/graphtypes";
 
 const props = defineProps<{
-  medianDataInHours : Point[],
-  healthLevel : HealthLevel,
-  graphLayout? : GraphLayout,
+  medianDataInHours: Point[],
+  healthLevel: HealthLevel,
+  graphLayout?: GraphLayout,
 }>()
 
 const graph = computed(() =>
-    iconGraph(props.medianDataInHours, props.healthLevel, { graphLayout : props.graphLayout }))
+    iconGraph(props.medianDataInHours, props.healthLevel, {graphLayout: props.graphLayout}))
 
 </script>

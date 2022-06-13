@@ -12,11 +12,10 @@ export function quantileGraph(bucketSeriesOfQuantiles: d3.Series<BucketPoint, nu
                               quantilesUsedInBucket: number[],
                               medianPoints: Point[],
                               {
-                                  graphLayout = new GraphLayout(800,400, 20, 30, 20, 40),
+                                  graphLayout = new GraphLayout(800, 400, 20, 30, 20, 40),
                                   indicators = false,
                                   curveType = d3.curveMonotoneX,
-                              })
-{
+                              }) {
     const {width, height, marginLeft} = graphLayout
     const {out, svg} = generateSVG(graphLayout)
 
@@ -111,7 +110,7 @@ export function quantileGraph(bucketSeriesOfQuantiles: d3.Series<BucketPoint, nu
 
 
     }
-    return out.node()
+    return out
 }
 
 
