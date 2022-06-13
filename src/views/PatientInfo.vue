@@ -9,6 +9,7 @@
 
   <div class="navButtons">
     <!-- TODO erstat med smukke symboler :) -->
+    <!-- TODO kryds skal også virke efter pop up er fjernet -->
     <button @click="crossClicked()">Kryds</button>
     <button v-if="$router.currentRoute.value.fullPath.toLowerCase().includes('list')" @click="fullScreenClicked()">Fuld
       skærm
