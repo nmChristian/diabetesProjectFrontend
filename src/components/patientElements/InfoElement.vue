@@ -3,6 +3,7 @@
     <div class="inderBox" @click="showDataInternal()">
       <p class="title">{{ title }}</p>
       <p class="number">{{ number }}</p>
+      <!-- TODO add unit -->
     </div>
   </div>
 </template>
