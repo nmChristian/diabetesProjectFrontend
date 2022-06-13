@@ -1,5 +1,14 @@
 <template>
   <div>
+    <h2>Heatmap</h2>
+    <heatmap-table
+        :elements="[
+            [new Date('2022-01-29'), [10, 20, 30, 40]],
+            [new Date('2022-01-28'), [24, 20, 30, 11]],
+            [new Date('2022-01-27'), [55, 20, 190, 100]],
+            [new Date('2022-01-26'), [10, 6, 30, 40]],
+            ]"
+    />
 
     <forecast-series
         :cgm="cgm"
@@ -31,6 +40,7 @@ import {computed} from "vue";
 import ForecastSeries from "@/components/charts/graphseries/ForecastSeries.vue";
 import RawSeries from "@/components/charts/graphseries/RawSeries.vue";
 import TIRDailySeries from "@/components/charts/graphseries/TIRDailySeries.vue";
+import HeatmapTable from "@/components/charts/generic/HeatmapTable.vue";
 
 
 const props = defineProps<{

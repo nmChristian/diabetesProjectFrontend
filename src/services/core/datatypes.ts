@@ -135,4 +135,3 @@ function getCGMOccurrences(data: DateValue[]): number[] {
 export const mMolPerLToMgPerL = (cgm: number) => cgm * 18
 const cgmBisector = d3.bisector<{ x0: number }, number>(d => d.x0)
 export const getCGMColor = (cgm: number) => COLOR_SCHEME[cgmBisector.right(CGM_THRESHOLDS, cgm) - 1]
-export const getCGMDeviationColor = (standardDeviation : number) => COLOR_SCHEME[d3.bisector(d => d).right(CGM_SD_THRESHOLDS, standardDeviation) + 1] // Offset by 2

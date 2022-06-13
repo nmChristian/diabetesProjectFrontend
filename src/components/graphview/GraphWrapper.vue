@@ -39,10 +39,10 @@ import backend from "@/services/backend";
 import type {UserDetails} from "@/services/core/dbtypes";
 
 // Loading data
-let cgmInDateValue: Ref<never[] | DateValue[]> = ref([])
-let mealsInDateValue: Ref<never[] | DateValue[]> = ref([])
-let basalInDateValue: Ref<never[] | DateValue[]> = ref([])
-let bolusInDateValue: Ref<never[] | DateValue[]> = ref([])
+let cgmInDateValue: Ref<DateValue[]> = ref([])
+let mealsInDateValue: Ref<DateValue[]> = ref([])
+let basalInDateValue: Ref<DateValue[]> = ref([])
+let bolusInDateValue: Ref<DateValue[]> = ref([])
 
 let userDetails: Ref<{} | UserDetails> = ref({})
 
