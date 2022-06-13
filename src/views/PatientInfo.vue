@@ -10,7 +10,7 @@
   <div class="navButtons">
     <!-- TODO erstat med smukke symboler :) -->
     <!-- TODO kryds skal også virke efter pop up er fjernet -->
-    <button @click="crossClicked()">Kryds</button>
+    <button @click="this.crossClicked()">Kryds</button>
     <button v-if="$router.currentRoute.value.fullPath.toLowerCase().includes('list')" @click="fullScreenClicked()">Fuld
       skærm
     </button>
@@ -81,7 +81,8 @@ function closePopUp() {
   router.push(newRoute)
 }
 
-function crossClicked() {
+let crossClicked = () => {
+  console.log("HEY?")
   if (router.currentRoute.value.fullPath.includes("List")) {
     router.push("/DisplayPatientsList")
   } else {
@@ -89,7 +90,7 @@ function crossClicked() {
   }
 }
 
-function fullScreenClicked() {
+const fullScreenClicked = () => {
   //TODO find noget smartere, så hele siden ikke skal læses igen.
   let current = router.currentRoute.value.fullPath
   let newPath = current.replace("/DisplayPatientsList", "")
@@ -171,6 +172,7 @@ async function loadData() {
 .navButtons {
   position: absolute;
   right: 1rem;
+  z-index: 1;
 }
 
 .infoItem {
