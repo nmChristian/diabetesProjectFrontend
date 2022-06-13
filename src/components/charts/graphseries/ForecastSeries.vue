@@ -55,7 +55,7 @@ import forecastGraph from "@/services/graphs/forecastGraph";
 import Graph from "@/components/charts/shared/Graph.vue";
 
 const interval = ref(d3.timeMonday)
-
+const mealsEnabled = ref(false)
 const props = defineProps<{
   cgm: DateValue[],
   meals: DateValue[],
@@ -106,7 +106,6 @@ const brushEvent = (event: d3.D3BrushEvent<any>) => {
 
   currentGraph = nextGraph
 }
-const showMeal = false;
 const graphs = computed(() => {
       const graphObjects =
           [...weeksBack].reverse().map((week) => {
@@ -116,7 +115,7 @@ const graphs = computed(() => {
                 {
                   graphLayout: forecastLayout,
                   onBrushEnd: brushEvent,
-                  mealsData: showMeal ? mealsData : [],
+                  mealsData: mealsEnabled.value ? mealsData : [],
                 })
           })
       return new Map(graphObjects.map((graph) => [graph.brush, graph]))

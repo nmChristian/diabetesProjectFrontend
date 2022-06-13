@@ -108,12 +108,22 @@ export default function forecastGraph(dateValues: DateValue[], timeInterval: Tim
         svg.append("g")
             .selectAll("rect")
             .data(mealsData)
-            .join("rect")
+            .join( enter => enter.append("rect")
             .style("fill", LINE_COLOR)
             .attr("x", ([date,]) => xScale(date))
-            .attr("height", ([, value]) => yMealScale(value) - yMealScale.range()[1])
             .attr("width", 2)
-            .attr("y", ([, value]) => yMealScale.range()[0] - (yMealScale(value) - yMealScale.range()[1]))
+            .attr("y", () => yMealScale.range()[0])
+                .call(enter => enter.transition().duration(200)
+            .attr("height", ([, value]) => yMealScale(value) - yMealScale.range()[1])
+            .attr("y", ([, value]) => yMealScale.range()[0] - (yMealScale(value) - yMealScale.range()[1]))),
+            exit => exit
+            .attr("fill", "brown")
+            .call(exit => exit.transition().duration(1000)
+                .attr("y", 30)
+                .remove()),
+    )
+
+
 
     }
 
