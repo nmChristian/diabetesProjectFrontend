@@ -13,6 +13,7 @@ class Backend {
     }
 
     public getDataURL = () => this.url + "/data/get"
+    public getDataURLPatient = (id : String) => this.url + "/data/"+ id +"/get"
     public getNameURL = () => this.url + "/user"
 
     public async getUserDetails () : Promise<UserDetails> {
@@ -29,6 +30,17 @@ class Backend {
             this.generateHeader())
         console.log(response)
         return response.data.viewable
+    }
+
+    public async getCGMDataPatient (daysBack : number , patientId: String) : Promise<DateValue[]> {
+        const daysSinceLastData = d3.timeDays(new Date("2022-01-29"), new Date()).length
+
+        const response = await axios.post(
+            this.getDataURLPatient(patientId),
+            this.getCGMDaysBack(daysSinceLastData + daysBack),
+            this.generateHeader())
+
+        return timeSeriesToDateValue(response.data.cgm, v => v * 18)
     }
 
     public async getCGMData (daysBack : number) : Promise<DateValue[]> {

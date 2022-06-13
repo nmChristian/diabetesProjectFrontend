@@ -2,7 +2,7 @@
   <!--TODO slected check skal opdateres til at kunne tage strings -->
   <div
       class="outerHolder"
-      v-bind:class ="{outerHolderSelected:(user.id === selected)}" >
+      v-bind:class ="{outerHolderSelected:(user._id === selected)}" >
     <div class="icon">
       <IconGraph
           :medianDataInHours="medianDataInHours"
@@ -10,9 +10,9 @@
       <!--<img src="@/assets/logo.svg" class="icon"> -->
     </div>
     <div class="generalInfo">
-      <p class="name">{{user.name}}</p>
+      <p class="name">{{user.first_name}}</p>
       <p v-if="doctor" class="cprNumber">{{cpr}}</p>
-      <p v-else class="age">alder: {{user.age.toString()}} år</p>
+      <p v-else class="age">alder: {{String(user.age)}} år</p>
     </div>
   </div>
 </template>
@@ -20,9 +20,10 @@
 <script setup lang = "ts">
 import IconGraph from "@/components/charts/IconGraph.vue"
 import type {User} from "@/services/user"
+import {UserDetails} from "@/services/core/dbtypes";
 
 defineProps<{
-  user: User,
+  user: UserDetails,
   cpr: string,
   medianDataInHours: object,
   doctor: boolean,
