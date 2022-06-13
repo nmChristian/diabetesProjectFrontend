@@ -23,7 +23,7 @@
 
     <div class="infoItem startInfoHolderLine">
       <info-element :number=0 title="HbALc:" @showData="showElementData('HbALc')"></info-element>
-      <info-element :number=1 title="weight:" @showData="$router.push('#weight')"></info-element>
+      <info-element :number=1 title="weight:" @showData="$router.replace('#weight')"></info-element>
       <info-element :number=2 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
       <info-element :number=3 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
       <info-element :number=4 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
@@ -78,11 +78,10 @@ function closePopUp() {
   let currentRoute = router.currentRoute.value.fullPath
   let indexOfHash = currentRoute.indexOf("#")
   let newRoute = currentRoute.substring(0, indexOfHash)
-  router.push(newRoute)
+  router.replace(newRoute)
 }
 
 let crossClicked = () => {
-  console.log("HEY?")
   if (router.currentRoute.value.fullPath.includes("List")) {
     router.push("/DisplayPatientsList")
   } else {
