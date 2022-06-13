@@ -2,7 +2,7 @@
   <div class="infoBox">
     <div class="inderBox" @click="showDataInternal()">
       <p class="title">{{ title }}</p>
-      <h1 class="number">{{ number }}</h1>
+      <p class="number">{{ number }}</p>
     </div>
   </div>
 </template>
