@@ -58,13 +58,24 @@ accessiblelUsersPromise.then((accessiblelUsers : Array<UserDetails>)  => {
 
       newUser.cpr = "Currently not used"
 
-      //Do some calculation
-      newUser.healthLevel = 1
+      //TODO Do some calculation
+      newUser.healthLevel = Math.round(Math.random()*4)
       newUser.medianDataInHours = dataToMedian((CGMForUser), SPLIT_BY_DAY)
 
       tempList.push(newUser)
 
       if(tempList.length === accessiblelUsers.length){
+        tempList.sort((a, b) => {
+          if(a.healthLevel === b.healthLevel){
+            return  (a.user.first_name).localeCompare(b.user.first_name);
+          }
+          if(a.healthLevel === 2)
+            return 1
+          if(b.healthLevel === 2){
+            return -1
+          }
+          return (b.healthLevel || 0) - (a.healthLevel || 0)
+        })
         usersWithData.value = tempList
       }
     })
