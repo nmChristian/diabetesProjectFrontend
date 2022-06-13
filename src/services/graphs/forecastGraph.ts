@@ -4,7 +4,7 @@ import {GraphLayout} from "@/services/core/graphtypes";
 import {generateSVG} from "@/services/core/graphMethods";
 import type {TimeInterval} from "d3";
 import * as d3 from "d3"
-import {CGM_RANGE, CGM_TARGET} from "@/services/core/shared";
+import {CGM_RANGE, CGM_TARGET, CGM_THRESHOLDS, COLOR_SCHEME} from "@/services/core/shared";
 import {generateGradientCGMCSSApply} from "@/services/graphs/generic/generateGradientCSS";
 import {drawHorizontalLines, drawVerticalLines} from "@/services/core/graph/lineDrawer";
 import {applyAxis} from "@/services/core/graph/axisDrawer";
@@ -14,8 +14,8 @@ import {fillHorizontalArea} from "@/services/core/graph/shapeDrawer";
 export default function forecastGraph(dateValues: DateValue[], timeInterval: TimeInterval,
                                       {
                                           graphLayout = new GraphLayout(800, 400, 20, 30, 20, 40),
-                                          onBrushEnd = (event: d3.D3BrushEvent<any>) => {
-                                          },
+                                          onBrushEnd = (event: d3.D3BrushEvent<any>) => {},
+                                          mealsData = [] as DateValue[]
                                       }) {
     const {width, height} = graphLayout
     const {out, svg} = generateSVG(graphLayout)
@@ -89,7 +89,6 @@ export default function forecastGraph(dateValues: DateValue[], timeInterval: Tim
 
     applyAxis(svg, yAxis, {textCSS: () => "font-weight: bold;", removeDomain: true})
 
-    ///*
     let brush, brushGroup
     // Brush
     if (onBrushEnd !== undefined) {
@@ -100,7 +99,23 @@ export default function forecastGraph(dateValues: DateValue[], timeInterval: Tim
             .on("end", onBrushEnd)
 
         brushGroup.call(brush)
-    }//*/
+    }
+
+
+    if (mealsData !== []) {
+        // Limit size to the first line
+        const yMealScale = d3.scaleLinear(d3.extent(mealsData, ([,value]) => value) as [number, number], [height, yScale(CGM_TARGET[0])])
+        svg.append("g")
+            .selectAll("rect")
+            .data(mealsData)
+            .join("rect")
+            .style("fill", COLOR_SCHEME[0])
+            .attr("x", ([date,]) => xScale(date))
+            .attr("height", ([, value]) => yMealScale(value) - yMealScale.range()[1])
+            .attr("width", 2)
+            .attr("y", ([, value]) => yMealScale.range()[0] - (yMealScale(value) - yMealScale.range()[1]))
+
+    }
 
     return {svg: out, xScale: xScale, brush: brush, brushGroup: brushGroup}
 }
