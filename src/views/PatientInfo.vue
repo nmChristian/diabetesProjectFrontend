@@ -55,7 +55,7 @@ import router from "../router";
 import ForecastSeries from "@/components/charts/graphseries/ForecastSeries.vue";
 import backend from "../services/backend";
 import type {DateValue, Point} from "@/services/core/datatypes"
-import {ref, Ref, computed, onMounted} from "vue";
+import {ref, Ref, computed, onMounted, watch, onUpdated} from "vue";
 import {
   addEdgesToSplit,
   bucketToMedian,
@@ -67,6 +67,10 @@ import {
 import type {UserDetails} from "@/services/core/dbtypes";
 
 onMounted(() => {
+  loadData()
+})
+
+router.afterEach(() => {
   loadData()
 })
 
