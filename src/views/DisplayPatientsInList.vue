@@ -29,6 +29,7 @@
 }
 
 .list {
+  min-width: 300px;;
 }
 
 .info {

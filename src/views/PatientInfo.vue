@@ -10,7 +10,7 @@
   <div class="navButtons">
     <!-- TODO erstat med smukke symboler :) -->
     <!-- TODO kryds skal også virke efter pop up er fjernet -->
-    <button @click="crossClicked()">Kryds</button>
+    <button @click="this.crossClicked()">Kryds</button>
     <button v-if="$router.currentRoute.value.fullPath.toLowerCase().includes('list')" @click="fullScreenClicked()">Fuld
       skærm
     </button>
@@ -23,7 +23,7 @@
 
     <div class="infoItem startInfoHolderLine">
       <info-element :number=0 title="HbALc:" @showData="showElementData('HbALc')"></info-element>
-      <info-element :number=1 title="weight:" @showData="$router.push('#weight')"></info-element>
+      <info-element :number=1 title="weight:" @showData="$router.replace('#weight')"></info-element>
       <info-element :number=2 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
       <info-element :number=3 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
       <info-element :number=4 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
@@ -40,24 +40,48 @@
         <p class="diagnoseAndMedicinItems">{{ listToString(diag.medecin) }}</p>
       </template>
     </div>
+
+    <div class="infoItem" >
+      <forecast-series :data="cgmInDateValue"/>
+    </div>
+
   </div>
 
 
 </template>
 
-<script setup>
-
-
+<script lang="ts" setup>
 import router from "../router";
+import ForecastSeries from "@/components/charts/graphseries/ForecastSeries.vue";
+import backend from "../services/backend";
+import type {DateValue, Point} from "@/services/core/datatypes"
+import {ref, Ref, computed, onMounted, watch, onUpdated} from "vue";
+import {
+  addEdgesToSplit,
+  bucketToMedian,
+  mMolPerLToMgPerL,
+  SPLIT_BY_DAY,
+  timeSeriesToDateValue,
+  toBuckets
+} from "@/services/core/datatypes";
+import type {UserDetails} from "@/services/core/dbtypes";
+
+onMounted(() => {
+  loadData()
+})
+
+router.afterEach(() => {
+  loadData()
+})
 
 function closePopUp() {
   let currentRoute = router.currentRoute.value.fullPath
   let indexOfHash = currentRoute.indexOf("#")
   let newRoute = currentRoute.substring(0, indexOfHash)
-  router.push(newRoute)
+  router.replace(newRoute)
 }
 
-function crossClicked() {
+let crossClicked = () => {
   if (router.currentRoute.value.fullPath.includes("List")) {
     router.push("/DisplayPatientsList")
   } else {
@@ -65,14 +89,14 @@ function crossClicked() {
   }
 }
 
-function fullScreenClicked() {
+const fullScreenClicked = () => {
   //TODO find noget smartere, så hele siden ikke skal læses igen.
   let current = router.currentRoute.value.fullPath
   let newPath = current.replace("/DisplayPatientsList", "")
   router.push(newPath)
 }
 
-function listToString(inListe) {
+function listToString(inListe: string | any[] | undefined) {
   let re = ""
 
   if (inListe === undefined) {
@@ -104,6 +128,20 @@ const diagnoser = [
   }
 ]
 
+let cgmInDateValue: Ref<never[] | DateValue[]> = ref([])
+let mealsInDateValue: Ref<never[] | DateValue[]> = ref([])
+let basalInDateValue: Ref<never[] | DateValue[]> = ref([])
+let bolusInDateValue: Ref<never[] | DateValue[]> = ref([])
+
+async function loadData() {
+  const response = await backend.getDataPatient(21, ["cgm", "meals", "basal", "bolus"],String(router.currentRoute.value.params.id))
+  console.log(response)
+  cgmInDateValue.value = timeSeriesToDateValue(response.cgm, mMolPerLToMgPerL)
+  mealsInDateValue.value = timeSeriesToDateValue(response.meals)
+  basalInDateValue.value = timeSeriesToDateValue(response.basal)
+  bolusInDateValue.value = timeSeriesToDateValue(response.bolus)
+}
+
 </script>
 
 
@@ -133,12 +171,14 @@ const diagnoser = [
 .navButtons {
   position: absolute;
   right: 1rem;
+  z-index: 1;
 }
 
 .infoItem {
   padding: 10px;
   width: 100%;
   border: solid 1px #555;
+  min-width: 1020px;
   background-color: #fcfcfc;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
   -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);

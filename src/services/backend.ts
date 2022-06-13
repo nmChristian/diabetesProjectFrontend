@@ -13,6 +13,7 @@ class Backend {
     }
 
     public getDataURL = () => this.url + "/data/get"
+    public getDataURLPatient = (id : String) => this.url + "/data/"+ id +"/get"
     public getNameURL = () => this.url + "/user"
 
     public async getUserDetails(): Promise<UserDetails> {
@@ -29,8 +30,24 @@ class Backend {
         return response.data.viewable
     }
 
-    public async getCGMDataMGDL(daysBack: number): Promise<DateValue[]> {
+    public async getCGMDataPatient (daysBack : number , patientId: String) : Promise<DateValue[]> {
         const daysSinceLastData = d3.timeDays(new Date("2022-01-29"), new Date()).length
+
+        if(patientId === undefined){
+            return []
+        }
+
+        const response = await axios.post(
+            this.getDataURLPatient(patientId),
+            this.getCGMDaysBack(daysSinceLastData + daysBack),
+            this.generateHeader())
+
+        return timeSeriesToDateValue(response.data.cgm, v => v * 18)
+    }
+
+    public async getCGMDataMGDL (daysBack : number) : Promise<DateValue[]> {
+        const daysSinceLastData = d3.timeDays(new Date("2022-01-29"), new Date()).length
+
         const response = await axios.post(
             this.getDataURL(),
             this.getCGMDaysBack(daysSinceLastData + daysBack),
@@ -38,6 +55,19 @@ class Backend {
 
         console.log(response.data)
         return timeSeriesToDateValue(response.data.cgm, mMolPerLToMgPerL)
+    }
+
+    public async getDataPatient(daysBack: number = 7, show: string[] = ["cgm"] , patientId: string) {
+        if(patientId === undefined){
+            return []
+        }
+        const daysSinceLastData = d3.timeDays(new Date("2022-01-29"), new Date()).length
+        const response = await axios.post(
+            this.getDataURLPatient(patientId),
+            {ndays: (daysSinceLastData + daysBack), show: show},
+            this.generateHeader())
+
+        return response.data
     }
 
     public async getData(daysBack: number = 7, show: string[] = ["cgm"]) {
