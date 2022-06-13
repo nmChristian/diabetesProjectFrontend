@@ -17,8 +17,6 @@
 
 <script setup lang="ts">
 import {computed, ref} from 'vue'
-<script lang="ts" setup>
-import {computed} from 'vue'
 
 import cgm_083 from "@/assets/demo/users/cgm_083.json" // 95% 5%
 import cgm_123 from "@/assets/demo/users/cgm_123.json" // 76% 21% 3%
