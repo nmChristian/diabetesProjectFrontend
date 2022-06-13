@@ -3,14 +3,21 @@
     <h2>Vejrudsigt graf</h2>
 
     <div style="display: grid; place-items: center;">
-      <p>Split by</p>
-      <select v-model="intervalSelection"
-              style="font-size: 16px; text-align: center; width: 300px; height: 35px; border-radius: 20px;">
-        <option :value="d3.timeMonday">Monday</option>
-        <option :value="d3.timeSunday">Sunday</option>
-        <option :value="d3.timeMonth">Month</option>
-        <option :value="d3.timeHour">Hour</option>
-      </select>
+        <p>Split by</p>
+        <select v-model="interval"
+                style="font-size: 16px; text-align: center; width: 300px; height: 35px; border-radius: 20px;">
+          <option :value="d3.timeMonday">Monday</option>
+          <option :value="d3.timeSunday">Sunday</option>
+          <option :value="d3.timeMonth">Month</option>
+          <option :value="d3.timeHour">Hour</option>
+        </select>
+
+    </div>
+    <div>
+      <input
+          type="checkbox" name="mealsEnabled"
+          v-model="mealsEnabled"/>
+      <label for="mealsEnabled">Show meals</label>
     </div>
     <br>
     <div style="display: flex; justify-content: center;">
@@ -47,8 +54,7 @@ import {COLOR_SCHEME} from "@/services/core/shared";
 import forecastGraph from "@/services/graphs/forecastGraph";
 import Graph from "@/components/charts/shared/Graph.vue";
 
-const intervalSelection = ref(d3.timeMonday)
-const interval = computed(() => intervalSelection.value)
+const interval = ref(d3.timeMonday)
 
 const props = defineProps<{
   cgm: DateValue[],
@@ -100,6 +106,7 @@ const brushEvent = (event: d3.D3BrushEvent<any>) => {
 
   currentGraph = nextGraph
 }
+const showMeal = false;
 const graphs = computed(() => {
       const graphObjects =
           [...weeksBack].reverse().map((week) => {
@@ -109,7 +116,7 @@ const graphs = computed(() => {
                 {
                   graphLayout: forecastLayout,
                   onBrushEnd: brushEvent,
-                  mealsData: mealsData,
+                  mealsData: showMeal ? mealsData : [],
                 })
           })
       return new Map(graphObjects.map((graph) => [graph.brush, graph]))

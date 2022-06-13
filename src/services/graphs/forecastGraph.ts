@@ -4,7 +4,7 @@ import {GraphLayout} from "@/services/core/graphtypes";
 import {generateSVG} from "@/services/core/graphMethods";
 import type {TimeInterval} from "d3";
 import * as d3 from "d3"
-import {CGM_RANGE, CGM_TARGET, CGM_THRESHOLDS, COLOR_SCHEME} from "@/services/core/shared";
+import {CGM_RANGE, CGM_TARGET, CGM_THRESHOLDS, COLOR_SCHEME, LINE_COLOR} from "@/services/core/shared";
 import {generateGradientCGMCSSApply} from "@/services/graphs/generic/generateGradientCSS";
 import {drawHorizontalLines, drawVerticalLines} from "@/services/core/graph/lineDrawer";
 import {applyAxis} from "@/services/core/graph/axisDrawer";
@@ -109,7 +109,7 @@ export default function forecastGraph(dateValues: DateValue[], timeInterval: Tim
             .selectAll("rect")
             .data(mealsData)
             .join("rect")
-            .style("fill", COLOR_SCHEME[0])
+            .style("fill", LINE_COLOR)
             .attr("x", ([date,]) => xScale(date))
             .attr("height", ([, value]) => yMealScale(value) - yMealScale.range()[1])
             .attr("width", 2)

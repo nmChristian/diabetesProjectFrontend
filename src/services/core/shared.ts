@@ -4,7 +4,8 @@ export {COLOR_SCHEME, HealthLevel, healthLevelToColor, CGM_THRESHOLDS, CGM_TARGE
 export const CGM_RANGE: [number, number] = [0, 350]
 
 // Coloring
-const COLOR_SCHEME: string[] = ["#33658a", "#78c0e0", "#5da271", "#dda448", "#92140c"]
+const COLOR_SCHEME: string[] = ["#33658a", "#78c0e0", "#5da271", "#dda448", "#92140c"].reverse()
+export const LINE_COLOR = "#33658a"
 
 // Health levels
 enum HealthLevel {
