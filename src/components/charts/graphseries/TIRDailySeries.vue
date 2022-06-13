@@ -21,7 +21,7 @@
             :occurrences="occurrences[i]"
         />
         <p :style="{borderBottom: '6px solid', borderColor: getCGMColor(averages[i]) }">{{ averages[i].toFixed(2) }}</p>
-        <p :style="{marginTop: '10px' }">{{ deviations[i].toFixed(2) }}</p>
+        <p :style="{marginTop: '10px' }">{{ (deviations[i] / averages[i]).toFixed(2) }}</p>
       </div>
     </div>
   </div>
