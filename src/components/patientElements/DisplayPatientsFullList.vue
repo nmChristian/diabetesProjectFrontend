@@ -8,7 +8,7 @@
         :cpr = 'u.cpr'
         :medianDataInHours = 'u.medianDataInHours'
         :doctor="false"
-        :selected="($route.params.id)"
+        :selected="($route.params.id || 'a')"
         :healthLevel = 'u.healthLevel'
         @click="clickedItem(u.user._id.$oid)">
     </ListViewPatientElement>
@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from 'vue'
+import {ref, watch} from 'vue'
 
 import router from "@/router"
 import type {DateValue, Point} from "@/services/core/datatypes"
@@ -47,6 +47,8 @@ const accessiblelUsersPromise = backend.getViewvabel();
 
 accessiblelUsersPromise.then((accessiblelUsers : Array<UserDetails>)  => {
 
+  let tempList :  UserWithDate[] = []
+
   accessiblelUsers.forEach(user => {
     backend.getCGMDataPatient(daysBack,user._id.$oid).then(CGMForUser  => {
       let newUser = new UserWithDate()
@@ -60,10 +62,17 @@ accessiblelUsersPromise.then((accessiblelUsers : Array<UserDetails>)  => {
       newUser.healthLevel = 1
       newUser.medianDataInHours = dataToMedian((CGMForUser), SPLIT_BY_DAY)
 
-      usersWithData.value.push(newUser)
+      tempList.push(newUser)
+
+      if(tempList.length === accessiblelUsers.length){
+        usersWithData.value = tempList
+      }
     })
   })
+
 })
+
+
 
 const clickedItem = (id: Number) => {
   router.push("/DisplayPatientsList/patientInfo/" + (id))

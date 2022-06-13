@@ -33,6 +33,10 @@ class Backend {
     public async getCGMDataPatient (daysBack : number , patientId: String) : Promise<DateValue[]> {
         const daysSinceLastData = d3.timeDays(new Date("2022-01-29"), new Date()).length
 
+        if(patientId === undefined){
+            return []
+        }
+
         const response = await axios.post(
             this.getDataURLPatient(patientId),
             this.getCGMDaysBack(daysSinceLastData + daysBack),
@@ -54,6 +58,9 @@ class Backend {
     }
 
     public async getDataPatient(daysBack: number = 7, show: string[] = ["cgm"] , patientId: string) {
+        if(patientId === undefined){
+            return []
+        }
         const daysSinceLastData = d3.timeDays(new Date("2022-01-29"), new Date()).length
         const response = await axios.post(
             this.getDataURLPatient(patientId),
