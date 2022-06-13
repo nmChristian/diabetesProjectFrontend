@@ -45,9 +45,6 @@ import {isAuthenticated} from "@/services/authentication";
 
 function loadName() {
   let userData = backend.getUserDetails()
-  if(userData === userData){
-    return
-  }
   userData.then(data => {
     if (isAuthenticated()) {
       (document.getElementById('currentUserName') as any).innerText = (data.last_name + ", " + data.first_name);
