@@ -8,9 +8,9 @@
         :cpr = 'u.cpr'
         :medianDataInHours = 'u.medianDataInHours'
         :doctor="false"
-        :selected="parseInt($route.params.id)"
+        :selected="($route.params.id)"
         :healthLevel = 'u.healthLevel'
-        @click="clickedItem(5)">
+        @click="clickedItem(u.user._id.$oid)">
     </ListViewPatientElement>
   </div>
 </template>

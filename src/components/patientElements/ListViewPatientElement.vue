@@ -1,8 +1,7 @@
 <template>
-  <!--TODO slected check skal opdateres til at kunne tage strings -->
   <div
       class="outerHolder"
-      v-bind:class ="{outerHolderSelected:(user._id === selected)}" >
+      v-bind:class ="{outerHolderSelected:(user._id.$oid === selected)}" >
     <div class="icon">
       <IconGraph
           :healthLevel="healthLevel"
@@ -27,7 +26,7 @@ defineProps<{
   cpr: string,
   medianDataInHours: object,
   doctor: boolean,
-  selected: number,
+  selected: string,
   healthLevel: number,
 }>()
 
