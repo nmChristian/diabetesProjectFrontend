@@ -9,7 +9,6 @@
 
   <div class="navButtons">
     <!-- TODO erstat med smukke symboler :) -->
-    <!-- TODO kryds skal også virke efter pop up er fjernet -->
     <button @click="this.crossClicked()">Kryds</button>
     <button v-if="$router.currentRoute.value.fullPath.toLowerCase().includes('list')" @click="fullScreenClicked()">Fuld
       skærm
@@ -17,7 +16,7 @@
   </div>
 
   <div class="tableOfContext">
-    <p v-for="(item, index) in elemntsOnPage" :class="{markedTableOfContextItem :(index  === currentViewdElement) , unmarkedTableOfContextItem :(index  !== currentViewdElement) }">  {{item.text}} </p>
+    <p v-for="(item, index) in elemntsOnPage" @click="scrollToElement(item.id)" :class="{markedTableOfContextItem :(index  === currentViewdElement) , unmarkedTableOfContextItem :(index  !== currentViewdElement) }">  {{item.text}} </p>
   </div>
 
 
@@ -125,17 +124,19 @@ const elemntsOnPage = [
 
 let currentViewdElement = ref(0)
 
+function scrollToElement(id : string){
+  if(window.top == undefined){
+    return
+  }
+  let wantedOffset = (document.getElementById(id) as HTMLBodyElement).getBoundingClientRect().top
+  window.top.scroll(0,window.top.scrollY + wantedOffset -85)
+}
+
 function onScroll(e: any){
   if(window.top == undefined){
     currentViewdElement.value = 0
     return
   }
-
-/*
-  console.log((document.getElementById('summary') as HTMLBodyElement).getBoundingClientRect().top);
-
-  console.log((document.getElementById('testAScroll4') as HTMLBodyElement).getBoundingClientRect().top);
-*/
 
   for(let i = 0; i < elemntsOnPage.length; i++){
     if ((document.getElementById(elemntsOnPage[i].id) as HTMLBodyElement).getBoundingClientRect().bottom > 70){
@@ -144,7 +145,6 @@ function onScroll(e: any){
     }
   }
 
-  console.log(elemntsOnPage[currentViewdElement.value].text)
 }
 
 function closePopUp() {
