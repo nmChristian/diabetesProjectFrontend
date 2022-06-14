@@ -22,15 +22,19 @@
 
     <div class=holderInfo>
 
-      <h1>This is patient info for: {{ $route.params.id }} </h1>
-
-      <div class="infoItem startInfoHolderLine" id="summary">
+      <div class="infoItem" id="summary">
+        <div class="basicInfoHolder">
+          <img alt="User icon" class=user-icon :src="getProfilePicturePath()">
+          <h1>Name: {{currentUser.first_name}} </h1>
+        </div>
+        <div class=" startInfoHolderLine">
         <info-element :number=0 title="HbALc:" @showData="showElementData('HbALc')"></info-element>
         <info-element :number=1 title="weight:" @showData="$router.replace('#weight')"></info-element>
         <info-element :number=2 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
         <info-element :number=3 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
         <info-element :number=4 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
         <info-element :number=5 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
+        </div>
       </div>
 
       <div class="infoItem diagnoseAndMedicine" id="diagnoseAndMedicine">
@@ -96,6 +100,7 @@ import backend from "../services/backend";
 import type {DateValue} from "@/services/core/datatypes"
 import {mMolPerLToMgPerL, timeSeriesToDateValue} from "@/services/core/datatypes";
 import {onMounted, Ref, ref} from "vue";
+import type {UserDetails} from "@/services/core/dbtypes";
 
 onMounted(() => {
   loadData()
@@ -115,6 +120,13 @@ const elemntsOnPage = [
 
 let currentViewdElement = ref(0)
 
+function getProfilePicturePath(){
+  if(currentUser.value.profile_picture === undefined || currentUser.value.profile_picture === ""){
+    return '/src/assets/user.png'
+  }
+  return currentUser.profile_picture
+}
+
 function scrollToElement(id : string){
   if(window.top == null){
     return
@@ -133,11 +145,17 @@ function onScroll(){
   for(let i = 0; i < elemntsOnPage.length; i++){
     if ((document.getElementById(elemntsOnPage[i].id) as HTMLDivElement ).getBoundingClientRect().bottom > 70){
       currentViewdElement.value = i;
-      break
+      return;
     }
   }
-
+  currentViewdElement.value = elemntsOnPage.length-1;
 }
+
+const currentUser = ref({first_name: ""})
+
+backend.getUserDetailsForSpecific(String(router.currentRoute.value.params.id)).then((user : UserDetails) => {
+  currentUser.value = user
+})
 
 function closePopUp() {
   let currentRoute = router.currentRoute.value.fullPath
@@ -218,7 +236,10 @@ async function loadData() {
   border-radius: 15px;
   z-index: 11;
 }
-
+.basicInfoHolder{
+  display: flex;
+  flex: border-box;
+}
 .popup {
   position: fixed;
   left: 15%;

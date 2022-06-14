@@ -25,6 +25,16 @@ class Backend {
         return response.data.self
     }
 
+    public async getUserDetailsForSpecific(id: String): Promise<UserDetails> {
+        let users = (await this.getViewvabel())
+        for(let i = 0; i < users.length; i++){
+            if(users[i]._id.$oid === id){
+                return users[i]
+            }
+        }
+        return { email: "", first_name: "", last_name: "" , is_doctor : false, _id : {}, age : 0, profile_picture: ""}
+    }
+
     public async getViewvabel(): Promise<Array<UserDetails>> {
         const response = await axios.get(
             this.getNameURL(),
