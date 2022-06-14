@@ -1,11 +1,11 @@
 <template>
-  <div class="holder">
-    <PatientsFullList class="list">
+  <div :class="{holder: !sidebarHidden, holderWithHiddenList: sidebarHidden}">
+    <PatientsFullList :class="{list : !sidebarHidden, hidden: sidebarHidden}">
 
     </PatientsFullList>
 
     <div class="info">
-      <RouterView class="routerInfo"/>
+      <RouterView class="routerInfo" @hideSidebar="hideSidebar"/>
       <!--<h1>{{$route.params.id}}</h1> -->
     </div>
   </div>
@@ -13,12 +13,29 @@
 
 <script lang="ts" setup>
 
+import {ref} from "vue";
+
+let sidebarHidden = ref(false)
+
+function hideSidebar(){
+  sidebarHidden.value = !sidebarHidden.value
+}
+
 </script>
 
 <style scoped>
 .routerInfo {
   height: 100%;
   width: 100%;
+}
+
+.hidden{
+  display: none;
+}
+
+.holderWithHiddenList{
+  width: 100%;
+  height: 100%;
 }
 
 .holder {
