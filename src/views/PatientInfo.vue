@@ -275,7 +275,7 @@ async function loadData() {
   margin: 10px;
 }
 
-.diagnoseAndMedicin {
+.diagnoseAndMedicine {
   display: grid;
   grid-template-columns: auto auto;
 }
