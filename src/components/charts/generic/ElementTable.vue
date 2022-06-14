@@ -6,7 +6,7 @@
 
 import type {Ref} from "vue";
 import {ref, watchEffect} from "vue";
-import heatmapTable from "@/services/graphs/generic/heatmapTable";
+import elementTable from "@/services/graphs/generic/elementTable";
 
 const table : Ref<HTMLDivElement | null> = ref(null)
 
@@ -17,17 +17,17 @@ const props = defineProps<{
 
 watchEffect(() => {
   table.value?.children[0]?.remove();
-  table.value?.append(heatmapTable(props.elements))
+  table.value?.append(elementTable(props.elements))
 })
 
 </script>
 
 <style>
-.heatmap {
+.elementTable {
   border: 2px solid grey;
   border-collapse: collapse;
 }
-.heatmap td {
+.elementTable td {
   width: 60px;
   text-align: right;
   font-weight: bold;
@@ -35,27 +35,27 @@ watchEffect(() => {
   padding: 2px 5px;
   font-size: 16px;
 }
-.heatmap tr {
+.elementTable tr {
   border: 1px solid black;
 }
-.heatmap tr * {
+.elementTable tr * {
 }
-.heatmap th {
+.elementTable th {
   font-weight: bold;
   font-size: 12px;
 }
 
-.heatmap .time-of-day {
+.elementTable .time-of-day {
   font-style: italic;
 }
 
-.heatmap .day {
+.elementTable .day {
   width: 80px;
 }
-.heatmap tr:nth-child(odd) {
+.elementTable tr:nth-child(odd) {
   background-color: #f9f9f9;
 }
-.heatmap tr:nth-child(even) {
+.elementTable tr:nth-child(even) {
   background-color: #ffffff;
 }
 </style>

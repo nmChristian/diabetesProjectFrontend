@@ -8,9 +8,9 @@ import {GraphLayout} from "@/services/core/graphtypes";
 
 // Outputs a list of hours example, getHours(4) = [0, 4, 8, 12, 16, 20], getHours(3) = [0, 3, 6, 9, 12, 15, 18, 21]
 const getHourList = (hoursPerRange : number ) =>[...Array(24 / hoursPerRange).keys()].map<number>(hour => hour * hoursPerRange)
-export default function heatmapTable(elements: [Date, number[]][]) {
+export default function elementTable(elements: [Date, number[]][]) {
     const table = document.createElement("table")
-    table.className = "heatmap"
+    table.className = "elementTable"
 
     if (elements.length == 0)
         return table
