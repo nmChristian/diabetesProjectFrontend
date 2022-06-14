@@ -171,20 +171,15 @@ const fullScreenClicked = () => {
 
 function listToString(inListe: string | any[] | undefined) {
   let re = ""
-
   if (inListe === undefined) {
     return ""
   }
-
-
   for (let i = 0; i < inListe.length; i++) {
     re += String(inListe[i])
     if (i < inListe.length - 1) {
       re += ", "
     }
   }
-
-
   return re;
 }
 
@@ -208,7 +203,6 @@ let bolusInDateValue: Ref<never[] | DateValue[]> = ref([])
 
 async function loadData() {
   const response = await backend.getDataPatient(21, ["cgm", "meals", "basal", "bolus"],String(router.currentRoute.value.params.id))
-  console.log(response)
   cgmInDateValue.value = timeSeriesToDateValue(response.cgm, mMolPerLToMgPerL)
   mealsInDateValue.value = timeSeriesToDateValue(response.meals)
   basalInDateValue.value = timeSeriesToDateValue(response.basal)
