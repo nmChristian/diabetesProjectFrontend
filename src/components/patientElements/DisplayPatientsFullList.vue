@@ -91,7 +91,7 @@ accessiblelUsersPromise.then((accessiblelUsers : Array<UserDetails>)  => {
       if(b.healthLevel === 2){
         return -1
       }
-      return (b.healthLevel || 0) - (a.healthLevel || 0)
+      return (a.healthLevel || 0) - (b.healthLevel || 0)
     })
     usersWithData.value = tempList
 

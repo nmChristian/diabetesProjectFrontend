@@ -11,13 +11,19 @@
         :median-data-in-hours="medianCGMInHours"
     />
     <icon-graph
+        :health-level="HealthLevel.VeryHigh"
+        :median-data-in-hours="medianCGMInHours"
+    />
+    <icon-graph
         :health-level="HealthLevel.Low"
         :median-data-in-hours="medianCGMInHours"
     />
     <icon-graph
-        :health-level="HealthLevel.VeryHigh"
+        :health-level="HealthLevel.VeryLow"
         :median-data-in-hours="medianCGMInHours"
     />
+
+
   </div>
 </template>
 

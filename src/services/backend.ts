@@ -21,6 +21,7 @@ class Backend {
         const response = await axios.get(
             this.getNameURL(),
             this.generateHeader())
+        console.log(response.data)
         return response.data.self
     }
 
@@ -28,8 +29,6 @@ class Backend {
         const response = await axios.get(
             this.getNameURL(),
             this.generateHeader())
-        console.log(response.data)
-        console.log(getApiKey())
         return response.data.viewable
     }
 
@@ -56,7 +55,6 @@ class Backend {
             this.getCGMDaysBack(daysSinceLastData + daysBack),
             this.generateHeader())
 
-        console.log(response.data)
         return timeSeriesToDateValue(response.data.cgm, mMolPerLToMgPerL)
     }
 
