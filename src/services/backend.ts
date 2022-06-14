@@ -15,6 +15,7 @@ class Backend {
     public getDataURL = () => this.url + "/data/get"
     public getDataURLPatient = (id : String) => this.url + "/data/"+ id +"/get"
     public getNameURL = () => this.url + "/user"
+    public getAllDataURL = () => this.url + "/data/get_all"
 
     public async getUserDetails(): Promise<UserDetails> {
         const response = await axios.get(
@@ -27,6 +28,8 @@ class Backend {
         const response = await axios.get(
             this.getNameURL(),
             this.generateHeader())
+        console.log(response.data)
+        console.log(getApiKey())
         return response.data.viewable
     }
 
@@ -56,6 +59,18 @@ class Backend {
         console.log(response.data)
         return timeSeriesToDateValue(response.data.cgm, mMolPerLToMgPerL)
     }
+
+    public async getCGMDataMGDLForAllWiewabel (daysBack : number) : Promise<{data: DateValue[], _id: any}[]> {
+        const daysSinceLastData = d3.timeDays(new Date("2022-01-29"), new Date()).length
+
+        const response = await axios.post(
+            this.getAllDataURL(),
+            this.getCGMDaysBack(daysSinceLastData + daysBack),
+            this.generateHeader())
+
+        return response.data
+    }
+
 
     public async getDataPatient(daysBack: number = 7, show: string[] = ["cgm"] , patientId: string) {
         if(patientId === undefined){
