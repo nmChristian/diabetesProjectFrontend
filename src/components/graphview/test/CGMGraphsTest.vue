@@ -1,14 +1,15 @@
 <template>
   <div>
+    <element-table-series
+        :cgm="daysBackCGM"
+        :last-days-back="lastDaysBack"
+    />
     <forecast-series
         :cgm="cgm"
         :meals="meals"
     />
     <t-i-r-daily-series :data="cgm"/>
-    <element-table-series
-      :cgm="daysBackCGM"
-      :last-days-back="lastDaysBack"
-    />
+
     <h3>24 Hour back Time in Range Graph</h3>
     <t-i-r-graph
         :colors="COLOR_SCHEME"

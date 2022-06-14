@@ -4,7 +4,7 @@ import {getCGMColor} from "@/services/core/datatypes";
 // Outputs a list of hours example, getHours(4) = [0, 4, 8, 12, 16, 20], getHours(3) = [0, 3, 6, 9, 12, 15, 18, 21]
 const getHourList = (hoursPerRange : number ) =>[...Array(24 / hoursPerRange).keys()].map<number>(hour => hour * hoursPerRange)
 
-export default function elementTable(elements: {date: Date, rows: [string, number[]][]}[]) {
+export default function elementTable(elements: [Date, [string, number[]][]] []) {
     const table = document.createElement("table")
     table.className = "elementTable"
 
@@ -18,23 +18,30 @@ export default function elementTable(elements: {date: Date, rows: [string, numbe
     timeOfDay.append(document.createElement("th"))
 
 
-    getHourList(24 / elements[0].rows[0].values.length).forEach(hour => {
+    getHourList(24 / elements[0][1].values.length).forEach(hour => {
         const legend = document.createElement("th")
         timeOfDay.append(legend)
         legend.innerHTML = hour.toString() + ":00"
     })
 
-    elements.forEach(({date, rows}) => {
-        const tr = table.insertRow()
+    elements.forEach(([date, rows]) => {
+        const dateRow = table.insertRow()
 
         // Add description of dates
         const day = document.createElement("th")
-        tr.append(day)
+        dateRow.append(day)
         day.innerHTML = d3.timeFormat("%a %e/%m")(date)
         day.className = "day"
 
 
         rows.forEach(([title, values]) => {
+            const tr = table.insertRow()
+            // Add description of dates
+            const subTitle = document.createElement("th")
+            tr.append(subTitle)
+            subTitle.innerHTML = title
+            subTitle.className = "sub-title"
+
             const td = tr.insertCell()
             values.map(value => {
                 if (isNaN(value)) {

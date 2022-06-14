@@ -2,7 +2,7 @@
   <h2>Table</h2>
   <div style="display:flex; justify-content: center;">
     <element-table
-        :elements="cgmSplitIntoIntervals"
+        :elements="elements"
     />
   </div>
 </template>
@@ -32,12 +32,26 @@ function manipulateData (valuesArray: number[][], methods : ((values : number[])
   return valuesArray.map<number[]>( values => methods.map<number>(method => method(values) ?? NaN))
 }
 
+// Generate elements by adding titles to each row
+const elements = computed( () => {
+  console.log(cgmSplitIntoIntervals.value)
+  const methods = [
+    ["mean", d3.mean],
+    ["min", d3.min],
+    ["max", d3.max],
+      ]
+  methods.map<[Date, [string, number[]]]>(([title, method]) =>
+
+  )
+
+  return cgmSplitIntoIntervals.value;
+})
 const cgmSplitIntoIntervals = computed(() => {
   const splitByDay = d3.group(props.cgm, ([date,]) => d3.timeDay(date))
   const arrayOfDaysBackData = props.lastDaysBack.map<[Date, DateValue[]]>((date) => [date, splitByDay.get(date) ?? []])
 
   // Get each hour, and get the mean value
-  return arrayOfDaysBackData.map(([date, dateValues]) => [date, manipulateData(splitByHour(dateValues), [d3.mean,d3.min,d3.max])])
+  return arrayOfDaysBackData.map(([date, dateValues]) => [date, splitByHour(dateValues)])
 })
 
 
