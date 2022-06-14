@@ -15,9 +15,9 @@
       </button>
     </div>
 
-    <div  v-if="!$router.currentRoute.value.fullPath.toLowerCase().includes('list')" class="tableOfContext">
-      <p v-for="(item, index) in elemntsOnPage" @click="scrollToElement(item.id)" :class="{markedTableOfContextItem :(index  === currentViewdElement) , unmarkedTableOfContextItem :(index  !== currentViewdElement) }">  {{item.text}} </p>
-    </div>
+  <div  v-if="isFullScreen || !$router.currentRoute.value.fullPath.toLowerCase().includes('list')" class="tableOfContext">
+    <p v-for="(item, index) in elemntsOnPage" @click="scrollToElement(item.id)" :class="{markedTableOfContextItem :(index  === currentViewdElement) , unmarkedTableOfContextItem :(index  !== currentViewdElement) }">  {{item.text}} </p>
+  </div>
 
 
     <div class=holderInfo>
@@ -157,7 +157,10 @@ let crossClicked = () => {
 const emit = defineEmits<{
   (e: 'hideSidebar'): void}>()
 
+const isFullScreen = ref(false)
+
 function fullScreenClicked()  {
+  isFullScreen.value = !isFullScreen.value
   emit('hideSidebar');
 }
 
@@ -195,7 +198,6 @@ let bolusInDateValue: Ref<never[] | DateValue[]> = ref([])
 
 async function loadData() {
   const response = await backend.getDataPatient(21, ["cgm", "meals", "basal", "bolus"],String(router.currentRoute.value.params.id))
-  console.log("hej")
   console.log(response)
   cgmInDateValue.value = timeSeriesToDateValue(response.cgm, mMolPerLToMgPerL)
   mealsInDateValue.value = timeSeriesToDateValue(response.meals)
