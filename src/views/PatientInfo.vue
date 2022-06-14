@@ -163,11 +163,11 @@ let crossClicked = () => {
   }
 }
 
+const emit = defineEmits<{
+  (e: 'hideSidebar'): void}>()
+
 function fullScreenClicked()  {
-  //TODO find noget smartere, så hele siden ikke skal læses igen.
-  let current = router.currentRoute.value.fullPath
-  let newPath = current.replace("/DisplayPatientsList", "")
-  router.push(newPath)
+  emit('hideSidebar');
 }
 
 function listToString(inListe: string | any[] | undefined) {
