@@ -12,7 +12,7 @@ const table : Ref<HTMLDivElement | null> = ref(null)
 
 
 const props = defineProps<{
-  elements : [Date, number[]][]
+  elements : [Date, number[][]][]
 }>()
 
 watchEffect(() => {

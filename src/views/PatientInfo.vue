@@ -1,110 +1,101 @@
 <template>
+  <div>
+    <!-- POP UP -->
+    <div v-if="$router.currentRoute.value.fullPath.includes('#')" class="popupBackground" @click="closePopUp()"></div>
+    <div v-if="$router.currentRoute.value.fullPath.includes('#weight')" class="popup">
 
-  <!-- POP UP -->
-  <div v-if="$router.currentRoute.value.fullPath.includes('#')" class="popupBackground" @click="closePopUp()"></div>
-  <div v-if="$router.currentRoute.value.fullPath.includes('#weight')" class="popup">
+      <h1>Ting om vægt</h1>
+    </div>
 
-    <h1>Ting om vægt</h1>
+    <div class="navButtons">
+      <!-- TODO erstat med smukke symboler :) -->
+      <button @click="this.crossClicked()">Kryds</button>
+      <button v-if="$router.currentRoute.value.fullPath.toLowerCase().includes('list')" @click="fullScreenClicked()">Fuld
+        skærm
+      </button>
+    </div>
+
+    <div  v-if="!$router.currentRoute.value.fullPath.toLowerCase().includes('list')" class="tableOfContext">
+      <p v-for="(item, index) in elemntsOnPage" @click="scrollToElement(item.id)" :class="{markedTableOfContextItem :(index  === currentViewdElement) , unmarkedTableOfContextItem :(index  !== currentViewdElement) }">  {{item.text}} </p>
+    </div>
+
+
+    <div class=holderInfo>
+
+      <h1>This is patient info for: {{ $route.params.id }} </h1>
+
+      <div class="infoItem startInfoHolderLine" id="summary">
+        <info-element :number=0 title="HbALc:" @showData="showElementData('HbALc')"></info-element>
+        <info-element :number=1 title="weight:" @showData="$router.replace('#weight')"></info-element>
+        <info-element :number=2 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
+        <info-element :number=3 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
+        <info-element :number=4 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
+        <info-element :number=5 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
+      </div>
+
+      <div class="infoItem diagnoseAndMedicine" id="diagnoseAndMedicine">
+        <p class="diagnoseAndMedicinLabels">Diagnose</p>
+        <p class="diagnoseAndMedicinLabels">Medecin</p>
+
+        <template v-for="diag in diagnoser">
+          <p class="diagnoseAndMedicinItems">{{ diag.name }}</p>
+
+          <p class="diagnoseAndMedicinItems">{{ listToString(diag.medecin) }}</p>
+        </template>
+      </div>
+
+      <div class="infoItem" id="forcast" >
+       <forecast-series :cgm="cgmInDateValue" :meals="mealsInDateValue"/>
+      </div>
+
+      <div class="infoItem" id="testAScroll1">
+        <h1>Test a scroll 1</h1>
+      </div>
+
+      <div class="infoItem" id="testAScroll2">
+        <h1>Test a scroll 2</h1>
+      </div>
+
+      <div class="infoItem" id="testAScroll3" >
+        <h1>Test a scroll 3</h1>
+      </div>
+
+      <div class="infoItem" id="testAScroll4" >
+        <h1>Test a scroll 4</h1>
+        <h1>Test a scroll 4</h1>
+        <h1>Test a scroll 4</h1>
+        <h1>Test a scroll 4</h1>
+        <h1>Test a scroll 4</h1>
+        <h1>Test a scroll 4</h1><h1>Test a scroll 4</h1>
+        <h1>Test a scroll 4</h1>
+        <h1>Test a scroll 4</h1>
+        <h1>Test a scroll 4</h1>
+        <h1>Test a scroll 4</h1>
+        <h1>Test a scroll 4</h1>
+        <h1>Test a scroll 4</h1>
+        <h1>Test a scroll 4</h1>
+        <h1>Test a scroll 4</h1>
+        <h1>Test a scroll 4</h1>
+        <h1>Test a scroll 4</h1>
+        <h1>Test a scroll 4</h1>
+        <h1>Test a scroll 4</h1>
+        <h1>Test a scroll 4</h1>
+        <h1>Test a scroll 4</h1>
+        <h1>Test a scroll 4</h1>
+      </div>
+
+
+    </div>
   </div>
-
-  <div class="navButtons">
-    <!-- TODO erstat med smukke symboler :) -->
-    <button @click="this.crossClicked()">Kryds</button>
-    <button v-if="$router.currentRoute.value.fullPath.toLowerCase().includes('list')" @click="fullScreenClicked()">Fuld
-      skærm
-    </button>
-  </div>
-
-  <div  v-if="!$router.currentRoute.value.fullPath.toLowerCase().includes('list')" class="tableOfContext">
-    <p v-for="(item, index) in elemntsOnPage" @click="scrollToElement(item.id)" :class="{markedTableOfContextItem :(index  === currentViewdElement) , unmarkedTableOfContextItem :(index  !== currentViewdElement) }">  {{item.text}} </p>
-  </div>
-
-
-  <div class=holderInfo>
-
-    <h1>This is patient info for: {{ $route.params.id }} </h1>
-
-    <div class="infoItem startInfoHolderLine" id="summary">
-      <info-element :number=0 title="HbALc:" @showData="showElementData('HbALc')"></info-element>
-      <info-element :number=1 title="weight:" @showData="$router.replace('#weight')"></info-element>
-      <info-element :number=2 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
-      <info-element :number=3 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
-      <info-element :number=4 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
-      <info-element :number=5 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
-    </div>
-
-    <div class="infoItem diagnoseAndMedicine" id="diagnoseAndMedicine">
-      <p class="diagnoseAndMedicinLabels">Diagnose</p>
-      <p class="diagnoseAndMedicinLabels">Medecin</p>
-
-      <template v-for="diag in diagnoser">
-        <p class="diagnoseAndMedicinItems">{{ diag.name }}</p>
-
-        <p class="diagnoseAndMedicinItems">{{ listToString(diag.medecin) }}</p>
-      </template>
-    </div>
-
-    <div class="infoItem" id="forcast" >
-      <forecast-series :data="cgmInDateValue"/>
-    </div>
-
-    <div class="infoItem" id="testAScroll1">
-      <h1>Test a scroll 1</h1>
-    </div>
-
-    <div class="infoItem" id="testAScroll2">
-      <h1>Test a scroll 2</h1>
-    </div>
-
-    <div class="infoItem" id="testAScroll3" >
-      <h1>Test a scroll 3</h1>
-    </div>
-
-    <div class="infoItem" id="testAScroll4" >
-      <h1>Test a scroll 4</h1>
-      <h1>Test a scroll 4</h1>
-      <h1>Test a scroll 4</h1>
-      <h1>Test a scroll 4</h1>
-      <h1>Test a scroll 4</h1>
-      <h1>Test a scroll 4</h1><h1>Test a scroll 4</h1>
-      <h1>Test a scroll 4</h1>
-      <h1>Test a scroll 4</h1>
-      <h1>Test a scroll 4</h1>
-      <h1>Test a scroll 4</h1>
-      <h1>Test a scroll 4</h1>
-      <h1>Test a scroll 4</h1>
-      <h1>Test a scroll 4</h1>
-      <h1>Test a scroll 4</h1>
-      <h1>Test a scroll 4</h1>
-      <h1>Test a scroll 4</h1>
-      <h1>Test a scroll 4</h1>
-      <h1>Test a scroll 4</h1>
-      <h1>Test a scroll 4</h1>
-      <h1>Test a scroll 4</h1>
-      <h1>Test a scroll 4</h1>
-    </div>
-
-
-  </div>
-
-
 </template>
 
 <script lang="ts" setup>
 import router from "../router";
 import ForecastSeries from "@/components/charts/graphseries/ForecastSeries.vue";
 import backend from "../services/backend";
-import type {DateValue, Point} from "@/services/core/datatypes"
-import {ref, Ref, computed, onMounted, watch, onUpdated} from "vue";
-import {
-  addEdgesToSplit,
-  bucketToMedian,
-  mMolPerLToMgPerL,
-  SPLIT_BY_DAY,
-  timeSeriesToDateValue,
-  toBuckets
-} from "@/services/core/datatypes";
-import type {UserDetails} from "@/services/core/dbtypes";
+import type {DateValue} from "@/services/core/datatypes"
+import {mMolPerLToMgPerL, timeSeriesToDateValue} from "@/services/core/datatypes";
+import {onMounted, Ref, ref} from "vue";
 
 onMounted(() => {
   loadData()
@@ -125,7 +116,7 @@ const elemntsOnPage = [
 let currentViewdElement = ref(0)
 
 function scrollToElement(id : string){
-  if(window.top == undefined){
+  if(window.top == null){
     return
   }
   console.log(typeof document.getElementById(id))
@@ -204,6 +195,8 @@ let bolusInDateValue: Ref<never[] | DateValue[]> = ref([])
 
 async function loadData() {
   const response = await backend.getDataPatient(21, ["cgm", "meals", "basal", "bolus"],String(router.currentRoute.value.params.id))
+  console.log("hej")
+  console.log(response)
   cgmInDateValue.value = timeSeriesToDateValue(response.cgm, mMolPerLToMgPerL)
   mealsInDateValue.value = timeSeriesToDateValue(response.meals)
   basalInDateValue.value = timeSeriesToDateValue(response.basal)

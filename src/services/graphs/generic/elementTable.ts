@@ -3,7 +3,8 @@ import {getCGMColor} from "@/services/core/datatypes";
 
 // Outputs a list of hours example, getHours(4) = [0, 4, 8, 12, 16, 20], getHours(3) = [0, 3, 6, 9, 12, 15, 18, 21]
 const getHourList = (hoursPerRange : number ) =>[...Array(24 / hoursPerRange).keys()].map<number>(hour => hour * hoursPerRange)
-export default function elementTable(elements: [Date, number[]][]) {
+
+export default function elementTable(elements: {date: Date, rows: [string, number[]][]}[]) {
     const table = document.createElement("table")
     table.className = "elementTable"
 
@@ -17,13 +18,13 @@ export default function elementTable(elements: [Date, number[]][]) {
     timeOfDay.append(document.createElement("th"))
 
 
-    getHourList(24 / elements[0][1].length).forEach(hour => {
+    getHourList(24 / elements[0].rows[0].values.length).forEach(hour => {
         const legend = document.createElement("th")
         timeOfDay.append(legend)
         legend.innerHTML = hour.toString() + ":00"
     })
 
-    elements.forEach( ([date, values]) => {
+    elements.forEach(({date, rows}) => {
         const tr = table.insertRow()
 
         // Add description of dates
@@ -33,12 +34,17 @@ export default function elementTable(elements: [Date, number[]][]) {
         day.className = "day"
 
 
-        values.forEach((value) => {
+        rows.forEach(([title, values]) => {
             const td = tr.insertCell()
-            if (isNaN(value))
-                return
-            td.innerHTML = value.toFixed(0).toString()
-            td.style.backgroundColor = getCGMColor(value)
+            values.map(value => {
+                if (isNaN(value)) {
+                    td.innerHTML += "<br>"
+                    return
+                }
+                td.innerHTML += value.toFixed(0).toString() + "<br>"
+                td.style.backgroundColor = getCGMColor(value)
+            })
+
         })
 
 
