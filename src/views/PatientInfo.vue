@@ -9,15 +9,14 @@
 
   <div class="navButtons">
     <!-- TODO erstat med smukke symboler :) -->
-    <!-- TODO kryds skal også virke efter pop up er fjernet -->
     <button @click="this.crossClicked()">Kryds</button>
     <button v-if="$router.currentRoute.value.fullPath.toLowerCase().includes('list')" @click="fullScreenClicked()">Fuld
       skærm
     </button>
   </div>
 
-  <div class="tableOfContext">
-    <p v-for="(item, index) in elemntsOnPage" :class="{markedTableOfContextItem :(index  === currentViewdElement) , unmarkedTableOfContextItem :(index  !== currentViewdElement) }">  {{item.text}} </p>
+  <div  v-if="!$router.currentRoute.value.fullPath.toLowerCase().includes('list')" class="tableOfContext">
+    <p v-for="(item, index) in elemntsOnPage" @click="scrollToElement(item.id)" :class="{markedTableOfContextItem :(index  === currentViewdElement) , unmarkedTableOfContextItem :(index  !== currentViewdElement) }">  {{item.text}} </p>
   </div>
 
 
@@ -125,26 +124,28 @@ const elemntsOnPage = [
 
 let currentViewdElement = ref(0)
 
-function onScroll(e: any){
+function scrollToElement(id : string){
+  if(window.top == undefined){
+    return
+  }
+  console.log(typeof document.getElementById(id))
+  let wantedOffset = (document.getElementById(id) as HTMLDivElement ).getBoundingClientRect().top
+  window.top.scroll(0,window.top.scrollY + wantedOffset -85)
+}
+
+function onScroll(){
   if(window.top == undefined){
     currentViewdElement.value = 0
     return
   }
 
-/*
-  console.log((document.getElementById('summary') as HTMLBodyElement).getBoundingClientRect().top);
-
-  console.log((document.getElementById('testAScroll4') as HTMLBodyElement).getBoundingClientRect().top);
-*/
-
   for(let i = 0; i < elemntsOnPage.length; i++){
-    if ((document.getElementById(elemntsOnPage[i].id) as HTMLBodyElement).getBoundingClientRect().bottom > 70){
+    if ((document.getElementById(elemntsOnPage[i].id) as HTMLDivElement ).getBoundingClientRect().bottom > 70){
       currentViewdElement.value = i;
       break
     }
   }
 
-  console.log(elemntsOnPage[currentViewdElement.value].text)
 }
 
 function closePopUp() {
@@ -162,7 +163,7 @@ let crossClicked = () => {
   }
 }
 
-const fullScreenClicked = () => {
+function fullScreenClicked()  {
   //TODO find noget smartere, så hele siden ikke skal læses igen.
   let current = router.currentRoute.value.fullPath
   let newPath = current.replace("/DisplayPatientsList", "")
@@ -171,20 +172,15 @@ const fullScreenClicked = () => {
 
 function listToString(inListe: string | any[] | undefined) {
   let re = ""
-
   if (inListe === undefined) {
     return ""
   }
-
-
   for (let i = 0; i < inListe.length; i++) {
     re += String(inListe[i])
     if (i < inListe.length - 1) {
       re += ", "
     }
   }
-
-
   return re;
 }
 
@@ -208,7 +204,6 @@ let bolusInDateValue: Ref<never[] | DateValue[]> = ref([])
 
 async function loadData() {
   const response = await backend.getDataPatient(21, ["cgm", "meals", "basal", "bolus"],String(router.currentRoute.value.params.id))
-  console.log(response)
   cgmInDateValue.value = timeSeriesToDateValue(response.cgm, mMolPerLToMgPerL)
   mealsInDateValue.value = timeSeriesToDateValue(response.meals)
   basalInDateValue.value = timeSeriesToDateValue(response.basal)
@@ -248,14 +243,16 @@ async function loadData() {
 }
 
 .unmarkedTableOfContextItem{
-
+  padding: 5px;
 }
 .unmarkedTableOfContextItem:hover{
-  border: black 1px solid;
+  text-underline: darkblue;
+  text-decoration: underline;
 }
 .markedTableOfContextItem{
-  text-underline: #764ba2;
-  background-color: #2c3e50;
+  border: #2c3e50 1px solid;
+  padding: 5px;
+  border-radius: 5px;
 }
 
 .navButtons {
@@ -278,7 +275,7 @@ async function loadData() {
   margin: 10px;
 }
 
-.diagnoseAndMedicin {
+.diagnoseAndMedicine {
   display: grid;
   grid-template-columns: auto auto;
 }

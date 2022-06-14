@@ -42,6 +42,7 @@ export default {
 }
 
 .number {
+  font-size: 30px;
   color: #181818;
 }
 </style>
