@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import type {DateValue} from "@/services/core/datatypes";
 import {dateValueIsValid} from "@/services/core/datatypes";
-import {COLOR_SCHEME} from "@/services/core/shared";
+import {COLOR_SCHEME, LINE_COLOR} from "@/services/core/shared";
 import {generateSVG} from "@/services/core/graphMethods";
 import {applyAxis} from "@/services/core/graph/axisDrawer";
 import {GraphLayout} from "@/services/core/graphtypes";
@@ -32,7 +32,7 @@ export default function lineGraph(dateValues: DateValue[],
 
     svg.append("path")
         .attr("fill", "none")
-        .attr("style", "stroke: " + COLOR_SCHEME[0] + "; stroke-width: 3;")
+        .attr("style", "stroke: " + LINE_COLOR + "; stroke-width: 3;")
         .attr("d", lineGen)
 
     // Axis

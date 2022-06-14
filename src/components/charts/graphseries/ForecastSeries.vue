@@ -3,22 +3,28 @@
     <h2>Vejrudsigt graf</h2>
 
     <div style="display: grid; place-items: center;">
-      <p>Split by</p>
-      <select v-model="interval"
-              style="font-size: 16px; text-align: center; width: 300px; height: 35px; border-radius: 20px;">
-        <option :value="d3.timeMonday">Monday</option>
-        <option :value="d3.timeSunday">Sunday</option>
-        <option :value="d3.timeMonth">Month</option>
-        <option :value="d3.timeHour">Hour</option>
-      </select>
+        <p>Split by</p>
+        <select v-model="interval"
+                style="font-size: 16px; text-align: center; width: 300px; height: 35px; border-radius: 20px;">
+          <option :value="d3.timeMonday">Monday</option>
+          <option :value="d3.timeSunday">Sunday</option>
+          <option :value="d3.timeMonth">Month</option>
+          <option :value="d3.timeHour">Hour</option>
+        </select>
+
+    </div>
+    <div>
+      <input
+          type="checkbox" name="mealsEnabled"
+          v-model="mealsEnabled"/>
+      <label for="mealsEnabled">Show meals</label>
     </div>
     <br>
     <div style="display: flex; justify-content: center;">
       <div>
         <Graph
-            v-for="graph in graphs.values()"
-            :svg="graph.svg"
-        />
+            v-for="(graph, i) in graphs.values()"
+            :svg="graph.svg"/>
       </div>
       <div style="margin: auto 50px;">
         <t-i-r-graph
@@ -49,32 +55,37 @@ import forecastGraph from "@/services/graphs/forecastGraph";
 import Graph from "@/components/charts/shared/Graph.vue";
 
 const interval = ref(d3.timeMonday)
-
+const mealsEnabled = ref(false)
 const props = defineProps<{
-  data: DateValue[],
+  cgm: DateValue[],
+  meals: DateValue[],
 }>()
 const weeksBack = [0, 1, 2]
-const lastDateInDataSet = computed(() => props.data.length === 0 ? new Date() : props.data[props.data.length - 1][0])
+const lastDateInDataSet = computed(() => props.cgm.length === 0 ? new Date() : props.cgm[props.cgm.length - 1][0])
 const lastThreeIntervals = computed(() => weeksBack.map<Date>(back => interval.value.offset(interval.value(lastDateInDataSet.value), -back)))
-const dataSplitIntoIntervals = computed(() => d3.group(props.data, ([date,]) => interval.value(date)))
+
+const cgmSplitIntoIntervals = computed(() => d3.group(props.cgm, ([date,]) => interval.value(date)))
+const mealsSplitIntoIntervals = computed(() => d3.group(props.meals, ([date,]) => interval.value(date)))
 
 const tirLayout = new GraphLayout(50, 250)
-const forecastLayout = new GraphLayout(1000, 100, 15, 0, 5, 40)
+const width = 1000, marginLeft = 40, marginRight = 10
+const forecastLayout = new GraphLayout(width, 100, 15, marginRight, 20, marginLeft)
+const mealGraphLayout = new GraphLayout(width, 30, 10, marginRight, 30, marginLeft)
 
 // TIR methods
 const getDataBack = (dateValues: DateValue[], timeInterval: TimeInterval, back: number): DateValue[] =>
     dateValues.filter(([date,]) => date > timeInterval.offset(timeInterval(lastDateInDataSet.value), -back))
 
 
-const lastThreeMondaysData = computed(() => getDataBack(props.data, d3.timeMonday, 2))
-const lastDayData = computed(() => getDataBack(props.data, d3.timeDay, 1))
+const lastThreeMondaysData = computed(() => getDataBack(props.cgm, d3.timeMonday, 2))
+const lastDayData = computed(() => getDataBack(props.cgm, d3.timeDay, 1))
 
 const selectedData = computed((): DateValue[] => {
   if (datesData.value === undefined)
     return lastThreeMondaysData.value
 
   const [start, stop] = datesData.value
-  return props.data.filter(([date,]) => date >= start && date <= stop)
+  return props.cgm.filter(([date,]) => date >= start && date <= stop)
 })
 
 
@@ -98,10 +109,13 @@ const brushEvent = (event: d3.D3BrushEvent<any>) => {
 const graphs = computed(() => {
       const graphObjects =
           [...weeksBack].reverse().map((week) => {
-            const data = dataSplitIntoIntervals.value.get(lastThreeIntervals.value[week]) ?? []
-            return forecastGraph(data, interval.value,
+            const cgmData = cgmSplitIntoIntervals.value.get(lastThreeIntervals.value[week]) ?? []
+            const mealsData = mealsSplitIntoIntervals.value.get(lastThreeIntervals.value[week]) ?? []
+            return forecastGraph(cgmData, interval.value,
                 {
-                  graphLayout: forecastLayout, onBrushEnd: brushEvent,
+                  graphLayout: forecastLayout,
+                  onBrushEnd: brushEvent,
+                  mealsData: mealsEnabled.value ? mealsData : [],
                 })
           })
       return new Map(graphObjects.map((graph) => [graph.brush, graph]))

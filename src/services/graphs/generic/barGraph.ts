@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 import type {DateValue} from "@/services/core/datatypes";
-import {COLOR_SCHEME} from "@/services/core/shared";
+import {COLOR_SCHEME, LINE_COLOR} from "@/services/core/shared";
 import {generateSVG} from "@/services/core/graphMethods";
 import {applyAxis} from "@/services/core/graph/axisDrawer";
 import {GraphLayout} from "@/services/core/graphtypes";
@@ -24,16 +24,16 @@ export default function barGraph(dateValues: DateValue[],
         .range([height, 0])
         .nice()
 
-    // The Line
+    // The Bars
     svg.append("g")
         .selectAll("rect")
         .data(dateValues)
         .join("rect")
-        .style("fill", COLOR_SCHEME[0])
+        .style("fill", LINE_COLOR)
         .attr("x", ([date,]) => xScale(date))
-        .attr("height", ([, value]) => yScale(value))
+        .attr("height", ([, value]) => yScale(value) - yScale.range()[1])
         .attr("width", 2)
-        .attr("y", ([, value]) => yScale.range()[0] - yScale(value))
+        .attr("y", ([, value]) => yScale.range()[0] - (yScale(value) - yScale.range()[1]))
 
     // Axis
     const xAxis = d3.axisBottom(xScale)
