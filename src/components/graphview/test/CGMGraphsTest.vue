@@ -55,27 +55,28 @@ const lastDateInDataSet = computed(() => props.cgm.length === 0 ? new Date() : p
 const lastDayData = computed(() => props.cgm.filter(([date,]) => date > d3.timeDay.offset(lastDateInDataSet.value, -1)))
 const frequencies = computed(() => getCGMOccurrences(lastDayData.value))
 
-const tableInterval = d3.timeDay
 const intervalOffset = 14
+const hourIncrement = 1 // MUST BE DIVISIBLE WITH 24
 
 const lastDaysBack = computed( ()  =>
-    [...Array(intervalOffset).keys()].map<Date>((offset) => tableInterval(
+    [...Array(intervalOffset).keys()].map<Date>((offset) => d3.timeDay(
     d3.timeDay.offset(lastDateInDataSet.value, -offset))).reverse()
 )
 
 function splitByHour (dateValues : DateValue[]) : number[][]{
   // Array containing numbers split into hours of day
-  const values : number[][] = [...Array(24)].map(_ => [])
+  const values : number[][] = [...Array(Math.ceil(24 / hourIncrement))].map(_ => [])
   // Add to each based on hour
-  dateValues.forEach(([date, value]) => values[date.getHours()].push(value))
+  dateValues.forEach(([date, value]) => values[Math.floor(date.getHours() / hourIncrement)].push(value))
   return values;
 }
 const cgmSplitIntoIntervals = computed(() => {
-  const splitByDay = d3.group(lastWeekCGM.value, ([date,]) => d3.timeDay(date))
-  const arrayOfLastSevenDaysData = lastDaysBack.value.map<[Date, DateValue[]]>((date) => [date, splitByDay.get(date) ?? []])
+  const splitByDay = d3.group(daysBackCGM.value, ([date,]) => d3.timeDay(date))
+  const arrayOfDaysBackData = lastDaysBack.value.map<[Date, DateValue[]]>((date) => [date, splitByDay.get(date) ?? []])
 
-  return arrayOfLastSevenDaysData.map(([date, dateValues]) => [date, splitByHour(dateValues).map((values : number[]) => d3.mean(values) ?? NaN)])
+  // Get each hour, and get the mean value
+  return arrayOfDaysBackData.map(([date, dateValues]) => [date, splitByHour(dateValues).map((values : number[]) => d3.mean(values) ?? NaN)])
 })
 
-const lastWeekCGM = computed(() => props.cgm.filter(([date,]) => date > tableInterval.offset(lastDateInDataSet.value, -intervalOffset)))
+const daysBackCGM = computed(() => props.cgm.filter(([date,]) => date > d3.timeDay.offset(lastDateInDataSet.value, -intervalOffset)))
 </script>
