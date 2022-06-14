@@ -23,22 +23,28 @@ watchEffect(() => {
 </script>
 
 <style>
+:root {
+  --element-border-color: rgba(128, 128, 128, 0.4);
+}
 .elementTable {
   border: 2px solid grey;
   border-collapse: collapse;
 }
 .elementTable td {
-  width: 60px;
+
+  width: 45px;
   text-align: right;
   font-weight: bold;
   color: white;
   padding: 2px 5px;
-  font-size: 16px;
+  font-size: 13px;
+  opacity: 90%;
 }
 .elementTable tr {
-  border: 1px solid black;
+  border: 1px solid var(--element-border-color);
 }
 .elementTable tr * {
+  border-right: 1px solid var(--element-border-color);
 }
 .elementTable th {
   font-weight: bold;

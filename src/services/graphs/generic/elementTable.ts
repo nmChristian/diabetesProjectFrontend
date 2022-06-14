@@ -1,10 +1,5 @@
 import * as d3 from "d3";
-import type {DateValue} from "@/services/core/datatypes";
-import {dateValueIsValid, getCGMColor} from "@/services/core/datatypes";
-import {COLOR_SCHEME, LINE_COLOR} from "@/services/core/shared";
-import {generateSVG} from "@/services/core/graphMethods";
-import {applyAxis} from "@/services/core/graph/axisDrawer";
-import {GraphLayout} from "@/services/core/graphtypes";
+import {getCGMColor} from "@/services/core/datatypes";
 
 // Outputs a list of hours example, getHours(4) = [0, 4, 8, 12, 16, 20], getHours(3) = [0, 3, 6, 9, 12, 15, 18, 21]
 const getHourList = (hoursPerRange : number ) =>[...Array(24 / hoursPerRange).keys()].map<number>(hour => hour * hoursPerRange)
@@ -40,7 +35,9 @@ export default function elementTable(elements: [Date, number[]][]) {
 
         values.forEach((value) => {
             const td = tr.insertCell()
-            td.innerHTML = value.toString()
+            if (isNaN(value))
+                return
+            td.innerHTML = value.toFixed(0).toString()
             td.style.backgroundColor = getCGMColor(value)
         })
 
