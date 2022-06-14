@@ -15,7 +15,7 @@
     </button>
   </div>
 
-  <div class="tableOfContext">
+  <div  v-if="!$router.currentRoute.value.fullPath.toLowerCase().includes('list')" class="tableOfContext">
     <p v-for="(item, index) in elemntsOnPage" @click="scrollToElement(item.id)" :class="{markedTableOfContextItem :(index  === currentViewdElement) , unmarkedTableOfContextItem :(index  !== currentViewdElement) }">  {{item.text}} </p>
   </div>
 
@@ -128,18 +128,19 @@ function scrollToElement(id : string){
   if(window.top == undefined){
     return
   }
-  let wantedOffset = (document.getElementById(id) as HTMLBodyElement).getBoundingClientRect().top
+  console.log(typeof document.getElementById(id))
+  let wantedOffset = (document.getElementById(id) as HTMLDivElement ).getBoundingClientRect().top
   window.top.scroll(0,window.top.scrollY + wantedOffset -85)
 }
 
-function onScroll(e: any){
+function onScroll(){
   if(window.top == undefined){
     currentViewdElement.value = 0
     return
   }
 
   for(let i = 0; i < elemntsOnPage.length; i++){
-    if ((document.getElementById(elemntsOnPage[i].id) as HTMLBodyElement).getBoundingClientRect().bottom > 70){
+    if ((document.getElementById(elemntsOnPage[i].id) as HTMLDivElement ).getBoundingClientRect().bottom > 70){
       currentViewdElement.value = i;
       break
     }
@@ -162,7 +163,7 @@ let crossClicked = () => {
   }
 }
 
-const fullScreenClicked = () => {
+function fullScreenClicked()  {
   //TODO find noget smartere, så hele siden ikke skal læses igen.
   let current = router.currentRoute.value.fullPath
   let newPath = current.replace("/DisplayPatientsList", "")
@@ -242,14 +243,16 @@ async function loadData() {
 }
 
 .unmarkedTableOfContextItem{
-
+  padding: 5px;
 }
 .unmarkedTableOfContextItem:hover{
-  border: black 1px solid;
+  text-underline: darkblue;
+  text-decoration: underline;
 }
 .markedTableOfContextItem{
-  text-underline: #764ba2;
-  background-color: #2c3e50;
+  border: #2c3e50 1px solid;
+  padding: 5px;
+  border-radius: 5px;
 }
 
 .navButtons {
