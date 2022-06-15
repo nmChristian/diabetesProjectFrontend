@@ -25,15 +25,15 @@ watchEffect(() => {
 
 <style>
 :root {
-  --element-border-color: rgba(128, 128, 128, 0.4);
+  --element-data-border-color: rgba(128, 128, 128, 0.4);
   --element-header-border: 1px solid black;
 }
 .elementTable {
   border: 2px solid grey;
   border-collapse: collapse;
 }
-.elementTable td {
 
+.elementTable td {
   width: 45px;
   text-align: right;
   font-weight: bold;
@@ -42,44 +42,52 @@ watchEffect(() => {
   font-size: 13px;
   opacity: 90%;
 }
+
+
+/*Borders through all columns */
+.elementTable .col-data {
+  border-left: 1px solid var(--element-data-border-color);
+}
+.elementTable .first-row, .elementTable .center-row {
+  border-bottom: 1px solid var(--element-data-border-color)
+}
+.elementTable .last-row {
+  border-top: 1px solid var(--element-data-border-color)
+}
+
+/*Big bold borders between each day*/
+.elementTable tbody {
+  border: var(--element-header-border)
+}
+
+/*Edges Border*/
 .elementTable th:last-child {
   border-left: var(--element-header-border)
 }
 .elementTable tr th:first-child{
   border-right: var(--element-header-border)
 }
-.elementTable tbody {
-  border: var(--element-header-border)
-}
 
-.elementTable tr .df{
-  border: 1px solid var(--element-border-color);
-}
-.elementTable tr * .df{
-  border-right: 1px solid var(--element-border-color);
-}
-
+/*HEADERS*/
 .elementTable th {
   font-weight: bold;
   font-size: 12px;
 }
-
-.elementTable .time-of-day {
+.elementTable th.time-of-day {
   font-style: italic;
 }
-
-.elementTable .day {
+.elementTable th.day {
   vertical-align: text-top;
-
   width: 80px;
 }
-.elementTable .sub-title {
+.elementTable th.sub-title {
   text-align: end;
   width: 100px;
   font-style: italic;
   font-weight: normal;
 }
 
+/*CHANGE COLORS*/
 .elementTable tbody:nth-child(even) {
   background-color: #f7f7f7;
 }
