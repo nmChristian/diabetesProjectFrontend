@@ -28,7 +28,7 @@
 								 @input="$refs.passwordRepeat.setError(v$.passwordRepeatValue.$errors)"/>
 		</div>
 		<div>
-			<button class="sign-up-button" type="submit" @click="onSignUpClick">Sign up</button>
+			<primary-button type="submit" @click="onSignUpClick" text="Sign up"/>
 		</div>
 		<p>Or</p>
 		<div class="sing-in-link">
@@ -52,9 +52,11 @@ import useVuelidate from "@vuelidate/core";
 import {email, required, sameAs} from "@vuelidate/validators";
 import spinner from "@/components/spinner.vue";
 import failureIcon from "@/components/icons/failureIcon.vue";
+import PrimaryButton from "@/components/PrimaryButton.vue";
 
 export default defineComponent({
 	components: {
+		PrimaryButton,
 		spinner,
 		animatedTextInput,
 		failureIcon
@@ -159,25 +161,4 @@ div a {
 	margin-top: 1rem;
 }
 
-.sign-up-button {
-	display: block;
-	margin: auto;
-	top: 20px;
-	width: 200px;
-	padding-top: 3px;
-	padding-bottom: 3px;
-	border: 1px solid var(--vt-c-black);
-	border-radius: 15px;
-	font-size: 150%;
-	color: var(--vt-c-white);
-	background-size: 300% 100%;
-	transition: all .4s ease-in-out;
-	background-image: linear-gradient(to right, var(--color-secondary), var(--color-primary-dark), var(--color-secondary-pale), var(--color-primary));
-	box-shadow: 0 4px 15px 0 var(--color-primary-light);
-}
-
-.sign-up-button:hover {
-	background-position: 99% 0;
-	transition: all .4s ease-in-out;
-}
 </style>

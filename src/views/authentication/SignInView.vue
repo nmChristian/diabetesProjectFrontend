@@ -13,7 +13,7 @@
 			<a href="https://example.com">Forgot your password?</a>
 		</div>
 		<div>
-			<button class="sign-in-button" type="submit" @click="onSignInClick">Sign-in</button>
+			<primary-button type="submit" @click="onSignInClick" text="Sing-in"/>
 		</div>
 		<p>Or</p>
 		<div class="sing-up-link">
@@ -37,10 +37,12 @@ import useVuelidate from "@vuelidate/core";
 import {email, required} from '@vuelidate/validators'
 import spinner from "@/components/spinner.vue";
 import failureIcon from "@/components/icons/failureIcon.vue";
+import PrimaryButton from "@/components/PrimaryButton.vue";
 
 export default defineComponent({
 	name: "sign-in",
 	components: {
+		PrimaryButton,
 		spinner,
 		animatedTextInput,
 		failureIcon
@@ -127,25 +129,4 @@ div a {
 	text-align: center;
 }
 
-.sign-in-button {
-	display: block;
-	margin: auto;
-	top: 1rem;
-	width: 200px;
-	padding-top: 3px;
-	padding-bottom: 3px;
-	border: 1px solid var(--vt-c-black);
-	border-radius: 15px;
-	font-size: 150%;
-	color: var(--vt-c-white);
-	background-size: 300% 100%;
-	transition: all .4s ease-in-out;
-	background-image: linear-gradient(to right, var(--color-secondary), var(--color-primary-dark), var(--color-secondary-pale), var(--color-primary));
-	box-shadow: 0 4px 15px 0 var(--color-primary-light);
-}
-
-.sign-in-button:hover {
-	background-position: 99% 0;
-	transition: all .4s ease-in-out;
-}
 </style>
