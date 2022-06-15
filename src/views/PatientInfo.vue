@@ -312,7 +312,7 @@ async function loadData() {
   padding: 10px;
   width: 100%;
   border: solid 1px #555;
-  min-width: 1020px;
+  max-width: 1420px;
   background-color: #fcfcfc;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
   -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
@@ -343,7 +343,6 @@ async function loadData() {
 }
 
 .holderInfo {
-  max-width: 75% ;
   padding: 2rem;
   margin: auto;
   width: 100%;
