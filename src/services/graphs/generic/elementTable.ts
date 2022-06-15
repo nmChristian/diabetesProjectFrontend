@@ -65,7 +65,7 @@ export function elementTable(elements: [Date, ElementRow []] []) {
             // Add description of values
             const subTitle = document.createElement("th")
             tr.append(subTitle)
-            subTitle.innerHTML = title
+            subTitle.innerHTML = title.toLowerCase()
             subTitle.className = "sub-title"
 
         })

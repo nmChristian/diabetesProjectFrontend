@@ -87,6 +87,7 @@ function getToolTip(): HTMLDivElement {
         tooltip.style.borderRadius = "5px"
         tooltip.style.padding = "5px"
         tooltip.style.position = "fixed"
+        tooltip.style.padding = "2px 5px"
     }
     return tooltip as HTMLDivElement
 }
