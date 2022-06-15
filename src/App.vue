@@ -47,15 +47,13 @@ import {isAuthenticated} from "@/services/authentication";
 import {getProfilePictureUrl, defaultUrl} from "@/services/settingsProvider";
 
 function loadName() {
-	let userData = backend.getUserDetails()
-	if (userData) {
-		userData.then(data => {
-			if (isAuthenticated()) {
-				(document.getElementById('currentUserName') as any).innerText = (data.last_name + ", " + data.first_name);
-				(document.getElementById('currentUserEmail') as any).innerText = data.email
-			}
-		})
-	}
+	const userData = backend.getUserDetails();
+	userData.then(data => {
+		if (data && isAuthenticated()) {
+			(document.getElementById('currentUserName') as any).innerText = (data.last_name + ", " + data.first_name);
+			(document.getElementById('currentUserEmail') as any).innerText = data.email
+		}
+	})
 }
 
 export default defineComponent({
@@ -69,7 +67,7 @@ export default defineComponent({
 	watch: {
 		$route(to, from) {
 			const fromPath = from.fullPath.toLowerCase();
-			if (fromPath === '/sign-in' || '/sign-up' || '/settings') {
+			if (fromPath === '/sign-in' || fromPath === '/sign-up' || fromPath === '/settings') {
 				this.initialize()
 			}
 		}
@@ -83,7 +81,6 @@ export default defineComponent({
 		initialize() {
 			loadName()
 			getProfilePictureUrl().then(url => {
-
 				this.imageSource = url
 			})
 
