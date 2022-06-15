@@ -2,7 +2,7 @@
   <h2>Table</h2>
   <div style="display:flex;  flex-direction: column; align-items: center; justify-content: center;">
     <div>
-      <select v-model="interval"
+      <select
               style="font-size: 16px; text-align: center; width: 300px; height: 35px; border-radius: 20px;">
         <option :value="d3.timeMonday">Monday</option>
         <option :value="d3.timeSunday">Sunday</option>
@@ -43,7 +43,6 @@ function splitByHour(dateValues: DateValue[]): number[][] {
 
 // Generate elements by adding titles to each row
 const elements = computed(() => {
-  console.log(cgmSplitIntoIntervals.value)
   const methods: [string, (values: number[]) => number | undefined][] =
       [
         ["mean", d3.mean],
