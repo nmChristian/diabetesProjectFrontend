@@ -11,7 +11,7 @@
     <div class="generalInfo">
       <p class="name">{{user.first_name}}</p>
       <p v-if="doctor" class="cprNumber">{{cpr}}</p>
-      <p v-else class="age">alder: {{String(user.age)}} år</p>
+      <p v-else class="age">{{getAgeText(user.age)}}</p>
     </div>
   </div>
 </template>
@@ -29,6 +29,14 @@ defineProps<{
   selected: string,
   healthLevel: number,
 }>()
+
+function getAgeText(age){
+  if(age === undefined){
+    return "Birthday not given"
+  }else{
+    return "age: " + String(age) +  " years old"
+  }
+}
 
 </script>
 

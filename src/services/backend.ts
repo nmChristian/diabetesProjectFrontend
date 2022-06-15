@@ -2,7 +2,7 @@ import {getApiKey} from "@/services/authentication";
 import axios from "axios";
 import type {DateValue} from "@/services/core/datatypes";
 import {mMolPerLToMgPerL, timeSeriesToDateValue} from "@/services/core/datatypes";
-import type {UserDetails} from "@/services/core/dbtypes";
+import type {UserDetails,Diagnosis} from "@/services/core/dbtypes";
 import * as d3 from "d3";
 
 class Backend {
@@ -16,13 +16,20 @@ class Backend {
     public getDataURLPatient = (id : String) => this.url + "/data/"+ id +"/get"
     public getNameURL = () => this.url + "/user"
     public getAllDataURL = () => this.url + "/data/get_all"
+    public getDiagnosisURL = (id: string) => this.url + "/diagnosis/" + id
 
     public async getUserDetails(): Promise<UserDetails> {
         const response = await axios.get(
             this.getNameURL(),
             this.generateHeader())
-        console.log(response.data)
         return response.data.self
+    }
+
+    public async getDiagnosis(id : string) : Promise<Array<Diagnosis>> {
+        const response = await axios.get(
+            this.getDiagnosisURL(id),
+            this.generateHeader())
+        return response.data
     }
 
     public async getUserDetailsForSpecific(id: String): Promise<UserDetails> {

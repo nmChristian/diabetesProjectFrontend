@@ -41,11 +41,12 @@
         <p class="diagnoseAndMedicinLabels">Diagnose</p>
         <p class="diagnoseAndMedicinLabels">Medecin</p>
 
-        <template v-for="diag in diagnoser">
+        <template v-if="diagnosis.length !==0" v-for="diag in diagnosis">
           <p class="diagnoseAndMedicinItems">{{ diag.name }}</p>
 
-          <p class="diagnoseAndMedicinItems">{{ listToString(diag.medecin) }}</p>
+          <p class="diagnoseAndMedicinItems">{{ listToString(diag.medicine) }}</p>
         </template>
+        <p v-else>No diagnosis registered for this patient</p>
       </div>
 
       <div class="infoItem" id="forcast" >
@@ -153,10 +154,6 @@ function onScroll(){
 
 const currentUser = ref({first_name: ""})
 
-backend.getUserDetailsForSpecific(String(router.currentRoute.value.params.id)).then((user : UserDetails) => {
-  currentUser.value = user
-})
-
 function closePopUp() {
   let currentRoute = router.currentRoute.value.fullPath
   let indexOfHash = currentRoute.indexOf("#")
@@ -196,31 +193,32 @@ function listToString(inListe: string | any[] | undefined) {
   return re;
 }
 
-const diagnoser = [
-  {
-    name: "Type 2 diabetis", medecin: [
-      "Insulin ting", "Andre insulin ting"
-    ]
-  },
-  {
-    name: "type 100 diaB", medecin: [
-      "Ting 1", "Ting 2", "ting 3"
-    ]
-  }
-]
-
 let cgmInDateValue: Ref<never[] | DateValue[]> = ref([])
 let mealsInDateValue: Ref<never[] | DateValue[]> = ref([])
 let basalInDateValue: Ref<never[] | DateValue[]> = ref([])
 let bolusInDateValue: Ref<never[] | DateValue[]> = ref([])
 
+const diagnosis = ref([])
+
 async function loadData() {
-  const response = await backend.getDataPatient(21, ["cgm", "meals", "basal", "bolus"],String(router.currentRoute.value.params.id))
-  console.log(response)
-  cgmInDateValue.value = timeSeriesToDateValue(response.cgm, mMolPerLToMgPerL)
-  mealsInDateValue.value = timeSeriesToDateValue(response.meals)
-  basalInDateValue.value = timeSeriesToDateValue(response.basal)
-  bolusInDateValue.value = timeSeriesToDateValue(response.bolus)
+  //TODO, flyt alt loading af data herind
+  let id = String(router.currentRoute.value.params.id)
+  backend.getDiagnosis(id).then((response) => {
+    diagnosis.value = response
+  })
+
+  backend.getUserDetailsForSpecific(String(router.currentRoute.value.params.id)).then((user : UserDetails) => {
+    currentUser.value = user
+  })
+
+  backend.getDataPatient(21, ["cgm", "meals", "basal", "bolus"],id).then((response) => {
+    cgmInDateValue.value = timeSeriesToDateValue(response.cgm, mMolPerLToMgPerL)
+    mealsInDateValue.value = timeSeriesToDateValue(response.meals)
+    basalInDateValue.value = timeSeriesToDateValue(response.basal)
+    bolusInDateValue.value = timeSeriesToDateValue(response.bolus)
+  })
+
+
 }
 
 </script>
