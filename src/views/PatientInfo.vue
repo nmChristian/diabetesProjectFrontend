@@ -312,6 +312,7 @@ async function loadData() {
   padding: 10px;
   width: 100%;
   border: solid 1px #555;
+  min-width: 1300px;;
   max-width: calc(100% - 320px);
   background-color: #fcfcfc;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
