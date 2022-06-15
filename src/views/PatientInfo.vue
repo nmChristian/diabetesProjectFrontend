@@ -15,33 +15,38 @@
       </button>
     </div>
 
-    <div  v-if="!$router.currentRoute.value.fullPath.toLowerCase().includes('list')" class="tableOfContext">
-      <p v-for="(item, index) in elemntsOnPage" @click="scrollToElement(item.id)" :class="{markedTableOfContextItem :(index  === currentViewdElement) , unmarkedTableOfContextItem :(index  !== currentViewdElement) }">  {{item.text}} </p>
-    </div>
+  <div  v-if="isFullScreen || !$router.currentRoute.value.fullPath.toLowerCase().includes('list')" class="tableOfContext">
+    <p v-for="(item, index) in elemntsOnPage" @click="scrollToElement(item.id)" :class="{markedTableOfContextItem :(index  === currentViewdElement) , unmarkedTableOfContextItem :(index  !== currentViewdElement) }">  {{item.text}} </p>
+  </div>
 
 
     <div class=holderInfo>
 
-      <h1>This is patient info for: {{ $route.params.id }} </h1>
-
-      <div class="infoItem startInfoHolderLine" id="summary">
+      <div class="infoItem" id="summary">
+        <div class="basicInfoHolder">
+          <img alt="User icon" class=user-icon :src="getProfilePicturePath()">
+          <h1>Name: {{currentUser.first_name}} </h1>
+        </div>
+        <div class=" startInfoHolderLine">
         <info-element :number=0 title="HbALc:" @showData="showElementData('HbALc')"></info-element>
         <info-element :number=1 title="weight:" @showData="$router.replace('#weight')"></info-element>
         <info-element :number=2 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
         <info-element :number=3 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
         <info-element :number=4 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
         <info-element :number=5 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
+        </div>
       </div>
 
       <div class="infoItem diagnoseAndMedicine" id="diagnoseAndMedicine">
         <p class="diagnoseAndMedicinLabels">Diagnose</p>
         <p class="diagnoseAndMedicinLabels">Medecin</p>
 
-        <template v-for="diag in diagnoser">
+        <template v-if="diagnosis.length !==0" v-for="diag in diagnosis">
           <p class="diagnoseAndMedicinItems">{{ diag.name }}</p>
 
-          <p class="diagnoseAndMedicinItems">{{ listToString(diag.medecin) }}</p>
+          <p class="diagnoseAndMedicinItems">{{ listToString(diag.medicine) }}</p>
         </template>
+        <p v-else>No diagnosis registered for this patient</p>
       </div>
 
       <div class="infoItem" id="forcast" >
@@ -96,6 +101,7 @@ import backend from "../services/backend";
 import type {DateValue} from "@/services/core/datatypes"
 import {mMolPerLToMgPerL, timeSeriesToDateValue} from "@/services/core/datatypes";
 import {onMounted, Ref, ref} from "vue";
+import type {UserDetails} from "@/services/core/dbtypes";
 
 onMounted(() => {
   loadData()
@@ -115,6 +121,13 @@ const elemntsOnPage = [
 
 let currentViewdElement = ref(0)
 
+function getProfilePicturePath(){
+  if(currentUser.value.profile_picture === undefined || currentUser.value.profile_picture === ""){
+    return '/src/assets/user.png'
+  }
+  return currentUser.profile_picture
+}
+
 function scrollToElement(id : string){
   if(window.top == null){
     return
@@ -133,11 +146,13 @@ function onScroll(){
   for(let i = 0; i < elemntsOnPage.length; i++){
     if ((document.getElementById(elemntsOnPage[i].id) as HTMLDivElement ).getBoundingClientRect().bottom > 70){
       currentViewdElement.value = i;
-      break
+      return;
     }
   }
-
+  currentViewdElement.value = elemntsOnPage.length-1;
 }
+
+const currentUser = ref({first_name: ""})
 
 function closePopUp() {
   let currentRoute = router.currentRoute.value.fullPath
@@ -157,7 +172,10 @@ let crossClicked = () => {
 const emit = defineEmits<{
   (e: 'hideSidebar'): void}>()
 
+const isFullScreen = ref(false)
+
 function fullScreenClicked()  {
+  isFullScreen.value = !isFullScreen.value
   emit('hideSidebar');
 }
 
@@ -175,32 +193,32 @@ function listToString(inListe: string | any[] | undefined) {
   return re;
 }
 
-const diagnoser = [
-  {
-    name: "Type 2 diabetis", medecin: [
-      "Insulin ting", "Andre insulin ting"
-    ]
-  },
-  {
-    name: "type 100 diaB", medecin: [
-      "Ting 1", "Ting 2", "ting 3"
-    ]
-  }
-]
-
 let cgmInDateValue: Ref<never[] | DateValue[]> = ref([])
 let mealsInDateValue: Ref<never[] | DateValue[]> = ref([])
 let basalInDateValue: Ref<never[] | DateValue[]> = ref([])
 let bolusInDateValue: Ref<never[] | DateValue[]> = ref([])
 
+const diagnosis = ref([])
+
 async function loadData() {
-  const response = await backend.getDataPatient(21, ["cgm", "meals", "basal", "bolus"],String(router.currentRoute.value.params.id))
-  console.log("hej")
-  console.log(response)
-  cgmInDateValue.value = timeSeriesToDateValue(response.cgm, mMolPerLToMgPerL)
-  mealsInDateValue.value = timeSeriesToDateValue(response.meals)
-  basalInDateValue.value = timeSeriesToDateValue(response.basal)
-  bolusInDateValue.value = timeSeriesToDateValue(response.bolus)
+  //TODO, flyt alt loading af data herind
+  let id = String(router.currentRoute.value.params.id)
+  backend.getDiagnosis(id).then((response) => {
+    diagnosis.value = response
+  })
+
+  backend.getUserDetailsForSpecific(String(router.currentRoute.value.params.id)).then((user : UserDetails) => {
+    currentUser.value = user
+  })
+
+  backend.getDataPatient(21, ["cgm", "meals", "basal", "bolus"],id).then((response) => {
+    cgmInDateValue.value = timeSeriesToDateValue(response.cgm, mMolPerLToMgPerL)
+    mealsInDateValue.value = timeSeriesToDateValue(response.meals)
+    basalInDateValue.value = timeSeriesToDateValue(response.basal)
+    bolusInDateValue.value = timeSeriesToDateValue(response.bolus)
+  })
+
+
 }
 
 </script>
@@ -216,7 +234,10 @@ async function loadData() {
   border-radius: 15px;
   z-index: 11;
 }
-
+.basicInfoHolder{
+  display: flex;
+  flex: border-box;
+}
 .popup {
   position: fixed;
   left: 15%;

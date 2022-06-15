@@ -2,7 +2,7 @@ import {getApiKey} from "@/services/authentication";
 import axios from "axios";
 import type {DateValue} from "@/services/core/datatypes";
 import {mMolPerLToMgPerL, timeSeriesToDateValue} from "@/services/core/datatypes";
-import type {UserDetails} from "@/services/core/dbtypes";
+import type {UserDetails, Diagnosis} from "@/services/core/dbtypes";
 import * as d3 from "d3";
 
 class Backend {
@@ -13,14 +13,36 @@ class Backend {
     }
 
     public getDataURL = () => this.url + "/data/get"
-    public getDataURLPatient = (id : String) => this.url + "/data/"+ id +"/get"
+    public getDataURLPatient = (id: String) => this.url + "/data/" + id + "/get"
     public getNameURL = () => this.url + "/user"
+    public getAllDataURL = () => this.url + "/data/get_previews"
+    public getDiagnosisURL = (id: string) => this.url + "/diagnosis/" + id
 
-    public async getUserDetails(): Promise<UserDetails> {
+    public async getUserDetails(): Promise<UserDetails | null> {
+        if (getApiKey() === null) {
+            return null;
+        }
         const response = await axios.get(
             this.getNameURL(),
             this.generateHeader())
         return response.data.self
+    }
+
+    public async getDiagnosis(id: string): Promise<Array<Diagnosis>> {
+        const response = await axios.get(
+            this.getDiagnosisURL(id),
+            this.generateHeader())
+        return response.data
+    }
+
+    public async getUserDetailsForSpecific(id: String): Promise<UserDetails> {
+        let users = (await this.getViewvabel())
+        for (let i = 0; i < users.length; i++) {
+            if (users[i]._id.$oid === id) {
+                return users[i]
+            }
+        }
+        return {email: "", first_name: "", last_name: "", is_doctor: false, _id: {}, age: 0, profile_picture: ""}
     }
 
     public async getViewvabel(): Promise<Array<UserDetails>> {
@@ -30,10 +52,10 @@ class Backend {
         return response.data.viewable
     }
 
-    public async getCGMDataPatient (daysBack : number , patientId: String) : Promise<DateValue[]> {
+    public async getCGMDataPatient(daysBack: number, patientId: String): Promise<DateValue[]> {
         const daysSinceLastData = d3.timeDays(new Date("2022-01-29"), new Date()).length
 
-        if(patientId === undefined){
+        if (patientId === undefined) {
             return []
         }
 
@@ -45,7 +67,7 @@ class Backend {
         return timeSeriesToDateValue(response.data.cgm, v => v * 18)
     }
 
-    public async getCGMDataMGDL (daysBack : number) : Promise<DateValue[]> {
+    public async getCGMDataMGDL(daysBack: number): Promise<DateValue[]> {
         const daysSinceLastData = d3.timeDays(new Date("2022-01-29"), new Date()).length
 
         const response = await axios.post(
@@ -53,12 +75,23 @@ class Backend {
             this.getCGMDaysBack(daysSinceLastData + daysBack),
             this.generateHeader())
 
-        console.log(response.data)
         return timeSeriesToDateValue(response.data.cgm, mMolPerLToMgPerL)
     }
 
-    public async getDataPatient(daysBack: number = 7, show: string[] = ["cgm"] , patientId: string) {
-        if(patientId === undefined){
+    public async getCGMDataMGDLForAllWiewabel(daysBack: number): Promise<{ _id: any, patient: any, values: number[] }[]> {
+        const daysSinceLastData = d3.timeDays(new Date("2022-01-29"), new Date()).length
+
+        const response = await axios.post(
+            this.getAllDataURL(),
+            this.getCGMDaysBack(daysSinceLastData + daysBack),
+            this.generateHeader())
+
+        return response.data
+    }
+
+
+    public async getDataPatient(daysBack: number = 7, show: string[] = ["cgm"], patientId: string) {
+        if (patientId === undefined) {
             return []
         }
         const daysSinceLastData = d3.timeDays(new Date("2022-01-29"), new Date()).length

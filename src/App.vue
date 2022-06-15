@@ -1,38 +1,40 @@
 <template>
-  <div class="top-bar">
-    <img alt="User icon" class=user-icon src="@/assets/user.png" @click="$router.push('/sign-up')"/>
+	<div class="top-bar">
+		<div class="user-icon-container">
+			<img alt="User icon" class=user-icon :src=imageSource @click="$router.push('/settings')"/>
+		</div>
 
-    <div class=currentUserInfo>
-      <p id="currentUserName"></p>
-      <p id="currentUserEmail"></p>
-    </div>
+		<div class=currentUserInfo>
+			<p id="currentUserName"></p>
+			<p id="currentUserEmail"></p>
+		</div>
 
-    <input class=searchField placeholder="Search bar (not functional)" type="text">
-    <div v-if="String(this.$router.currentRoute.value.fullPath).toLowerCase().includes('displaypatients')"
-         class=iconGroup>
-      <img alt="" class=navigationIcon src="@/assets/icons/gridViewIcon.svg"
-           @click="$router.push('/DisplayPatients')"/>
-      <img alt="" class=navigationIcon
-           src="@/assets/icons/listViewIcon.svg"
-           @click="$router.push('/DisplayPatientsList')"/>
-    </div>
-  </div>
+		<input class=searchField placeholder="Search bar (not functional)" type="text">
+		<div v-if="String(this.$router.currentRoute.value.fullPath).toLowerCase().includes('displaypatients')"
+			 class=iconGroup>
+			<img alt="" class=navigationIcon src="@/assets/icons/gridViewIcon.svg"
+				 @click="$router.push('/DisplayPatients')"/>
+			<img alt="" class=navigationIcon
+				 src="@/assets/icons/listViewIcon.svg"
+				 @click="$router.push('/DisplayPatientsList')"/>
+		</div>
+	</div>
 
-  <div class="spacer"></div>
+	<div class="spacer"></div>
 
-  <div id="content-view" class="content-view">
-    <header>
-      <div class="wrapper">
-        <nav>
-          <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/GraphView">Graph demo</RouterLink>
-          <RouterLink to="/DisplayPatients"> display patients</RouterLink>
-          <RouterLink to="/DisplayPatientsList"> display patients list</RouterLink>
-        </nav>
-      </div>
-    </header>
-    <RouterView/>
-  </div>
+	<div id="content-view" class="content-view">
+		<header>
+			<div class="wrapper">
+				<nav>
+					<RouterLink to="/">Home</RouterLink>
+					<RouterLink to="/GraphView">Graph demo</RouterLink>
+					<RouterLink to="/DisplayPatients"> display patients</RouterLink>
+					<RouterLink to="/DisplayPatientsList"> display patients list</RouterLink>
+				</nav>
+			</div>
+		</header>
+		<RouterView/>
+	</div>
 </template>
 
 
@@ -42,32 +44,51 @@ import {RouterLink, RouterView} from 'vue-router'
 import {defineComponent} from "vue";
 import backend from "@/services/backend";
 import {isAuthenticated} from "@/services/authentication";
+import {getProfilePictureUrl, defaultUrl} from "@/services/settingsProvider";
 
 function loadName() {
-  let userData = backend.getUserDetails()
-  userData.then(data => {
-    if (isAuthenticated()) {
-      (document.getElementById('currentUserName') as any).innerText = (data.last_name + ", " + data.first_name);
-      (document.getElementById('currentUserEmail') as any).innerText = data.email
-    }
-  })
+	let userData = backend.getUserDetails()
+	if (userData) {
+		userData.then(data => {
+			if (isAuthenticated()) {
+				(document.getElementById('currentUserName') as any).innerText = (data.last_name + ", " + data.first_name);
+				(document.getElementById('currentUserEmail') as any).innerText = data.email
+			}
+		})
+	}
 }
 
 export default defineComponent({
-  components: {
-    RouterLink,
-    RouterView
-  },
-  mounted() {
-    loadName()
-  },
-  watch: {
-    $route(to, from) {
-      if (from.fullPath.toLowerCase() === "/sign-in") {
-        loadName()
-      }
-    }
-  }
+	components: {
+		RouterLink,
+		RouterView
+	},
+	mounted() {
+		this.initialize();
+	},
+	watch: {
+		$route(to, from) {
+			const fromPath = from.fullPath.toLowerCase();
+			if (fromPath === '/sign-in' || '/sign-up' || '/settings') {
+				this.initialize()
+			}
+		}
+	},
+	data() {
+		return {
+			imageSource: defaultUrl
+		}
+	},
+	methods: {
+		initialize() {
+			loadName()
+			getProfilePictureUrl().then(url => {
+
+				this.imageSource = url
+			})
+
+		}
+	}
 })
 
 </script>
@@ -77,133 +98,99 @@ export default defineComponent({
 @import '@/assets/base.css';
 
 .searchField {
-  /*TODO Sikre den altid er holder samme pos. ligemeget om ikonerne til højre er der*/
-  height: 70%;
-  width: 300px;
-  margin: auto;
-  opacity: 30%;
-  border-radius: 10px;
+	/*TODO Sikre den altid er holder samme pos. ligemeget om ikonerne til højre er der*/
+	height: 70%;
+	width: 300px;
+	margin: auto;
+	opacity: 30%;
+	border-radius: 10px;
 }
 
 .spacer {
-  height: 75px;
+	height: 75px;
 }
 
 .iconGroup {
-  padding-right: 10px;
-  height: 100%;
-  display: flex;
-  align-items: center;
+	padding-right: 10px;
+	height: 100%;
+	display: flex;
+	align-items: center;
 }
 
 .content-view {
-  padding: 0;
-  margin: 100px;
+	padding: 0;
+	margin: 100px;
 }
 
 .top-bar {
-  z-index: 10;
-  height: 75px;
-  width: 100%;
-  top: 0;
-  left: 0;
-  background-color: lightgrey;
-  display: flex;
-  align-items: center;
-  position: fixed;
-  border-bottom: 1px grey solid;
+	z-index: 10;
+	height: 75px;
+	width: 100%;
+	top: 0;
+	left: 0;
+	background-color: lightgrey;
+	display: flex;
+	align-items: center;
+	position: fixed;
+	border-bottom: 1px grey solid;
 }
 
 .navigationIcon {
-  border: 1px black solid;
-  background-color: white;
-  height: 55%;
-  aspect-ratio: 1 / 1;
-  margin: 5px;
-  padding: 3px;
-  border-radius: 6px;
+	border: 1px black solid;
+	background-color: white;
+	height: 55%;
+	aspect-ratio: 1 / 1;
+	margin: 5px;
+	padding: 3px;
+	border-radius: 6px;
+}
+
+.user-icon-container {
+	width: 55px;
+	height: 55px;
+	margin: 0.75rem;
 }
 
 .user-icon {
-  margin: 10px;
-  width: 55px;
+	width: inherit;
+	height: inherit;
+	border-radius: 50%;
 }
 
 #content-view {
-  /*max-width: 1280px; */
-  margin: 0 auto;
-  padding: 0;
-
-  font-weight: normal;
+	margin: 0 auto;
+	padding: 0;
+	font-weight: normal;
 }
 
 header {
-  line-height: 1.5;
-  max-height: 100vh;
+	line-height: 1.5;
+	max-height: 100vh;
 }
 
 a {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
+	text-decoration: none;
+	color: hsla(160, 100%, 37%, 1);
+	transition: 0.4s;
 }
 
 @media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+	a:hover {
+		background-color: hsla(160, 100%, 37%, 0.2);
+	}
 }
 
 nav {
-  width: 100%;
-  font-size: 1rem;
-  text-align: center;
-  margin-top: 2rem;
+	width: 100%;
+	font-size: 1rem;
+	text-align: center;
+	margin-top: 2rem;
 }
 
 nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
+	display: inline-block;
+	padding: 0 1rem;
+	border-left: 1px solid var(--color-border);
 }
 
-
-/*
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
-
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}*/
 </style>
