@@ -1,5 +1,9 @@
 <template>
   <div>
+
+    <c-g-m-legend/>
+    <t-i-r-graph :occurrences="frequencies" :colors="COLOR_SCHEME"/>
+    <t-i-r-daily-series :data="cgm"/>
     <element-table-series
         :cgm="daysBackCGM"
         :last-days-back="lastDaysBack"
@@ -7,21 +11,15 @@
     <forecast-series
         :cgm="cgm"
         :meals="meals"
+        :showAdvanced="false"
     />
-    <t-i-r-daily-series :data="cgm"/>
-
-    <h3>24 Hour back Time in Range Graph</h3>
-    <t-i-r-graph
-        :colors="COLOR_SCHEME"
-        :occurrences="frequencies"
-    />
-
     <raw-series
         :basal="basal"
         :bolus="bolus"
         :cgm="cgm"
         :meals="meals"
     />
+
   </div>
 </template>
 
@@ -31,12 +29,13 @@ import type {DateValue} from "@/services/core/datatypes";
 import {getCGMOccurrences} from "@/services/core/datatypes";
 import TIRGraph from "@/components/charts/generic/TIRGraph.vue";
 
-import {COLOR_SCHEME} from "@/services/core/shared";
+import {COLOR_SCHEME, CGM_THRESHOLDS} from "@/services/core/shared";
 import {computed} from "vue";
 import ForecastSeries from "@/components/charts/graphseries/ForecastSeries.vue";
 import RawSeries from "@/components/charts/graphseries/RawSeries.vue";
 import TIRDailySeries from "@/components/charts/graphseries/TIRDailySeries.vue";
 import ElementTableSeries from "@/components/charts/graphseries/ElementTableSeries.vue";
+import CGMLegend from "@/components/charts/CGMLegend.vue";
 
 
 const props = defineProps<{
@@ -61,3 +60,7 @@ const lastDaysBack = computed( ()  =>
 const daysBackCGM = computed(() => props.cgm.filter(([date,]) => date > d3.timeDay.offset(lastDateInDataSet.value, -daysBack)))
 
 </script>
+
+<style scoped>
+
+</style>
