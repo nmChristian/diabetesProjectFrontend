@@ -154,10 +154,6 @@ function onScroll(){
 
 const currentUser = ref({first_name: ""})
 
-backend.getUserDetailsForSpecific(String(router.currentRoute.value.params.id)).then((user : UserDetails) => {
-  currentUser.value = user
-})
-
 function closePopUp() {
   let currentRoute = router.currentRoute.value.fullPath
   let indexOfHash = currentRoute.indexOf("#")
@@ -209,6 +205,10 @@ async function loadData() {
   let id = String(router.currentRoute.value.params.id)
   backend.getDiagnosis(id).then((response) => {
     diagnosis.value = response
+  })
+
+  backend.getUserDetailsForSpecific(String(router.currentRoute.value.params.id)).then((user : UserDetails) => {
+    currentUser.value = user
   })
 
   backend.getDataPatient(21, ["cgm", "meals", "basal", "bolus"],id).then((response) => {
