@@ -1,6 +1,6 @@
 <template>
+  <p style="font-weight: bold">CGM Legend</p>
   <div class="cgm-legend">
-    <p style="font-weight: bold">CGM Legend</p>
     <div v-for="(color,i) in COLOR_SCHEME" :style="{borderRight:'10px solid ' + color}">
       <p class="color-legend">
         {{ CGM_THRESHOLDS[i].x0 + "-" + (CGM_THRESHOLDS[i].x1 ?? "") }}
@@ -15,7 +15,7 @@ import {CGM_THRESHOLDS, COLOR_SCHEME} from "@/services/core/shared";</script>
 <style scoped>
 .cgm-legend {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   align-items: end;
   border: 1px solid black;
   width: 120px;
