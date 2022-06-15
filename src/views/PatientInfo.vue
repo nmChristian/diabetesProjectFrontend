@@ -24,7 +24,7 @@
 
       <div class="infoItem" id="summary">
         <div class="basicInfoHolder">
-          <img alt="User icon" class=user-icon :src="getProfilePicturePath()">
+          <img alt="User icon" class=user-icon :src="getProfilePicturePath()" style="max-width: 50px">
           <h1>Name: {{currentUser.first_name}} </h1>
         </div>
         <div class=" startInfoHolderLine">
