@@ -175,6 +175,9 @@ function closePopUp() {
 
 let crossClicked = () => {
   if (router.currentRoute.value.fullPath.includes("List")) {
+    if(isFullScreen.value){
+      emit('hideSidebar');
+    }
     router.push("/DisplayPatientsList")
   } else {
     router.back()
