@@ -78,14 +78,6 @@ accessiblelUsersPromise.then((accessiblelUsers : Array<UserDetails>)  => {
             newUser.healthLevel = Math.round(Math.random()*4)
             newUser.medianDataInHours = medianDataToMedianAndData(returnedDAta[j].values)
 
-            let countUnder70 = 0
-            for(let i = 0; i < newUser.medianDataInHours; i++){
-              if(newUser.medianDataInHours[i][1] < 70){
-                countUnder70++
-              }
-            }
-            console.log(countUnder70)
-
             tempList.push(newUser)
           }
         }

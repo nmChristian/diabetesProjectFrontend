@@ -2,7 +2,7 @@ import {getApiKey} from "@/services/authentication";
 import axios from "axios";
 import type {DateValue} from "@/services/core/datatypes";
 import {mMolPerLToMgPerL, timeSeriesToDateValue} from "@/services/core/datatypes";
-import type {UserDetails, Diagnosis} from "@/services/core/dbtypes";
+import type {UserDetails, Diagnosis, Note} from "@/services/core/dbtypes";
 import * as d3 from "d3";
 
 class Backend {
@@ -17,6 +17,7 @@ class Backend {
     public getNameURL = () => this.url + "/user"
     public getAllDataURL = () => this.url + "/data/get_previews"
     public getDiagnosisURL = (id: string) => this.url + "/diagnosis/" + id
+    public getNotesURL = (id: string) => this.url + "/note/" + id
 
     public async getUserDetails(): Promise<UserDetails | null> {
         if (getApiKey() === null) {
@@ -76,6 +77,25 @@ class Backend {
             this.generateHeader())
 
         return timeSeriesToDateValue(response.data.cgm, mMolPerLToMgPerL)
+    }
+
+    public async getNotes(id: string): Promise<Note[]> {
+        console.log(getApiKey())
+        const response = await axios.get(
+            this.getNotesURL(id),
+            this.generateHeader())
+
+        return response.data
+    }
+
+    public async postNote(id: string , text: string , isPrivate :boolean ): Promise<Note[]> {
+        console.log(getApiKey())
+        const response = await axios.post(
+            this.getNotesURL(id),
+            {text : text , private: isPrivate},
+            this.generateHeader())
+
+        return response.data
     }
 
     public async getCGMDataMGDLForAllWiewabel(daysBack: number): Promise<{ _id: any, patient: any, values: number[] }[]> {

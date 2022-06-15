@@ -49,6 +49,11 @@
         <p v-else>No diagnosis registered for this patient</p>
       </div>
 
+      <NoteViwerAndEditor
+          :data="notes"
+          :is-doctor="true /*currentUser.is_doctor || false*/"
+          :id="'62a9c246882873adfb9616a8'"></NoteViwerAndEditor>
+
       <div id="forcast"
            @click="selectInfoSection('forcast')"
            :class="selectedInfoSection !== 'forcast' ? 'infoItem' : 'infoItemSelected'" >
@@ -107,7 +112,8 @@ import backend from "../services/backend";
 import type {DateValue} from "@/services/core/datatypes"
 import {mMolPerLToMgPerL, timeSeriesToDateValue} from "@/services/core/datatypes";
 import {onMounted, Ref, ref} from "vue";
-import type {UserDetails} from "@/services/core/dbtypes";
+import type {Diagnosis, Note, UserDetails} from "@/services/core/dbtypes";
+import NoteViwerAndEditor from "@/components/NoteViwerAndEditor.vue";
 
 onMounted(() => {
   loadData()
@@ -144,7 +150,6 @@ function scrollToElement(id : string){
   if(window.top == null){
     return
   }
-  console.log(typeof document.getElementById(id))
   let wantedOffset = (document.getElementById(id) as HTMLDivElement ).getBoundingClientRect().top
   window.top.scroll(0,window.top.scrollY + wantedOffset -85)
 }
@@ -213,7 +218,9 @@ let mealsInDateValue: Ref<never[] | DateValue[]> = ref([])
 let basalInDateValue: Ref<never[] | DateValue[]> = ref([])
 let bolusInDateValue: Ref<never[] | DateValue[]> = ref([])
 
-const diagnosis = ref([])
+const diagnosis = ref([] as Diagnosis[])
+
+const notes = ref([] as Note[])
 
 async function loadData() {
   //TODO, flyt alt loading af data herind
@@ -222,8 +229,14 @@ async function loadData() {
     diagnosis.value = response
   })
 
+  backend.getNotes(id).then((response) =>{
+    notes.value = response
+    console.log(response)
+  })
+
   backend.getUserDetailsForSpecific(String(router.currentRoute.value.params.id)).then((user : UserDetails) => {
     currentUser.value = user
+    console.log(user)
   })
 
   backend.getDataPatient(21, ["cgm", "meals", "basal", "bolus"],id).then((response) => {
