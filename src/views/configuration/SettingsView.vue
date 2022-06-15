@@ -8,7 +8,13 @@
 				   required>
 		</div>
 		<div class="button-container">
-			<button type="submit" @click="onSubmitClick">Use as profile picture</button>
+			<primary-button type="submit" @click="onSubmitClick" text="Use as profile picture"/>
+		</div>
+		<div class="spinner-container">
+			<spinner v-show="loading"></spinner>
+		</div>
+		<div>
+			<failure-icon ref="failureIcon"/>
 		</div>
 	</form>
 </template>
@@ -16,12 +22,18 @@
 <script lang="ts">
 import {defineComponent} from "vue";
 import {useProfilePicture, getProfilePictureUrl, defaultUrl} from "@/services/settingsProvider";
+import PrimaryButton from "@/components/PrimaryButton.vue";
+import router from "@/router";
+import failureIcon from "@/components/icons/failureIcon.vue";
+import spinner from "@/components/spinner.vue";
 
 export default defineComponent({
 	name: "settingsView.vue",
+	components: {PrimaryButton, failureIcon, spinner},
 	data() {
 		return {
-			imageSource: defaultUrl
+			imageSource: defaultUrl,
+			loading: false
 		}
 	},
 	mounted() {
@@ -46,14 +58,14 @@ export default defineComponent({
 		onSubmitClick: async function () {
 			const image = this.getImage()
 			if (image) {
+				this.loading = true
 				const result = await useProfilePicture(image)
 				if (result.success) {
-					console.log('success')
+					await router.push("/")
 				} else {
-					console.log('failure', result)
+					(this.$refs.failureIcon as typeof failureIcon).setText(result.errorMessage)
 				}
-			} else {
-				console.log('No image chosen')
+				this.loading = false
 			}
 		}
 	}
@@ -62,9 +74,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-form {
-	border: 1px solid red;
-}
 
 form > div {
 	display: flex;
@@ -79,17 +88,5 @@ form > div {
 	border: 1px solid black;
 }
 
-.file-input-container {
-	border: 1px solid gray;
-}
-
-.file-input-container > input {
-	border: 1px solid pink;
-}
-
-.button-container {
-	border: 1px solid blue;
-	margin-bottom: 0.25rem;
-}
 
 </style>

@@ -26,7 +26,11 @@ async function useProfilePicture(image: File): Promise<Answer> {
 async function getProfilePictureUrl(): Promise<string> {
     let result = defaultUrl;
     await backend.getUserDetails().then(response => {
-        result = baseUrl + response.profile_picture
+        if (response) {
+            if (response.profile_picture !== undefined) {
+                result = baseUrl + response.profile_picture
+            }
+        }
     })
     return result;
 }
