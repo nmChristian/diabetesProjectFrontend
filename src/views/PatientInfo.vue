@@ -215,12 +215,18 @@ let basalInDateValue: Ref<never[] | DateValue[]> = ref([])
 let bolusInDateValue: Ref<never[] | DateValue[]> = ref([])
 
 async function loadData() {
-  const response = await backend.getDataPatient(21, ["cgm", "meals", "basal", "bolus"],String(router.currentRoute.value.params.id))
-  console.log(response)
-  cgmInDateValue.value = timeSeriesToDateValue(response.cgm, mMolPerLToMgPerL)
-  mealsInDateValue.value = timeSeriesToDateValue(response.meals)
-  basalInDateValue.value = timeSeriesToDateValue(response.basal)
-  bolusInDateValue.value = timeSeriesToDateValue(response.bolus)
+  //TODO, flyt alt loading af data herind
+
+
+  backend.getDataPatient(21, ["cgm", "meals", "basal", "bolus"],String(router.currentRoute.value.params.id)).then((response) => {
+    console.log(response)
+    cgmInDateValue.value = timeSeriesToDateValue(response.cgm, mMolPerLToMgPerL)
+    mealsInDateValue.value = timeSeriesToDateValue(response.meals)
+    basalInDateValue.value = timeSeriesToDateValue(response.basal)
+    bolusInDateValue.value = timeSeriesToDateValue(response.bolus)
+  })
+
+
 }
 
 </script>
