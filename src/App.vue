@@ -1,6 +1,8 @@
 <template>
 	<div class="top-bar">
-		<img alt="User icon" class=user-icon src="@/assets/user.png" @click="$router.push('/settings')"/>
+		<div class="user-icon-container">
+			<img alt="User icon" class=user-icon :src=imageSource @click="$router.push('/settings')"/>
+		</div>
 
 		<div class=currentUserInfo>
 			<p id="currentUserName"></p>
@@ -42,6 +44,7 @@ import {RouterLink, RouterView} from 'vue-router'
 import {defineComponent} from "vue";
 import backend from "@/services/backend";
 import {isAuthenticated} from "@/services/authentication";
+import {getProfilePictureUrl, defaultUrl} from "@/services/settingsProvider";
 
 function loadName() {
 	let userData = backend.getUserDetails()
@@ -59,13 +62,27 @@ export default defineComponent({
 		RouterView
 	},
 	mounted() {
-		loadName()
+		this.initialize();
 	},
 	watch: {
 		$route(to, from) {
-			if (from.fullPath.toLowerCase() === "/sign-in") {
-				loadName()
+			const fromPath = from.fullPath.toLowerCase();
+			if (fromPath === '/sign-in' || '/sign-up' || '/settings') {
+				this.initialize()
 			}
+		}
+	},
+	data() {
+		return {
+			imageSource: defaultUrl
+		}
+	},
+	methods: {
+		initialize() {
+			loadName()
+			getProfilePictureUrl().then(url => {
+				this.imageSource = url
+			})
 		}
 	}
 })
@@ -124,16 +141,21 @@ export default defineComponent({
 	border-radius: 6px;
 }
 
-.user-icon {
-	margin: 10px;
+.user-icon-container {
 	width: 55px;
+	height: 55px;
+	margin: 0.75rem;
+}
+
+.user-icon {
+	width: inherit;
+	height: inherit;
+	border-radius: 50%;
 }
 
 #content-view {
-	/*max-width: 1280px; */
 	margin: 0 auto;
 	padding: 0;
-
 	font-weight: normal;
 }
 
@@ -167,43 +189,4 @@ nav a {
 	border-left: 1px solid var(--color-border);
 }
 
-
-/*
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
-
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}*/
 </style>
