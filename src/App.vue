@@ -69,7 +69,7 @@ export default defineComponent({
 	watch: {
 		$route(to, from) {
 			const fromPath = from.fullPath.toLowerCase();
-			if (fromPath === '/sign-in' || '/sign-up' || '/settings') {
+			if (fromPath === '/sign-in' || fromPath === '/sign-up' || fromPath === '/settings') {
 				this.initialize()
 			}
 		}
