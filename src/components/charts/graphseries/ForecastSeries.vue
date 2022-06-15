@@ -1,8 +1,9 @@
 <template>
   <div class="forecast-series">
-    <h2>Vejrudsigt graf</h2>
+    <div v-if="showAdvanced">
+      <h2>Vejrudsigt graf</h2>
 
-    <div style="display: grid; place-items: center;">
+      <div style="display: grid; place-items: center;">
         <p>Split by</p>
         <select v-model="interval"
                 style="font-size: 16px; text-align: center; width: 300px; height: 35px; border-radius: 20px;">
@@ -12,14 +13,16 @@
           <option :value="d3.timeHour">Hour</option>
         </select>
 
-    </div>
-    <div>
-      <input
-          type="checkbox" name="mealsEnabled"
-          v-model="mealsEnabled"/>
-      <label for="mealsEnabled">Show meals</label>
-    </div>
-    <br>
+      </div>
+      <div>
+        <input
+            type="checkbox" name="mealsEnabled"
+            v-model="mealsEnabled"/>
+        <label for="mealsEnabled">Show meals</label>
+      </div>
+      <br>
+      </div>
+
     <div style="display: flex; justify-content: center;">
       <div>
         <Graph
@@ -57,6 +60,7 @@ import Graph from "@/components/charts/shared/Graph.vue";
 const interval = ref(d3.timeMonday)
 const mealsEnabled = ref(false)
 const props = defineProps<{
+  showAdvanced: boolean,
   cgm: DateValue[],
   meals: DateValue[],
 }>()
@@ -68,8 +72,8 @@ const cgmSplitIntoIntervals = computed(() => d3.group(props.cgm, ([date,]) => in
 const mealsSplitIntoIntervals = computed(() => d3.group(props.meals, ([date,]) => interval.value(date)))
 
 const tirLayout = new GraphLayout(50, 250)
-const width = 1000, marginLeft = 40, marginRight = 10
-const forecastLayout = new GraphLayout(width, 100, 15, marginRight, 20, marginLeft)
+const width = 900, marginLeft = 40, marginRight = 10
+const forecastLayout = new GraphLayout(width, 90, 15, marginRight, 20, marginLeft)
 const mealGraphLayout = new GraphLayout(width, 30, 10, marginRight, 30, marginLeft)
 
 // TIR methods
@@ -127,7 +131,6 @@ const graphs = computed(() => {
 
 <style scoped>
 .forecast-series {
-  background-color: #fcfcfc;
   padding: 10px 0 50px 0;
 }
 </style>

@@ -24,7 +24,7 @@
 
       <div class="infoItem" id="summary">
         <div class="basicInfoHolder">
-          <img alt="User icon" class=user-icon :src="getProfilePicturePath()">
+          <img alt="User icon" class=user-icon :src="getProfilePicturePath()" style="max-width: 50px">
           <h1>Name: {{currentUser.first_name}} </h1>
         </div>
         <div class=" startInfoHolderLine">
@@ -49,8 +49,10 @@
         <p v-else>No diagnosis registered for this patient</p>
       </div>
 
-      <div class="infoItem" id="forcast" >
-       <forecast-series :cgm="cgmInDateValue" :meals="mealsInDateValue"/>
+      <div id="forcast"
+           @click="selectInfoSection('forcast')"
+           :class="selectedInfoSection !== 'forcast' ? 'infoItem' : 'infoItemSelected'" >
+       <forecast-series :cgm="cgmInDateValue" :meals="mealsInDateValue" :showAdvanced="selectedInfoSection === 'forcast'"/>
       </div>
 
       <div class="infoItem" id="testAScroll1">
@@ -61,11 +63,15 @@
         <h1>Test a scroll 2</h1>
       </div>
 
-      <div class="infoItem" id="testAScroll3" >
+      <div id="testAScroll3"
+           @click="selectInfoSection('testAScroll3')"
+           :class="selectedInfoSection !== 'testAScroll3' ? 'infoItem' : 'infoItemSelected'">
         <h1>Test a scroll 3</h1>
       </div>
 
-      <div class="infoItem" id="testAScroll4" >
+      <div id="testAScroll4"
+           @click="selectInfoSection('testAScroll4')"
+           :class="selectedInfoSection !== 'testAScroll4' ? 'infoItem' : 'infoItemSelected'" >
         <h1>Test a scroll 4</h1>
         <h1>Test a scroll 4</h1>
         <h1>Test a scroll 4</h1>
@@ -128,6 +134,12 @@ function getProfilePicturePath(){
   return currentUser.profile_picture
 }
 
+const selectedInfoSection = ref('')
+
+function selectInfoSection(id : string){
+  selectedInfoSection.value = id
+}
+
 function scrollToElement(id : string){
   if(window.top == null){
     return
@@ -163,6 +175,9 @@ function closePopUp() {
 
 let crossClicked = () => {
   if (router.currentRoute.value.fullPath.includes("List")) {
+    if(isFullScreen.value){
+      emit('hideSidebar');
+    }
     router.push("/DisplayPatientsList")
   } else {
     router.back()
@@ -276,10 +291,28 @@ async function loadData() {
 }
 
 .infoItem {
+  max-width: 1200px;
   padding: 10px;
   width: 100%;
   border: solid 1px #555;
   min-width: 1020px;
+  background-color: #fcfcfc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  -o-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  border-radius: 25px;
+  margin: 10px;
+}
+.infoItem:hover {
+  box-shadow: 0 0 20px black;
+}
+
+.infoItemSelected {
+  padding: 10px;
+  width: 100%;
+  border: solid 1px #555;
+  max-width: 1420px;
   background-color: #fcfcfc;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
   -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
@@ -310,7 +343,6 @@ async function loadData() {
 }
 
 .holderInfo {
-  max-width: 1100px;
   padding: 2rem;
   margin: auto;
   width: 100%;
@@ -319,4 +351,6 @@ async function loadData() {
   flex-direction: column;
   align-items: center;
 }
+
+
 </style>
