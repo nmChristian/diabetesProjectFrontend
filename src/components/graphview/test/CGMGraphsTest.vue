@@ -53,7 +53,7 @@ const lastDayData = computed(() => props.cgm.filter(([date,]) => date > d3.timeD
 const frequencies = computed(() => getCGMOccurrences(lastDayData.value))
 
 
-const daysBack = 14
+const daysBack = 7
 const lastDaysBack = computed( ()  =>
     [...Array(daysBack).keys()].map<Date>((offset) => d3.timeDay(
         d3.timeDay.offset(lastDateInDataSet.value, -offset))).reverse()

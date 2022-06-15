@@ -6,13 +6,14 @@
 
 import type {Ref} from "vue";
 import {ref, watchEffect} from "vue";
-import elementTable from "@/services/graphs/generic/elementTable";
+import {elementTable} from "@/services/graphs/generic/elementTable";
+import type {ElementRow} from "@/services/graphs/generic/elementTable";
 
 const table : Ref<HTMLDivElement | null> = ref(null)
 
 
 const props = defineProps<{
-  elements : [Date, number[][]][]
+  elements : [Date, ElementRow[]][]
 }>()
 
 watchEffect(() => {
@@ -25,6 +26,7 @@ watchEffect(() => {
 <style>
 :root {
   --element-border-color: rgba(128, 128, 128, 0.4);
+  --element-header-border: 1px solid black;
 }
 .elementTable {
   border: 2px solid grey;
@@ -40,12 +42,23 @@ watchEffect(() => {
   font-size: 13px;
   opacity: 90%;
 }
-.elementTable tr {
+.elementTable th:last-child {
+  border-left: var(--element-header-border)
+}
+.elementTable tr th:first-child{
+  border-right: var(--element-header-border)
+}
+.elementTable tbody {
+  border: var(--element-header-border)
+}
+
+.elementTable tr .df{
   border: 1px solid var(--element-border-color);
 }
-.elementTable tr * {
+.elementTable tr * .df{
   border-right: 1px solid var(--element-border-color);
 }
+
 .elementTable th {
   font-weight: bold;
   font-size: 12px;
@@ -56,12 +69,21 @@ watchEffect(() => {
 }
 
 .elementTable .day {
+  vertical-align: text-top;
+
   width: 80px;
 }
-.elementTable tr:nth-child(odd) {
-  background-color: #f9f9f9;
+.elementTable .sub-title {
+  text-align: end;
+  width: 100px;
+  font-style: italic;
+  font-weight: normal;
 }
-.elementTable tr:nth-child(even) {
+
+.elementTable tbody:nth-child(even) {
+  background-color: #f7f7f7;
+}
+.elementTable tbody:nth-child(odd) {
   background-color: #ffffff;
 }
 </style>
