@@ -52,30 +52,33 @@ const accessiblelUsersPromise = backend.getViewvabel();
 
 let dataForAllUsers = backend.getCGMDataMGDLForAllWiewabel(daysBack);
 
+function medianDataToMedianAndData(values: number[]) : Point[]{
+  const re = []
+  for(let i = 0; i < values.length; i++){
+    re.push([i,  mMolPerLToMgPerL(values[i])] as Point)
+  }
+  return re
+}
 
 accessiblelUsersPromise.then((accessiblelUsers : Array<UserDetails>)  => {
 
   let tempList :  UserWithDate[] = []
 
-
-
-
-  dataForAllUsers.then((returnedDAta : {data: DateValue[], _id: any}[]) => {
+  dataForAllUsers.then((returnedDAta : {_id: any , patient: any ,values: number[]}[]) => {
     console.log(returnedDAta)
+    console.log(accessiblelUsers)
     for(let i = 0; i < accessiblelUsers.length; i++){
         for(let j = 0; j < accessiblelUsers.length; j++){
-          if(accessiblelUsers[i]._id.$oid === returnedDAta[j]._id.$oid){
+          if(accessiblelUsers[i]._id.$oid === returnedDAta[j].patient.$oid){
             let recivedUser = accessiblelUsers[i]
             let newUser = new UserWithDate()
-            //recivedUser.age =Math.round(Math.random()*100)
 
             newUser.user = recivedUser
 
             newUser.cpr = "Currently not used"
-
             //TODO Do some calculation
             newUser.healthLevel = Math.round(Math.random()*4)
-            newUser.medianDataInHours = dataToMedian( timeSeriesToDateValue(returnedDAta[j].data.cgm, mMolPerLToMgPerL), SPLIT_BY_DAY)
+            newUser.medianDataInHours = medianDataToMedianAndData(returnedDAta[j].values)
 
             tempList.push(newUser)
           }
@@ -94,8 +97,6 @@ accessiblelUsersPromise.then((accessiblelUsers : Array<UserDetails>)  => {
       return (a.healthLevel || 0) - (b.healthLevel || 0)
     })
     usersWithData.value = tempList
-
-
   })
 
 
