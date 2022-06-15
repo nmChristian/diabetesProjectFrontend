@@ -1,8 +1,18 @@
 <template>
   <h2>Table</h2>
-  <div style="display:flex; justify-content: center;">
+  <div style="display:flex;  flex-direction: column; align-items: center; justify-content: center;">
+    <div>
+      <select
+              style="font-size: 16px; text-align: center; width: 300px; height: 35px; border-radius: 20px;">
+        <option :value="d3.timeMonday">Monday</option>
+        <option :value="d3.timeSunday">Sunday</option>
+        <option :value="d3.timeMonth">Month</option>
+        <option :value="d3.timeHour">Hour</option>
+      </select>
+    </div>
+    <br>
     <element-table
-        :elements="cgmSplitIntoIntervals"
+        :elements="elements"
     />
   </div>
 </template>
@@ -11,8 +21,10 @@
 
 import ElementTable from "@/components/charts/generic/ElementTable.vue"
 import type {DateValue} from "@/services/core/datatypes";
+import {getCGMColor} from "@/services/core/datatypes";
 import {computed} from "vue";
 import * as d3 from "d3";
+import type {ElementRow} from "@/services/graphs/generic/elementTable";
 
 const props = defineProps<{
   cgm: DateValue[],
@@ -21,23 +33,38 @@ const props = defineProps<{
 
 const hourIncrement = 1 // MUST BE DIVISIBLE WITH 24
 
-function splitByHour (dateValues : DateValue[]) : number[][]{
+function splitByHour(dateValues: DateValue[]): number[][] {
   // Array containing numbers split into hours of day
-  const values : number[][] = [...Array(Math.ceil(24 / hourIncrement))].map(_ => [])
+  const values: number[][] = [...Array(Math.ceil(24 / hourIncrement))].map(_ => [])
   // Add to each based on hour
   dateValues.forEach(([date, value]) => values[Math.floor(date.getHours() / hourIncrement)].push(value))
   return values;
 }
-function manipulateData (valuesArray: number[][], methods : ((values : number[]) => (number | undefined))[]) : number[][] {
-  return valuesArray.map<number[]>( values => methods.map<number>(method => method(values) ?? NaN))
-}
 
+// Generate elements by adding titles to each row
+const elements = computed(() => {
+  const methods: [string, (values: number[]) => number | undefined][] =
+      [
+        ["mean", d3.mean],
+        ["median", d3.median],
+        ["min", d3.min],
+        ["max", d3.max],
+      ]
+  return cgmSplitIntoIntervals.value.map<[Date, ElementRow[]]>(([date, hoursValues]) =>
+      [
+        date,
+        methods.map<ElementRow>(([title, method]) => ({
+          title: title,
+          values: hoursValues.map<number>(values => method(values) ?? NaN).map<[number, string?]>(value => [value, getCGMColor(value)]),
+        }))
+      ])
+})
 const cgmSplitIntoIntervals = computed(() => {
   const splitByDay = d3.group(props.cgm, ([date,]) => d3.timeDay(date))
   const arrayOfDaysBackData = props.lastDaysBack.map<[Date, DateValue[]]>((date) => [date, splitByDay.get(date) ?? []])
 
   // Get each hour, and get the mean value
-  return arrayOfDaysBackData.map(([date, dateValues]) => [date, manipulateData(splitByHour(dateValues), [d3.mean,d3.min,d3.max])])
+  return arrayOfDaysBackData.map<[Date, number[][]]>(([date, dateValues]) => [date, splitByHour(dateValues)])
 })
 
 

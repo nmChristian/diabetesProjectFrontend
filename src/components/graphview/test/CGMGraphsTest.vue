@@ -1,14 +1,15 @@
 <template>
   <div>
+    <element-table-series
+        :cgm="daysBackCGM"
+        :last-days-back="lastDaysBack"
+    />
     <forecast-series
         :cgm="cgm"
         :meals="meals"
     />
     <t-i-r-daily-series :data="cgm"/>
-    <element-table-series
-      :cgm="daysBackCGM"
-      :last-days-back="lastDaysBack"
-    />
+
     <h3>24 Hour back Time in Range Graph</h3>
     <t-i-r-graph
         :colors="COLOR_SCHEME"
@@ -52,7 +53,7 @@ const lastDayData = computed(() => props.cgm.filter(([date,]) => date > d3.timeD
 const frequencies = computed(() => getCGMOccurrences(lastDayData.value))
 
 
-const daysBack = 14
+const daysBack = 7
 const lastDaysBack = computed( ()  =>
     [...Array(daysBack).keys()].map<Date>((offset) => d3.timeDay(
         d3.timeDay.offset(lastDateInDataSet.value, -offset))).reverse()
