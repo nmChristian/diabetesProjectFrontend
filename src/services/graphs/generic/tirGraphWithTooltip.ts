@@ -1,6 +1,11 @@
 import {GraphLayout} from "@/services/core/graphtypes";
 import {generateSVG} from "@/services/core/graphMethods";
 import * as d3 from "d3";
+import {setDevtoolsHook} from "vue";
+
+const tooltipDistance = 10
+const tooltipWidth = 45
+const tooltipHeight = 35
 
 export default function tirGraph(occurrences: number[], colors: string[], {
     graphLayout = new GraphLayout(50, 400, 10, 10, 10, 10),
@@ -8,6 +13,7 @@ export default function tirGraph(occurrences: number[], colors: string[], {
     rx = 3, ry = 3
 }) {
     const {width, height} = graphLayout
+    graphLayout.width += tooltipDistance + tooltipWidth
     const {out, svg} = generateSVG(graphLayout)
 
     // TODO: Force sizes and colors to be the same length
@@ -46,6 +52,7 @@ export default function tirGraph(occurrences: number[], colors: string[], {
         .style("fill-opacity", 0.9)
         .on("mouseover", function (e, d) {
             d3.select(this).transition().duration(300).style("fill-opacity", 0.6)
+            showTooltip(tooltip, (d * 100).toFixed(1).toString() + "%")
         })
         .on("mouseleave", function () {
             d3.select(this).transition().duration(100).style("fill-opacity", 0.9)
@@ -57,5 +64,27 @@ export default function tirGraph(occurrences: number[], colors: string[], {
         .attr("ry", ry)
 
 
+    const tooltip = svg.append("rect")
+        .attr("width", tooltipWidth)
+        .attr("height", tooltipHeight)
+        .attr("x", width + tooltipDistance)
+        .attr("rx", rx)
+        .attr("ry", ry)
+        .style("stroke", "black")
+        .style("fill", "transparent")
+
+    tooltip.append("text")
+
+
     return out
+}
+
+function showTooltip (tooltip : d3.Selection<SVGRectElement, undefined, null, undefined>, text : string) {
+    tooltip.style("visibility", "visible")
+    console.log(tooltip);
+    console.log(tooltip.select("text"));
+    tooltip.select("text").text(text)
+}
+function hideTooltip (tooltip : d3.Selection<SVGRectElement, undefined, null, undefined>) {
+    tooltip.style("visibility", "hidden")
 }
