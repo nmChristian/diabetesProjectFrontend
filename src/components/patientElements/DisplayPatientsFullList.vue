@@ -65,8 +65,6 @@ accessiblelUsersPromise.then((accessiblelUsers : Array<UserDetails>)  => {
   let tempList :  UserWithDate[] = []
 
   dataForAllUsers.then((returnedDAta : {_id: any , patient: any ,values: number[]}[]) => {
-    console.log(returnedDAta)
-    console.log(accessiblelUsers)
     for(let i = 0; i < accessiblelUsers.length; i++){
         for(let j = 0; j < accessiblelUsers.length; j++){
           if(accessiblelUsers[i]._id.$oid === returnedDAta[j].patient.$oid){
@@ -79,6 +77,14 @@ accessiblelUsersPromise.then((accessiblelUsers : Array<UserDetails>)  => {
             //TODO Do some calculation
             newUser.healthLevel = Math.round(Math.random()*4)
             newUser.medianDataInHours = medianDataToMedianAndData(returnedDAta[j].values)
+
+            let countUnder70 = 0
+            for(let i = 0; i < newUser.medianDataInHours; i++){
+              if(newUser.medianDataInHours[i][1] < 70){
+                countUnder70++
+              }
+            }
+            console.log(countUnder70)
 
             tempList.push(newUser)
           }
