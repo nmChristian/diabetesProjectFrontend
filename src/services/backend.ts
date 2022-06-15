@@ -15,10 +15,11 @@ class Backend {
     public getDataURL = () => this.url + "/data/get"
     public getDataURLPatient = (id : String) => this.url + "/data/"+ id +"/get"
     public getNameURL = () => this.url + "/user"
-    public getAllDataURL = () => this.url + "/data/get_all"
+    public getAllDataURL = () => this.url + "/data/get_previews"
     public getDiagnosisURL = (id: string) => this.url + "/diagnosis/" + id
 
     public async getUserDetails(): Promise<UserDetails> {
+        console.log("API key: " + getApiKey())
         const response = await axios.get(
             this.getNameURL(),
             this.generateHeader())
@@ -75,7 +76,7 @@ class Backend {
         return timeSeriesToDateValue(response.data.cgm, mMolPerLToMgPerL)
     }
 
-    public async getCGMDataMGDLForAllWiewabel (daysBack : number) : Promise<{data: DateValue[], _id: any}[]> {
+    public async getCGMDataMGDLForAllWiewabel (daysBack : number) : Promise<{ _id: any , patient: any ,values: number[]}[]> {
         const daysSinceLastData = d3.timeDays(new Date("2022-01-29"), new Date()).length
 
         const response = await axios.post(
