@@ -15,7 +15,8 @@ export default function forecastGraph(dateValues: DateValue[], timeInterval: Tim
                                       {
                                           graphLayout = new GraphLayout(800, 400, 20, 30, 20, 40),
                                           onBrushEnd = (event: d3.D3BrushEvent<any>) => {},
-                                          mealsData = [] as DateValue[]
+                                          mealsData = [] as DateValue[],
+                                          mealMaxValue = undefined as number | undefined
                                       }) {
     const {width, height} = graphLayout
     const {out, svg} = generateSVG(graphLayout)
@@ -102,29 +103,26 @@ export default function forecastGraph(dateValues: DateValue[], timeInterval: Tim
     }
 
 
-    if (mealsData !== []) {
+    if (mealsData !== [] && mealsData.length != 0) {
         // Limit size to the first line
-        const yMealScale = d3.scaleLinear(d3.extent(mealsData, ([,value]) => value) as [number, number], [height, yScale(CGM_TARGET[0])])
+        const yMealScale = d3.scaleLinear([0, mealMaxValue ?? d3.max(mealsData, ([,value]) => value) ?? 0], [height, yScale(CGM_TARGET[0])])
         svg.append("g")
             .selectAll("rect")
             .data(mealsData)
-            .join( enter => enter.append("rect")
-            .style("fill", LINE_COLOR)
-            .attr("x", ([date,]) => xScale(date))
-            .attr("width", 2)
-            .attr("y", () => yMealScale.range()[0])
-                .call(enter => enter.transition().duration(200)
-            .attr("height", ([, value]) => yMealScale(value) - yMealScale.range()[1])
-            .attr("y", ([, value]) => yMealScale.range()[0] - (yMealScale(value) - yMealScale.range()[1]))),
-            exit => exit
-            .attr("fill", "brown")
-            .call(exit => exit.transition().duration(1000)
-                .attr("y", 30)
-                .remove()),
-    )
+            .join("rect")
+                .style("fill", LINE_COLOR)
+                .attr("x", ([date,]) => xScale(date))
+                .attr("width", 2)
+                .attr("y", () => yMealScale.range()[0])
+                .transition().duration(200)
+                .attr("height", ([, value]) => yMealScale.range()[0] - yMealScale(value))
+                .attr("y", ([, value]) => yMealScale(value))
 
+        // Create axis
+        const mealAxis = d3.axisRight(yMealScale)
+            .tickValues(yMealScale.domain())
 
-
+        applyAxis(svg, mealAxis, {xOffset: width})
     }
 
     return {svg: out, xScale: xScale, brush: brush, brushGroup: brushGroup}

@@ -1,5 +1,11 @@
 <template>
   <div>
+    <ForecastSeries
+        :cgm="cgm"
+        :meals="meals"
+        :show-advanced="true"
+    />
+
     <ElementTableSeries
         :basal="daysBackData(basal, daysBack)"
         :bolus="daysBackData(bolus, daysBack)"
@@ -15,11 +21,7 @@
         :show-advanced="true"
     />
 
-    <ForecastSeries
-        :cgm="cgm"
-        :meals="meals"
-        :show-advanced="true"
-    />
+
 
     <RawSeries
         :basal="basal"

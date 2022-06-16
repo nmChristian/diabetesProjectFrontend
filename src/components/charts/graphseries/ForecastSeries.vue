@@ -9,10 +9,7 @@
                 style="font-size: 16px; text-align: center; width: 300px; height: 35px; border-radius: 20px;">
           <option :value="d3.timeMonday">Monday</option>
           <option :value="d3.timeSunday">Sunday</option>
-          <option :value="d3.timeMonth">Month</option>
-          <option :value="d3.timeHour">Hour</option>
         </select>
-
       </div>
       <div>
         <input
@@ -21,15 +18,18 @@
         <label for="mealsEnabled">Show meals</label>
       </div>
       <br>
-      </div>
-
+    </div>
     <div style="display: flex; justify-content: center;">
       <div>
         <Graph
             v-for="(graph, i) in graphs.values()"
             :svg="graph.svg"/>
       </div>
-      <div style="margin: auto 50px;">
+      <div style="margin: auto 10px; text-align: center;">
+        <div class="interval-indicator">
+          <p v-for="date in (selectedRange ?? [lastThreeIntervals[2], lastDateInDataSet])">
+            {{ d3.timeFormat("%a %H:%M [%d/%m]")(date) }}</p>
+        </div>
         <TIRGraph
             :colors="COLOR_SCHEME"
             :graph-layout="tirLayout"
@@ -72,9 +72,8 @@ const cgmSplitIntoIntervals = computed(() => d3.group(props.cgm, ([date,]) => in
 const mealsSplitIntoIntervals = computed(() => d3.group(props.meals, ([date,]) => interval.value(date)))
 
 const tirLayout = new GraphLayout(50, 250)
-const width = 900, marginLeft = 40, marginRight = 10
+const width = 900, marginLeft = 40, marginRight = 20
 const forecastLayout = new GraphLayout(width, 90, 15, marginRight, 20, marginLeft)
-const mealGraphLayout = new GraphLayout(width, 30, 10, marginRight, 30, marginLeft)
 
 // TIR methods
 const getDataBack = (dateValues: DateValue[], timeInterval: TimeInterval, back: number): DateValue[] =>
@@ -82,18 +81,17 @@ const getDataBack = (dateValues: DateValue[], timeInterval: TimeInterval, back: 
 
 
 const lastThreeMondaysData = computed(() => getDataBack(props.cgm, d3.timeMonday, 2))
-const lastDayData = computed(() => getDataBack(props.cgm, d3.timeDay, 1))
 
 const selectedData = computed((): DateValue[] => {
-  if (datesData.value === undefined)
+  if (selectedRange.value === undefined)
     return lastThreeMondaysData.value
 
-  const [start, stop] = datesData.value
+  const [start, stop] = selectedRange.value
   return props.cgm.filter(([date,]) => date >= start && date <= stop)
 })
 
 
-const datesData: Ref<[Date, Date] | undefined> = ref(undefined)
+const selectedRange: Ref<[Date, Date] | undefined> = ref(undefined)
 // THis
 let currentGraph: any = null;
 
@@ -106,11 +104,14 @@ const brushEvent = (event: d3.D3BrushEvent<any>) => {
 
   // Set data for the tir graph
   //@ts-ignore
-  datesData.value = event.selection?.map(nextGraph.xScale.invert) as [Date, Date]
+  selectedRange.value = event.selection?.map(nextGraph.xScale.invert) as [Date, Date]
 
   currentGraph = nextGraph
 }
 const graphs = computed(() => {
+      // Used to sync up all the axis'
+      const mealMaxValue = weeksBack.reduce((max, week) => Math.max(d3.max( mealsSplitIntoIntervals.value.get(lastThreeIntervals.value[week]) ?? [], ([, value]) => value) ?? 0,max), 0)
+
       const graphObjects =
           [...weeksBack].reverse().map((week) => {
             const cgmData = cgmSplitIntoIntervals.value.get(lastThreeIntervals.value[week]) ?? []
@@ -120,6 +121,7 @@ const graphs = computed(() => {
                   graphLayout: forecastLayout,
                   onBrushEnd: brushEvent,
                   mealsData: mealsEnabled.value ? mealsData : [],
+                  mealMaxValue: mealMaxValue
                 })
           })
       return new Map(graphObjects.map((graph) => [graph.brush, graph]))
@@ -133,4 +135,12 @@ const graphs = computed(() => {
 .forecast-series {
   padding: 10px 0 50px 0;
 }
+
+.interval-indicator {
+  font-size: 16px;
+  padding: 0 20px;
+  border-bottom: 3px solid black;
+  margin-bottom: 20px;
+}
+
 </style>
