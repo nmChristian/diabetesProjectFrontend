@@ -18,8 +18,8 @@
 
     <div v-if="isFullScreen || !$router.currentRoute.value.fullPath.toLowerCase().includes('list')"
          class="tableOfContext">
-      <p v-for="(item, index) in elemntsOnPage" @click="scrollToElement(item.id)"
-         :class="{markedTableOfContextItem :(index  === currentViewdElement) , unmarkedTableOfContextItem :(index  !== currentViewdElement) }">
+      <p v-for="(item, index) in elementsOnPage" @click="scrollToElement(item.id)"
+         :class="{markedTableOfContextItem :(index  === currentViewedElement) , unmarkedTableOfContextItem :(index  !== currentViewedElement) }">
         {{ item.text }} </p>
     </div>
 
@@ -74,11 +74,11 @@
       </div>
 
 
-      <div id="forcast"
-           @click="selectInfoSection('forcast')"
-           :class="selectedInfoSection !== 'forcast' ? 'infoItem' : 'infoItemSelected'">
+      <div id="forecast"
+           @click="selectInfoSection('forecast')"
+           :class="selectedInfoSection !== 'forecast' ? 'infoItem' : 'infoItemSelected'">
         <forecast-series :cgm="cgmInDateValue" :meals="mealsInDateValue"
-                         :showAdvanced="selectedInfoSection === 'forcast'"/>
+                         :showAdvanced="selectedInfoSection === 'forecast'"/>
       </div>
 
       <div id="big-table"
@@ -152,15 +152,15 @@ router.afterEach(() => {
 
 window.addEventListener("scroll", onScroll)
 
-const elemntsOnPage = [
+const elementsOnPage = [
   {id: "summary", text: "Summary"},
   {id: "diagnoseAndMedicine", text: "Diagnose And Medicine"},
   {id: "notesAndGoals", text: "Goals"},
-  {id: "forcast", text: "3 week overview"},
+  {id: "forecast", text: "3 week overview"},
   {id: "big-table", text: "Table of data"},
 ]
 
-let currentViewdElement = ref(0)
+let currentViewedElement = ref(0)
 
 function getProfilePicturePath() {
   if (currentPatient.value.profile_picture === undefined || currentPatient.value.profile_picture === "") {
@@ -185,17 +185,17 @@ function scrollToElement(id: string) {
 
 function onScroll() {
   if (window.top == undefined) {
-    currentViewdElement.value = 0
+    currentViewedElement.value = 0
     return
   }
 
-  for (let i = 0; i < elemntsOnPage.length; i++) {
-    if ((document.getElementById(elemntsOnPage[i].id) as HTMLDivElement).getBoundingClientRect().bottom > 70) {
-      currentViewdElement.value = i;
+  for (let i = 0; i < elementsOnPage.length; i++) {
+    if ((document.getElementById(elementsOnPage[i].id) as HTMLDivElement).getBoundingClientRect().bottom > 70) {
+      currentViewedElement.value = i;
       return;
     }
   }
-  currentViewdElement.value = elemntsOnPage.length - 1;
+  currentViewedElement.value = elementsOnPage.length - 1;
 }
 
 const currentPatient = ref({first_name: ""})
