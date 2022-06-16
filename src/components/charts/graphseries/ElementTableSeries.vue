@@ -8,13 +8,13 @@
     <div class="groups">
       <div class="group" v-for="(group, i) in dataGroups">
         <div>
-          <input type="checkbox" :id="getGroupId(i)" v-model="group.active"/>
+          <input type="checkbox" :id="getGroupId(i)" v-model="group.active.value"/>
           <label class="group-label" :for="getGroupId(i)">{{ group.title }}</label>
         </div>
         <div class="option" v-for="(option, j) in group.options">
-          <input type="radio" :name="getGroupId(i)" :id="getOptionId(i,j)" v-model="group.selectedOption"
+          <input type="radio" :name="getGroupId(i)" :id="getOptionId(i,j)" v-model="group.selectedOption.value"
                  :value="option"
-                 :disabled="!group.active"/>
+                 :disabled="!group.active.value"/>
           <label class="option-label" :for="getOptionId(i,j)">{{ option[0].toLowerCase() }}</label>
         </div>
       </div>
@@ -28,7 +28,7 @@ import ElementTable from "@/components/charts/generic/ElementTable.vue"
 import type {DateValue} from "@/services/core/datatypes";
 import {getCGMColor} from "@/services/core/datatypes";
 import type {ComputedRef, Ref} from "vue"
-import {computed, ref, watchEffect} from "vue";
+import {computed, reactive, ref, watchEffect} from "vue";
 import * as d3 from "d3";
 import type {ElementRow} from "@/services/graphs/generic/elementTable";
 import {select} from "d3";
@@ -60,20 +60,22 @@ function splitDataIntoIntervals(data: DateValue[]): number[][][] {
   return props.dates.map<number[][]>((date) => splitByHour(splitByDay.get(date) ?? []))
 }
 
-const elements = computed(() =>
-   props.dates.map<[Date, ElementRow[]]>((date, i) =>
-      [
-        date,
-        // For every group that is active
-        dataGroups.value.filter(({active}) => active).map<ElementRow>(({title, data, selectedOption,  colorMethod}) =>
-            ({
-              title: selectedOption[0] + " - " + title.toUpperCase(),
-              // Compute the values
-              values: data[i].map<number>(values => d3.mean(values) ?? NaN).map<[number, string?]>(value => [value, colorMethod(value)]),
-            })
-        )
-      ]
-  )
+const elements = computed(() => {
+  console.log(dataGroups[0]);
+  return props.dates.map<[Date, ElementRow[]]>((date, i) =>
+          [
+            date,
+            // For every group that is active
+            dataGroups.filter(({active}) => active.value).map<ElementRow>(({title, data, selectedOption, colorMethod}) =>
+                ({
+                  title: selectedOption.value[0] + " - " + title.toUpperCase(),
+                  // Compute the values
+                  values: data.value[i].map<number>(values => d3.mean(values) ?? NaN).map<[number, string?]>(value => [value, colorMethod(value)]),
+                })
+            )
+          ]
+      )
+    }
 )
 
 // Settings
@@ -83,23 +85,22 @@ const defaultColorMethod = () => ""
 
 class Group {
   title: string
-  data: ComputedRef<[Date, number[][]][]>
+  data: Ref<number[][][]>
   options: Option[]
   colorMethod: ColorMethod
   // Default selected options is false and not active by default
-  selectedOption: Option
-  active: boolean = false
+  selectedOption: Ref<Option>
+  active: Ref<boolean> = ref(false)
 
-  constructor(title: string, data: ComputedRef<[Date, number[][]][]>, colorMethod: ColorMethod = defaultColorMethod, options: Option[] = defaultOptions, defaultOption : number = 0) {
+  constructor(title: string, data: Ref<number[][][]>, colorMethod: ColorMethod = defaultColorMethod, options: Option[] = defaultOptions, defaultOption : number = 0) {
     this.title = title;
     this.data = data
     this.colorMethod = colorMethod
     this.options = options;
-    this.selectedOption = options[defaultOption]
+    this.selectedOption = ref(options[defaultOption])
   }
 }
-
-
+const splitCGM = computed( () => {console.log("hej"); return splitDataIntoIntervals(props.cgm)})
 const defaultOptions: Option[] = [
   ["mean", d3.mean],
   ["median", d3.median],
@@ -107,21 +108,21 @@ const defaultOptions: Option[] = [
   ["min", d3.min],
 ]
 const sumOptions : Option[] = [
-    ["sum", d3.sum],
+    ["sum", (values) => { const sum = d3.sum(values); return sum === 0 ? NaN : sum} ],
 ]
-const dataGroups: Ref<Group[]> = ref(
+const dataGroups: Group[] =
     [
-      new Group("CGM", computed( () => splitDataIntoIntervals(props.cgm)), getCGMColor),
+      new Group("CGM",  computed( () => splitDataIntoIntervals(props.cgm)), getCGMColor),
       new Group("Meal", computed( () => splitDataIntoIntervals(props.meals)), defaultColorMethod, sumOptions),
       new Group("Bolus", computed( () => splitDataIntoIntervals(props.bolus)), defaultColorMethod, sumOptions),
-      new Group("Basal", computed( () => splitDataIntoIntervals(props.basal))),
-    ] as Group[])
+      new Group("Basal", computed( () => splitDataIntoIntervals(props.basal))),//*/
+    ] as Group[]
 
 const getGroupId = (i: number) => "group-" + i
 const getOptionId = (i: number, j: number) => "option-" + i + "-" + j
 
 // Set first group to be active
-watchEffect(() => dataGroups.value[0].active = true)
+watchEffect(() => dataGroups[0].active.value = true)
 
 </script>
 
