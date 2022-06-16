@@ -5,7 +5,7 @@
         <p v-if="isDoctor" class="nodesHeader">Notes and goals</p>
         <p v-else class="nodesHeader">Goals</p>
         <!-- TODO format button -->
-        <button v-if="showAdvanced && isDoctor" @click="onNewClicked()" class="newNoteButton">New</button>
+        <button v-if="showAdvanced && isDoctor" @click="clearField()" class="newNoteButton">New</button>
       </div>
 
       <div class="noteList">
@@ -64,19 +64,23 @@ function deleteNote(){
   backend.deleteNote(props.data[selected.value]._id.$oid).then(() =>{
     emit("updateNotes")
   })
-  onNewClicked()
+  clearField()
 }
 
-function onNewClicked(){
+function clearField(){
   selected.value = -1
   noteText.value = ""
   canBeeSeenByPatient.value = false
 }
 
 function onSaveClicked(){
+  if(noteText.value === ""){
+    return
+  }
   if(selected.value === -1){
-    backend.postNote(props.id,noteText.value,!canBeeSeenByPatient.value).then(() => {
+    backend.postNote(props.id,noteText.value,!canBeeSeenByPatient.value).then((result) => {
       emit("updateNotes")
+      clearField()
     })
   }else{
     backend.updateNote(props.data[selected.value]._id.$oid,noteText.value,!canBeeSeenByPatient.value).then(() => {
