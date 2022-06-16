@@ -5,22 +5,23 @@
 			<div class="icon-container">
 				<img alt="" src="@/assets/logo.svg" @click="$router.push('/')"/>
 			</div>
-			<div class="icon-container">
-				<img alt="User icon" class=user-icon :src=imageSource @click="$router.push('/settings')"/>
-			</div>
-			<div>
-				<p id="currentUserName"></p>
-				<p id="currentUserEmail"></p>
-			</div>
+
+			<img alt="" class=navigation-icon src="@/assets/icons/gridViewIcon.svg"
+				 @click="$router.push('/DisplayPatients')"/>
+			<img alt="" class=navigation-icon src="@/assets/icons/listViewIcon.svg"
+				 @click="$router.push('/DisplayPatientsList')"/>
 		</div>
 
 		<input class="search-field" placeholder="Search" type="text">
 
 		<div class=right-content>
-			<img alt="" class=navigationIcon src="@/assets/icons/gridViewIcon.svg"
-				 @click="$router.push('/DisplayPatients')"/>
-			<img alt="" class=navigationIcon src="@/assets/icons/listViewIcon.svg"
-				 @click="$router.push('/DisplayPatientsList')"/>
+			<div class="user-info">
+				<p id="currentUserName"></p>
+				<p id="currentUserEmail"></p>
+			</div>
+			<div class="icon-container">
+				<img alt="User icon" class=user-icon :src=imageSource @click="$router.push('/settings')"/>
+			</div>
 		</div>
 
 	</div>
@@ -44,11 +45,12 @@ import {getProfilePictureUrl, defaultUrl} from "@/services/settingsProvider";
 function loadName() {
 	const userData = backend.getUserDetails();
 	userData.then(data => {
-		if (data && isAuthenticated()) {
-			(document.getElementById('currentUserName') as any).innerText = (data.last_name + ", " + data.first_name);
-			(document.getElementById('currentUserEmail') as any).innerText = data.email
+			if (data && isAuthenticated()) {
+				(document.getElementById('currentUserName') as HTMLParagraphElement).innerText = (data.last_name + ", " + data.first_name);
+				(document.getElementById('currentUserEmail') as HTMLParagraphElement).innerText = data.email;
+			}
 		}
-	})
+	)
 }
 
 export default defineComponent({
@@ -117,10 +119,19 @@ export default defineComponent({
 	margin-right: 1.5rem;
 }
 
-.user-icon {
-	width: inherit;
-	height: inherit;
-	border-radius: 50%;
+.navigation-icon {
+	border: 1px black solid;
+	background-color: white;
+	height: 55%;
+	aspect-ratio: 1 / 1;
+	margin: 5px;
+	padding: 3px;
+	border-radius: 6px;
+}
+
+.user-info {
+	animation: fadeIn 2s;
+	padding-right: 1rem;
 }
 
 .search-field {
@@ -145,14 +156,10 @@ export default defineComponent({
 	padding-right: 1rem;
 }
 
-.navigationIcon {
-	border: 1px black solid;
-	background-color: white;
-	height: 55%;
-	aspect-ratio: 1 / 1;
-	margin: 5px;
-	padding: 3px;
-	border-radius: 6px;
+.user-icon {
+	width: inherit;
+	height: inherit;
+	border-radius: 50%;
 }
 
 .spacer {
@@ -200,6 +207,15 @@ nav a {
 	display: inline-block;
 	padding: 0 1rem;
 	border-left: 1px solid var(--color-border);
+}
+
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
 }
 
 </style>
