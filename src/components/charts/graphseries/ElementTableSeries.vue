@@ -33,7 +33,10 @@ import type {ElementRow} from "@/services/graphs/generic/elementTable";
 
 const props = defineProps<{
   cgm: DateValue[],
-  lastDaysBack: Date[],
+  meals: DateValue[],
+  basal: DateValue[],
+  bolus: DateValue[],
+  dates: Date[],
 }>()
 
 
@@ -45,6 +48,11 @@ function splitByHour(dateValues: DateValue[]): number[][] {
   // Add to each based on hour
   dateValues.forEach(([date, value]) => values[Math.floor(date.getHours() / hourIncrement)].push(value))
   return values;
+}
+
+function splitDataIntoIntervals(data: DateValue[]): number[][][] {
+  const splitByDay = d3.group(data, ([date,]) => d3.timeDay(date))
+  return props.dates.map<number[][]>((date) => splitByHour(splitByDay.get(date) ?? []))
 }
 
 // Generate elements by adding titles to each row
@@ -70,23 +78,18 @@ const elements = computed(() => {
         ["min", d3.min],
         ["max", d3.max],
       ]
-  return cgmSplitIntoIntervals.value.map<[Date, ElementRow[]]>(([date, hoursValues]) =>
+  return props.dates.map<[Date, ElementRow[]]>((date, i) =>
       [
         date,
-        methods.map<ElementRow>(([title, method]) => ({
-          title: title,
-          values: hoursValues.map<number>(values => method(values) ?? NaN).map<[number, string?]>(value => [value, getCGMColor(value)]),
-        }))
-      ])
+        methods.map<ElementRow>(([title, method]) =>
+            ({
+              title: title,
+              values: splitDataIntoIntervals(props.cgm)[i].map<number>(values => method(values) ?? NaN).map<[number, string?]>(value => [value, getCGMColor(value)]),
+            })
+        )
+      ]
+  )
 })//*/
-const cgmSplitIntoIntervals = computed(() => {
-  const splitByDay = d3.group(props.cgm, ([date,]) => d3.timeDay(date))
-  const arrayOfDaysBackData = props.lastDaysBack.map<[Date, DateValue[]]>((date) => [date, splitByDay.get(date) ?? []])
-
-  // Get each hour, and get the mean value
-  return arrayOfDaysBackData.map<[Date, number[][]]>(([date, dateValues]) => [date, splitByHour(dateValues)])
-})
-
 
 // Settings
 type ColorMethod = (value: number) => string
@@ -94,7 +97,7 @@ type Option = [string, (values: number[]) => number | undefined]
 
 class Group {
   title: string
-  data: ComputedRef<[Date, number[][]][]>
+  data: ComputedRef<[Date, number[][]][]> | [Date, number[][]][]
   options: Option[]
   colorMethod: ColorMethod
   // Default selected options is false and not active by default
@@ -118,10 +121,10 @@ const defaultOptions: Option[] = [
 
 const dataGroups: Ref<Group[]> = ref(
     [
-      new Group("CGM", cgmSplitIntoIntervals, getCGMColor),
-      new Group("Meal", cgmSplitIntoIntervals),
-      new Group("Bolus", cgmSplitIntoIntervals),
-      new Group("Basal", cgmSplitIntoIntervals),
+      new Group("CGM", splitDataIntoIntervals(props.cgm), getCGMColor),
+      new Group("Meal", splitDataIntoIntervals(props.meals)),
+      new Group("Bolus", splitDataIntoIntervals(props.bolus)),
+      new Group("Basal", splitDataIntoIntervals(props.basal)),
     ] as Group[])
 
 const getGroupId = (i: number) => "group-" + i

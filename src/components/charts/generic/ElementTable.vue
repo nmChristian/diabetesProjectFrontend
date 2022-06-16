@@ -3,7 +3,6 @@
 </template>
 
 <script lang="ts" setup>
-
 import type {Ref} from "vue";
 import {ref, watchEffect} from "vue";
 import {elementTable} from "@/services/graphs/generic/elementTable";
