@@ -89,7 +89,6 @@ class Backend {
     }
 
     public async postNote(id: string , text: string , isPrivate :boolean ): Promise<Note[]> {
-        console.log(getApiKey())
         const response = await axios.post(
             this.getNotesURL(id),
             {text : text , private: isPrivate},
@@ -99,7 +98,6 @@ class Backend {
     }
 
     public async updateNote(idNote: string , text: string , isPrivate :boolean ): Promise<Note[]> {
-        console.log(getApiKey())
         const response = await axios.put(
             this.getNotesURL(idNote),
             {text : text , private: isPrivate},

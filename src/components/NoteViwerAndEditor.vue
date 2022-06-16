@@ -86,6 +86,7 @@ console.log(props.data)
   padding: 10px;
   border-radius: 10px;
   text-align: start;
+  resize: none;
 }
 .noterMain{
   display: grid;
