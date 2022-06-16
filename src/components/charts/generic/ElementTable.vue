@@ -13,11 +13,12 @@ const table : Ref<HTMLDivElement | null> = ref(null)
 
 const props = defineProps<{
   elements : [Date, ElementRow[]][]
+  columns : number[]
 }>()
 
 watchEffect(() => {
   table.value?.children[0]?.remove();
-  table.value?.append(elementTable(props.elements))
+  table.value?.append(elementTable(props.elements, props.columns))
 })
 
 </script>
