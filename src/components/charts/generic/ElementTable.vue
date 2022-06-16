@@ -16,14 +16,13 @@
       </thead>
 
       <tbody v-for="[date, rows] in elements">
-      <tr v-for="({title, valueColors}, i) in rows"
+      <tr v-for="({title, values}, i) in rows"
           :class="i === 0 ? 'first-row' : i === (rows.length - 1) ? 'last-row' : 'center-row'">
-
         <th v-if="i === 0" class="day" rowspan="0">
           {{d3.timeFormat("%a %e/%m")(date)}}
         </th>
 
-        <td v-for="[value,color] in valueColors" :style="dataStyle(value, color)">
+        <td v-for="[value,color] in values" :style="dataStyle(value, color)">
           {{isNaN(value) ? "" : value.toFixed(0)}}
         </td>
 
