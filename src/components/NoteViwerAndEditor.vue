@@ -1,10 +1,14 @@
 <template>
   <div class="noterMain">
-    <div class="leftContainer">
+    <div :class="showAdvanced ? 'leftContainer' : 'leftContainerNormal'">
       <p v-if="isDoctor" class="nodesHeader">Notes and goals</p>
       <p v-else class="nodesHeader">Goals</p>
       <div class="noteList">
-        <p v-if="data.length===0">No notes registered for patient</p>
+        <template v-if="data.length===0">
+          <p v-if="isDoctor">No notes registered for patient</p>
+          <p v-else>No goals registered</p>
+        </template>
+
 
         <template v-for="(item, index) in data">
           <div class="noteItem" @click="noteClicked(index)">
@@ -14,11 +18,12 @@
         </template>
       </div>
     </div>
-    <div class="noteEditor" id="noteTextField">
+    <div v-if="showAdvanced" class="noteEditor" id="noteTextField">
       <textarea  v-model="noteText" class="textField" :readonly="!isDoctor"></textarea>
       <button @click="onSaveClicked()">Save</button>
       <input type="checkbox" v-model="canBeeSeenByPatient">
     </div>
+    <div v-else style="width: 0px"></div>
   </div>
 </template>
 
@@ -32,7 +37,8 @@ import backend from "@/services/backend";
 const props = defineProps<{
       data: Note[],
       isDoctor: boolean,
-      id: string
+      id: string,
+      showAdvanced: boolean
 }>()
 
 const emit = defineEmits<{
@@ -57,6 +63,7 @@ function onSaveClicked(){
 function noteClicked(index : number){
 
   noteText.value = props.data[index].text;
+  canBeeSeenByPatient.value = !props.data[index].private
   selected.value = index;
 }
 
@@ -74,7 +81,7 @@ console.log(props.data)
   font-size: 30px;
 }
 .textField{
-  height: 80%;
+  height: 90%;
   width: 100%;
   padding: 10px;
   border-radius: 10px;
@@ -95,10 +102,16 @@ console.log(props.data)
   padding: 10px;
   height: 500px;
 }
+.leftContainerNormal{
+  min-width: 300px;
+  width: 100%;
+  padding: 10px;
+  height: 300px;
+}
 .noteList{
   min-width: 300px;
-  margin: 10px;
-  height: 420px;
+  margin: 10px 0 10px 10px;
+  max-height: calc(100% - 55px);
   overflow: auto;
   border-right: 1px black solid;
 }

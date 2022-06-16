@@ -49,11 +49,19 @@
         <p v-else>No diagnosis registered for this patient</p>
       </div>
 
-      <NoteViwerAndEditor class="infoItemSelected"
-          @updateNotes = "updateNotes()"
-          :data="notes"
-          :is-doctor="true /*currentUser.is_doctor || false*/"
-          :id="'62a9c246882873adfb9616a8'"></NoteViwerAndEditor>
+      <div id="notesAndGoals"
+           :class="selectedInfoSection !== 'notesAndGoals' ? 'infoItemSmall' : 'infoItemSelected'"
+           @click="selectInfoSection('notesAndGoals')">
+        <NoteViwerAndEditor
+                @click="selectInfoSection('notesAndGoals')"
+                @updateNotes = "updateNotes()"
+                :data="notes"
+                :is-doctor="true /*currentUser.is_doctor || false*/"
+                :id="'62a9c246882873adfb9616a8'"
+                :showAdvanced="selectedInfoSection === 'notesAndGoals'"
+        ></NoteViwerAndEditor>
+      </div>
+
 
       <div id="forcast"
            @click="selectInfoSection('forcast')"
@@ -129,6 +137,7 @@ window.addEventListener("scroll", onScroll)
 const elemntsOnPage = [
   {id: "summary",text: "Summary"},
   {id: "diagnoseAndMedicine", text: "Diagnose And Medicine"},
+  {id: "notesAndGoals" , text: "Goals"},
   {id: "forcast", text: "3 week overview"},
   {id: "testAScroll1", text: "testAScroll1"},   {id: "testAScroll2", text: "testAScroll2"},   {id: "testAScroll3", text: "testAScroll3"},   {id: "testAScroll4", text: "testAScroll4"}]
 
@@ -323,6 +332,21 @@ async function loadData() {
   -o-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
   border-radius: 25px;
   margin: 10px;
+}
+.infoItemSmall{
+  max-width: 400px;
+  width: min-content;
+  border: solid 1px #555;
+  background-color: #fcfcfc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  -o-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  border-radius: 25px;
+  margin: 10px;
+}
+.infoItemSmall:hover {
+  box-shadow: 0 0 20px black;
 }
 .infoItem:hover {
   box-shadow: 0 0 20px black;
