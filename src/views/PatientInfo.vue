@@ -270,12 +270,10 @@ async function loadData() {
 
   backend.getDataPatient(21, ["cgm", "meals", "basal", "bolus"],id).then((response) => {
     cgmInDateValue.value = timeSeriesToDateValue(response.cgm, mMolPerLToMgPerL)
-    console.log(cgmInDateValue.value)
+
     mealsInDateValue.value = timeSeriesToDateValue(response.meals)
     basalInDateValue.value = timeSeriesToDateValue(response.basal)
     bolusInDateValue.value = timeSeriesToDateValue(response.bolus)
-
-    console.log(new Date())
 
     cgmInDateValueLastSeven.value = cgmInDateValue.value.filter(([date,]) => date > d3.timeDay.offset( new Date() , -7))
 
