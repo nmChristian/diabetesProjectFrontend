@@ -1,32 +1,36 @@
 <template>
 	<div class="top-bar">
-		<div class="user-icon-container">
-			<img alt="User icon" class=user-icon :src=imageSource @click="$router.push('/settings')"/>
+
+		<div class="left-content">
+			<div class="icon-container">
+				<img alt="" src="@/assets/logo.svg" @click="$router.push('/')"/>
+			</div>
+			<div class="icon-container">
+				<img alt="User icon" class=user-icon :src=imageSource @click="$router.push('/settings')"/>
+			</div>
+			<div>
+				<p id="currentUserName"></p>
+				<p id="currentUserEmail"></p>
+			</div>
 		</div>
 
-		<div class=currentUserInfo>
-			<p id="currentUserName"></p>
-			<p id="currentUserEmail"></p>
-		</div>
+		<input class="search-field" placeholder="Search" type="text">
 
-		<input class=searchField placeholder="Search bar (not functional)" type="text">
-		<div v-if="String(this.$router.currentRoute.value.fullPath).toLowerCase().includes('displaypatients')"
-			 class=iconGroup>
+		<div class=right-content>
 			<img alt="" class=navigationIcon src="@/assets/icons/gridViewIcon.svg"
 				 @click="$router.push('/DisplayPatients')"/>
-			<img alt="" class=navigationIcon
-				 src="@/assets/icons/listViewIcon.svg"
+			<img alt="" class=navigationIcon src="@/assets/icons/listViewIcon.svg"
 				 @click="$router.push('/DisplayPatientsList')"/>
 		</div>
+
 	</div>
 
-	<div class="spacer"></div>
+	<div class="spacer"/>
 
 	<div id="content-view" class="content-view">
 		<header>
 			<div class="wrapper">
 				<nav>
-					<RouterLink to="/">Home</RouterLink>
 					<RouterLink to="/GraphView">Graph demo</RouterLink>
 					<RouterLink to="/DisplayPatients"> display patients</RouterLink>
 					<RouterLink to="/DisplayPatientsList"> display patients list</RouterLink>
@@ -70,6 +74,12 @@ export default defineComponent({
 			if (fromPath === '/sign-in' || fromPath === '/sign-up' || fromPath === '/settings') {
 				this.initialize()
 			}
+			const rightContent = document.querySelector('.right-content') as HTMLDivElement
+			if (to.fullPath.toLowerCase().includes('displaypatients')) {
+				rightContent.style.visibility = 'visible'
+			} else {
+				rightContent.style.visibility = 'hidden'
+			}
 		}
 	},
 	data() {
@@ -94,42 +104,60 @@ export default defineComponent({
 <style>
 @import '@/assets/base.css';
 
-.searchField {
-	/*TODO Sikre den altid er holder samme pos. ligemeget om ikonerne til højre er der*/
-	height: 70%;
-	width: 300px;
-	margin: auto;
-	opacity: 30%;
-	border-radius: 10px;
-}
-
-.spacer {
-	height: 75px;
-}
-
-.iconGroup {
-	padding-right: 10px;
-	height: 100%;
-	display: flex;
-	align-items: center;
-}
-
-.content-view {
-	padding: 0;
-	margin: 100px;
-}
-
 .top-bar {
 	z-index: 10;
 	height: 75px;
 	width: 100%;
-	top: 0;
-	left: 0;
 	background-color: lightgrey;
 	display: flex;
 	align-items: center;
 	position: fixed;
-	border-bottom: 1px grey solid;
+	justify-content: space-between;
+}
+
+.left-content {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	padding-left: 1rem;
+}
+
+.icon-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 55px;
+	height: 55px;
+	margin-right: 1.5rem;
+}
+
+.user-icon {
+	width: inherit;
+	height: inherit;
+	border-radius: 50%;
+}
+
+.search-field {
+	outline: none;
+	height: 40%;
+	width: 20%;
+	background: var(--color-background-mute);
+	border: 1px solid var(--vt-c-black);
+	border-radius: 8px;
+	font-size: 120%;
+}
+
+.search-field:focus {
+	border: 1px solid var(--color-primary);
+	background: var(--vt-c-white);
+}
+
+.right-content {
+	height: 100%;
+	display: flex;
+	align-items: center;
+	padding-right: 1rem;
 }
 
 .navigationIcon {
@@ -142,17 +170,16 @@ export default defineComponent({
 	border-radius: 6px;
 }
 
-.user-icon-container {
-	width: 55px;
-	height: 55px;
-	margin: 0.75rem;
+.spacer {
+	height: 75px;
 }
 
-.user-icon {
-	width: inherit;
-	height: inherit;
-	border-radius: 50%;
+
+.content-view {
+	padding: 0;
+	margin: 100px;
 }
+
 
 #content-view {
 	margin: 0 auto;
