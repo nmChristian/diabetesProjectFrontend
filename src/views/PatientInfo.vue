@@ -63,7 +63,7 @@
               @updateNotes="updateNotes()"
               :data="notes"
               :is-doctor="loggedInUser.is_doctor || false"
-              :id="'62a9c246882873adfb9616a8'"
+              :id="String(router.currentRoute.value.params.id) || '0'"
               :showAdvanced="selectedInfoSection === 'notesAndGoals'"
           ></NoteViwerAndEditor>
         </div>
