@@ -1,9 +1,6 @@
 <template>
   <div>
-    <element-table-series
-        :cgm="daysBackCGM"
-        :last-days-back="lastDaysBack"
-    />
+
     <c-g-m-legend/>
     <t-i-r-graph :occurrences="frequencies" :colors="COLOR_SCHEME"/>
     <t-i-r-daily-series :data="cgm"/>
@@ -13,13 +10,20 @@
         :meals="meals"
         :showAdvanced="false"
     />
+
+    <element-table-series
+        :basal="daysBackData(basal, daysBack)"
+        :bolus="daysBackData(bolus, daysBack)"
+        :cgm="daysBackData(cgm, daysBack)"
+        :meals="daysBackData(meals, daysBack)"
+        :dates="dates"
+    />
     <raw-series
         :basal="basal"
         :bolus="bolus"
         :cgm="cgm"
         :meals="meals"
     />
-
   </div>
 </template>
 
@@ -45,6 +49,7 @@ const props = defineProps<{
   bolus: DateValue[],
 }>()
 
+
 // TIR Methods
 const lastDateInDataSet = computed(() => props.cgm.length === 0 ? new Date() : props.cgm[props.cgm.length - 1][0])
 
@@ -53,11 +58,11 @@ const frequencies = computed(() => getCGMOccurrences(lastDayData.value))
 
 
 const daysBack = 7
-const lastDaysBack = computed( ()  =>
+const dates = computed( ()  =>
     [...Array(daysBack).keys()].map<Date>((offset) => d3.timeDay(
-        d3.timeDay.offset(lastDateInDataSet.value, -offset))).reverse()
-)
-const daysBackCGM = computed(() => props.cgm.filter(([date,]) => date > d3.timeDay.offset(lastDateInDataSet.value, -daysBack)))
+        d3.timeDay.offset(lastDateInDataSet.value, -offset))).reverse())
+
+const daysBackData = (data : DateValue[], daysBack : number) => data.filter(([date,]) => date > d3.timeDay.offset(lastDateInDataSet.value, -daysBack))
 
 </script>
 
