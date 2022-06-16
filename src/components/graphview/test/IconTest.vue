@@ -1,24 +1,24 @@
 <template>
   <div>
     <h1>Icon graphs</h1>
-    <icon-graph
+    <IconGraph
         :health-level="HealthLevel.Good"
         :median-data-in-hours="medianCGMInHours"
     />
 
-    <icon-graph
+    <IconGraph
         :health-level="HealthLevel.High"
         :median-data-in-hours="medianCGMInHours"
     />
-    <icon-graph
+    <IconGraph
         :health-level="HealthLevel.VeryHigh"
         :median-data-in-hours="medianCGMInHours"
     />
-    <icon-graph
+    <IconGraph
         :health-level="HealthLevel.Low"
         :median-data-in-hours="medianCGMInHours"
     />
-    <icon-graph
+    <IconGraph
         :health-level="HealthLevel.VeryLow"
         :median-data-in-hours="medianCGMInHours"
     />

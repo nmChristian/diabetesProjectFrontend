@@ -30,7 +30,7 @@
             :svg="graph.svg"/>
       </div>
       <div style="margin: auto 50px;">
-        <t-i-r-graph
+        <TIRGraph
             :colors="COLOR_SCHEME"
             :graph-layout="tirLayout"
             :occurrences="getCGMOccurrences(selectedData)"

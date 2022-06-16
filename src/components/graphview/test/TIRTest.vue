@@ -2,7 +2,7 @@
   <div>
     <h1>Here is a TIR graph</h1>
     <div class="graphs">
-      <t-i-r-graph
+      <TIRGraph
           v-for="offset in [5,0,10,20,50]"
           :colors="COLOR_SCHEME"
           :graph-layout="layout"
@@ -12,20 +12,20 @@
     </div>
     <h2>Testing offset</h2>
     <div class="graphs">
-      <t-i-r-graph
+      <TIRGraph
           v-for="offset in [5, 0]"
           :colors="COLOR_SCHEME"
           :graph-layout="layout"
           :occurrences="[0.2, 0.1, 0.2, 0.3, 0.2]"
           :offset="offset"
       />
-      <t-i-r-graph
+      <TIRGraph
           :colors="COLOR_SCHEME"
           :graph-layout="layout"
           :occurrences="[0.2, 0, 0.2, 0.3, 0.3]"
           :offset="5"
       />
-      <t-i-r-graph
+      <TIRGraph
           :colors="COLOR_SCHEME"
           :graph-layout="layout"
           :occurrences="[0.5, 0.2, 0, 0.3, 0]"

@@ -3,7 +3,7 @@
     <h2>Raw Data Graph Series</h2>
     <div v-for="dataset in datasets">
       <p>{{ dataset.title }}</p>
-      <graph
+      <Graph
           :svg="dataset.graph"
       />
     </div>

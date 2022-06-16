@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Here is a working quantile graph</h1>
-    <quantile-graph
+    <QuantileGraph
         :bucket-series-of-quantiles="bucketSeriesOfQuantiles"
         :median-data-in-hours="medianCGMInHours"
         :quantiles-used-in-bucket="quantiles"

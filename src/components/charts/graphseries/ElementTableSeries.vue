@@ -14,7 +14,7 @@
         </div>
       </div>
     </div>
-    <element-table
+    <ElementTable
         :elements="elements"
         :columns="columns"
     />

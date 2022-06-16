@@ -2,19 +2,19 @@
   <div>
 
     <c-g-m-legend/>
-    <t-i-r-graph :occurrences="frequencies" :colors="COLOR_SCHEME"/>
-    <t-i-r-daily-series
+    <TIRGraph :occurrences="frequencies" :colors="COLOR_SCHEME"/>
+    <TIRDailySeries
         :data="cgm"
         :show-advanced="true"
     />
 
-    <forecast-series
+    <ForecastSeries
         :cgm="cgm"
         :meals="meals"
         :show-advanced="true"
     />
 
-    <element-table-series
+    <ElementTableSeries
         :basal="daysBackData(basal, daysBack)"
         :bolus="daysBackData(bolus, daysBack)"
         :cgm="daysBackData(cgm, daysBack)"
@@ -23,7 +23,7 @@
         :show-advanced="true"
 
     />
-    <raw-series
+    <RawSeries
         :basal="basal"
         :bolus="bolus"
         :cgm="cgm"

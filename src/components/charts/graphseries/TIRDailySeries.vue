@@ -15,7 +15,7 @@
     <div class="tir-graphs">
       <div v-for="(hour, i) in hours">
         <p>{{ hour }} - {{ hours[i + 1] ?? 24 }}</p>
-        <t-i-r-graph
+        <TIRGraph
             :colors="colors"
             :graph-layout="graphLayout"
             :occurrences="occurrences[i]"
