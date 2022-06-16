@@ -80,7 +80,7 @@ function getToolTip(): HTMLDivElement {
         tooltip = document.createElement("div")
         tooltip.id = tooltipId
         document.body.append(tooltip)
-        tooltip.style.opacity = "1"
+        tooltip.style.opacity = "0"
         tooltip.style.backgroundColor = "white"
         tooltip.style.border = "solid"
         tooltip.style.borderWidth = "2px"

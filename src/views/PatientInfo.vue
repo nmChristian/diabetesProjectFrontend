@@ -109,27 +109,40 @@
         />
       </graph-section>
 
+      <graph-section
+          id="raw-series"
+          :currently-selected="selectedInfoSection"
+          @selected-section="selectInfoSection">
+        <RawSeries
+            :basal="daysBackData(basalInDateValue, daysBack)"
+            :bolus="daysBackData(bolusInDateValue, daysBack)"
+            :cgm="daysBackData(cgmInDateValue, daysBack)"
+            :meals="daysBackData(mealsInDateValue, daysBack)"
+            :showAdvanced="selectedInfoSection === 'raw-series'"
+        />
+      </graph-section>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import TIRDailySeries from "@/components/charts/graphseries/TIRDailySeries.vue";
+import * as d3 from "d3";
 import router from "../router";
-import ForecastSeries from "@/components/charts/graphseries/ForecastSeries.vue";
 import backend from "../services/backend";
 import type {DateValue} from "@/services/core/datatypes"
 import {getCGMOccurrences, mMolPerLToMgPerL, timeSeriesToDateValue} from "@/services/core/datatypes";
 import type {Ref} from "vue"
 import {computed, onMounted, ref} from "vue";
+import {COLOR_SCHEME} from "@/services/core/shared";
 import type {Diagnosis, Note, UserDetails} from "@/services/core/dbtypes";
 import ElementTableSeries from "@/components/charts/graphseries/ElementTableSeries.vue"
 import NoteViwerAndEditor from "@/components/NoteViwerAndEditor.vue";
 import TIRGraph from "@/components/charts/generic/TIRGraph.vue";
-import * as d3 from "d3";
-import {COLOR_SCHEME} from "@/services/core/shared";
 import CGMLegend from "@/components/charts/CGMLegend.vue";
 import GraphSection from "@/components/patientElements/GraphSection.vue";
+import RawSeries from "@/components/charts/graphseries/RawSeries.vue";
+import TIRDailySeries from "@/components/charts/graphseries/TIRDailySeries.vue";
+import ForecastSeries from "@/components/charts/graphseries/ForecastSeries.vue";
 
 const loggedInUser = ref({first_name: ""} as UserDetails)
 onMounted(() => {

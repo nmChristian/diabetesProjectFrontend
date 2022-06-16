@@ -1,11 +1,13 @@
 <template>
   <div>
     <h2>Raw Data Graph Series</h2>
-    <div v-for="dataset in datasets">
-      <p>{{ dataset.title }}</p>
-      <Graph
-          :svg="dataset.graph"
-      />
+    <div v-if="showAdvanced" class="graphs">
+      <div v-for="dataset in datasets">
+        <p>{{ dataset.title }}</p>
+        <Graph
+            :svg="dataset.graph"
+        />
+      </div>
     </div>
   </div>
 
@@ -25,6 +27,7 @@ const props = defineProps<{
   meals: DateValue[],
   basal: DateValue[],
   bolus: DateValue[],
+  showAdvanced: boolean
 }>()
 // Zip titles and values
 const datasets = computed(() => titles.map((title, i) => ({
@@ -36,9 +39,7 @@ const datasets = computed(() => titles.map((title, i) => ({
 const titles = ["CGM", "MEALS", "BASAL", "BOLUS"]
 const values = computed(() => [props.cgm, props.meals, props.basal, props.bolus])
 const graphs = computed(() => values.value.map((data, i) => {
-  if (i == 3)
-    return dotGraph(data, {graphLayout: graphLayout})
-  if (i == 1)
+  if (i == 1 || i == 3)
     return barGraph(data, {graphLayout: graphLayout})
   else
     return lineGraph(data, {graphLayout: graphLayout})
@@ -46,3 +47,6 @@ const graphs = computed(() => values.value.map((data, i) => {
 
 const graphLayout = new GraphLayout(1000, 150, 20, 20, 20, 40)
 </script>
+
+<style scoped>
+</style>
