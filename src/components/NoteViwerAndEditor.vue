@@ -1,16 +1,18 @@
 <template>
   <div class="noterMain">
-    <div class="noteList">
+    <div class="leftContainer">
       <p v-if="isDoctor" class="nodesHeader">Notes and goals</p>
       <p v-else class="nodesHeader">Goals</p>
-      <p v-if="data.length===0">No notes registered for patient</p>
+      <div class="noteList">
+        <p v-if="data.length===0">No notes registered for patient</p>
 
-      <template v-for="(item, index) in data">
-        <div class="noteItem" @click="noteClicked(index)">
-          <p>{{item.timestamp.$date.slice(0,10)}}</p>
-          <p>{{item.text.slice(0,20) + "..."}}</p>
-        </div>
-      </template>
+        <template v-for="(item, index) in data">
+          <div class="noteItem" @click="noteClicked(index)">
+            <p>{{item.timestamp.$date.slice(0,10)}}</p>
+            <p>{{item.text.slice(0,20) + "..."}}</p>
+          </div>
+        </template>
+      </div>
     </div>
     <div class="noteEditor" id="noteTextField">
       <textarea  v-model="noteText" class="textField" :readonly="!isDoctor"></textarea>
@@ -79,11 +81,39 @@ console.log(props.data)
   border-bottom: 1px black solid;
   padding-bottom: 10px;
 }
-.noteList{
+.leftContainer{
   min-width: 300px;
   padding: 10px;
+  max-height: 100%;
+}
+.noteList{
+  min-width: 300px;
+  max-height: 500px;
   margin: 10px;
+  overflow: auto;
   border-right: 1px black solid;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: lightgray;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: grey;
 }
 
 
