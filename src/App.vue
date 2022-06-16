@@ -76,9 +76,23 @@ export default defineComponent({
 	},
 	methods: {
 		initialize() {
+			this.addScrollListener()
 			loadName()
 			getProfilePictureUrl().then(url => {
 				this.imageSource = url
+			})
+
+		},
+		addScrollListener() {
+			let lastScrollTop: number;
+			window.addEventListener('scroll', function () {
+				let scrollTop = window.scrollY || document.documentElement.scrollTop;
+				if (scrollTop > lastScrollTop) {
+					(document.querySelector('.top-bar') as HTMLDivElement).style.top = '-75px';
+				} else {
+					(document.querySelector('.top-bar') as HTMLDivElement).style.top = '0';
+				}
+				lastScrollTop = scrollTop
 			})
 
 		}
@@ -100,6 +114,7 @@ export default defineComponent({
 	align-items: center;
 	position: fixed;
 	justify-content: space-between;
+	transition: 0.5s;
 }
 
 .left-content {
