@@ -106,6 +106,14 @@ class Backend {
         return response.data
     }
 
+    public async deleteNote(idNote: string): Promise<Note[]> {
+        const response = await axios.delete(
+            this.getNotesURL(idNote),
+            this.generateHeader())
+
+        return response.data
+    }
+
     public async getCGMDataMGDLForAllWiewabel(daysBack: number): Promise<{ _id: any, patient: any, values: number[] }[]> {
         const daysSinceLastData = d3.timeDays(new Date("2022-01-29"), new Date()).length
 

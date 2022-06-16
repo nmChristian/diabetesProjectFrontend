@@ -16,7 +16,7 @@
 
 
         <template v-for="(item, index) in data">
-          <div class="noteItem" @click="noteClicked(index)">
+          <div :class="index === selected ? 'noteItemselected' : 'noteItem'" @click="noteClicked(index)">
             <p>{{item.timestamp.$date.slice(0,10)}}</p>
             <p>{{item.text.slice(0,20) + "..."}}</p>
           </div>
@@ -27,7 +27,7 @@
       <textarea  v-model="noteText" class="textField" :readonly="!isDoctor"></textarea>
       <div v-if="isDoctor">
         <button @click="onSaveClicked()">{{selected === -1 ? 'Save as new' : 'Save edit'}}</button>
-        <button>Delete note</button>
+        <button v-if="selected !== -1" @click="deleteNote()">Delete note</button>
         <input type="checkbox" v-model="canBeeSeenByPatient">
         <label style="padding: 5px">{{canBeeSeenByPatient ? 'Note is visible to patient' : "Note is not visible to patient"}}</label>
       </div>
@@ -60,6 +60,13 @@ const noteText = ref("")
 
 const canBeeSeenByPatient = ref(false)
 
+function deleteNote(){
+  backend.deleteNote(props.data[selected.value]._id.$oid).then(() =>{
+    emit("updateNotes")
+  })
+  onNewClicked()
+}
+
 function onNewClicked(){
   selected.value = -1
   noteText.value = ""
@@ -68,9 +75,13 @@ function onNewClicked(){
 
 function onSaveClicked(){
   if(selected.value === -1){
-    backend.postNote(props.id,noteText.value,!canBeeSeenByPatient.value)
+    backend.postNote(props.id,noteText.value,!canBeeSeenByPatient.value).then(() => {
+      emit("updateNotes")
+    })
   }else{
-    backend.updateNote(props.data[selected.value]._id.$oid,noteText.value,!canBeeSeenByPatient.value)
+    backend.updateNote(props.data[selected.value]._id.$oid,noteText.value,!canBeeSeenByPatient.value).then(() => {
+      emit("updateNotes")
+    })
   }
   emit("updateNotes")
 }
@@ -119,6 +130,12 @@ console.log(props.data)
   width: 100%;
   border-bottom: 1px black solid;
   padding-bottom: 10px;
+}
+.noteItemselected{
+  width: 100%;
+  border-bottom: 1px black solid;
+  padding-bottom: 10px;
+  background-color: lightsteelblue;
 }
 .leftContainer{
   min-width: 300px;
