@@ -1,6 +1,10 @@
 <template>
   <div class="noterMain">
     <div class="noteList">
+      <p v-if="isDoctor" class="nodesHeader">Notes and goals</p>
+      <p v-else class="nodesHeader">Goals</p>
+      <p v-if="data.length===0">No notes registered for patient</p>
+
       <template v-for="(item, index) in data">
         <div class="noteItem" @click="noteClicked(index)">
           <p>{{item.timestamp.$date.slice(0,10)}}</p>
@@ -53,6 +57,11 @@ console.log(props.data)
   width: 100%;
   height: 500px;
 }
+.nodesHeader{
+  border-bottom: 2px black solid;
+  width: 100%;
+  font-size: 30px;
+}
 .textField{
   height: 80%;
   width: 100%;
@@ -68,6 +77,7 @@ console.log(props.data)
 .noteItem{
   width: 100%;
   border-bottom: 1px black solid;
+  padding-bottom: 10px;
 }
 .noteList{
   min-width: 300px;

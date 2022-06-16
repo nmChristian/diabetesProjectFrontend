@@ -49,7 +49,7 @@
         <p v-else>No diagnosis registered for this patient</p>
       </div>
 
-      <NoteViwerAndEditor
+      <NoteViwerAndEditor class="infoItemSelected"
           :data="notes"
           :is-doctor="true /*currentUser.is_doctor || false*/"
           :id="'62a9c246882873adfb9616a8'"></NoteViwerAndEditor>
