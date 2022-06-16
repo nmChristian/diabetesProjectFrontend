@@ -1,31 +1,75 @@
 <template>
-  <div ref="table"></div>
+  <div>
+    <table class="element-table">
+      <colgroup>
+        <col span="1" class="col-dates">
+        <col :span="columns.length" class="col-data">
+        <col span="1" class="col-sub-titles">
+      </colgroup>
+
+      <thead>
+      <tr class="time-of-day">
+        <th></th>
+        <th v-for="hour in columns">{{hour}}:00</th>
+        <th></th>
+      </tr>
+      </thead>
+
+      <tbody v-for="[date, rows] in elements">
+      <tr v-for="({title, values}, i) in rows"
+          :class="i === 0 ? 'first-row' : i === (rows.length - 1) ? 'last-row' : 'center-row'">
+
+        <th v-if="i === 0" class="day" rowspan="0">
+          {{d3.timeFormat("%a %e/%m")(date)}}
+        </th>
+
+        <td v-for="[value,color] in values" :style="dataStyle(value, color)">
+          {{isNaN(value) ? "" : value.toFixed(0)}}
+        </td>
+
+        <th class="sub-title">{{title}}</th>
+      </tr>
+      </tbody>
+
+      <tfoot>
+      <tr class="time-of-day">
+        <th></th>
+        <th v-for="hour in columns">{{hour}}:00</th>
+        <th></th>
+      </tr>
+      </tfoot>
+
+    </table>
+  </div>
+
 </template>
 
 <script lang="ts" setup>
-import type {Ref} from "vue";
-import {ref, watchEffect} from "vue";
-import {elementTable} from "@/services/graphs/generic/elementTable";
-import type {ElementRow} from "@/services/graphs/generic/elementTable";
-
-const table : Ref<HTMLDivElement | null> = ref(null)
-
+import * as d3 from "d3"
+export type ElementRow = {title : string, values: [number, string?][]}
 
 const props = defineProps<{
-  elements : [Date, ElementRow[]][]
-  columns : number[]
+  elements: [Date, ElementRow []] [],
+  columns: number[],
 }>()
 
-watchEffect(() => {
-  table.value?.children[0]?.remove();
-  table.value?.append(elementTable(props.elements, props.columns))
-})
+const defaultFontColor = "white"
+const defaultAltFontColor = "black"
+
+const dataStyle = (value : number, color: string | undefined) => isNaN(value) ?
+    {} :
+    {
+      backgroundColor: color ?? "inherit",
+      color: color ? defaultFontColor : defaultAltFontColor,
+      fontWeight: color ? 'bold' : 'inherit'
+    }
 
 const dataBorder = "1px solid rgba(128, 128, 128, 0.4)"
 const headerBorder = "1px solid black"
 </script>
 
-<style>
+
+<style scoped>
 .element-table {
   border: 2px solid grey;
   border-collapse: collapse;
@@ -89,7 +133,7 @@ const headerBorder = "1px solid black"
 .element-table tbody:nth-child(even) {
   background-color: #f7f7f7;
 }
-.elementTable tbody:nth-child(odd) {
+.element-table tbody:nth-child(odd) {
   background-color: #ffffff;
 }
 </style>

@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <ElementTableSeries
         :basal="daysBackData(basal, daysBack)"
         :bolus="daysBackData(bolus, daysBack)"
@@ -45,7 +44,6 @@ import RawSeries from "@/components/charts/graphseries/RawSeries.vue";
 import TIRDailySeries from "@/components/charts/graphseries/TIRDailySeries.vue";
 import ElementTableSeries from "@/components/charts/graphseries/ElementTableSeries.vue";
 import CGMLegend from "@/components/charts/CGMLegend.vue";
-import VueTable from "@/services/graphs/generic/VueTable.vue";
 
 
 const props = defineProps<{
