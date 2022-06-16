@@ -50,6 +50,7 @@
       </div>
 
       <NoteViwerAndEditor class="infoItemSelected"
+          @updateNotes = "updateNotes()"
           :data="notes"
           :is-doctor="true /*currentUser.is_doctor || false*/"
           :id="'62a9c246882873adfb9616a8'"></NoteViwerAndEditor>
@@ -222,6 +223,15 @@ const diagnosis = ref([] as Diagnosis[])
 
 const notes = ref([] as Note[])
 
+function updateNotes(){
+  let id = String(router.currentRoute.value.params.id)
+  console.log("Updating notes")
+  backend.getNotes(id).then((response) =>{
+    notes.value = response
+    console.log(response)
+  })
+}
+
 async function loadData() {
   //TODO, flyt alt loading af data herind
   let id = String(router.currentRoute.value.params.id)
@@ -229,10 +239,7 @@ async function loadData() {
     diagnosis.value = response
   })
 
-  backend.getNotes(id).then((response) =>{
-    notes.value = response
-    console.log(response)
-  })
+  updateNotes()
 
   backend.getUserDetailsForSpecific(String(router.currentRoute.value.params.id)).then((user : UserDetails) => {
     currentUser.value = user

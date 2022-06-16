@@ -35,6 +35,10 @@ const props = defineProps<{
       id: string
 }>()
 
+const emit = defineEmits<{
+  (e: 'updateNotes'): void}>()
+
+
 const selected = ref(-1)
 
 const noteText = ref("")
@@ -43,6 +47,7 @@ const canBeeSeenByPatient = ref(false)
 
 function onSaveClicked(){
   backend.postNote(props.id,noteText.value,canBeeSeenByPatient.value)
+  emit("updateNotes")
 }
 
 function noteClicked(index : number){
@@ -84,12 +89,12 @@ console.log(props.data)
 .leftContainer{
   min-width: 300px;
   padding: 10px;
-  max-height: 100%;
+  height: 500px;
 }
 .noteList{
   min-width: 300px;
-  max-height: 500px;
   margin: 10px;
+  height: 420px;
   overflow: auto;
   border-right: 1px black solid;
 }
