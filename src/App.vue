@@ -1,6 +1,9 @@
 <template>
 	<div class="top-bar">
-		<div class="user-icon-container">
+		<div class="topbar-icon-container">
+			<img alt="" src="@/assets/logo.svg" @click="$router.push('/')"/>
+		</div>
+		<div class="topbar-icon-container">
 			<img alt="User icon" class=user-icon :src=imageSource @click="$router.push('/settings')"/>
 		</div>
 
@@ -142,10 +145,10 @@ export default defineComponent({
 	border-radius: 6px;
 }
 
-.user-icon-container {
+.topbar-icon-container {
 	width: 55px;
 	height: 55px;
-	margin: 0.75rem;
+	margin: .8rem;
 }
 
 .user-icon {
