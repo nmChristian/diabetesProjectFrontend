@@ -3,12 +3,15 @@
 
     <c-g-m-legend/>
     <t-i-r-graph :occurrences="frequencies" :colors="COLOR_SCHEME"/>
-    <t-i-r-daily-series :data="cgm"/>
+    <t-i-r-daily-series
+        :data="cgm"
+        :show-advanced="true"
+    />
 
     <forecast-series
         :cgm="cgm"
         :meals="meals"
-        :showAdvanced="true"
+        :show-advanced="true"
     />
 
     <element-table-series
@@ -17,7 +20,7 @@
         :cgm="daysBackData(cgm, daysBack)"
         :meals="daysBackData(meals, daysBack)"
         :dates="dates"
-        :showAdvanced="true"
+        :show-advanced="true"
 
     />
     <raw-series
