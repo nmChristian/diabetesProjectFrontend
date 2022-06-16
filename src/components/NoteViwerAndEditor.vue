@@ -5,7 +5,7 @@
         <p v-if="isDoctor" class="nodesHeader">Notes and goals</p>
         <p v-else class="nodesHeader">Goals</p>
         <!-- TODO format button -->
-        <button v-if="showAdvanced" @click="onNewClicked()" class="newNoteButton">New</button>
+        <button v-if="showAdvanced && isDoctor" @click="onNewClicked()" class="newNoteButton">New</button>
       </div>
 
       <div class="noteList">
