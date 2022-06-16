@@ -98,6 +98,16 @@ class Backend {
         return response.data
     }
 
+    public async updateNote(idNote: string , text: string , isPrivate :boolean ): Promise<Note[]> {
+        console.log(getApiKey())
+        const response = await axios.put(
+            this.getNotesURL(idNote),
+            {text : text , private: isPrivate},
+            this.generateHeader())
+
+        return response.data
+    }
+
     public async getCGMDataMGDLForAllWiewabel(daysBack: number): Promise<{ _id: any, patient: any, values: number[] }[]> {
         const daysSinceLastData = d3.timeDays(new Date("2022-01-29"), new Date()).length
 

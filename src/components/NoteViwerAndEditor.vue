@@ -46,7 +46,11 @@ const noteText = ref("")
 const canBeeSeenByPatient = ref(false)
 
 function onSaveClicked(){
-  backend.postNote(props.id,noteText.value,canBeeSeenByPatient.value)
+  if(selected.value === -1){
+    backend.postNote(props.id,noteText.value,canBeeSeenByPatient.value)
+  }else{
+    backend.updateNote(props.data[selected.value]._id.$oid,noteText.value,canBeeSeenByPatient.value)
+  }
   emit("updateNotes")
 }
 
