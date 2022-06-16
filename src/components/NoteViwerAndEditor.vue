@@ -1,8 +1,12 @@
 <template>
   <div class="noterMain">
     <div :class="showAdvanced ? 'leftContainer' : 'leftContainerNormal'">
-      <p v-if="isDoctor" class="nodesHeader">Notes and goals</p>
-      <p v-else class="nodesHeader">Goals</p>
+      <div class="nodesHeaderBar">
+        <p v-if="isDoctor" class="nodesHeader">Notes and goals</p>
+        <p v-else class="nodesHeader">Goals</p>
+        <button v-if="showAdvanced" @click="onNewClicked()" class="newNoteButton">New</button>
+      </div>
+
       <div class="noteList">
         <template v-if="data.length===0">
           <p v-if="isDoctor">No notes registered for patient</p>
@@ -20,8 +24,11 @@
     </div>
     <div v-if="showAdvanced" class="noteEditor" id="noteTextField">
       <textarea  v-model="noteText" class="textField" :readonly="!isDoctor"></textarea>
-      <button @click="onSaveClicked()">Save</button>
-      <input type="checkbox" v-model="canBeeSeenByPatient">
+      <div v-if="isDoctor">
+        <button @click="onSaveClicked()">{{selected === -1 ? 'Save as new' : 'Save edit'}}</button>
+        <button>Delete note</button>
+        <input type="checkbox" v-model="canBeeSeenByPatient">
+      </div>
     </div>
     <div v-else style="width: 0px"></div>
   </div>
@@ -51,6 +58,12 @@ const noteText = ref("")
 
 const canBeeSeenByPatient = ref(false)
 
+function onNewClicked(){
+  selected.value = -1
+  noteText.value = ""
+  canBeeSeenByPatient.value = false
+}
+
 function onSaveClicked(){
   if(selected.value === -1){
     backend.postNote(props.id,noteText.value,canBeeSeenByPatient.value)
@@ -75,10 +88,17 @@ console.log(props.data)
   width: 100%;
   height: 500px;
 }
-.nodesHeader{
+.nodesHeaderBar{
   border-bottom: 2px black solid;
   width: 100%;
+}
+.nodesHeader{
   font-size: 30px;
+}
+.newNoteButton{
+  position: absolute;
+  right: 10px;
+  top: 15px;
 }
 .textField{
   height: 90%;
