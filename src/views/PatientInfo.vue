@@ -69,6 +69,7 @@
         </div>
         <div class="infoItemSmall" style=" width: auto;">
           <t-i-r-graph :rotate="true" :occurrences="frequencies" :colors="COLOR_SCHEME"/>
+          <c-g-m-legend/>
         </div>
       </div>
 
@@ -131,6 +132,7 @@ import NoteViwerAndEditor from "@/components/NoteViwerAndEditor.vue";
 import TIRGraph from "@/components/charts/generic/TIRGraph.vue";
 import * as d3 from "d3";
 import {COLOR_SCHEME} from "@/services/core/shared";
+import CGMLegend from "@/components/charts/CGMLegend.vue";
 
 const loggedInUser = ref({first_name: ""} as UserDetails)
 onMounted(() => {

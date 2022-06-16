@@ -9,7 +9,6 @@ export default function tirGraph(occurrences: number[], colors: string[], {
     offset = 2,
     rx = 3, ry = 3,
     enableTooltip = true,
-    rotate = false,
 }) {
     const {width, height} = graphLayout
     const {out, svg} = generateSVG(graphLayout)
@@ -44,15 +43,15 @@ export default function tirGraph(occurrences: number[], colors: string[], {
     const animationTime = 200;
     const getY = (index: number) => startPos[index] - heights[index]
     const barRect = bars.append("rect")
-        .attr(rotate ? "height" : "width", width)
-        .attr(rotate ? "x" : "y", (_, i) => getY(i))
+        .attr( "width", width)
+        .attr( "y", (_, i) => getY(i))
         .style("fill", (_, i) => colors[i])
         .style("fill-opacity", 0.9)
 
     barRect.transition().duration(d => d * animationTime).delay((_, i) => getY(i) * animationTime / height).ease(d3.easeLinear)
-        .attr(rotate ? "width" : "height", (_, i) => heights[i])
-        .attr(rotate ? "ry" : "rx", rx)
-        .attr(rotate ? "rx" : "ry", ry)
+        .attr("height", (_, i) => heights[i])
+        .attr("rx", rx)
+        .attr("ry", ry)
 
     // Tooltip
     if (enableTooltip) {

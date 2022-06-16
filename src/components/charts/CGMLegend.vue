@@ -17,7 +17,6 @@ import {CGM_THRESHOLDS, COLOR_SCHEME} from "@/services/core/shared";</script>
   display: flex;
   flex-direction: column-reverse;
   align-items: end;
-  border: 1px solid black;
   width: 120px;
   padding: 5px 10px;
 }
