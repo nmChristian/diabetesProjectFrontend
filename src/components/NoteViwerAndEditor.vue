@@ -111,6 +111,7 @@ console.log(props.data)
 .noteList{
   min-width: 300px;
   margin: 10px 0 10px 10px;
+  height: 100%;
   max-height: calc(100% - 55px);
   overflow: auto;
   border-right: 1px black solid;

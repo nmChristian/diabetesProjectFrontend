@@ -49,18 +49,26 @@
         <p v-else>No diagnosis registered for this patient</p>
       </div>
 
-      <div id="notesAndGoals"
-           :class="selectedInfoSection !== 'notesAndGoals' ? 'infoItemSmall' : 'infoItemSelected'"
-           @click="selectInfoSection('notesAndGoals')">
-        <NoteViwerAndEditor
-                @click="selectInfoSection('notesAndGoals')"
-                @updateNotes = "updateNotes()"
-                :data="notes"
-                :is-doctor="true /*currentUser.is_doctor || false*/"
-                :id="'62a9c246882873adfb9616a8'"
-                :showAdvanced="selectedInfoSection === 'notesAndGoals'"
-        ></NoteViwerAndEditor>
+      <div
+          :class="selectedInfoSection === 'notesAndGoals' ? 'smallInfoItemsHolder' : 'smallInfoItemsHolderSelected'">
+        <div id="notesAndGoals"
+             :class="selectedInfoSection !== 'notesAndGoals' ? 'infoItemSmall' : 'infoItemSelected'"
+             @click="selectInfoSection('notesAndGoals')">
+          <NoteViwerAndEditor
+              @click="selectInfoSection('notesAndGoals')"
+              @updateNotes = "updateNotes()"
+              :data="notes"
+              :is-doctor="true /*currentUser.is_doctor || false*/"
+              :id="'62a9c246882873adfb9616a8'"
+              :showAdvanced="selectedInfoSection === 'notesAndGoals'"
+          ></NoteViwerAndEditor>
+        </div>
+        <div class="infoItemSmall" style=" width: auto;" >
+          <t-i-r-graph  :occurrences="frequencies"  :colors="COLOR_SCHEME" />
+
+        </div>
       </div>
+
 
 
       <div id="forcast"
@@ -119,10 +127,13 @@ import router from "../router";
 import ForecastSeries from "@/components/charts/graphseries/ForecastSeries.vue";
 import backend from "../services/backend";
 import type {DateValue} from "@/services/core/datatypes"
-import {mMolPerLToMgPerL, timeSeriesToDateValue} from "@/services/core/datatypes";
-import {onMounted, Ref, ref} from "vue";
+import {getCGMOccurrences, mMolPerLToMgPerL, timeSeriesToDateValue} from "@/services/core/datatypes";
+import {computed, onMounted, Ref, ref} from "vue";
 import type {Diagnosis, Note, UserDetails} from "@/services/core/dbtypes";
 import NoteViwerAndEditor from "@/components/NoteViwerAndEditor.vue";
+import TIRGraph from "@/components/charts/generic/TIRGraph.vue";
+import * as d3 from "d3";
+import {COLOR_SCHEME} from "@/services/core/shared";
 
 onMounted(() => {
   loadData()
@@ -224,9 +235,11 @@ function listToString(inListe: string | any[] | undefined) {
 }
 
 let cgmInDateValue: Ref<never[] | DateValue[]> = ref([])
+let cgmInDateValueLastSeven: Ref<never[] | DateValue[]> = ref([])
 let mealsInDateValue: Ref<never[] | DateValue[]> = ref([])
 let basalInDateValue: Ref<never[] | DateValue[]> = ref([])
 let bolusInDateValue: Ref<never[] | DateValue[]> = ref([])
+const frequencies = computed(() => getCGMOccurrences(cgmInDateValueLastSeven.value))
 
 const diagnosis = ref([] as Diagnosis[])
 
@@ -257,9 +270,15 @@ async function loadData() {
 
   backend.getDataPatient(21, ["cgm", "meals", "basal", "bolus"],id).then((response) => {
     cgmInDateValue.value = timeSeriesToDateValue(response.cgm, mMolPerLToMgPerL)
+    console.log(cgmInDateValue.value)
     mealsInDateValue.value = timeSeriesToDateValue(response.meals)
     basalInDateValue.value = timeSeriesToDateValue(response.basal)
     bolusInDateValue.value = timeSeriesToDateValue(response.bolus)
+
+    console.log(new Date())
+
+    cgmInDateValueLastSeven.value = cgmInDateValue.value.filter(([date,]) => date > d3.timeDay.offset( new Date() , -7))
+
   })
 
 
@@ -292,6 +311,18 @@ async function loadData() {
   background: pink;
   border: blue 1px dashed;
   z-index: 12;
+}
+
+.smallInfoItemsHolder{
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.smallInfoItemsHolderSelected{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .tableOfContext{
@@ -334,7 +365,6 @@ async function loadData() {
   margin: 10px;
 }
 .infoItemSmall{
-  max-width: 400px;
   width: min-content;
   border: solid 1px #555;
   background-color: #fcfcfc;

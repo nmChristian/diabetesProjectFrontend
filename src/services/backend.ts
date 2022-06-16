@@ -124,6 +124,7 @@ class Backend {
         if (patientId === undefined) {
             return []
         }
+        //TODO ret dette da dataen er flyttet i db, samme problem flere steder
         const daysSinceLastData = d3.timeDays(new Date("2022-01-29"), new Date()).length
         const response = await axios.post(
             this.getDataURLPatient(patientId),

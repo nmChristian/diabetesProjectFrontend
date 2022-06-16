@@ -1,12 +1,6 @@
 <template>
   <div>
-    <element-table-series
-        :basal="daysBackData(basal, daysBack)"
-        :bolus="daysBackData(bolus, daysBack)"
-        :cgm="daysBackData(cgm, daysBack)"
-        :meals="daysBackData(meals, daysBack)"
-        :dates="dates"
-    />
+
     <c-g-m-legend/>
     <t-i-r-graph :occurrences="frequencies" :colors="COLOR_SCHEME"/>
     <t-i-r-daily-series :data="cgm"/>
@@ -15,6 +9,14 @@
         :cgm="cgm"
         :meals="meals"
         :showAdvanced="false"
+    />
+
+    <element-table-series
+        :basal="daysBackData(basal, daysBack)"
+        :bolus="daysBackData(bolus, daysBack)"
+        :cgm="daysBackData(cgm, daysBack)"
+        :meals="daysBackData(meals, daysBack)"
+        :dates="dates"
     />
     <raw-series
         :basal="basal"
