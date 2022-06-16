@@ -49,18 +49,25 @@
         <p v-else>No diagnosis registered for this patient</p>
       </div>
 
-      <div id="notesAndGoals"
-           :class="selectedInfoSection !== 'notesAndGoals' ? 'infoItemSmall' : 'infoItemSelected'"
-           @click="selectInfoSection('notesAndGoals')">
-        <NoteViwerAndEditor
-                @click="selectInfoSection('notesAndGoals')"
-                @updateNotes = "updateNotes()"
-                :data="notes"
-                :is-doctor="true /*currentUser.is_doctor || false*/"
-                :id="'62a9c246882873adfb9616a8'"
-                :showAdvanced="selectedInfoSection === 'notesAndGoals'"
-        ></NoteViwerAndEditor>
+      <div
+          :class="selectedInfoSection === 'notesAndGoals' ? 'smallInfoItemsHolder' : 'smallInfoItemsHolderSelected'">
+        <div id="notesAndGoals"
+             :class="selectedInfoSection !== 'notesAndGoals' ? 'infoItemSmall' : 'infoItemSelected'"
+             @click="selectInfoSection('notesAndGoals')">
+          <NoteViwerAndEditor
+              @click="selectInfoSection('notesAndGoals')"
+              @updateNotes = "updateNotes()"
+              :data="notes"
+              :is-doctor="true /*currentUser.is_doctor || false*/"
+              :id="'62a9c246882873adfb9616a8'"
+              :showAdvanced="selectedInfoSection === 'notesAndGoals'"
+          ></NoteViwerAndEditor>
+        </div>
+        <div class="infoItemSmall" style=" width: auto;" >
+          <h1>Søjle diagram med procenter</h1>
+        </div>
       </div>
+
 
 
       <div id="forcast"
@@ -294,6 +301,18 @@ async function loadData() {
   z-index: 12;
 }
 
+.smallInfoItemsHolder{
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.smallInfoItemsHolderSelected{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 .tableOfContext{
   position: fixed;
   left: 1rem;
@@ -334,7 +353,6 @@ async function loadData() {
   margin: 10px;
 }
 .infoItemSmall{
-  max-width: 400px;
   width: min-content;
   border: solid 1px #555;
   background-color: #fcfcfc;
