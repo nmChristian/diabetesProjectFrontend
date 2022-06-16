@@ -18,7 +18,6 @@ const props = defineProps<{
   ry?: number,
   rotate?: boolean,
 }>()
-watchEffect( () => console.log(props.rotate))
 const graph = computed(() =>
     tirGraph(props.occurrences, props.colors,
         {

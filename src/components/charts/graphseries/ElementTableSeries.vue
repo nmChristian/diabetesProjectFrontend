@@ -1,11 +1,6 @@
 <template>
-  <h2>Table</h2>
   <div style="display:flex; flex-direction: column; align-items: center; justify-content: center;">
-    <element-table
-        :elements="elements"
-        :columns="columns"
-    />
-    <div class="groups">
+    <div v-if="showAdvanced" class="groups">
       <div class="group" v-for="(group, i) in dataGroups">
         <div>
           <input type="checkbox" :id="getGroupId(i)" v-model="group.active.value"/>
@@ -19,6 +14,10 @@
         </div>
       </div>
     </div>
+    <element-table
+        :elements="elements"
+        :columns="columns"
+    />
   </div>
 </template>
 
@@ -34,6 +33,7 @@ import type {ElementRow} from "@/services/graphs/generic/elementTable";
 import {select} from "d3";
 
 const props = defineProps<{
+  showAdvanced: boolean,
   cgm: DateValue[],
   meals: DateValue[],
   basal: DateValue[],
@@ -120,7 +120,7 @@ const getGroupId = (i: number) => "group-" + i
 const getOptionId = (i: number, j: number) => "option-" + i + "-" + j
 
 // Set first group to be active
-watchEffect(() => dataGroups[0].active.value = true)
+watchEffect(() => [0,1].map(i => dataGroups[i].active.value = true))
 
 </script>
 

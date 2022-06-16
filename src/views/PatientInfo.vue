@@ -10,15 +10,18 @@
     <div class="navButtons">
       <!-- TODO erstat med smukke symboler :) -->
       <button @click="this.crossClicked()">Kryds</button>
-      <button v-if="$router.currentRoute.value.fullPath.toLowerCase().includes('list')" @click="fullScreenClicked()">Fuld
+      <button v-if="$router.currentRoute.value.fullPath.toLowerCase().includes('list')" @click="fullScreenClicked()">
+        Fuld
         skærm
       </button>
     </div>
 
-  <div  v-if="isFullScreen || !$router.currentRoute.value.fullPath.toLowerCase().includes('list')"
-        class="tableOfContext">
-    <p v-for="(item, index) in elemntsOnPage" @click="scrollToElement(item.id)" :class="{markedTableOfContextItem :(index  === currentViewdElement) , unmarkedTableOfContextItem :(index  !== currentViewdElement) }">  {{item.text}} </p>
-  </div>
+    <div v-if="isFullScreen || !$router.currentRoute.value.fullPath.toLowerCase().includes('list')"
+         class="tableOfContext">
+      <p v-for="(item, index) in elemntsOnPage" @click="scrollToElement(item.id)"
+         :class="{markedTableOfContextItem :(index  === currentViewdElement) , unmarkedTableOfContextItem :(index  !== currentViewdElement) }">
+        {{ item.text }} </p>
+    </div>
 
 
     <div class=holderInfo>
@@ -29,12 +32,12 @@
           <h1>Name: {{ currentPatient.first_name }} </h1>
         </div>
         <div class=" startInfoHolderLine">
-        <info-element :number=0 title="HbALc:" @showData="showElementData('HbALc')"></info-element>
-        <info-element :number=1 title="weight:" @showData="$router.replace('#weight')"></info-element>
-        <info-element :number=2 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
-        <info-element :number=3 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
-        <info-element :number=4 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
-        <info-element :number=5 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
+          <info-element :number=0 title="HbALc:" @showData="showElementData('HbALc')"></info-element>
+          <info-element :number=1 title="weight:" @showData="$router.replace('#weight')"></info-element>
+          <info-element :number=2 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
+          <info-element :number=3 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
+          <info-element :number=4 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
+          <info-element :number=5 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
         </div>
       </div>
 
@@ -57,23 +60,37 @@
              @click="selectInfoSection('notesAndGoals')">
           <NoteViwerAndEditor
               @click="selectInfoSection('notesAndGoals')"
-              @updateNotes = "updateNotes()"
+              @updateNotes="updateNotes()"
               :data="notes"
               :is-doctor="loggedInUser.is_doctor || false"
               :id="'62a9c246882873adfb9616a8'"
               :showAdvanced="selectedInfoSection === 'notesAndGoals'"
           ></NoteViwerAndEditor>
         </div>
-        <div class="infoItemSmall" style=" width: auto;" >
-            <t-i-r-graph :rotate="true" :occurrences="frequencies"  :colors="COLOR_SCHEME" />
+        <div class="infoItemSmall" style=" width: auto;">
+          <t-i-r-graph :rotate="true" :occurrences="frequencies" :colors="COLOR_SCHEME"/>
         </div>
       </div>
 
 
       <div id="forcast"
            @click="selectInfoSection('forcast')"
-           :class="selectedInfoSection !== 'forcast' ? 'infoItem' : 'infoItemSelected'" >
-       <forecast-series :cgm="cgmInDateValue" :meals="mealsInDateValue" :showAdvanced="selectedInfoSection === 'forcast'"/>
+           :class="selectedInfoSection !== 'forcast' ? 'infoItem' : 'infoItemSelected'">
+        <forecast-series :cgm="cgmInDateValue" :meals="mealsInDateValue"
+                         :showAdvanced="selectedInfoSection === 'forcast'"/>
+      </div>
+
+      <div id="big-table"
+           @click="selectInfoSection('big-table')"
+           :class="selectedInfoSection !== 'big-table' ? 'infoItem' : 'infoItemSelected'">
+        <element-table-series
+            :basal="daysBackData(basalInDateValue, daysBack)"
+            :bolus="daysBackData(bolusInDateValue, daysBack)"
+            :cgm="daysBackData(cgmInDateValue, daysBack)"
+            :meals="daysBackData(mealsInDateValue, daysBack)"
+            :dates="dates"
+            :showAdvanced="selectedInfoSection === 'big-table'"
+        />
       </div>
 
       <div class="infoItem" id="testAScroll1">
@@ -92,28 +109,7 @@
 
       <div id="testAScroll4"
            @click="selectInfoSection('testAScroll4')"
-           :class="selectedInfoSection !== 'testAScroll4' ? 'infoItem' : 'infoItemSelected'" >
-        <h1>Test a scroll 4</h1>
-        <h1>Test a scroll 4</h1>
-        <h1>Test a scroll 4</h1>
-        <h1>Test a scroll 4</h1>
-        <h1>Test a scroll 4</h1>
-        <h1>Test a scroll 4</h1><h1>Test a scroll 4</h1>
-        <h1>Test a scroll 4</h1>
-        <h1>Test a scroll 4</h1>
-        <h1>Test a scroll 4</h1>
-        <h1>Test a scroll 4</h1>
-        <h1>Test a scroll 4</h1>
-        <h1>Test a scroll 4</h1>
-        <h1>Test a scroll 4</h1>
-        <h1>Test a scroll 4</h1>
-        <h1>Test a scroll 4</h1>
-        <h1>Test a scroll 4</h1>
-        <h1>Test a scroll 4</h1>
-        <h1>Test a scroll 4</h1>
-        <h1>Test a scroll 4</h1>
-        <h1>Test a scroll 4</h1>
-        <h1>Test a scroll 4</h1>
+           :class="selectedInfoSection !== 'testAScroll4' ? 'infoItem' : 'infoItemSelected'">
       </div>
 
 
@@ -127,8 +123,10 @@ import ForecastSeries from "@/components/charts/graphseries/ForecastSeries.vue";
 import backend from "../services/backend";
 import type {DateValue} from "@/services/core/datatypes"
 import {getCGMOccurrences, mMolPerLToMgPerL, timeSeriesToDateValue} from "@/services/core/datatypes";
-import {computed, onMounted, Ref, ref} from "vue";
+import type {Ref} from "vue"
+import {computed, onMounted, ref} from "vue";
 import type {Diagnosis, Note, UserDetails} from "@/services/core/dbtypes";
+import ElementTableSeries from "@/components/charts/graphseries/ElementTableSeries.vue"
 import NoteViwerAndEditor from "@/components/NoteViwerAndEditor.vue";
 import TIRGraph from "@/components/charts/generic/TIRGraph.vue";
 import * as d3 from "d3";
@@ -139,7 +137,9 @@ onMounted(() => {
   loadData()
 
   backend.getUserDetails().then((result) => {
-    if(result === null){return}
+    if (result === null) {
+      return
+    }
     loggedInUser.value = result
   })
 })
@@ -151,16 +151,17 @@ router.afterEach(() => {
 window.addEventListener("scroll", onScroll)
 
 const elemntsOnPage = [
-  {id: "summary",text: "Summary"},
+  {id: "summary", text: "Summary"},
   {id: "diagnoseAndMedicine", text: "Diagnose And Medicine"},
-  {id: "notesAndGoals" , text: "Goals"},
+  {id: "notesAndGoals", text: "Goals"},
   {id: "forcast", text: "3 week overview"},
-  {id: "testAScroll1", text: "testAScroll1"},   {id: "testAScroll2", text: "testAScroll2"},   {id: "testAScroll3", text: "testAScroll3"},   {id: "testAScroll4", text: "testAScroll4"}]
+  {id: "big-table", text: "Table of data"},
+]
 
 let currentViewdElement = ref(0)
 
-function getProfilePicturePath(){
-  if(currentPatient.value.profile_picture === undefined || currentPatient.value.profile_picture === ""){
+function getProfilePicturePath() {
+  if (currentPatient.value.profile_picture === undefined || currentPatient.value.profile_picture === "") {
     return '/src/assets/user.png'
   }
   return currentPatient.profile_picture
@@ -168,31 +169,31 @@ function getProfilePicturePath(){
 
 const selectedInfoSection = ref('')
 
-function selectInfoSection(id : string){
+function selectInfoSection(id: string) {
   selectedInfoSection.value = id
 }
 
-function scrollToElement(id : string){
-  if(window.top == null){
+function scrollToElement(id: string) {
+  if (window.top == null) {
     return
   }
-  let wantedOffset = (document.getElementById(id) as HTMLDivElement ).getBoundingClientRect().top
-  window.top.scroll(0,window.top.scrollY + wantedOffset -85)
+  let wantedOffset = (document.getElementById(id) as HTMLDivElement).getBoundingClientRect().top
+  window.top.scroll(0, window.top.scrollY + wantedOffset - 85)
 }
 
-function onScroll(){
-  if(window.top == undefined){
+function onScroll() {
+  if (window.top == undefined) {
     currentViewdElement.value = 0
     return
   }
 
-  for(let i = 0; i < elemntsOnPage.length; i++){
-    if ((document.getElementById(elemntsOnPage[i].id) as HTMLDivElement ).getBoundingClientRect().bottom > 70){
+  for (let i = 0; i < elemntsOnPage.length; i++) {
+    if ((document.getElementById(elemntsOnPage[i].id) as HTMLDivElement).getBoundingClientRect().bottom > 70) {
       currentViewdElement.value = i;
       return;
     }
   }
-  currentViewdElement.value = elemntsOnPage.length-1;
+  currentViewdElement.value = elemntsOnPage.length - 1;
 }
 
 const currentPatient = ref({first_name: ""})
@@ -206,7 +207,7 @@ function closePopUp() {
 
 let crossClicked = () => {
   if (router.currentRoute.value.fullPath.includes("List")) {
-    if(isFullScreen.value){
+    if (isFullScreen.value) {
       emit('hideSidebar');
     }
     router.push("/DisplayPatientsList")
@@ -216,11 +217,12 @@ let crossClicked = () => {
 }
 
 const emit = defineEmits<{
-  (e: 'hideSidebar'): void}>()
+  (e: 'hideSidebar'): void
+}>()
 
 const isFullScreen = ref(false)
 
-function fullScreenClicked()  {
+function fullScreenClicked() {
   isFullScreen.value = !isFullScreen.value
   emit('hideSidebar');
 }
@@ -239,11 +241,11 @@ function listToString(inListe: string | any[] | undefined) {
   return re;
 }
 
-let cgmInDateValue: Ref<never[] | DateValue[]> = ref([])
-let cgmInDateValueLastSeven: Ref<never[] | DateValue[]> = ref([])
-let mealsInDateValue: Ref<never[] | DateValue[]> = ref([])
-let basalInDateValue: Ref<never[] | DateValue[]> = ref([])
-let bolusInDateValue: Ref<never[] | DateValue[]> = ref([])
+const cgmInDateValue: Ref<DateValue[]> = ref([] as DateValue[])
+const cgmInDateValueLastSeven: Ref<DateValue[]> = ref([] as DateValue[])
+const mealsInDateValue: Ref<DateValue[]> = ref([] as DateValue[])
+const basalInDateValue: Ref<DateValue[]> = ref([] as DateValue[])
+const bolusInDateValue: Ref<DateValue[]> = ref([] as DateValue[])
 const frequencies = computed(() => getCGMOccurrences(cgmInDateValueLastSeven.value))
 
 
@@ -251,10 +253,10 @@ const diagnosis = ref([] as Diagnosis[])
 
 const notes = ref([] as Note[])
 
-function updateNotes(){
+function updateNotes() {
   let id = String(router.currentRoute.value.params.id)
   console.log("Updating notes")
-  backend.getNotes(id).then((response) =>{
+  backend.getNotes(id).then((response) => {
     notes.value = response
     console.log(response)
   })
@@ -269,24 +271,34 @@ async function loadData() {
 
   updateNotes()
 
-  backend.getUserDetailsForSpecific(String(router.currentRoute.value.params.id)).then((user : UserDetails) => {
+  backend.getUserDetailsForSpecific(String(router.currentRoute.value.params.id)).then((user: UserDetails) => {
     currentPatient.value = user
     console.log(user)
   })
 
-  backend.getDataPatient(21, ["cgm", "meals", "basal", "bolus"],id).then((response) => {
-    cgmInDateValue.value = timeSeriesToDateValue(response.cgm, mMolPerLToMgPerL)
+  backend.getDataPatient(21, ["cgm", "meals", "basal", "bolus"], id).then((response) => {
 
+    cgmInDateValue.value = timeSeriesToDateValue(response.cgm, mMolPerLToMgPerL)
     mealsInDateValue.value = timeSeriesToDateValue(response.meals)
     basalInDateValue.value = timeSeriesToDateValue(response.basal)
     bolusInDateValue.value = timeSeriesToDateValue(response.bolus)
 
-    cgmInDateValueLastSeven.value = cgmInDateValue.value.filter(([date,]) => date > d3.timeDay.offset( new Date() , -7))
+    cgmInDateValueLastSeven.value = cgmInDateValue.value.filter(([date,]) => date > d3.timeDay.offset(new Date(), -7))
 
   })
 
 
 }
+
+const lastDateInDataSet = computed(() => cgmInDateValue.value.length === 0 ? new Date() : cgmInDateValue.value[cgmInDateValue.value.length - 1][0])
+const daysBack = 7
+const dates = computed(() =>
+    [...Array(daysBack).keys()].map<Date>((offset) => d3.timeDay(
+        d3.timeDay.offset(lastDateInDataSet.value, -offset))).reverse())
+
+const daysBackData = (data: DateValue[], daysBack: number) =>
+    data.filter(([date,]) => date > d3.timeDay.offset(lastDateInDataSet.value, -daysBack))
+
 
 </script>
 
@@ -301,10 +313,12 @@ async function loadData() {
   border-radius: 15px;
   z-index: 11;
 }
-.basicInfoHolder{
+
+.basicInfoHolder {
   display: flex;
   flex: border-box;
 }
+
 .popup {
   position: fixed;
   left: 15%;
@@ -317,33 +331,36 @@ async function loadData() {
   z-index: 12;
 }
 
-.smallInfoItemsHolder{
+.smallInfoItemsHolder {
   max-width: 1200px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.smallInfoItemsHolderSelected{
+
+.smallInfoItemsHolderSelected {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.tableOfContext{
+.tableOfContext {
   position: fixed;
   padding-top: 10px;
   left: 1rem;
   z-index: 1;
 }
 
-.unmarkedTableOfContextItem{
+.unmarkedTableOfContextItem {
   padding: 5px;
 }
-.unmarkedTableOfContextItem:hover{
+
+.unmarkedTableOfContextItem:hover {
   text-underline: darkblue;
   text-decoration: underline;
 }
-.markedTableOfContextItem{
+
+.markedTableOfContextItem {
   border: #2c3e50 1px solid;
   padding: 5px;
   border-radius: 5px;
@@ -369,7 +386,8 @@ async function loadData() {
   border-radius: 25px;
   margin: 10px;
 }
-.infoItemSmall{
+
+.infoItemSmall {
   width: min-content;
   border: solid 1px #555;
   background-color: #fcfcfc;
@@ -380,9 +398,11 @@ async function loadData() {
   border-radius: 25px;
   margin: 10px;
 }
+
 .infoItemSmall:hover {
   box-shadow: 0 0 20px black;
 }
+
 .infoItem:hover {
   box-shadow: 0 0 20px black;
 }

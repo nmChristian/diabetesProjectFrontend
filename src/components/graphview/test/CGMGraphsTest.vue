@@ -8,7 +8,7 @@
     <forecast-series
         :cgm="cgm"
         :meals="meals"
-        :showAdvanced="false"
+        :showAdvanced="true"
     />
 
     <element-table-series
@@ -17,6 +17,8 @@
         :cgm="daysBackData(cgm, daysBack)"
         :meals="daysBackData(meals, daysBack)"
         :dates="dates"
+        :showAdvanced="true"
+
     />
     <raw-series
         :basal="basal"
