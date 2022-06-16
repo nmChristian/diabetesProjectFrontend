@@ -15,7 +15,8 @@
       </button>
     </div>
 
-  <div  v-if="isFullScreen || !$router.currentRoute.value.fullPath.toLowerCase().includes('list')" class="tableOfContext">
+  <div  v-if="isFullScreen || !$router.currentRoute.value.fullPath.toLowerCase().includes('list')"
+        class="tableOfContext">
     <p v-for="(item, index) in elemntsOnPage" @click="scrollToElement(item.id)" :class="{markedTableOfContextItem :(index  === currentViewdElement) , unmarkedTableOfContextItem :(index  !== currentViewdElement) }">  {{item.text}} </p>
   </div>
 
@@ -25,7 +26,7 @@
       <div class="infoItem" id="summary">
         <div class="basicInfoHolder">
           <img alt="User icon" class=user-icon :src="getProfilePicturePath()" style="max-width: 50px">
-          <h1>Name: {{currentUser.first_name}} </h1>
+          <h1>Name: {{ currentPatient.first_name }} </h1>
         </div>
         <div class=" startInfoHolderLine">
         <info-element :number=0 title="HbALc:" @showData="showElementData('HbALc')"></info-element>
@@ -58,7 +59,7 @@
               @click="selectInfoSection('notesAndGoals')"
               @updateNotes = "updateNotes()"
               :data="notes"
-              :is-doctor="true /*currentUser.is_doctor || false*/"
+              :is-doctor="loggedInUser.is_doctor || false"
               :id="'62a9c246882873adfb9616a8'"
               :showAdvanced="selectedInfoSection === 'notesAndGoals'"
           ></NoteViwerAndEditor>
@@ -133,8 +134,14 @@ import TIRGraph from "@/components/charts/generic/TIRGraph.vue";
 import * as d3 from "d3";
 import {COLOR_SCHEME} from "@/services/core/shared";
 
+const loggedInUser = ref({first_name: ""} as UserDetails)
 onMounted(() => {
   loadData()
+
+  backend.getUserDetails().then((result) => {
+    if(result === null){return}
+    loggedInUser.value = result
+  })
 })
 
 router.afterEach(() => {
@@ -153,10 +160,10 @@ const elemntsOnPage = [
 let currentViewdElement = ref(0)
 
 function getProfilePicturePath(){
-  if(currentUser.value.profile_picture === undefined || currentUser.value.profile_picture === ""){
+  if(currentPatient.value.profile_picture === undefined || currentPatient.value.profile_picture === ""){
     return '/src/assets/user.png'
   }
-  return currentUser.profile_picture
+  return currentPatient.profile_picture
 }
 
 const selectedInfoSection = ref('')
@@ -188,7 +195,7 @@ function onScroll(){
   currentViewdElement.value = elemntsOnPage.length-1;
 }
 
-const currentUser = ref({first_name: ""})
+const currentPatient = ref({first_name: ""})
 
 function closePopUp() {
   let currentRoute = router.currentRoute.value.fullPath
@@ -239,6 +246,7 @@ let basalInDateValue: Ref<never[] | DateValue[]> = ref([])
 let bolusInDateValue: Ref<never[] | DateValue[]> = ref([])
 const frequencies = computed(() => getCGMOccurrences(cgmInDateValueLastSeven.value))
 
+
 const diagnosis = ref([] as Diagnosis[])
 
 const notes = ref([] as Note[])
@@ -262,18 +270,16 @@ async function loadData() {
   updateNotes()
 
   backend.getUserDetailsForSpecific(String(router.currentRoute.value.params.id)).then((user : UserDetails) => {
-    currentUser.value = user
+    currentPatient.value = user
     console.log(user)
   })
 
   backend.getDataPatient(21, ["cgm", "meals", "basal", "bolus"],id).then((response) => {
     cgmInDateValue.value = timeSeriesToDateValue(response.cgm, mMolPerLToMgPerL)
-    console.log(cgmInDateValue.value)
+
     mealsInDateValue.value = timeSeriesToDateValue(response.meals)
     basalInDateValue.value = timeSeriesToDateValue(response.basal)
     bolusInDateValue.value = timeSeriesToDateValue(response.bolus)
-
-    console.log(new Date())
 
     cgmInDateValueLastSeven.value = cgmInDateValue.value.filter(([date,]) => date > d3.timeDay.offset( new Date() , -7))
 
@@ -325,6 +331,7 @@ async function loadData() {
 
 .tableOfContext{
   position: fixed;
+  padding-top: 10px;
   left: 1rem;
   z-index: 1;
 }
