@@ -15,7 +15,8 @@
       </button>
     </div>
 
-  <div  v-if="isFullScreen || !$router.currentRoute.value.fullPath.toLowerCase().includes('list')" class="tableOfContext">
+  <div  v-if="isFullScreen || !$router.currentRoute.value.fullPath.toLowerCase().includes('list')"
+        class="tableOfContext">
     <p v-for="(item, index) in elemntsOnPage" @click="scrollToElement(item.id)" :class="{markedTableOfContextItem :(index  === currentViewdElement) , unmarkedTableOfContextItem :(index  !== currentViewdElement) }">  {{item.text}} </p>
   </div>
 
@@ -332,6 +333,7 @@ async function loadData() {
 
 .tableOfContext{
   position: fixed;
+  padding-top: 10px;
   left: 1rem;
   z-index: 1;
 }
