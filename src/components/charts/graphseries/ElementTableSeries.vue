@@ -1,5 +1,9 @@
 <template>
   <div style="display:flex; flex-direction: column; align-items: center; justify-content: center;">
+    <VueTable
+        :elements="elements"
+        :columns="columns"
+    />
     <div v-if="showAdvanced" class="groups">
       <div class="group" v-for="(group, i) in dataGroups">
         <div>
@@ -31,6 +35,7 @@ import {computed, reactive, ref, watchEffect} from "vue";
 import * as d3 from "d3";
 import type {ElementRow} from "@/services/graphs/generic/elementTable";
 import {select} from "d3";
+import VueTable from "@/services/graphs/generic/VueTable.vue";
 
 const props = defineProps<{
   showAdvanced: boolean,

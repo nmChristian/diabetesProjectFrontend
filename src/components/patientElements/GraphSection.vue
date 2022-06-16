@@ -2,7 +2,8 @@
   <div :id="id"
        @click="emit('selectedSection', id)"
        :class="currentlySelected !== id ? 'infoItem' : 'infoItemSelected'">
-    <slot />
+    <slot
+    />
   </div>
 </template>
 

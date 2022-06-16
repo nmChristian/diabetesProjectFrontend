@@ -1,7 +1,15 @@
 <template>
   <div>
 
-    <c-g-m-legend/>
+    <ElementTableSeries
+        :basal="daysBackData(basal, daysBack)"
+        :bolus="daysBackData(bolus, daysBack)"
+        :cgm="daysBackData(cgm, daysBack)"
+        :meals="daysBackData(meals, daysBack)"
+        :dates="dates"
+        :show-advanced="true"
+    />
+    <CGMLegend/>
     <TIRGraph :occurrences="frequencies" :colors="COLOR_SCHEME"/>
     <TIRDailySeries
         :data="cgm"
@@ -14,20 +22,12 @@
         :show-advanced="true"
     />
 
-    <ElementTableSeries
-        :basal="daysBackData(basal, daysBack)"
-        :bolus="daysBackData(bolus, daysBack)"
-        :cgm="daysBackData(cgm, daysBack)"
-        :meals="daysBackData(meals, daysBack)"
-        :dates="dates"
-        :show-advanced="true"
-
-    />
     <RawSeries
         :basal="basal"
         :bolus="bolus"
         :cgm="cgm"
         :meals="meals"
+        :show-advanced="true"
     />
   </div>
 </template>
@@ -45,6 +45,7 @@ import RawSeries from "@/components/charts/graphseries/RawSeries.vue";
 import TIRDailySeries from "@/components/charts/graphseries/TIRDailySeries.vue";
 import ElementTableSeries from "@/components/charts/graphseries/ElementTableSeries.vue";
 import CGMLegend from "@/components/charts/CGMLegend.vue";
+import VueTable from "@/services/graphs/generic/VueTable.vue";
 
 
 const props = defineProps<{

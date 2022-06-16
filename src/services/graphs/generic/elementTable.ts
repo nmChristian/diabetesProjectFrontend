@@ -7,7 +7,7 @@ const defaultAltFontColor = "black"
 export type ElementRow = {title : string, values: [number, string?][]}
 export function elementTable(elements: [Date, ElementRow []] [], columns: number[]) {
     const table = document.createElement("table")
-    table.className = "elementTable"
+    table.className = "element-table"
 
     if (elements.length == 0)
         return table
@@ -19,11 +19,9 @@ export function elementTable(elements: [Date, ElementRow []] [], columns: number
     const head = table.createTHead()
     head.append(createTimeOfDayRow(columns))
 
+    // Create colgroups
     const colGroup = document.createElement("colgroup")
     table.append(colGroup);
-
-    // Create for dates
-
     ([["col-dates", 1], ["col-data", nCols], ["col-sub-titles", 1],] as [string, number][]).map(([className, columns]) => {
         const col = document.createElement("col")
         col.span = columns
@@ -63,7 +61,6 @@ export function elementTable(elements: [Date, ElementRow []] [], columns: number
             tr.append(subTitle)
             subTitle.innerHTML = title
             subTitle.className = "sub-title"
-
         })
     })
 

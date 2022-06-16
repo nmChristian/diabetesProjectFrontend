@@ -21,19 +21,17 @@ watchEffect(() => {
   table.value?.append(elementTable(props.elements, props.columns))
 })
 
+const dataBorder = "1px solid rgba(128, 128, 128, 0.4)"
+const headerBorder = "1px solid black"
 </script>
 
 <style>
-:root {
-  --element-data-border-color: rgba(128, 128, 128, 0.4);
-  --element-header-border: 1px solid black;
-}
-.elementTable {
+.element-table {
   border: 2px solid grey;
   border-collapse: collapse;
 }
 
-.elementTable td {
+.element-table td {
   width: 45px;
   text-align: right;
   font-weight: bold;
@@ -45,42 +43,42 @@ watchEffect(() => {
 
 
 /*Borders through all columns */
-.elementTable .col-data {
-  border-left: 1px solid var(--element-data-border-color);
+.element-table .col-data {
+  border-left: v-bind(dataBorder);
 }
-.elementTable .first-row, .elementTable .center-row {
-  border-bottom: 1px solid var(--element-data-border-color)
+.element-table .first-row, .element-table .center-row {
+  border-bottom: v-bind(dataBorder);
 }
-.elementTable .last-row {
-  border-top: 1px solid var(--element-data-border-color)
+.element-table .last-row {
+  border-top: v-bind(dataBorder);
 }
 
 /*Big bold borders between each day*/
-.elementTable tbody {
-  border: var(--element-header-border)
+.element-table tbody {
+  border: v-bind(headerBorder);
 }
 
 /*Edges Border*/
-.elementTable th:last-child {
-  border-left: var(--element-header-border)
+.element-table th:last-child {
+  border-left: v-bind(headerBorder);
 }
-.elementTable tr th:first-child{
-  border-right: var(--element-header-border)
+.element-table tr th:first-child{
+  border-right: v-bind(headerBorder);
 }
 
 /*HEADERS*/
-.elementTable th {
+.element-table th {
   font-weight: bold;
   font-size: 12px;
 }
-.elementTable th.time-of-day {
+.element-table th.time-of-day {
   font-style: italic;
 }
-.elementTable th.day {
+.element-table th.day {
   vertical-align: text-top;
   width: 80px;
 }
-.elementTable th.sub-title {
+.element-table th.sub-title {
   text-align: end;
   width: 100px;
   font-style: italic;
@@ -88,7 +86,7 @@ watchEffect(() => {
 }
 
 /*CHANGE COLORS*/
-.elementTable tbody:nth-child(even) {
+.element-table tbody:nth-child(even) {
   background-color: #f7f7f7;
 }
 .elementTable tbody:nth-child(odd) {

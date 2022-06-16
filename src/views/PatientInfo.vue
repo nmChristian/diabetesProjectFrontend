@@ -168,6 +168,9 @@ const elementsOnPage = [
   {id: "notesAndGoals", text: "Goals"},
   {id: "forecast", text: "3 week overview"},
   {id: "big-table", text: "Table of data"},
+  {id: "tir-series", text: "Hourly TIR values"},
+  {id: "raw-series", text: "Raw Data (expandable)"},
+
 ]
 
 let currentViewedElement = ref(0)
