@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import ListViewPatientElement from "@/components/patientElements/ListViewPatientElement.vue";
 import InfoElement from "@/components/patientElements/InfoElement.vue";
-import GallaeryViewPatientElement from "@/components/patientElements/GallaeryViewPatientElement.vue";
+import GallaeryViewPatientElement from "@/components/patientElements/PatientCard.vue";
 import DisplayPatientsFullList from "@/components/patientElements/DisplayPatientsFullList.vue";
 import axios from "axios"
 import backend from "@/services/backend";
