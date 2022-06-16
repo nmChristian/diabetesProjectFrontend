@@ -28,15 +28,6 @@
 	<div class="spacer"/>
 
 	<div id="content-view" class="content-view">
-		<header>
-			<div class="wrapper">
-				<nav>
-					<RouterLink to="/GraphView">Graph demo</RouterLink>
-					<RouterLink to="/DisplayPatients"> display patients</RouterLink>
-					<RouterLink to="/DisplayPatientsList"> display patients list</RouterLink>
-				</nav>
-			</div>
-		</header>
 		<RouterView/>
 	</div>
 </template>
@@ -73,12 +64,6 @@ export default defineComponent({
 			const fromPath = from.fullPath.toLowerCase();
 			if (fromPath === '/sign-in' || fromPath === '/sign-up' || fromPath === '/settings') {
 				this.initialize()
-			}
-			const rightContent = document.querySelector('.right-content') as HTMLDivElement
-			if (to.fullPath.toLowerCase().includes('displaypatients')) {
-				rightContent.style.visibility = 'visible'
-			} else {
-				rightContent.style.visibility = 'hidden'
 			}
 		}
 	},
