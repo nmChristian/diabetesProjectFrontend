@@ -74,17 +74,22 @@
       </div>
 
 
-      <div id="forecast"
-           @click="selectInfoSection('forecast')"
-           :class="selectedInfoSection !== 'forecast' ? 'infoItem' : 'infoItemSelected'">
-        <forecast-series :cgm="cgmInDateValue" :meals="mealsInDateValue"
-                         :showAdvanced="selectedInfoSection === 'forecast'"/>
-      </div>
+      <graph-section
+        id="forecast"
+        :currently-selected="selectedInfoSection"
+        @selected-section="selectInfoSection">
+        <ForecastSeries
+          :cgm="cgmInDateValue"
+          :meals="mealsInDateValue"
+          :showAdvanced="selectedInfoSection === 'forecast'"
+        />
+      </graph-section>
 
-      <div id="big-table"
-           @click="selectInfoSection('big-table')"
-           :class="selectedInfoSection !== 'big-table' ? 'infoItem' : 'infoItemSelected'">
-        <element-table-series
+      <graph-section
+          id="big-table"
+          :currently-selected="selectedInfoSection"
+          @selected-section="selectInfoSection">
+        <ElementTableSeries
             :basal="daysBackData(basalInDateValue, daysBack)"
             :bolus="daysBackData(bolusInDateValue, daysBack)"
             :cgm="daysBackData(cgmInDateValue, daysBack)"
@@ -92,33 +97,24 @@
             :dates="dates"
             :showAdvanced="selectedInfoSection === 'big-table'"
         />
-      </div>
+      </graph-section>
 
-      <div class="infoItem" id="testAScroll1">
-        <h1>Test a scroll 1</h1>
-      </div>
-
-      <div class="infoItem" id="testAScroll2">
-        <h1>Test a scroll 2</h1>
-      </div>
-
-      <div id="testAScroll3"
-           @click="selectInfoSection('testAScroll3')"
-           :class="selectedInfoSection !== 'testAScroll3' ? 'infoItem' : 'infoItemSelected'">
-        <h1>Test a scroll 3</h1>
-      </div>
-
-      <div id="testAScroll4"
-           @click="selectInfoSection('testAScroll4')"
-           :class="selectedInfoSection !== 'testAScroll4' ? 'infoItem' : 'infoItemSelected'">
-      </div>
-
+      <graph-section
+          id="tir-series"
+          :currently-selected="selectedInfoSection"
+          @selected-section="selectInfoSection">
+        <TIRDailySeries
+            :data="cgmInDateValue"
+            :showAdvanced="selectedInfoSection === 'tir-series'"
+        />
+      </graph-section>
 
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import TIRDailySeries from "@/components/charts/graphseries/TIRDailySeries.vue";
 import router from "../router";
 import ForecastSeries from "@/components/charts/graphseries/ForecastSeries.vue";
 import backend from "../services/backend";
@@ -133,6 +129,7 @@ import TIRGraph from "@/components/charts/generic/TIRGraph.vue";
 import * as d3 from "d3";
 import {COLOR_SCHEME} from "@/services/core/shared";
 import CGMLegend from "@/components/charts/CGMLegend.vue";
+import GraphSection from "@/components/patientElements/GraphSection.vue";
 
 const loggedInUser = ref({first_name: ""} as UserDetails)
 onMounted(() => {
@@ -169,7 +166,7 @@ function getProfilePicturePath() {
   return currentPatient.profile_picture
 }
 
-const selectedInfoSection = ref('')
+const selectedInfoSection : Ref<string> = ref('')
 
 function selectInfoSection(id: string) {
   selectedInfoSection.value = id

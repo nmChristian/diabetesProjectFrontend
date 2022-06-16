@@ -1,11 +1,11 @@
 <template>
   <div class="tir-daily-series">
-    <div style="display: grid; place-items: center;">
+    <div v-if="showAdvanced" style="display: grid; place-items: center;">
       <p>Split by</p>
       <select v-model="hoursPerRange"
               style="font-size: 16px; text-align: center; width: 300px; height: 35px; border-radius: 20px;">
         <option
-            v-for="intervalOption in [1,2,3,4,6,8,12,24]"
+            v-for="intervalOption in [2,3,4,6,8,12,24]"
             :value="intervalOption"> {{ intervalOption }} hour{{ intervalOption === 1 ? "" : "s" }}
         </option>
       </select>
@@ -45,7 +45,8 @@ const graphLayout = computed(() => new GraphLayout(hoursPerRange.value === 1 ? 4
 
 
 const props = defineProps<{
-  data: DateValue[]
+  data: DateValue[],
+  showAdvanced: boolean,
 }>()
 
 // Ranges [0, 6, 12, 18],
