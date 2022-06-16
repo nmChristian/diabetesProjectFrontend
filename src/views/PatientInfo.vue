@@ -64,7 +64,8 @@
           ></NoteViwerAndEditor>
         </div>
         <div class="infoItemSmall" style=" width: auto;" >
-          <h1>Søjle diagram med procenter</h1>
+          <t-i-r-graph  :occurrences="frequencies"  :colors="COLOR_SCHEME" />
+
         </div>
       </div>
 
@@ -126,10 +127,13 @@ import router from "../router";
 import ForecastSeries from "@/components/charts/graphseries/ForecastSeries.vue";
 import backend from "../services/backend";
 import type {DateValue} from "@/services/core/datatypes"
-import {mMolPerLToMgPerL, timeSeriesToDateValue} from "@/services/core/datatypes";
-import {onMounted, Ref, ref} from "vue";
+import {getCGMOccurrences, mMolPerLToMgPerL, timeSeriesToDateValue} from "@/services/core/datatypes";
+import {computed, onMounted, Ref, ref} from "vue";
 import type {Diagnosis, Note, UserDetails} from "@/services/core/dbtypes";
 import NoteViwerAndEditor from "@/components/NoteViwerAndEditor.vue";
+import TIRGraph from "@/components/charts/generic/TIRGraph.vue";
+import * as d3 from "d3";
+import {COLOR_SCHEME} from "@/services/core/shared";
 
 onMounted(() => {
   loadData()
@@ -231,9 +235,11 @@ function listToString(inListe: string | any[] | undefined) {
 }
 
 let cgmInDateValue: Ref<never[] | DateValue[]> = ref([])
+let cgmInDateValueLastSeven: Ref<never[] | DateValue[]> = ref([])
 let mealsInDateValue: Ref<never[] | DateValue[]> = ref([])
 let basalInDateValue: Ref<never[] | DateValue[]> = ref([])
 let bolusInDateValue: Ref<never[] | DateValue[]> = ref([])
+const frequencies = computed(() => getCGMOccurrences(cgmInDateValueLastSeven.value))
 
 const diagnosis = ref([] as Diagnosis[])
 
@@ -264,9 +270,15 @@ async function loadData() {
 
   backend.getDataPatient(21, ["cgm", "meals", "basal", "bolus"],id).then((response) => {
     cgmInDateValue.value = timeSeriesToDateValue(response.cgm, mMolPerLToMgPerL)
+    console.log(cgmInDateValue.value)
     mealsInDateValue.value = timeSeriesToDateValue(response.meals)
     basalInDateValue.value = timeSeriesToDateValue(response.basal)
     bolusInDateValue.value = timeSeriesToDateValue(response.bolus)
+
+    console.log(new Date())
+
+    cgmInDateValueLastSeven.value = cgmInDateValue.value.filter(([date,]) => date > d3.timeDay.offset( new Date() , -7))
+
   })
 
 
