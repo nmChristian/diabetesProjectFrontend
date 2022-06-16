@@ -11,7 +11,8 @@
           <label class="group-label" :for="getGroupId(i)">{{ group.title }}</label>
         </div>
         <div class="option" v-for="(option, j) in group.options">
-          <input type="radio" :name="getGroupId(i)" :id="getOptionId(i,j)" v-model="group.selectedOption" :value="option"
+          <input type="radio" :name="getGroupId(i)" :id="getOptionId(i,j)" v-model="group.selectedOption"
+                 :value="option"
                  :checked="j === 0" :disabled="!group.active"/>
           <label class="option-label" :for="getOptionId(i,j)">{{ option[0].toLowerCase() }}</label>
         </div>
@@ -25,7 +26,7 @@
 import ElementTable from "@/components/charts/generic/ElementTable.vue"
 import type {DateValue} from "@/services/core/datatypes";
 import {getCGMColor} from "@/services/core/datatypes";
-import type {Ref} from "vue"
+import type {ComputedRef, Ref} from "vue"
 import {computed, ref} from "vue";
 import * as d3 from "d3";
 import type {ElementRow} from "@/services/graphs/generic/elementTable";
@@ -47,24 +48,20 @@ function splitByHour(dateValues: DateValue[]): number[][] {
 }
 
 // Generate elements by adding titles to each row
-const elements = computed(() => {
-  const methods: [string, (values: number[]) => number | undefined][] =
-      [
-        ["mean", d3.mean],
-        ["median", d3.median],
-        ["min", d3.min],
-        ["max", d3.max],
-      ]
-  return cgmSplitIntoIntervals.value.map<[Date, ElementRow[]]>(([date, hoursValues]) =>
-      [
-        date,
-        methods.map<ElementRow>(([title, method]) => ({
-          title: title,
-          values: hoursValues.map<number>(values => method(values) ?? NaN).map<[number, string?]>(value => [value, getCGMColor(value)]),
-        }))
-      ])
-})
 /*
+const elements = computed(() => dataGroups.value.map<[Date, ElementRow[]]>(({data, colorMethod, selectedOption}) =>
+    data.value.map<[Date, ElementRow[]]>(([date, hoursValues]) => {
+      const [title, method] = selectedOption ?? ["", () => 0]
+      return [
+        date,
+        [({
+          title: title,
+          values: hoursValues.map<number>(values => method(values) ?? NaN).map<[number, string?]>(value => [value, colorMethod(value)]),
+        })]
+      ]
+    })
+))*/
+///*
 const elements = computed(() => {
   const methods: [string, (values: number[]) => number | undefined][] =
       [
@@ -81,7 +78,7 @@ const elements = computed(() => {
           values: hoursValues.map<number>(values => method(values) ?? NaN).map<[number, string?]>(value => [value, getCGMColor(value)]),
         }))
       ])
-})*/
+})//*/
 const cgmSplitIntoIntervals = computed(() => {
   const splitByDay = d3.group(props.cgm, ([date,]) => d3.timeDay(date))
   const arrayOfDaysBackData = props.lastDaysBack.map<[Date, DateValue[]]>((date) => [date, splitByDay.get(date) ?? []])
@@ -94,16 +91,19 @@ const cgmSplitIntoIntervals = computed(() => {
 // Settings
 type ColorMethod = (value: number) => string
 type Option = [string, (values: number[]) => number | undefined]
+
 class Group {
   title: string
+  data: ComputedRef<[Date, number[][]][]>
   options: Option[]
-  colorMethod : ColorMethod
+  colorMethod: ColorMethod
   // Default selected options is false and not active by default
   selectedOption: (Option | undefined) = undefined
   active: boolean = false
 
-  constructor(title: string, colorMethod : ColorMethod = () => "inherit", options: Option[] = defaultOptions) {
+  constructor(title: string, data: ComputedRef<[Date, number[][]][]>, colorMethod: ColorMethod = () => "inherit", options: Option[] = defaultOptions) {
     this.title = title;
+    this.data = data
     this.colorMethod = colorMethod
     this.options = options;
   }
@@ -118,10 +118,10 @@ const defaultOptions: Option[] = [
 
 const dataGroups: Ref<Group[]> = ref(
     [
-      new Group("CGM", getCGMColor),
-      new Group("Meal"),
-      new Group("Bolus"),
-      new Group("Basal"),
+      new Group("CGM", cgmSplitIntoIntervals, getCGMColor),
+      new Group("Meal", cgmSplitIntoIntervals),
+      new Group("Bolus", cgmSplitIntoIntervals),
+      new Group("Basal", cgmSplitIntoIntervals),
     ] as Group[])
 
 const getGroupId = (i: number) => "group-" + i
