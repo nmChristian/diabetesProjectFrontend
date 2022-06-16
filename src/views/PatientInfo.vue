@@ -64,11 +64,9 @@
           ></NoteViwerAndEditor>
         </div>
         <div class="infoItemSmall" style=" width: auto;" >
-          <t-i-r-graph  :occurrences="frequencies"  :colors="COLOR_SCHEME" />
-
+            <t-i-r-graph :rotate="true" :occurrences="frequencies"  :colors="COLOR_SCHEME" />
         </div>
       </div>
-
 
 
       <div id="forcast"
@@ -426,6 +424,5 @@ async function loadData() {
   flex-direction: column;
   align-items: center;
 }
-
 
 </style>
