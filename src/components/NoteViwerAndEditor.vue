@@ -29,6 +29,7 @@
         <button @click="onSaveClicked()">{{selected === -1 ? 'Save as new' : 'Save edit'}}</button>
         <button>Delete note</button>
         <input type="checkbox" v-model="canBeeSeenByPatient">
+        <label style="padding: 5px">{{canBeeSeenByPatient ? 'Note is visible to patient' : "Note is not visible to patient"}}</label>
       </div>
     </div>
     <div v-else style="width: 0px"></div>
@@ -67,9 +68,9 @@ function onNewClicked(){
 
 function onSaveClicked(){
   if(selected.value === -1){
-    backend.postNote(props.id,noteText.value,canBeeSeenByPatient.value)
+    backend.postNote(props.id,noteText.value,!canBeeSeenByPatient.value)
   }else{
-    backend.updateNote(props.data[selected.value]._id.$oid,noteText.value,canBeeSeenByPatient.value)
+    backend.updateNote(props.data[selected.value]._id.$oid,noteText.value,!canBeeSeenByPatient.value)
   }
   emit("updateNotes")
 }
