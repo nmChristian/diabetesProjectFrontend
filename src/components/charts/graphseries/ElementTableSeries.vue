@@ -61,7 +61,6 @@ function splitDataIntoIntervals(data: DateValue[]): number[][][] {
 }
 
 const elements = computed(() => {
-  console.log(dataGroups[0]);
   return props.dates.map<[Date, ElementRow[]]>((date, i) =>
           [
             date,
@@ -70,7 +69,7 @@ const elements = computed(() => {
                 ({
                   title: selectedOption.value[0] + " - " + title.toUpperCase(),
                   // Compute the values
-                  values: data.value[i].map<number>(values => d3.mean(values) ?? NaN).map<[number, string?]>(value => [value, colorMethod(value)]),
+                  values: data.value[i].map<number>(values => selectedOption.value[1](values) ?? NaN).map<[number, string?]>(value => [value, colorMethod(value)]),
                 })
             )
           ]
@@ -100,11 +99,10 @@ class Group {
     this.selectedOption = ref(options[defaultOption])
   }
 }
-const splitCGM = computed( () => {console.log("hej"); return splitDataIntoIntervals(props.cgm)})
 const defaultOptions: Option[] = [
   ["mean", d3.mean],
-  ["median", d3.median],
   ["max", d3.max],
+  ["median", d3.median],
   ["min", d3.min],
 ]
 const sumOptions : Option[] = [
