@@ -1,22 +1,29 @@
 <template>
   <div class="noterMain">
-    <div class="noteList">
+    <div :class="showAdvanced ? 'leftContainer' : 'leftContainerNormal'">
       <p v-if="isDoctor" class="nodesHeader">Notes and goals</p>
       <p v-else class="nodesHeader">Goals</p>
-      <p v-if="data.length===0">No notes registered for patient</p>
+      <div class="noteList">
+        <template v-if="data.length===0">
+          <p v-if="isDoctor">No notes registered for patient</p>
+          <p v-else>No goals registered</p>
+        </template>
 
-      <template v-for="(item, index) in data">
-        <div class="noteItem" @click="noteClicked(index)">
-          <p>{{item.timestamp.$date.slice(0,10)}}</p>
-          <p>{{item.text.slice(0,20) + "..."}}</p>
-        </div>
-      </template>
+
+        <template v-for="(item, index) in data">
+          <div class="noteItem" @click="noteClicked(index)">
+            <p>{{item.timestamp.$date.slice(0,10)}}</p>
+            <p>{{item.text.slice(0,20) + "..."}}</p>
+          </div>
+        </template>
+      </div>
     </div>
-    <div class="noteEditor" id="noteTextField">
+    <div v-if="showAdvanced" class="noteEditor" id="noteTextField">
       <textarea  v-model="noteText" class="textField" :readonly="!isDoctor"></textarea>
       <button @click="onSaveClicked()">Save</button>
       <input type="checkbox" v-model="canBeeSeenByPatient">
     </div>
+    <div v-else style="width: 0px"></div>
   </div>
 </template>
 
@@ -30,8 +37,13 @@ import backend from "@/services/backend";
 const props = defineProps<{
       data: Note[],
       isDoctor: boolean,
-      id: string
+      id: string,
+      showAdvanced: boolean
 }>()
+
+const emit = defineEmits<{
+  (e: 'updateNotes'): void}>()
+
 
 const selected = ref(-1)
 
@@ -40,12 +52,18 @@ const noteText = ref("")
 const canBeeSeenByPatient = ref(false)
 
 function onSaveClicked(){
-  backend.postNote(props.id,noteText.value,canBeeSeenByPatient.value)
+  if(selected.value === -1){
+    backend.postNote(props.id,noteText.value,canBeeSeenByPatient.value)
+  }else{
+    backend.updateNote(props.data[selected.value]._id.$oid,noteText.value,canBeeSeenByPatient.value)
+  }
+  emit("updateNotes")
 }
 
 function noteClicked(index : number){
 
   noteText.value = props.data[index].text;
+  canBeeSeenByPatient.value = !props.data[index].private
   selected.value = index;
 }
 
@@ -63,7 +81,7 @@ console.log(props.data)
   font-size: 30px;
 }
 .textField{
-  height: 80%;
+  height: 90%;
   width: 100%;
   padding: 10px;
   border-radius: 10px;
@@ -79,11 +97,45 @@ console.log(props.data)
   border-bottom: 1px black solid;
   padding-bottom: 10px;
 }
-.noteList{
+.leftContainer{
   min-width: 300px;
   padding: 10px;
-  margin: 10px;
+  height: 500px;
+}
+.leftContainerNormal{
+  min-width: 300px;
+  width: 100%;
+  padding: 10px;
+  height: 300px;
+}
+.noteList{
+  min-width: 300px;
+  margin: 10px 0 10px 10px;
+  max-height: calc(100% - 55px);
+  overflow: auto;
   border-right: 1px black solid;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: lightgray;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: grey;
 }
 
 
