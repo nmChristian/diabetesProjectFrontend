@@ -32,7 +32,6 @@ export default function forecastGraph(dateValues: DateValue[], timeInterval: Tim
 
     const yScale = d3.scaleLinear(CGM_RANGE, [height, 0])
 
-    // TODO: Set curve type
     // Draw Line
     const lineGen = d3.line<DateValue>()
         .defined(dateValueIsValid)
@@ -80,7 +79,6 @@ export default function forecastGraph(dateValues: DateValue[], timeInterval: Tim
         .tickSize(0)
         .tickFormat(d => d3.timeFormat("%A")(d))
 
-    // TODO: Fix this hack where you just offset the label
     applyAxis(svg, xAxis, {xOffset: 40, yOffset: 0, removeDomain: true})
 
     const yAxis = d3.axisLeft(yScale)

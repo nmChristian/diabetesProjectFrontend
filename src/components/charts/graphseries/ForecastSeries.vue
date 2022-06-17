@@ -95,6 +95,7 @@ const selectedRange: Ref<[Date, Date] | undefined> = ref(undefined)
 // THis
 let currentGraph: any = null;
 
+//TODO: FIX ERROR, SOMETIMES REACH MAX CALLSTACK ERROR, THIS IS BECAUSE THE EVENT CALLS ITSELF RECURSIVELY AND CAN
 const brushEvent = (event: d3.D3BrushEvent<any>) => {
   const nextGraph = graphs.value.get(event.target)
 
@@ -137,8 +138,9 @@ const graphs = computed(() => {
 }
 
 .interval-indicator {
+  width: 150px;
   font-size: 16px;
-  padding: 0 20px;
+  padding: 0 10px;
   border-bottom: 3px solid black;
   margin-bottom: 20px;
 }
