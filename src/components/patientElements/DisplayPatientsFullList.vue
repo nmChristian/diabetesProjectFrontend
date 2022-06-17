@@ -104,12 +104,8 @@ accessiblelUsersPromise.then((accessiblelUsers : Array<UserDetails>)  => {
       if(a.healthLevel === b.healthLevel){
         return  (a.user.first_name).localeCompare(b.user.first_name);
       }
-      if(a.healthLevel === 2)
-        return 1
-      if(b.healthLevel === 2){
-        return -1
-      }
-      return (a.healthLevel || 0) - (b.healthLevel || 0)
+    
+      return  (b.healthLevel || 0) - (a.healthLevel || 0)
     })
     usersWithData.value = tempList
   })
