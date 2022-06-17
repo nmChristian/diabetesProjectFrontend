@@ -62,6 +62,10 @@ function medianDataToMedianAndData(values: number[]): Point[] {
 
 function calcHealthLevel(problems: number[]){
   let count = 0;
+  //TODO måske erstart med en grå
+  if(problems == undefined){
+    return 2
+  }
   for(let i =0; i < problems.length; i++){
     if(problems[i] ===0 || problems[i] == 4){
       return 0
