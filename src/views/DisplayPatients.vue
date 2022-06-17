@@ -32,7 +32,7 @@
               :id="usersWithData[index].user._id.$oid"
               :age="usersWithData[index].user.age"
               :eGFR="usersWithData[index].eGFR"
-              :hbalc="usersWithData[index].hbalc"
+              :hbalc="usersWithData[index].HbALc"
               :hypos="usersWithData[index].hypos"
               :name="usersWithData[index].user.first_name"
               :weight="'n/a'">
@@ -42,7 +42,7 @@
                 :id="usersWithData[index+1].user._id.$oid"
                 :age="usersWithData[index+1].user.age"
                 :eGFR="usersWithData[index+1].eGFR"
-                :hbalc="usersWithData[index+1].hbalc"
+                :hbalc="usersWithData[index+1].HbALc"
                 :hypos="usersWithData[index+1].hypos"
                 :name="usersWithData[index+1].user.first_name"
                 :weight="'n/a'">
@@ -61,8 +61,8 @@ import PatientCard from "@/components/patientElements/PatientCard.vue";
 
 class UserWithDate {
   user: UserDetails;
-  eGFr: string | undefined;
-  hblac: string | undefined;
+  eGFR: string | undefined;
+  HbALc: string | undefined;
   hypos: string | undefined;
 }
 
@@ -78,8 +78,8 @@ accessiblelUsersPromise.then((accessiblelUsers : Array<UserDetails>)  => {
 
     newUser.user = recivedUser
 
-    newUser.eGFr = "n/a"
-    newUser.hblac = "n/a"
+    newUser.eGFR = "n/a"
+    newUser.HbALc = "n/a"
     newUser.hypos = "n/a"
 
     usersWithData.value.push(newUser)
