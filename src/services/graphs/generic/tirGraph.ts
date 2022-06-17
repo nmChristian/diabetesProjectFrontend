@@ -5,13 +5,14 @@ import * as d3 from "d3";
 const tooltipId = "tir-tooltip"
 
 export default function tirGraph(occurrences: number[], colors: string[], {
-    graphLayout = new GraphLayout(50, 400, 10, 10, 10, 10),
+    graphLayout = new GraphLayout(50, 400),
     offset = 2,
     rx = 3, ry = 3,
     enableTooltip = true,
+    rotate = false,
 }) {
     const {width, height} = graphLayout
-    const {out, svg} = generateSVG(graphLayout)
+    const {out, svg} = generateSVG(graphLayout, rotate)
 
     // TODO: Force sizes and colors to be the same length
     if (occurrences.length != colors.length) {

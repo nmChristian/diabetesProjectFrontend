@@ -10,7 +10,12 @@
 </template>
 
 <script lang="ts" setup>
-import {CGM_THRESHOLDS, COLOR_SCHEME} from "@/services/core/shared";</script>
+import {CGM_THRESHOLDS, COLOR_SCHEME} from "@/services/core/shared";
+const props = defineProps<{
+
+}>()
+
+</script>
 
 <style scoped>
 .cgm-legend {

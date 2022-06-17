@@ -68,7 +68,7 @@
           ></NoteViwerAndEditor>
         </div>
         <div class="infoItemSmall" style=" width: auto;">
-          <t-i-r-graph :rotate="true" :occurrences="frequencies" :colors="COLOR_SCHEME"/>
+          <t-i-r-graph :rotate="true" :graph-layout="new GraphLayout(400, 50)" :occurrences="frequencies" :colors="COLOR_SCHEME"/>
           <c-g-m-legend/>
         </div>
       </div>
@@ -143,7 +143,7 @@ import GraphSection from "@/components/patientElements/GraphSection.vue";
 import RawSeries from "@/components/charts/graphseries/RawSeries.vue";
 import TIRDailySeries from "@/components/charts/graphseries/TIRDailySeries.vue";
 import ForecastSeries from "@/components/charts/graphseries/ForecastSeries.vue";
-
+import {GraphLayout} from "@/services/core/graphtypes";
 const loggedInUser = ref({first_name: ""} as UserDetails)
 onMounted(() => {
   loadData()
@@ -305,6 +305,7 @@ async function loadData() {
 
 }
 
+/* BEHOLD MY STUFF */
 const lastDateInDataSet = computed(() => cgmInDateValue.value.length === 0 ? new Date() : cgmInDateValue.value[cgmInDateValue.value.length - 1][0])
 const daysBack = 7
 const dates = computed(() =>

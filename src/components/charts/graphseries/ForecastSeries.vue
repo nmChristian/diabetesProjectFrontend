@@ -1,8 +1,7 @@
 <template>
   <div class="forecast-series">
     <div v-if="showAdvanced">
-      <h2>Vejrudsigt graf</h2>
-
+      <h2>Forecast Graph</h2>
       <div style="display: grid; place-items: center;">
         <p>Split by</p>
         <select v-model="interval"
@@ -19,21 +18,23 @@
       </div>
       <br>
     </div>
-    <div style="display: flex; justify-content: center;">
-      <div>
+
+    <div class="graphs">
+      <div class="forecast-graphs">
         <Graph
             v-for="(graph, i) in graphs.values()"
             :svg="graph.svg"/>
       </div>
-      <div style="margin: auto 10px; text-align: center;">
+      <div class="selection-group">
         <div class="interval-indicator">
           <p v-for="date in (selectedRange ?? [lastThreeIntervals[2], lastDateInDataSet])">
             {{ d3.timeFormat("%a %H:%M [%d/%m]")(date) }}</p>
         </div>
-        <TIRGraph
+        <TIRGraph class="tir-graph"
             :colors="COLOR_SCHEME"
             :graph-layout="tirLayout"
             :occurrences="getCGMOccurrences(selectedData)"
+                  :rotate="true"
             :offset="1"
             :rx="1"
             :ry="1"
@@ -133,16 +134,29 @@ const graphs = computed(() => {
 </script>
 
 <style scoped>
-.forecast-series {
-  padding: 10px 0 50px 0;
+.graphs {
+  display: flex;
+}
+.forecast-graphs {
+  flex: 1 0 auto;
+}
+.selection-group {
+  display: flex;
+  flex-direction: column;
+
+  flex-basis: 130px;
+  font-size: 14px;
+}
+.tir-graph {
+  width: 50px;
+  margin: auto;
 }
 
 .interval-indicator {
-  width: 150px;
-  font-size: 16px;
-  padding: 0 10px;
+  text-align: center;
+  width: 90%;
+  margin: 0 auto 10px auto;
   border-bottom: 3px solid black;
-  margin-bottom: 20px;
 }
 
 </style>

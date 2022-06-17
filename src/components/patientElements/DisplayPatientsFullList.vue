@@ -14,19 +14,11 @@
 </template>
 
 <script setup lang="ts">
-import {ref, watch} from 'vue'
+import {ref} from 'vue'
 
 import router from "@/router"
 import type {DateValue, Point} from "@/services/core/datatypes"
-import {
-  bucketToMedian,
-  mMolPerLToMgPerL,
-  SPLIT_BY_DAY,
-  timeSeriesToDateValue,
-  toBuckets,
-  toDateValue
-} from "@/services/core/datatypes"
-import {HealthLevel} from "@/services/core/shared";
+import {bucketToMedian, mMolPerLToMgPerL, toBuckets} from "@/services/core/datatypes"
 import backend from "@/services/backend";
 import type {UserDetails} from "@/services/core/dbtypes";
 
