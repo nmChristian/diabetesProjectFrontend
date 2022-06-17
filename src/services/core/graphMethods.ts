@@ -14,15 +14,17 @@ export const highlightTargetLineStyle = (i: number, targetCSS?: string, otherCSS
     "fill: none;" + (isTarget(i) ? (targetCSS ?? targetLineStyle) : (otherCSS ?? otherLineStyle))
 
 
-export function generateSVG(graphLayout: GraphLayout = new GraphLayout(0, 0, 0, 0, 0, 0), rotate : boolean = false) {
+export function generateSVG(graphLayout: GraphLayout = new GraphLayout(0, 0, 0, 0, 0, 0), flip : boolean = false) {
     const {width, height, marginTop, marginRight, marginBottom, marginLeft} = graphLayout
     const totalWidth = width + marginLeft + marginRight
     const totalHeight = height + marginTop + marginBottom
     const out = d3.create("svg")
         .attr("viewBox", `0 0 ${totalWidth} ${totalHeight}`)
         .attr("preserveAspectRatio", "xMidYMid meet")
+        .attr("overflow", "visible")
+
     const svg = out.append("g")
         .attr("transform",
-            `translate(${marginLeft} , ${marginTop}) ` + (rotate ? `rotate(90 ${totalWidth / 2} ${totalHeight / 2}) ` : ""));
+            `translate(${marginLeft} , ${marginTop}) ` + (flip ? `rotate(180 ${totalWidth / 2} ${totalHeight / 2}) ` : ""));
     return {out, svg}
 }

@@ -7,12 +7,15 @@ const tooltipId = "tir-tooltip"
 export default function tirGraph(occurrences: number[], colors: string[], {
     graphLayout = new GraphLayout(50, 400),
     offset = 2,
-    rx = 3, ry = 3,
+    r = 3,
     enableTooltip = true,
     rotate = false,
 }) {
-    const {width, height} = graphLayout
+    let {width, height} = graphLayout
     const {out, svg} = generateSVG(graphLayout, rotate)
+
+    const length = Math.max(width, height)
+    const breadth = Math.min(width, height)
 
     // TODO: Force sizes and colors to be the same length
     if (occurrences.length != colors.length) {
@@ -27,13 +30,13 @@ export default function tirGraph(occurrences: number[], colors: string[], {
     const nOffsets = frequencies.filter(d => d != 0).length - 1
     const totalOffset = nOffsets * offset
 
-    const posScale = d3.scaleLinear([0, 1], [height, 0])
-    const heightScale = d3.scaleLinear([0, 1], [0, height - totalOffset])
-    const heights = frequencies.map<number>(heightScale)
+    const posScale = d3.scaleLinear([0, 1], [length, 0])
+    const sizeScale = d3.scaleLinear([0, 1], [0, length - totalOffset])
+    const sizes = frequencies.map<number>(sizeScale)
     const offsets = frequencies.map<number>(d => (d == 0) ? 0 : offset)
     // startPos = previousPos + previousHeight + previousOffset
     const startPos: number[] = frequencies.reduce<number[]>((startPos, _, i) =>
-        startPos.concat(i == 0 ? posScale(0) : startPos[i - 1] - heights[i - 1] - offsets[i - 1]), [])
+        startPos.concat(i == 0 ? posScale(0) : startPos[i - 1] - sizes[i - 1] - offsets[i - 1]), [])
 
     // Bars
     const bars = svg.append("g")
@@ -42,17 +45,29 @@ export default function tirGraph(occurrences: number[], colors: string[], {
         .join("g")
 
     const animationTime = 200;
-    const getY = (index: number) => startPos[index] - heights[index]
+    const getPos = (index: number) => startPos[index] - sizes[index]
     const barRect = bars.append("rect")
-        .attr( "width", width)
-        .attr( "y", (_, i) => getY(i))
         .style("fill", (_, i) => colors[i])
         .style("fill-opacity", 0.9)
+        .attr(rotate ? "height" : "width", breadth)
 
-    barRect.transition().duration(d => d * animationTime).delay((_, i) => getY(i) * animationTime / height).ease(d3.easeLinear)
-        .attr("height", (_, i) => heights[i])
-        .attr("rx", rx)
-        .attr("ry", ry)
+    if (rotate) {
+        barRect
+            .attr("x", (_, i) => getPos(i))
+    }
+    else {
+        barRect
+            .attr("y", (_, i) => getPos(i))
+    }
+
+
+    const barTransition = barRect.transition().duration(d => d * animationTime).delay((_, i) => getPos(i) * animationTime / height).ease(d3.easeLinear)
+        .attr("rx", r)
+        .attr("ry", r)
+
+    barTransition
+        .attr(rotate ? "width" : "height", (_,i) => sizes[i])
+
 
     // Tooltip
     if (enableTooltip) {

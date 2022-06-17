@@ -34,7 +34,6 @@
             :colors="COLOR_SCHEME"
             :graph-layout="tirLayout"
             :occurrences="getCGMOccurrences(selectedData)"
-                  :rotate="true"
             :offset="1"
             :rx="1"
             :ry="1"

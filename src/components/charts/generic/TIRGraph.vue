@@ -14,8 +14,7 @@ const props = defineProps<{
   colors: string[]
   graphLayout?: GraphLayout,
   offset?: number,
-  rx?: number,
-  ry?: number,
+  r? : number,
   rotate?: boolean,
 }>()
 
@@ -24,8 +23,7 @@ const graph = computed(() =>
         {
           graphLayout: props.graphLayout,
           offset: props.offset,
-          rx: props.rx,
-          ry: props.ry,
+          r: props.r,
           rotate: props.rotate,
         })
 )

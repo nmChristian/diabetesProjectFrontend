@@ -68,8 +68,8 @@
           ></NoteViwerAndEditor>
         </div>
         <div class="infoItemSmall" style=" width: auto;">
-          <t-i-r-graph :rotate="true" :graph-layout="new GraphLayout(400, 50)" :occurrences="frequencies" :colors="COLOR_SCHEME"/>
-          <c-g-m-legend/>
+          <TIRGraph style="width: 400px;" :rotate="true" :graph-layout="new GraphLayout(400, 50)" :occurrences="frequencies" :colors="COLOR_SCHEME"/>
+          <CGMLegend/>
         </div>
       </div>
 
