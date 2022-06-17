@@ -45,9 +45,14 @@ import {getProfilePictureUrl, defaultUrl} from "@/services/settingsProvider";
 function loadName() {
 	const userData = backend.getUserDetails();
 	userData.then(data => {
+			const nameElement = (document.getElementById('currentUserName') as HTMLParagraphElement);
+			const emailElement = (document.getElementById('currentUserEmail') as HTMLParagraphElement);
 			if (data && isAuthenticated()) {
-				(document.getElementById('currentUserName') as HTMLParagraphElement).innerText = (data.last_name + ", " + data.first_name);
-				(document.getElementById('currentUserEmail') as HTMLParagraphElement).innerText = data.email;
+				nameElement.innerText = (data.last_name + ", " + data.first_name);
+				emailElement.innerText = data.email;
+			} else {
+				nameElement.innerText = '';
+				emailElement.innerText = '';
 			}
 		}
 	)
