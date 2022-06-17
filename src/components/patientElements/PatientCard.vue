@@ -38,10 +38,10 @@ export default defineComponent({
 	},
 	methods: {
 		mainClicked() {
-			router.push('/patientInfo/' + this.$props.id)
+			router.push('/patient-info/' + this.$props.id)
 		},
 		showElementData(dataType: string) {
-			router.push('/patientInfo/' + this.$props.id + "#" + dataType.toLowerCase())
+			router.push('/patient-info/' + this.$props.id + "#" + dataType.toLowerCase())
 		}
 	}
 })

@@ -49,4 +49,8 @@ function isAuthenticated(): boolean {
     return !!getApiKey();
 }
 
-export {signUp, signIn, isAuthenticated, getApiKey}
+function clearApiKey() {
+    sessionStorage.removeItem(key)
+}
+
+export {signUp, signIn, isAuthenticated, getApiKey, clearApiKey}

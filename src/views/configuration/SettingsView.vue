@@ -7,8 +7,12 @@
 			<input type="file" ref="fileInput" accept=".png, .jpg, .jpeg" @input="displayInputImage"
 				   required>
 		</div>
-		<div class="button-container">
+		<div>
 			<primary-button type="submit" @click="onSubmitClick" text="Use as profile picture"/>
+		</div>
+		<div/>
+		<div>
+			<primary-button @click="onSignOutClick" text="Sign out"/>
 		</div>
 		<div class="spinner-container">
 			<spinner v-show="loading"></spinner>
@@ -26,6 +30,7 @@ import PrimaryButton from "@/components/PrimaryButton.vue";
 import router from "@/router";
 import failureIcon from "@/components/icons/failureIcon.vue";
 import spinner from "@/components/spinner.vue";
+import {clearApiKey} from "@/services/authentication";
 
 export default defineComponent({
 	name: "settingsView.vue",
@@ -67,6 +72,10 @@ export default defineComponent({
 				}
 				this.loading = false
 			}
+		},
+		onSignOutClick: async function () {
+			clearApiKey()
+			await router.push("/")
 		}
 	}
 })

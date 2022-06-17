@@ -7,9 +7,9 @@
 			</div>
 
 			<img alt="" class=navigation-icon src="@/assets/icons/gridViewIcon.svg"
-				 @click="$router.push('/DisplayPatients')"/>
+				 @click="$router.push('/display-patients')"/>
 			<img alt="" class=navigation-icon src="@/assets/icons/listViewIcon.svg"
-				 @click="$router.push('/DisplayPatientsList')"/>
+				 @click="$router.push('/display-patients-list')"/>
 		</div>
 
 		<input class="search-field" placeholder="Search" type="text">
@@ -45,9 +45,14 @@ import {getProfilePictureUrl, defaultUrl} from "@/services/settingsProvider";
 function loadName() {
 	const userData = backend.getUserDetails();
 	userData.then(data => {
+			const nameElement = (document.getElementById('currentUserName') as HTMLParagraphElement);
+			const emailElement = (document.getElementById('currentUserEmail') as HTMLParagraphElement);
 			if (data && isAuthenticated()) {
-				(document.getElementById('currentUserName') as HTMLParagraphElement).innerText = (data.last_name + ", " + data.first_name);
-				(document.getElementById('currentUserEmail') as HTMLParagraphElement).innerText = data.email;
+				nameElement.innerText = (data.last_name + ", " + data.first_name);
+				emailElement.innerText = data.email;
+			} else {
+				nameElement.innerText = '';
+				emailElement.innerText = '';
 			}
 		}
 	)
@@ -85,16 +90,16 @@ export default defineComponent({
 		},
 		addScrollListener() {
 			let lastScrollTop: number;
-			window.addEventListener('scroll', function () {
-				let scrollTop = window.scrollY || document.documentElement.scrollTop;
+			window.onscroll = (_ => {
+				const scrollTop = window.scrollY || document.documentElement.scrollTop;
+				const topBar = document.querySelector('.top-bar') as HTMLDivElement
 				if (scrollTop > lastScrollTop) {
-					(document.querySelector('.top-bar') as HTMLDivElement).style.top = '-75px';
+					topBar.style.top = '-75px';
 				} else {
-					(document.querySelector('.top-bar') as HTMLDivElement).style.top = '0';
+					topBar.style.top = '0';
 				}
 				lastScrollTop = scrollTop
 			})
-
 		}
 	}
 })
@@ -150,6 +155,7 @@ export default defineComponent({
 }
 
 .search-field {
+	visibility: hidden;
 	outline: none;
 	height: 40%;
 	width: 20%;

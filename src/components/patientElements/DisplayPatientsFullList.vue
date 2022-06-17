@@ -1,16 +1,16 @@
 <template>
-  <div>
-    <ListViewPatientElement
-        v-for="u in usersWithData"
-        :user="u.user"
-        :cpr = 'u.cpr'
-        :medianDataInHours = 'u.medianDataInHours'
-        :doctor="false"
-        :selected="($route.params.id || 'a')"
-        :healthLevel = 'u.healthLevel'
-        @click="clickedItem(u.user._id.$oid)">
-    </ListViewPatientElement>
-  </div>
+	<div>
+		<ListViewPatientElement
+			v-for="u in usersWithData"
+			:user="u.user"
+			:cpr='u.cpr'
+			:medianDataInHours='u.medianDataInHours'
+			:doctor="false"
+			:selected="($route.params.id || 'a')"
+			:healthLevel='u.healthLevel'
+			@click="clickedItem(u.user._id.$oid)">
+		</ListViewPatientElement>
+	</div>
 </template>
 
 <script setup lang="ts">
@@ -19,12 +19,12 @@ import {ref, watch} from 'vue'
 import router from "@/router"
 import type {DateValue, Point} from "@/services/core/datatypes"
 import {
-  bucketToMedian,
-  mMolPerLToMgPerL,
-  SPLIT_BY_DAY,
-  timeSeriesToDateValue,
-  toBuckets,
-  toDateValue
+	bucketToMedian,
+	mMolPerLToMgPerL,
+	SPLIT_BY_DAY,
+	timeSeriesToDateValue,
+	toBuckets,
+	toDateValue
 } from "@/services/core/datatypes"
 import {HealthLevel} from "@/services/core/shared";
 import backend from "@/services/backend";
@@ -34,30 +34,30 @@ const daysBack = 28
 const RESOLUTION = 96
 
 const dataToMedian = (data: DateValue[], split: number): Point[] =>
-    bucketToMedian(toBuckets(data, split, RESOLUTION))
+	bucketToMedian(toBuckets(data, split, RESOLUTION))
 
 
 class UserWithDate {
-  user: UserDetails | undefined;
-  cpr: string | undefined;
-  healthLevel: number | undefined;
-  medianDataInHours: any;
+	user: UserDetails | undefined;
+	cpr: string | undefined;
+	healthLevel: number | undefined;
+	medianDataInHours: any;
 }
 
 
-let usersWithData =ref([] as UserWithDate[]);
+let usersWithData = ref([] as UserWithDate[]);
 
 const accessiblelUsersPromise = backend.getViewvabel();
 
 
 let dataForAllUsers = backend.getCGMDataMGDLForAllWiewabel(daysBack);
 
-function medianDataToMedianAndData(values: number[]) : Point[]{
-  const re = []
-  for(let i = 0; i < values.length; i++){
-    re.push([i,  mMolPerLToMgPerL(values[i])] as Point)
-  }
-  return re
+function medianDataToMedianAndData(values: number[]): Point[] {
+	const re = []
+	for (let i = 0; i < values.length; i++) {
+		re.push([i, mMolPerLToMgPerL(values[i])] as Point)
+	}
+	return re
 }
 
 function calcHealthLevel(problems: number[]){
@@ -76,7 +76,7 @@ function calcHealthLevel(problems: number[]){
 
 accessiblelUsersPromise.then((accessiblelUsers : Array<UserDetails>)  => {
 
-  let tempList :  UserWithDate[] = []
+	let tempList: UserWithDate[] = []
 
   dataForAllUsers.then((returnedDAta : {_id: any , patient: any ,values: number[],problems: number []}[]) => {
     console.log(returnedDAta)
@@ -93,10 +93,10 @@ accessiblelUsersPromise.then((accessiblelUsers : Array<UserDetails>)  => {
             newUser.healthLevel = calcHealthLevel(returnedDAta[j].problems)
             newUser.medianDataInHours = medianDataToMedianAndData(returnedDAta[j].values)
 
-            tempList.push(newUser)
-          }
-        }
-    }
+					tempList.push(newUser)
+				}
+			}
+		}
 
     tempList.sort((a, b) => {
       if(a.healthLevel === b.healthLevel){
@@ -112,9 +112,8 @@ accessiblelUsersPromise.then((accessiblelUsers : Array<UserDetails>)  => {
 })
 
 
-
 const clickedItem = (id: Number) => {
-  router.push("/DisplayPatientsList/patientInfo/" + (id))
+	router.push("/display-patients-list/patient-info/" + (id))
 }
 
 </script>
