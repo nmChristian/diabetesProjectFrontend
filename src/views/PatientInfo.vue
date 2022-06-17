@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div :style="paddingElements">
 		<!-- POP UP -->
 		<div v-if="$router.currentRoute.value.fullPath.includes('#')" class="popupBackground"
 			 @click="closePopUp()"></div>
@@ -238,6 +238,14 @@ const emit = defineEmits<{
 }>()
 
 const isFullScreen = ref(false)
+
+const paddingElements = computed(() => {
+  if (isFullScreen.value){
+    return {'--min-distance-to-wall' : '320px'}
+  }else {
+    return {'--min-distance-to-wall' : '0px'}
+  }
+})
 
 function fullScreenClicked() {
 	isFullScreen.value = !isFullScreen.value
