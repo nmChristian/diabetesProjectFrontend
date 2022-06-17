@@ -7,7 +7,7 @@ const router = createRouter({
         {
             path: '/',
             name: 'home',
-            redirect: {name: "DisplayPatientsList"}
+            redirect: {name: "display-patients-list"}
         },
         {
             path: '/sign-in',
@@ -59,18 +59,18 @@ const router = createRouter({
                 ]
         },
         {
-            path: "/DisplayPatients",
-            name: "DisplayPatients",
+            path: "/display-patients",
+            name: "display-patients",
             component: () => import('@/views/DisplayPatients.vue')
         },
         {
-            path: "/DisplayPatientsList",
-            name: "DisplayPatientsList",
+            path: "/display-patients-list",
+            name: "display-patients-list",
             component: () => import('@/views/DisplayPatientsInList.vue'),
             children: [
                 {
                     //TODO håndter id der ikke eksistere
-                    path: "patientInfo/:id",
+                    path: "patient-info/:id",
                     component: () => import('@/views/PatientInfo.vue')
                 },
                 {
@@ -78,14 +78,14 @@ const router = createRouter({
                     component: () => import('@/views/Summary.vue')
                 },
                 {
-                    path: "patientInfo/",
+                    path: "patient-info/",
                     component: () => import('@/views/Summary.vue')
                 }
             ]
         },
         {
-            path: "/patientInfo/:id",
-            name: "patientInfo",
+            path: "/patient-info/:id",
+            name: "patient-info",
             component: () => import('@/views/PatientInfo.vue')
         }
     ],
