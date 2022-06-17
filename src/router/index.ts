@@ -4,7 +4,11 @@ import {isAuthenticated} from "@/services/authentication";
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
-
+        {
+            path: '/',
+            name: 'home',
+            redirect: {name: "DisplayPatientsList"}
+        },
         {
             path: '/sign-in',
             name: 'sign-in',
@@ -21,8 +25,8 @@ const router = createRouter({
             component: () => import('@/views/configuration/SettingsView.vue')
         },
         {
-            path: '/',
-            name: 'home',
+            path: '/graph-demo',
+            name: 'graph-demo',
             component: () => import('@/views/GraphView.vue'),
             redirect: {name: "graphview.cgmgraphstest"},
             children:

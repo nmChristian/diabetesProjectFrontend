@@ -9,7 +9,7 @@
 			<img alt="" class=navigation-icon src="@/assets/icons/gridViewIcon.svg"
 				 @click="$router.push('/DisplayPatients')"/>
 			<img alt="" class=navigation-icon src="@/assets/icons/listViewIcon.svg"
-				 @click="$router.push('/DisplayPatientsList')"/>
+				 @click="$router.push('/')"/>
 		</div>
 
 		<input class="search-field" placeholder="Search" type="text">
