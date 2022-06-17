@@ -64,14 +64,14 @@ function calcHealthLevel(problems: number[]){
   let count = 0;
   for(let i =0; i < problems.length; i++){
     if(problems[i] ===0 || problems[i] == 4){
-      return 2
+      return 0
     }
     count++
   }
   if(count >=2){
-    return 2
+    return 0
   }
-  return count
+  return 2- count
 }
 
 accessiblelUsersPromise.then((accessiblelUsers : Array<UserDetails>)  => {
@@ -90,9 +90,7 @@ accessiblelUsersPromise.then((accessiblelUsers : Array<UserDetails>)  => {
             newUser.user = recivedUser
 
             newUser.cpr = "Currently not used"
-            //TODO Do some calculation
             newUser.healthLevel = calcHealthLevel(returnedDAta[j].problems)
-            //newUser.healthLevel = Math.round(Math.random()*4)
             newUser.medianDataInHours = medianDataToMedianAndData(returnedDAta[j].values)
 
             tempList.push(newUser)
@@ -104,8 +102,8 @@ accessiblelUsersPromise.then((accessiblelUsers : Array<UserDetails>)  => {
       if(a.healthLevel === b.healthLevel){
         return  (a.user.first_name).localeCompare(b.user.first_name);
       }
-    
-      return  (b.healthLevel || 0) - (a.healthLevel || 0)
+
+      return (a.healthLevel || 0) - (b.healthLevel || 0)
     })
     usersWithData.value = tempList
   })
