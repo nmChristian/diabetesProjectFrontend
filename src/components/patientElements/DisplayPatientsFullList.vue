@@ -50,7 +50,7 @@ let usersWithData = ref([] as UserWithDate[]);
 const accessiblelUsersPromise = backend.getViewvabel();
 
 
-let dataForAllUsers = backend.getCGMDataMGDLForAllWiewabel(daysBack);
+let dataForAllUsers = backend.getPreviews();
 
 function medianDataToMedianAndData(values: number[]): Point[] {
 	const re = []
