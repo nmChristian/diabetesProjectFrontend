@@ -42,15 +42,15 @@
       </div>
 
       <div class="infoItem diagnoseAndMedicine" id="diagnoseAndMedicine">
-        <p class="diagnoseAndMedicinLabels">Diagnose</p>
-        <p class="diagnoseAndMedicinLabels">Medecin</p>
+        <p class="diagnoseAndMedicinLabels">Diagnoses</p>
+        <p class="diagnoseAndMedicinLabels">Medicine</p>
 
         <template v-if="diagnosis.length !==0" v-for="diag in diagnosis">
           <p class="diagnoseAndMedicinItems">{{ diag.name }}</p>
 
           <p class="diagnoseAndMedicinItems">{{ listToString(diag.medicine) }}</p>
         </template>
-        <p v-else>No diagnosis registered for this patient</p>
+        <p v-else>No diagnoses registered for this patient</p>
       </div>
 
       <div
@@ -164,7 +164,7 @@ window.addEventListener("scroll", onScroll)
 
 const elementsOnPage = [
   {id: "summary", text: "Summary"},
-  {id: "diagnoseAndMedicine", text: "Diagnose And Medicine"},
+  {id: "diagnoseAndMedicine", text: "Diagnoses And Medicine"},
   {id: "notesAndGoals", text: "Goals"},
   {id: "forecast", text: "3 week overview"},
   {id: "big-table", text: "Table of data"},
