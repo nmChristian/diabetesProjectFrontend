@@ -150,6 +150,7 @@ export default defineComponent({
 }
 
 .search-field {
+	visibility: hidden;
 	outline: none;
 	height: 40%;
 	width: 20%;
