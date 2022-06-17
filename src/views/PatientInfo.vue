@@ -278,7 +278,6 @@ function updateNotes() {
 }
 
 async function loadData() {
-  //TODO, flyt alt loading af data herind
   let id = String(router.currentRoute.value.params.id)
   backend.getDiagnosis(id).then((response) => {
     diagnosis.value = response

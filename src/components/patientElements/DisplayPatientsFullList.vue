@@ -60,22 +60,39 @@ function medianDataToMedianAndData(values: number[]) : Point[]{
   return re
 }
 
+function calcHealthLevel(problems: number[]){
+  let count = 0;
+  for(let i =0; i < problems.length; i++){
+    if(problems[i] ===0 || problems[i] == 4){
+      return 2
+    }
+    count++
+  }
+  if(count >=2){
+    return 2
+  }
+  return count
+}
+
 accessiblelUsersPromise.then((accessiblelUsers : Array<UserDetails>)  => {
 
   let tempList :  UserWithDate[] = []
 
-  dataForAllUsers.then((returnedDAta : {_id: any , patient: any ,values: number[]}[]) => {
+  dataForAllUsers.then((returnedDAta : {_id: any , patient: any ,values: number[],problems: number []}[]) => {
+    console.log(returnedDAta)
     for(let i = 0; i < accessiblelUsers.length; i++){
         for(let j = 0; j < accessiblelUsers.length; j++){
           if(accessiblelUsers[i]._id.$oid === returnedDAta[j].patient.$oid){
             let recivedUser = accessiblelUsers[i]
             let newUser = new UserWithDate()
 
+
             newUser.user = recivedUser
 
             newUser.cpr = "Currently not used"
             //TODO Do some calculation
-            newUser.healthLevel = Math.round(Math.random()*4)
+            newUser.healthLevel = calcHealthLevel(returnedDAta[j].problems)
+            //newUser.healthLevel = Math.round(Math.random()*4)
             newUser.medianDataInHours = medianDataToMedianAndData(returnedDAta[j].values)
 
             tempList.push(newUser)

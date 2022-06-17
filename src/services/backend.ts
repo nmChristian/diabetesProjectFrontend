@@ -114,7 +114,7 @@ class Backend {
         return response.data
     }
 
-    public async getCGMDataMGDLForAllWiewabel(daysBack: number): Promise<{ _id: any, patient: any, values: number[] }[]> {
+    public async getCGMDataMGDLForAllWiewabel(daysBack: number): Promise<{ _id: any, patient: any, values: number[] , problems : number[] }[]> {
         const daysSinceLastData = d3.timeDays(new Date("2022-01-29"), new Date()).length
 
         const response = await axios.post(
@@ -122,6 +122,7 @@ class Backend {
             this.getCGMDaysBack(daysSinceLastData + daysBack),
             this.generateHeader())
 
+        console.log(response)
         return response.data
     }
 
