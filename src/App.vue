@@ -85,16 +85,16 @@ export default defineComponent({
 		},
 		addScrollListener() {
 			let lastScrollTop: number;
-			window.addEventListener('scroll', function () {
-				let scrollTop = window.scrollY || document.documentElement.scrollTop;
+			window.onscroll = (_ => {
+				const scrollTop = window.scrollY || document.documentElement.scrollTop;
+				const topBar = document.querySelector('.top-bar') as HTMLDivElement
 				if (scrollTop > lastScrollTop) {
-					(document.querySelector('.top-bar') as HTMLDivElement).style.top = '-75px';
+					topBar.style.top = '-75px';
 				} else {
-					(document.querySelector('.top-bar') as HTMLDivElement).style.top = '0';
+					topBar.style.top = '0';
 				}
 				lastScrollTop = scrollTop
 			})
-
 		}
 	}
 })
