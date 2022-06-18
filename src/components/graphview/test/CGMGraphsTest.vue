@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="everything">
     <ForecastSeries
         :cgm="cgm"
         :meals="meals"
@@ -15,7 +15,7 @@
         :show-advanced="true"
     />
     <CGMLegend/>
-    <TIRGraph :occurrences="frequencies" :colors="COLOR_SCHEME"/>
+    <TIRGraph style="width: 100px; height: 140px;" :occurrences="frequencies" :colors="COLOR_SCHEME"/>
     <TIRDailySeries
         :data="cgm"
         :show-advanced="true"
@@ -73,5 +73,8 @@ const daysBackData = (data : DateValue[], daysBack : number) => data.filter(([da
 </script>
 
 <style scoped>
-
+.everything {
+  display: flex;
+  flex-direction: column;
+}
 </style>

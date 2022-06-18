@@ -19,7 +19,7 @@ export default function forecastGraph(dateValues: DateValue[], timeInterval: Tim
                                           mealMaxValue = undefined as number | undefined
                                       }) {
     const {width, height} = graphLayout
-    const {out, svg} = generateSVG(graphLayout)
+    const {out, svg} = generateSVG(graphLayout, false )
 
     // Show graph within this interval
     const minDate = timeInterval(d3.min(dateValues, ([date,]) => date) as Date)

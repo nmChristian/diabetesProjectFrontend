@@ -135,9 +135,16 @@ const graphs = computed(() => {
 <style scoped>
 .graphs {
   display: flex;
+  height: 600px;
 }
 .forecast-graphs {
-  flex: 1 0 auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+
+}
+.forecast-graphs>div {
+  flex: 1 1 auto;
 }
 .selection-group {
   display: flex;

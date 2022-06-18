@@ -41,7 +41,7 @@ const hoursPerRange = ref(2)
 
 const colors = COLOR_SCHEME
 // Make width smaller if only 1 hour, so it can fit
-const graphLayout = computed(() => new GraphLayout(hoursPerRange.value === 1 ? 40 : 60, 400, 10, 0, 20))
+const graphLayout = computed(() => new GraphLayout(hoursPerRange.value === 1 ? 40 : 60, 400))
 
 
 const props = defineProps<{
@@ -74,7 +74,6 @@ const deviations = computed(() => splitDateValues.value.map<number>(dateValues =
 .tir-daily-series {
   background-color: #c0c0c0;
   padding: 10px 0 30px 0;
-
 }
 
 .tir-graphs {
@@ -82,6 +81,10 @@ const deviations = computed(() => splitDateValues.value.map<number>(dateValues =
   justify-content: center;
   gap: 15px;
   text-align: center;
+}
+
+.tir-graphs>div {
+
 }
 
 .tir-graphs p {

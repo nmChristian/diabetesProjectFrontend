@@ -1,6 +1,7 @@
 // Gradient method
 import type * as d3 from "d3"
 import {CGM_RANGE, CGM_THRESHOLDS, COLOR_SCHEME} from "@/services/core/shared";
+import type {SVG} from "@/services/core/graphMethods";
 
 let linearID = 0
 
@@ -10,7 +11,7 @@ let linearID = 0
  * @param svg - The object its going to append to
  * @param height - the scale used in the graph, this is used because the gradient works in percentages or something
  */
-export function generateGradientCGMCSSApply(svg: d3.Selection<SVGGElement, undefined, null, undefined>, height: number): string {
+export function generateGradientCGMCSSApply(svg: SVG, height: number): string {
     const id: string = "cgm-gradient-" + linearID
     linearID++
 

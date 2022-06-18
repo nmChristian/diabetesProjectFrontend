@@ -22,6 +22,8 @@ export function generateSVG(graphLayout: GraphLayout = new GraphLayout(0, 0, 0, 
         .attr("viewBox", `0 0 ${totalWidth} ${totalHeight}`)
         .attr("preserveAspectRatio", "xMidYMid meet")
         .attr("overflow", "visible")
+        .style("max-width", "100%")
+        .style("max-height", "100%")
 
     const svg = out.append("g")
         .attr("transform",

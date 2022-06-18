@@ -107,8 +107,6 @@ export function quantileGraph(bucketSeriesOfQuantiles: d3.Series<BucketPoint, nu
             .attr("height", d => yScale(d.x0) - (d.x1 === undefined ? yMax : yScale(d.x1)))
             .attr("fill", (d, i) => COLOR_SCHEME[i])
             .attr("opacity", 0.2)
-
-
     }
     return out
 }
