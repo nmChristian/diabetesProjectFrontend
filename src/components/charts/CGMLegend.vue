@@ -4,6 +4,8 @@
       <th>mg/dL</th>
       <th></th>
       <th>goal</th>
+      <th v-if="percentages !== undefined">result</th>
+
     </tr>
     <tr v-for="i in [...COLOR_SCHEME.keys()].reverse()">
       <td class="color-legend" >
@@ -11,7 +13,10 @@
       </td>
       <td class="splitter" :style="{backgroundColor: COLOR_SCHEME[i]}"></td>
       <td v-if="goals !== undefined" class="goal-legend">
-        {{i === 2 ? ">" : "<"}} {{goals[i]}}%
+        {{i === 2 ? ">" : "<"}} {{goals[i] * 100}}%
+      </td>
+      <td v-if="percentages !== undefined" :class="['percentage', getClass(i)]">
+        {{percentages[i] * 100}}%
       </td>
     </tr>
   </table>
@@ -23,39 +28,45 @@ import {computed, onMounted} from "vue";
 const props = defineProps<{
   thresholds? : number[],
   goals?: number[],
+  percentages? : number[]
 }>()
-const goalsCorrected = computed(() => [...props.goals ?? []].reverse())
 
-const fisk = onMounted( () => console.log())
+function getClass (index : number) : string {
+  if (props.percentages === undefined || props.goals === undefined)
+    return ""
+  const below = (props.percentages[index] > props.goals[index])
+  return (index == 2 ? !below : below) ? "fail" : "success"
+}
 </script>
 
 <style scoped>
+* {  box-sizing: border-box; }
 .cgm-legend {
   table-layout: fixed;
   border-collapse:collapse;
   display: inline;
 }
-tr {
-  padding: 0 5px;
-  height: 30px;
-  margin: 5px 0;
-  border-radius: 5px;
-}
+
 tr:not(:last-child) {
   border-bottom: 1px solid rgba(0, 0, 0, 50%);
+  border-radius: 5px;
 }
 
+td {
+  font-style: italic;
+  padding: 0 10px;
+}
 .color-legend {
   font-weight: bold;
-  font-style: italic;
-  font-size: 16px;
+  font-size: 14px;
   text-align: end;
-  padding: 0 10px;
 }
-
 .goal-legend {
-  padding: 0 10px;
-  font-style: italic;
+  font-size: 12px;
+}
+.percentage {
+  font-style: normal;
+  font-weight: bold;
 }
 
 th {
@@ -67,4 +78,15 @@ th {
 .splitter {
   width: 10px;
 }
+
+.success {
+  text-decoration: 2px underline green;
+}
+
+.fail {
+  text-decoration: 2px underline red;
+}
+
+
+
 </style>

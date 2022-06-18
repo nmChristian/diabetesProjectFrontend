@@ -1,9 +1,8 @@
 <template>
   <div class="everything">
-    <div>
-      <CGMLegend :goals="[1, 4, 70, 25, 5]"/>
-      <br>
-      <br>
+    <div style="display: flex; gap: 100px;">
+      <CGMLegend :goals="[.01, .04, .70, .25, .05]" :percentages="[0.2, 0.3, 0.4, 0.05, 0.05]"/>
+      <CGMLegend :goals="[.01, .04, .70, .25, .05]"/>
       <CGMLegend />
     </div>
     <ForecastSeries
