@@ -1,5 +1,11 @@
 <template>
   <div class="everything">
+    <div>
+      <CGMLegend :goals="[1, 4, 70, 25, 5]"/>
+      <br>
+      <br>
+      <CGMLegend />
+    </div>
     <ForecastSeries
         :cgm="cgm"
         :meals="meals"
@@ -14,7 +20,6 @@
         :dates="dates"
         :show-advanced="true"
     />
-    <CGMLegend/>
     <TIRGraph style="width: 100px; height: 140px;" :occurrences="frequencies" :colors="COLOR_SCHEME"/>
     <TIRDailySeries
         :data="cgm"
