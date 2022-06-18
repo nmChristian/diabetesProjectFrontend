@@ -77,4 +77,8 @@ const daysBackData = (data : DateValue[], daysBack : number) => data.filter(([da
   display: flex;
   flex-direction: column;
 }
+.everything>* {
+  width: 80%;
+  margin: auto;
+}
 </style>
