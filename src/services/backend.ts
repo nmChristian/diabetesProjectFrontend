@@ -15,7 +15,7 @@ class Backend {
     public getDataURL = () => this.url + "/data/get"
     public getDataURLPatient = (id: String) => this.url + "/data/" + id + "/get"
     public getNameURL = () => this.url + "/user"
-    public getAllDataURL = () => this.url + "/data/get_previews"
+    public getAllPreviewsURL = () => this.url + "/data/previews"
     public getDiagnosisURL = (id: string) => this.url + "/diagnosis/" + id
     public getNotesURL = (id: string) => this.url + "/note/" + id
 
@@ -23,6 +23,7 @@ class Backend {
         if (getApiKey() === null) {
             return null;
         }
+        console.log(getApiKey())
         const response = await axios.get(
             this.getNameURL(),
             this.generateHeader())
@@ -114,14 +115,10 @@ class Backend {
         return response.data
     }
 
-    public async getCGMDataMGDLForAllWiewabel(daysBack: number): Promise<{ _id: any, patient: any, values: number[] }[]> {
-        const daysSinceLastData = d3.timeDays(new Date("2022-01-29"), new Date()).length
-
-        const response = await axios.post(
-            this.getAllDataURL(),
-            this.getCGMDaysBack(daysSinceLastData + daysBack),
+    public async getPreviews(): Promise<{ _id: any, patient: any, values: number[] , problems : number[] }[]> {
+        const response = await axios.get(
+            this.getAllPreviewsURL(),
             this.generateHeader())
-
         return response.data
     }
 

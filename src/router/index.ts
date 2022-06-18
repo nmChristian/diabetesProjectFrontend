@@ -4,7 +4,11 @@ import {isAuthenticated} from "@/services/authentication";
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
-
+        {
+            path: '/',
+            name: 'home',
+            redirect: {name: "display-patients-list"}
+        },
         {
             path: '/sign-in',
             name: 'sign-in',
@@ -21,8 +25,8 @@ const router = createRouter({
             component: () => import('@/views/configuration/SettingsView.vue')
         },
         {
-            path: '/',
-            name: 'home',
+            path: '/graph-demo',
+            name: 'graph-demo',
             component: () => import('@/views/GraphView.vue'),
             redirect: {name: "graphview.cgmgraphstest"},
             children:
@@ -55,18 +59,18 @@ const router = createRouter({
                 ]
         },
         {
-            path: "/DisplayPatients",
-            name: "DisplayPatients",
+            path: "/display-patients",
+            name: "display-patients",
             component: () => import('@/views/DisplayPatients.vue')
         },
         {
-            path: "/DisplayPatientsList",
-            name: "DisplayPatientsList",
+            path: "/display-patients-list",
+            name: "display-patients-list",
             component: () => import('@/views/DisplayPatientsInList.vue'),
             children: [
                 {
                     //TODO håndter id der ikke eksistere
-                    path: "patientInfo/:id",
+                    path: "patient-info/:id",
                     component: () => import('@/views/PatientInfo.vue')
                 },
                 {
@@ -74,14 +78,14 @@ const router = createRouter({
                     component: () => import('@/views/Summary.vue')
                 },
                 {
-                    path: "patientInfo/",
+                    path: "patient-info/",
                     component: () => import('@/views/Summary.vue')
                 }
             ]
         },
         {
-            path: "/patientInfo/:id",
-            name: "patientInfo",
+            path: "/patient-info/:id",
+            name: "patient-info",
             component: () => import('@/views/PatientInfo.vue')
         }
     ],

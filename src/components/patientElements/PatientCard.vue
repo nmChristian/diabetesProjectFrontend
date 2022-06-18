@@ -28,20 +28,20 @@ import {defineComponent} from "vue";
 export default defineComponent({
 	name: "patientCard",
 	props: {
-		id: Number,
+		id: String,
 		name: String,
 		age: Number,
-		weight: Number,
-		hbalc: Number,
-		hypos: Number,
-		eGFR: Number,
+		weight: String,
+		hbalc: String,
+		hypos: String,
+		eGFR: String,
 	},
 	methods: {
 		mainClicked() {
-			router.push('/patientInfo/' + this.$props.id)
+			router.push('/patient-info/' + this.$props.id)
 		},
 		showElementData(dataType: string) {
-			router.push('/patientInfo/' + this.$props.id + "#" + dataType.toLowerCase())
+			router.push('/patient-info/' + this.$props.id + "#" + dataType.toLowerCase())
 		}
 	}
 })
