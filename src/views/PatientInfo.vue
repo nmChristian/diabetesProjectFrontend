@@ -397,54 +397,35 @@ const daysBackData = (data: DateValue[], daysBack: number) =>
 	z-index: 1;
 }
 
+
 .infoItem {
 	max-width: calc(100% - 320px);;
 	padding: 10px;
 	width: 1200px;
-	border: solid 1px #555;
 	min-width: 1020px;
-	background-color: #fcfcfc;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
-	-moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
-	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
-	-o-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
-	border-radius: 25px;
-	margin: 10px;
 }
 
 .infoItemSmall {
 	width: min-content;
-	border: solid 1px #555;
-	background-color: #fcfcfc;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
-	-moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
-	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
-	-o-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
-	border-radius: 25px;
-	margin: 10px;
-}
-
-.infoItemSmall:hover {
-	box-shadow: 0 0 20px black;
-}
-
-.infoItem:hover {
-	box-shadow: 0 0 20px black;
 }
 
 .infoItemSelected {
-	padding: 10px;
-	width: 100%;
-	border: solid 1px #555;
-	min-width: 1100px;;
-	max-width: calc(100% - 320px);
-	background-color: #fcfcfc;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
-	-moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
-	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
-	-o-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
-	border-radius: 25px;
-	margin: 10px;
+  padding: 10px;
+  width: 100%;
+  min-width: 1100px;
+  max-width: calc(100% - 320px);
+}
+
+.infoItem, .infoItemSmall, .infoItemSelected {
+  background-color: #fcfcfc;
+  border: solid 1px #555;
+  border-radius: 4px;
+  margin: 10px;
+
+  box-shadow: 0 0 2px rgba(0, 0, 0,0.4);
+}
+.infoItem:hover, .infoItemSmall:hover{
+	box-shadow: 0 0 4px black;
 }
 
 .diagnoseAndMedicine {
