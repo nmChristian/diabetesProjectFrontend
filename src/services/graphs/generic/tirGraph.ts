@@ -14,8 +14,7 @@ export default function tirGraph(occurrences: number[], colors: string[], {
     let {width, height} = graphLayout
     const {out, svg} = generateSVG(graphLayout, rotate)
 
-    const length = Math.max(width, height)
-    const breadth = Math.min(width, height)
+    const size = rotate ? width : height
 
     // TODO: Force sizes and colors to be the same length
     if (occurrences.length != colors.length) {
@@ -30,8 +29,8 @@ export default function tirGraph(occurrences: number[], colors: string[], {
     const nOffsets = frequencies.filter(d => d != 0).length - 1
     const totalOffset = nOffsets * offset
 
-    const posScale = d3.scaleLinear([0, 1], [length, 0])
-    const sizeScale = d3.scaleLinear([0, 1], [0, length - totalOffset])
+    const posScale = d3.scaleLinear([0, 1], [size, 0])
+    const sizeScale = d3.scaleLinear([0, 1], [0, size - totalOffset])
     const sizes = frequencies.map<number>(sizeScale)
     const offsets = frequencies.map<number>(d => (d == 0) ? 0 : offset)
     // startPos = previousPos + previousHeight + previousOffset
@@ -49,7 +48,7 @@ export default function tirGraph(occurrences: number[], colors: string[], {
     const barRect = bars.append("rect")
         .style("fill", (_, i) => colors[i])
         .style("fill-opacity", 0.9)
-        .attr(rotate ? "height" : "width", breadth)
+        .attr(rotate ? "height" : "width", "100%")
 
     if (rotate) {
         barRect

@@ -15,9 +15,8 @@
     <div class="tir-graphs">
       <div v-for="(hour, i) in hours">
         <p>{{ hour }} - {{ hours[i + 1] ?? 24 }}</p>
-        <TIRGraph
+        <TIRGraph class="tir-graph"
             :colors="colors"
-            :graph-layout="graphLayout"
             :occurrences="occurrences[i]"
         />
         <p v-if="showAdvanced" :style="{borderBottom: '6px solid', borderColor: getCGMColor(averages[i]) }">{{ averages[i].toFixed(2) }}</p>
@@ -78,14 +77,19 @@ const deviations = computed(() => splitDateValues.value.map<number>(dateValues =
 
 .tir-graphs {
   display: flex;
-  justify-content: center;
   gap: 15px;
   text-align: center;
+  margin: auto;
+  max-width: 80%;
 }
-
 .tir-graphs>div {
+  flex: 1 1 0;
+}
+.tir-graph {
+  margin: 10px 0 15px 0;
 
 }
+
 
 .tir-graphs p {
   background-color: white;
