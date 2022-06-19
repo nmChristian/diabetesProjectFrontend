@@ -1,4 +1,4 @@
-import type {Answer} from "@/services/core/dbtypes";
+import type {Answer, UserDetails} from "@/services/core/dbtypes";
 import axios from "axios";
 import backend from "@/services/backend";
 
@@ -27,12 +27,17 @@ async function getProfilePictureUrl(): Promise<string> {
     let result = defaultUrl;
     await backend.getUserDetails().then(response => {
         if (response) {
-            if (response.profile_picture !== undefined) {
-                result = baseUrl + response.profile_picture
-            }
+            result = getProfilePictureUrlFrom(response)
         }
     })
     return result;
 }
 
-export {baseUrl, defaultUrl, useProfilePicture, getProfilePictureUrl};
+function getProfilePictureUrlFrom(user: UserDetails): string {
+    if (user.profile_picture !== undefined) {
+        return baseUrl + user.profile_picture
+    }
+    return defaultUrl;
+}
+
+export {baseUrl, defaultUrl, useProfilePicture, getProfilePictureUrl, getProfilePictureUrlFrom};
