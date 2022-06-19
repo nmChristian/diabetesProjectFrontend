@@ -13,9 +13,9 @@
 				</div>
 			</div>
 			<div class="infoBoxes" v-on:click.stop>
-				<info-element :number=hbalc title="HbALc:" @showData="showElementData('HbALc')"></info-element>
-				<info-element :number=hypos title="Hypos:" @showData="showElementData('Hypos')"></info-element>
-				<info-element :number=eGFR title="eGFR:" @showData="showElementData('eGFR')"></info-element>
+				<info-element :number=hbalc title="HbALc:"></info-element>
+				<info-element :number=hypos title="Hypos:"></info-element>
+				<info-element :number=eGFR title="eGFR:"></info-element>
 			</div>
 		</div>
 	</div>
