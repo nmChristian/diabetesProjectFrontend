@@ -4,7 +4,7 @@
 
     </PatientsFullList>
 
-    <div class="info" :style="paddingElements">
+    <div class="info">
       <RouterView class="routerInfo" @hideSidebar="hideSidebar"/>
       <!--<h1>{{$route.params.id}}</h1> -->
     </div>
@@ -21,13 +21,7 @@ function hideSidebar(){
   sidebarHidden.value = !sidebarHidden.value
 }
 
-const paddingElements = computed(() => {
-  if (sidebarHidden.value){
-    return {'--space-needed-for-ist' : '0x'}
-  }else {
-    return {'--space-needed-for-ist' : '0px'}
-  }
-})
+
 
 </script>
 
@@ -59,6 +53,6 @@ const paddingElements = computed(() => {
 
 .info {
   height: 100%;
-  width: calc(100% - var(--space-needed-for-ist));
+  width: 100%;
 }
 </style>

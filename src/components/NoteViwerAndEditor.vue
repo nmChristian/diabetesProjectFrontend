@@ -148,7 +148,7 @@ function noteClicked(index : number){
   min-width: 300px;
   width: 100%;
   padding: 10px;
-  height: 300px;
+  height: 200px;
 }
 .noteList{
   min-width: 300px;
