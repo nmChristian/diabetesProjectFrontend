@@ -79,7 +79,7 @@
 					:cgm="cgmInDateValue"
 					:meals="mealsInDateValue"
           :cgm-ranges="cgmRanges"
-					:showAdvanced="selectedInfoSection === 'forecast'"
+					:show-advanced="selectedInfoSection === 'forecast'"
 				/>
 			</graph-section>
 
@@ -95,7 +95,7 @@
 					:meals="daysBackData(mealsInDateValue, daysBack)"
 					:dates="dates"
           :cgm-ranges="cgmRanges"
-					:showAdvanced="selectedInfoSection === 'big-table'"
+					:show-advanced="selectedInfoSection === 'big-table'"
 				/>
 			</graph-section>
 
@@ -107,10 +107,20 @@
 				<TIRDailySeries
 					:data="cgmInDateValue"
           :cgm-ranges="cgmRanges"
-					:showAdvanced="selectedInfoSection === 'tir-series'"
+					:show-advanced="selectedInfoSection === 'tir-series'"
 				/>
 			</graph-section>
 
+      <graph-section
+          id="quantile-series"
+          :currently-selected="selectedInfoSection"
+          @selected-section="selectInfoSection">
+        <h1>Quantile Graph</h1>
+        <QuantileSeries :cgm-ranges="cgmRanges"
+                        :cgm="cgmInDateValue"
+                        :show-advanced="selectedInfoSection === 'quantile-series'"/>
+      </graph-section>
+      
 			<graph-section
 				id="raw-series"
 				:currently-selected="selectedInfoSection"
@@ -121,7 +131,7 @@
 					:bolus="daysBackData(bolusInDateValue, daysBack)"
 					:cgm="daysBackData(cgmInDateValue, daysBack)"
 					:meals="daysBackData(mealsInDateValue, daysBack)"
-					:showAdvanced="selectedInfoSection === 'raw-series'"
+					:show-advanced="selectedInfoSection === 'raw-series'"
 				/>
 			</graph-section>
 		</div>
@@ -146,6 +156,10 @@ import TIRDailySeries from "@/components/charts/graphseries/TIRDailySeries.vue";
 import ForecastSeries from "@/components/charts/graphseries/ForecastSeries.vue";
 import InfoElement from "@/components/patientElements/InfoElement.vue";
 import TIROverview from "@/components/charts/graphseries/TIROverview.vue";
+import Graph from "@/components/charts/shared/Graph.vue";
+import QuantileGraph from "@/components/charts/generic/QuantileGraph.vue";
+import QuantileTest from "@/components/graphview/test/QuantileTest.vue";
+import QuantileSeries from "@/components/charts/graphseries/QuantileSeries.vue";
 
 
 const loggedInUser : Ref<UserDetails> = ref({} as UserDetails)

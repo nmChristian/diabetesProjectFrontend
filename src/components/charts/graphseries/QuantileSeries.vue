@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="showAdvanced">
     <QuantileGraph
         :bucket-series-of-quantiles="bucketSeriesOfQuantiles"
         :median-data-in-hours="medianCGMInHours ?? cgmMedian()"
@@ -7,9 +7,11 @@
         :cgm-ranges="cgmRanges"
     />
   </div>
+
 </template>
 
 <script lang="ts" setup>
+
 import QuantileGraph from "@/components/charts/generic/QuantileGraph.vue"
 import {computed} from "vue";
 import type {BucketPoint, DateValue, Point} from "@/services/core/datatypes";
@@ -27,6 +29,7 @@ const props = defineProps<{
   cgm: DateValue[],
   medianCGMInHours?: Point[],
   cgmRanges: CGMRanges,
+  showAdvanced: boolean,
 
 }>()
 
@@ -63,4 +66,9 @@ const bucketSeriesOfQuantiles = computed(() => {
 
   return quantileSeries
 })
+
 </script>
+
+<style scoped>
+
+</style>

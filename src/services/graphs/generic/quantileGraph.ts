@@ -14,7 +14,7 @@ export function quantileGraph(bucketSeriesOfQuantiles: d3.Series<BucketPoint, nu
                               medianPoints: Point[],
                               cgmRanges: CGMRanges,
                               {
-                                  graphLayout = new GraphLayout(800, 400, 20, 30, 20, 40),
+                                  graphLayout = new GraphLayout(800, 400, 0, 30, 20, 40),
                                   indicators = false,
                                   curveType = d3.curveMonotoneX,
                               }) {
