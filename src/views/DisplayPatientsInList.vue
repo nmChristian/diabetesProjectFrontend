@@ -48,7 +48,7 @@ const paddingElements = computed(() => {
 
 .holder {
   display: grid;
-  grid-template-columns: min-content min-content;
+  grid-template-columns: min-content auto;
   width: 100%;
   height: 100%;
 }
