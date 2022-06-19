@@ -13,10 +13,10 @@
 			<a href="https://example.com">Forgot your password?</a>
 		</div>
 		<div>
-			<primary-button type="submit" @click="onSignInClick" text="Sing-in"/>
+			<primary-button type="submit" @click="onSignInClick" text="Sign in"/>
 		</div>
 		<p>Or</p>
-		<div class="sing-up-link">
+		<div class="sign-up-link">
 			<a href="/sign-up">SIGN UP</a>
 		</div>
 		<div class="spinner-container">
@@ -123,7 +123,7 @@ div a {
 
 }
 
-.sing-up-link {
+.sign-up-link {
 	top: 3.5em;
 	font-size: 0.8em;
 	text-align: center;
