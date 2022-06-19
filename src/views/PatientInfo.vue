@@ -125,7 +125,7 @@ import {GraphLayout} from "@/services/core/graphtypes";
 import InfoElement from "@/components/patientElements/InfoElement.vue";
 import TIROverview from "@/components/charts/graphseries/TIROverview.vue";
 import DiagnoseAndMedicine from "/src/components/DiagnoseAndMedicine.vue";
-import {baseUrl, defaultUrl, getProfilePictureUrl} from "@/services/settingsProvider";
+import {defaultUrl, getProfilePictureUrlFrom} from "@/services/settingsProvider";
 
 
 const loggedInUser: Ref<UserDetails> = ref({} as UserDetails)
@@ -258,7 +258,8 @@ async function loadData() {
 	backend.getUserDetailsForSpecific(String(router.currentRoute.value.params.id)).then((user: UserDetails) => {
 		currentPatient.value = user
 		currentPatient.value.glycemic_ranges
-		imageSource.value = baseUrl + currentPatient.value.profile_picture
+		
+		imageSource.value = getProfilePictureUrlFrom(currentPatient.value)
 		console.log(user)
 	})
 	backend.getDataPatient(21, ["cgm", "meals", "basal", "bolus"], id).then((response) => {
