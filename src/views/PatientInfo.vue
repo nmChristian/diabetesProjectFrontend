@@ -36,18 +36,6 @@
 				</div>
 			</div>
 
-			<div class="infoItemSmall noExpandedView" id="diagnoseAndMedicine">
-				<p class="diagnoseAndMedicinLabels">Diagnoses</p>
-				<p class="diagnoseAndMedicinLabels">Medicine</p>
-
-				<template v-if="diagnosis.length !==0" v-for="diag in diagnosis">
-					<p class="diagnoseAndMedicinItems">{{ diag.name }}</p>
-
-					<p class="diagnoseAndMedicinItems">{{ listToString(diag.medicine) }}</p>
-				</template>
-				<p v-else>No diagnoses registered for this patient</p>
-			</div>
-
 			<div
 				:class="selectedInfoSection === 'notesAndGoals' ? 'smallInfoItemsHolderSelected' : 'smallInfoItemsHolder'">
 				<div id="notesAndGoals"
@@ -63,9 +51,24 @@
 					></NoteViwerAndEditor>
 				</div>
 
-				<div class="infoItemSmall noExpandedView" style=" width: auto;">
+				<div class="infoItemSmall noExpandedView" style="min-width: 260px ">
           <TIROverview style="height: 100%;" :ranges="cgmRange" :targets="currentPatient.glycemic_targets" :frequencies="frequencies"/>
 				</div>
+
+        <div
+            id="diagnoseAndMedicine"
+             :class="selectedInfoSection !== 'diagnoseAndMedicine' ? 'infoItemSmall' : 'infoItemSelected'"
+             style="width: 100%"
+             @click="selectInfoSection('diagnoseAndMedicine')">
+        <DiagnoseAndMedicine :data="diagnosis"
+                             :is-doctor="loggedInUser.is_doctor || false"
+                             :id="String(router.currentRoute.value.params.id) || '0'"
+                             :showAdvanced="selectedInfoSection === 'notesAndGoals'"
+        >
+
+        </DiagnoseAndMedicine>
+
+        </div>
 
       </div>
 
@@ -146,6 +149,7 @@ import ForecastSeries from "@/components/charts/graphseries/ForecastSeries.vue";
 import {GraphLayout} from "@/services/core/graphtypes";
 import InfoElement from "@/components/patientElements/InfoElement.vue";
 import TIROverview from "@/components/charts/graphseries/TIROverview.vue";
+import DiagnoseAndMedicine from "/src/components/DiagnoseAndMedicine.vue";
 
 
 const loggedInUser : Ref<UserDetails> = ref({} as UserDetails)
@@ -169,8 +173,8 @@ window.addEventListener("scroll", onScroll)
 
 const elementsOnPage = [
 	{id: "summary", text: "Summary"},
-	{id: "diagnoseAndMedicine", text: "Diagnoses And Medicine"},
 	{id: "notesAndGoals", text: "Goals"},
+  {id: "diagnoseAndMedicine", text: "Diagnoses And Medicine"},
 	{id: "forecast", text: "3 week overview"},
 	{id: "big-table", text: "Table of data"},
 	{id: "tir-series", text: "Hourly TIR values"},
@@ -353,7 +357,7 @@ const cgmRange = computed( () : [number, number?][] => {
   padding: 0;
 	display: flex;
 	flex-direction: row;
-	align-items: center;
+  align-items: stretch;
 }
 
 .smallInfoItemsHolderSelected {
@@ -392,7 +396,6 @@ const cgmRange = computed( () : [number, number?][] => {
 	z-index: 1;
 }
 
-
 .infoItem {
 	max-width: calc(100% - var(--min-distance-to-wall));;
 	padding: 10px;
@@ -401,7 +404,6 @@ const cgmRange = computed( () : [number, number?][] => {
 
 .infoItemSmall {
   height: 220px;
-	width: min-content;
 }
 
 .infoItemSelected {
