@@ -72,21 +72,22 @@ const deviations = computed(() => splitDateValues.value.map<number>(dateValues =
 <style scoped>
 .tir-daily-series {
   padding: 10px 0 30px 0;
+  text-align: center;
 }
 
 .tir-graphs {
   display: flex;
   gap: 15px;
-  text-align: center;
-  margin: auto;
+  justify-content: center;
   max-width: 80%;
+  margin: auto;
 }
 .tir-graphs>div {
+  max-width: 75px;
   flex: 1 1 0;
 }
 .tir-graph {
   margin: 10px 0 15px 0;
-
 }
 
 .tir-graphs p {
