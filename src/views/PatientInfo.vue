@@ -166,8 +166,11 @@ onMounted(() => {
 	})
 })
 
-router.afterEach(() => {
-	loadData()
+router.afterEach((to, from) => {
+  if(to.fullPath.includes("patient-info")){
+    loadData()
+  }
+
 })
 
 window.addEventListener("scroll", onScroll)
