@@ -29,8 +29,23 @@ class Backend {
         return response.data.self
     }
 
+    public async saveNewDiagnosis(id: string, diagnosis : string, medecin : string[]){
+        const response = await axios.post(
+            this.getDiagnosisURL(id),
+            {name : diagnosis, medicine: medecin},
+            this.generateHeader())
+        return response.data
+    }
+
     public async getDiagnosis(id: string): Promise<Array<Diagnosis>> {
         const response = await axios.get(
+            this.getDiagnosisURL(id),
+            this.generateHeader())
+        return response.data
+    }
+
+    public async deleteDiagnosis(id: string): Promise<Array<Diagnosis>> {
+        const response = await axios.delete(
             this.getDiagnosisURL(id),
             this.generateHeader())
         return response.data
@@ -43,7 +58,10 @@ class Backend {
                 return users[i]
             }
         }
-        return {email: "", first_name: "", last_name: "", is_doctor: false, _id: {}, age: 0, profile_picture: ""}
+        return {
+            glycemic_ranges: [],
+            glycemic_targets: [],
+            email: "", first_name: "", last_name: "", is_doctor: false, _id: {}, age: 0, profile_picture: ""}
     }
 
     public async getViewvabel(): Promise<Array<UserDetails>> {

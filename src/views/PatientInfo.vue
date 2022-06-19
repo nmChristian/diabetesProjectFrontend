@@ -60,9 +60,10 @@
              :style="selectedInfoSection === 'notesAndGoals'  ? 'width: 50%' : 'width: 100%' "
              @click="selectInfoSection('diagnoseAndMedicine')">
         <DiagnoseAndMedicine :data="diagnosis"
+                             @updateDiagnose="updateDiagnose()"
                              :is-doctor="loggedInUser.is_doctor || false"
                              :id="String(router.currentRoute.value.params.id) || '0'"
-                             :showAdvanced="selectedInfoSection === 'diagnosis'"
+                             :showAdvanced="selectedInfoSection === 'diagnoseAndMedicine'"
         >
 
         </DiagnoseAndMedicine>
@@ -266,11 +267,17 @@ function updateNotes() {
 	})
 }
 
-async function loadData() {
+function updateDiagnose(){
   let id = String(router.currentRoute.value.params.id)
   backend.getDiagnosis(id).then((response) => {
     diagnosis.value = response
   })
+}
+
+async function loadData() {
+  let id = String(router.currentRoute.value.params.id)
+
+  updateDiagnose()
 
 	updateNotes()
 
