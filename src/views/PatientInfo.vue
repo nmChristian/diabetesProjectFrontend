@@ -80,6 +80,7 @@
 				id="forecast"
 				:currently-selected="selectedInfoSection"
 				@selected-section="selectInfoSection">
+        <h1>Forecast Series</h1>
 				<ForecastSeries
 					:cgm="cgmInDateValue"
 					:meals="mealsInDateValue"
@@ -91,6 +92,7 @@
 				id="big-table"
 				:currently-selected="selectedInfoSection"
 				@selected-section="selectInfoSection">
+        <h1>Table</h1>
 				<ElementTableSeries
 					:basal="daysBackData(basalInDateValue, daysBack)"
 					:bolus="daysBackData(bolusInDateValue, daysBack)"
@@ -105,6 +107,7 @@
 				id="tir-series"
 				:currently-selected="selectedInfoSection"
 				@selected-section="selectInfoSection">
+        <h1>Time in Range per hour</h1>
 				<TIRDailySeries
 					:data="cgmInDateValue"
 					:showAdvanced="selectedInfoSection === 'tir-series'"
@@ -115,7 +118,8 @@
 				id="raw-series"
 				:currently-selected="selectedInfoSection"
 				@selected-section="selectInfoSection">
-				<RawSeries
+        <h1>Raw Data Graph Series</h1>
+        <RawSeries
 					:basal="daysBackData(basalInDateValue, daysBack)"
 					:bolus="daysBackData(bolusInDateValue, daysBack)"
 					:cgm="daysBackData(cgmInDateValue, daysBack)"
@@ -426,6 +430,17 @@ const daysBackData = (data: DateValue[], daysBack: number) =>
 }
 .infoItem:hover, .infoItemSmall:hover{
 	box-shadow: 0 0 4px black;
+}
+
+.graph-section>h1 {
+  font-size: 1.5em;
+  text-align: center;
+  text-decoration: underline 5px #bbb ;
+
+  font-weight: bold;
+}
+.graph-section>*:not(:first-child) {
+  margin-top: 20px;
 }
 
 .diagnoseAndMedicine {

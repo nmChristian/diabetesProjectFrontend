@@ -1,7 +1,6 @@
 <template>
-  <div>
-    <h2>Raw Data Graph Series</h2>
-    <div v-if="showAdvanced" class="graphs">
+  <div v-if="showAdvanced" >
+    <div class="graphs">
       <div v-for="dataset in datasets">
         <p>{{ dataset.title }}</p>
         <Graph

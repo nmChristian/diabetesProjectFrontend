@@ -1,7 +1,6 @@
 <template>
   <div class="forecast-series">
     <div v-if="showAdvanced">
-      <h2>Forecast Graph</h2>
       <div style="display: grid; place-items: center;">
         <p>Split by</p>
         <select v-model="interval"
@@ -141,7 +140,6 @@ const graphs = computed(() => {
   flex: 1;
   display: flex;
   flex-direction: column;
-
 }
 .forecast-graphs>div {
   flex: 1 1 auto;

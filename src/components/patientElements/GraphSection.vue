@@ -1,9 +1,8 @@
 <template>
   <div :id="id"
        @click="emit('selectedSection', id)"
-       :class="currentlySelected !== id ? 'infoItem' : 'infoItemSelected'">
-    <slot
-    />
+       :class="[currentlySelected !== id ? 'infoItem' : 'infoItemSelected','graph-section']">
+        <slot/>
   </div>
 </template>
 
@@ -18,5 +17,8 @@ const emit = defineEmits<{
 </script>
 
 <style scoped>
-
+.wrapper h1 {
+  border: 1px solid red;
+  text-align: center;
+}
 </style>
