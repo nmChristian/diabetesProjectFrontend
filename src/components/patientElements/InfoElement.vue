@@ -1,48 +1,44 @@
 <template>
-  <div class="infoBox">
-    <div class="inderBox" @click="showDataInternal()">
+  <div class="info-box">
+    <div class="inner-box">
       <p class="title">{{ title }}</p>
-      <p class="number">{{ number }}</p>
-      <!-- TODO add unit -->
+      <p class="number">{{ value }} <span class="unit"> {{unit}} </span></p>
     </div>
   </div>
 </template>
 
-<script>
-export default {
-  name: "InfoElement",
-  props: ['title', 'number'],
-  methods: {
-    showDataInternal() {
-      console.log("Vi er i info elementet")
-      this.$emit('showData')
-    }
-  }
-}
+<script lang="ts" setup>
+import {defineProps} from "vue";
+
+const props = defineProps<{
+  title : string,
+  value: string,
+  unit? : string,
+}>()
 </script>
 
 <style scoped>
-.infoBox {
+.info-box {
   flex: 1;
-  padding: 5px;
 }
 
-.inderBox {
+.inner-box {
   padding: 5px;
-  border: 1px solid transparent;
-  border-radius: 5px;
-}
-
-.inderBox:hover {
-  border-color: #555;
 }
 
 .title {
+  font-weight: bold;
+  font-size: 1em;
   color: #181818;
 }
 
 .number {
-  font-size: 30px;
+  font-size: 2em;
   color: #181818;
 }
+.unit {
+  font-size: .5em;
+  color: #555;
+}
+
 </style>

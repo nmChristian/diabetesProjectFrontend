@@ -39,9 +39,6 @@ export default defineComponent({
 	methods: {
 		mainClicked() {
 			router.push('/patient-info/' + this.$props.id)
-		},
-		showElementData(dataType: string) {
-			router.push('/patient-info/' + this.$props.id + "#" + dataType.toLowerCase())
 		}
 	}
 })

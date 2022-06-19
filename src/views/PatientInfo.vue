@@ -1,13 +1,6 @@
 <template>
-	<div :style="paddingElements">
-		<!-- POP UP -->
-		<div v-if="$router.currentRoute.value.fullPath.includes('#')" class="popupBackground"
-			 @click="closePopUp()"></div>
-		<div v-if="$router.currentRoute.value.fullPath.includes('#weight')" class="popup">
-
-			<h1>Ting om vægt</h1>
-		</div>
-
+  <!--What is this padding elements, doesn't really seem to affect anything?-->
+	<div :style="{paddingElements}">
 		<div class="navButtons">
 			<!-- TODO erstat med smukke symboler :) -->
 			<button @click="this.crossClicked()">Kryds</button>
@@ -33,13 +26,13 @@
 					<img alt="User icon" class=user-icon :src="getProfilePicturePath()" style="max-width: 50px">
 					<h1>Name: {{ currentPatient.first_name }} </h1>
 				</div>
-				<div class=" startInfoHolderLine">
-					<info-element :number=0 title="HbALc:" @showData="showElementData('HbALc')"></info-element>
-					<info-element :number=1 title="weight:" @showData="$router.replace('#weight')"></info-element>
-					<info-element :number=2 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
-					<info-element :number=3 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
-					<info-element :number=4 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
-					<info-element :number=5 title="Hypos:" @showData="showElementData('Hypos')"></info-element>
+				<div class="startInfoHolderLine">
+					<InfoElement value="70" title="HbALc" unit="mmol/mol"/>
+          <InfoElement value="120" title="GIM" unit="mg/dL"/>
+          <InfoElement value="120/80" title="Blood pressure" unit="mmHg"/>
+          <InfoElement value="76" title="Weight" unit="kg"/>
+          <InfoElement value="27" title="Lorem Ipsum" unit="N"/>
+          <InfoElement value="12" title="Lorem Ipsum" unit="kg/m"/>
 				</div>
 			</div>
 
@@ -150,6 +143,7 @@ import RawSeries from "@/components/charts/graphseries/RawSeries.vue";
 import TIRDailySeries from "@/components/charts/graphseries/TIRDailySeries.vue";
 import ForecastSeries from "@/components/charts/graphseries/ForecastSeries.vue";
 import {GraphLayout} from "@/services/core/graphtypes";
+import InfoElement from "@/components/patientElements/InfoElement.vue";
 const loggedInUser = ref({first_name: ""} as UserDetails)
 onMounted(() => {
 	loadData()
