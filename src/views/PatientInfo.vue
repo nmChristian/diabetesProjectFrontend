@@ -21,7 +21,7 @@
 
 		<div class=holderInfo>
 
-			<div class="infoItem" id="summary">
+			<div class="infoItem noExpandedView" id="summary">
 				<div class="basicInfoHolder">
 					<img alt="User icon" class="user-icon" :src="getProfilePicturePath()" style="max-width: 50px">
 					<h1> {{ currentPatient.first_name }} </h1>
@@ -36,7 +36,7 @@
 				</div>
 			</div>
 
-			<div class="infoItem diagnoseAndMedicine" id="diagnoseAndMedicine">
+			<div class="infoItemSmall noExpandedView" id="diagnoseAndMedicine">
 				<p class="diagnoseAndMedicinLabels">Diagnoses</p>
 				<p class="diagnoseAndMedicinLabels">Medicine</p>
 
@@ -63,7 +63,7 @@
 					></NoteViwerAndEditor>
 				</div>
 
-				<div class="infoItemSmall" style=" width: auto;">
+				<div class="infoItemSmall noExpandedView" style=" width: auto;">
           <TIROverview style="height: 100%;" :ranges="cgmRange" :targets="currentPatient.glycemic_targets" :frequencies="frequencies"/>
 				</div>
 
@@ -338,6 +338,9 @@ const cgmRange = computed( () : [number, number?][] => {
 
 
 <style scoped>
+.noExpandedView {
+  pointer-events: none;
+}
 .basicInfoHolder {
 	display: flex;
 	flex: border-box;
