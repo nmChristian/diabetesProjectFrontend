@@ -11,9 +11,9 @@
       </div>
       <div>
         <input
-            type="checkbox" name="mealsEnabled"
+            type="checkbox" name="meals-enabled"
             v-model="mealsEnabled"/>
-        <label for="mealsEnabled">Show meals</label>
+        <label for="meals-enabled">Show meals</label>
       </div>
       <br>
     </div>

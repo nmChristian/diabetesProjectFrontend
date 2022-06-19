@@ -86,11 +86,11 @@ th {
 }
 
 .success {
-  text-decoration: 2px underline green;
+  border-right: 5px solid green;
 }
 
 .fail {
-  text-decoration: 2px underline red;
+  border-right: 5px solid red;
 }
 
 

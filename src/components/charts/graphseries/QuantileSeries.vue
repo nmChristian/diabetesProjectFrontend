@@ -1,5 +1,17 @@
 <template>
   <div v-if="showAdvanced">
+    <div class="quantile-settings">
+      <p>Change quantiles</p>
+      <div class="input-range">
+        <input type="range" step="0.01" min="0" max=".24" name="lowest-quantile" v-model="lowestQuantile">
+        <label for="lowest-quantile">{{(lowestQuantile * 100).toFixed(0)}}%</label>
+      </div>
+
+      <div class="input-range">
+        <input type="range" step="0.01" min=".25" max=".49" name="highest-quantile" v-model="highestQuantile">
+        <label for="highest-quantile">{{(highestQuantile * 100).toFixed(0)}}%</label>
+      </div>
+    </div>
     <QuantileGraph
         :bucket-series-of-quantiles="bucketSeriesOfQuantiles"
         :median-data-in-hours="medianCGMInHours ?? cgmMedian()"
@@ -13,7 +25,7 @@
 <script lang="ts" setup>
 
 import QuantileGraph from "@/components/charts/generic/QuantileGraph.vue"
-import {computed} from "vue";
+import {computed, ref} from "vue";
 import type {BucketPoint, DateValue, Point} from "@/services/core/datatypes";
 import {
   addEdgesToSplit,
@@ -25,6 +37,10 @@ import {
 import {calculateQuantiles, toBucketSeries} from "@/services/graphs/generic/quantileGraph";
 import type {CGMRanges} from "@/services/core/shared";
 
+const lowestQuantile = ref(.05)
+const highestQuantile = ref(.25)
+
+
 const props = defineProps<{
   cgm: DateValue[],
   medianCGMInHours?: Point[],
@@ -35,9 +51,8 @@ const props = defineProps<{
 
 const RESOLUTION = 96, SPLIT = SPLIT_BY_DAY
 
-const quantiles = [0.05, 0.25, 0.75, 0.95]
-
-
+//const quantiles = [0.05, 0.25, 0.75, 0.95]
+const quantiles = computed(() => [lowestQuantile.value, highestQuantile.value, 1-highestQuantile.value, 1-lowestQuantile.value])
 const buckets = computed( () => toBuckets(props.cgm, SPLIT, RESOLUTION))
 
 function cgmMedian () : Point[] {
@@ -48,7 +63,7 @@ function cgmMedian () : Point[] {
 
 const bucketSeriesOfQuantiles = computed(() => {
   const quantileBuckets: BucketPoint[] =
-      calculateQuantiles(buckets.value, quantiles)
+      calculateQuantiles(buckets.value, quantiles.value)
 
   addEdgesToSplitBucket(quantileBuckets, SPLIT)
 
@@ -70,5 +85,15 @@ const bucketSeriesOfQuantiles = computed(() => {
 </script>
 
 <style scoped>
-
+.quantile-settings {
+  margin-bottom: 20px;
+}
+.input-range input {
+  width: 200px;
+}
+.input-range label{
+  font-size: 1em;
+  font-style: italic;
+  margin-left: 20px;
+}
 </style>

@@ -1,5 +1,6 @@
 <template>
   <div class="everything">
+    <QuantileSeries :cgm-ranges="cgmRanges" :show-advanced="true" :cgm="cgm"/>
     <div style="display: flex; gap: 100px;">
       <CGMLegend :ranges="cgmRanges" :targets="[0.01, 0.04, 0.7, 0.25, 0.05]" :percentages="[0.2, 0.3, 0.4, 0.05, 0.05]"/>
       <CGMLegend :ranges="cgmRanges" :percentages="[0.2, 0.3, 0.4, 0.05, 0.05]"/>
@@ -55,6 +56,7 @@ import RawSeries from "@/components/charts/graphseries/RawSeries.vue";
 import TIRDailySeries from "@/components/charts/graphseries/TIRDailySeries.vue";
 import ElementTableSeries from "@/components/charts/graphseries/ElementTableSeries.vue";
 import CGMLegend from "@/components/charts/CGMLegend.vue";
+import QuantileSeries from "@/components/charts/graphseries/QuantileSeries.vue";
 
 
 const props = defineProps<{
