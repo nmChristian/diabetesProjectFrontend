@@ -26,7 +26,7 @@
 					<h1> {{ currentPatient.first_name }} </h1>
 				</div>
 				<div class="startInfoHolderLine">
-					<InfoElement value="70" title="HbALc" unit="mmol/mol"/>
+					<InfoElement value="70" title="HbA1c" unit="mmol/mol"/>
           <InfoElement value="120" title="GIM" unit="mg/dL"/>
           <InfoElement value="120/80" title="Blood pressure" unit="mmHg"/>
           <InfoElement value="76" title="Weight" unit="kg"/>
@@ -154,6 +154,7 @@ import DiagnoseAndMedicine from "/src/components/DiagnoseAndMedicine.vue";
 
 const loggedInUser : Ref<UserDetails> = ref({} as UserDetails)
 const currentPatient : Ref<UserDetails> = ref({} as UserDetails)
+const baseUrl = "http://localhost:5000";
 
 onMounted(() => {
 	loadData()
@@ -187,7 +188,7 @@ function getProfilePicturePath() {
 	if (!currentPatient.value.profile_picture)
 		return '/src/assets/user.png'
 
-	return currentPatient.value.profile_picture
+	return baseUrl + currentPatient.value.profile_picture
 }
 
 const selectedInfoSection: Ref<string> = ref('')
@@ -283,8 +284,8 @@ async function loadData() {
 
 	backend.getUserDetailsForSpecific(String(router.currentRoute.value.params.id)).then((user: UserDetails) => {
 		currentPatient.value = user
-    currentPatient.value.glycemic_ranges
-    console.log(user)
+    	currentPatient.value.glycemic_ranges
+    	console.log(user)
 	})
 
 	backend.getDataPatient(21, ["cgm", "meals", "basal", "bolus"], id).then((response) => {

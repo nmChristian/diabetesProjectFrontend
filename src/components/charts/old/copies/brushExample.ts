@@ -8,11 +8,9 @@ const interval: d3.TimeInterval = d3.timeHour.every(12)
 
 
 export function brushExample() {
-    console.log("sdasd")
 
     const svg = d3.select("svg")
         .attr("viewBox", [0, 0, width, height]);
-    console.log(svg)
 
     const brush = d3.brushX<any>()
         .extent([[margin.left, margin.top], [width - margin.right, height - margin.bottom]])
