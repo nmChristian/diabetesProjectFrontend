@@ -1,6 +1,5 @@
 <template>
-  <!--What is this padding elements, doesn't really seem to affect anything?-->
-	<div :style="{paddingElements}">
+	<div :style="paddingElements">
 		<div class="navButtons">
 			<!-- TODO erstat med smukke symboler :) -->
 			<button @click="this.crossClicked()">Kryds</button>
