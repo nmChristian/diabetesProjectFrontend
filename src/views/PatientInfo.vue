@@ -294,7 +294,7 @@ async function loadData() {
 	updateNotes()
 
 	backend.getUserDetailsForSpecific(String(router.currentRoute.value.params.id)).then((user: UserDetails) => {
-		currentPatient.value = user
+    currentPatient.value = user
     currentPatient.value.glycemic_ranges
     console.log(user)
 	})

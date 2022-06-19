@@ -68,7 +68,7 @@ class UserWithDate {
 
 let usersWithData =ref([] as UserWithDate[]);
 
-const accessiblelUsersPromise = backend.getViewvabel();
+const accessiblelUsersPromise = backend.getViewabel();
 
 accessiblelUsersPromise.then((accessiblelUsers : Array<UserDetails>)  => {
 

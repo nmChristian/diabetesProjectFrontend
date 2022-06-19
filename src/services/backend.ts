@@ -37,16 +37,16 @@ class Backend {
     }
 
     public async getUserDetailsForSpecific(id: String): Promise<UserDetails> {
-        let users = (await this.getViewvabel())
+        let users = (await this.getViewabel())
         for (let i = 0; i < users.length; i++) {
             if (users[i]._id.$oid === id) {
                 return users[i]
             }
         }
-        return {email: "", first_name: "", last_name: "", is_doctor: false, _id: {}, age: 0, profile_picture: ""}
+        return {email: "", first_name: "", last_name: "", is_doctor: false, _id: {}, age: 0, profile_picture: "", glycemic_ranges: Array(4).fill(NaN), glycemic_targets: Array(5).fill(NaN)}
     }
 
-    public async getViewvabel(): Promise<Array<UserDetails>> {
+    public async getViewabel(): Promise<Array<UserDetails>> {
         const response = await axios.get(
             this.getNameURL(),
             this.generateHeader())

@@ -39,7 +39,7 @@ class UserWithDate {
 
 let usersWithData = ref([] as UserWithDate[]);
 
-const accessiblelUsersPromise = backend.getViewvabel();
+const accessiblelUsersPromise = backend.getViewabel();
 
 
 let dataForAllUsers = backend.getPreviews();
