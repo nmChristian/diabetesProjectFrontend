@@ -19,6 +19,7 @@
 			:cgm="cgmInDateValue"
 			:meals="mealsInDateValue"
 			:median-c-g-m-in-hours="medianCGMInHours"
+      :cgm-ranges="[[0,54],[54,70],[70,180],[180,250],[250,undefined]]"
 		/>
 	</div>
 </template>
@@ -28,12 +29,12 @@ import type {Ref} from "vue"
 import {computed, onMounted, ref,} from "vue";
 import type {DateValue, Point} from "@/services/core/datatypes"
 import {
-	addEdgesToSplit,
-	bucketToMedian,
-	mMolPerLToMgPerDL,
-	SPLIT_BY_DAY,
-	timeSeriesToDateValue,
-	toBuckets
+  addEdgesToSplit,
+  bucketToMedian,
+  mMolPerLToMgPerDL,
+  SPLIT_BY_DAY,
+  timeSeriesToDateValue,
+  toBuckets
 } from "@/services/core/datatypes";
 import backend from "@/services/backend";
 import type {UserDetails} from "@/services/core/dbtypes";

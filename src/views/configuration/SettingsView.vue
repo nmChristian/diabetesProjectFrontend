@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import {defineComponent} from "vue";
-import {useProfilePicture, getProfilePictureUrl, defaultUrl} from "@/services/settingsProvider";
+import {defaultUrl, getProfilePictureUrl, useProfilePicture} from "@/services/settingsProvider";
 import PrimaryButton from "@/components/PrimaryButton.vue";
 import router from "@/router";
 import failureIcon from "@/components/icons/failureIcon.vue";

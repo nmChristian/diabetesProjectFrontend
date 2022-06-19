@@ -4,7 +4,7 @@
 
 <script lang="ts" setup>
 import type {Ref} from "vue";
-import {compile, computed, ref, watchEffect} from "vue";
+import {ref, watchEffect} from "vue";
 
 const div: Ref<HTMLDivElement | null> = ref(null)
 const props = defineProps<{

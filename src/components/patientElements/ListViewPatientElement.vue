@@ -18,7 +18,6 @@
 
 <script lang="ts" setup>
 import IconGraph from "@/components/charts/IconGraph.vue"
-import type {User} from "@/services/user"
 import {UserDetails} from "@/services/core/dbtypes";
 
 defineProps<{

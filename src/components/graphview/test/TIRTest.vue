@@ -41,14 +41,16 @@ import TIRGraph from "@/components/charts/generic/TIRGraph.vue";
 import {computed} from "vue";
 import type {DateValue} from "@/services/core/datatypes";
 import {getCGMOccurrences} from "@/services/core/datatypes";
+import type {CGMRanges} from "@/services/core/shared";
 import {COLOR_SCHEME} from "@/services/core/shared";
 import {GraphLayout} from "@/services/core/graphtypes";
 
 const props = defineProps<{
   cgm: DateValue[],
+  cgmRanges: CGMRanges,
 }>()
 
-const occurrences = computed(() => getCGMOccurrences(props.cgm))
+const occurrences = computed(() => getCGMOccurrences(props.cgm, props.cgmRanges))
 
 const layout = new GraphLayout(50, 400, 0, 10, 0, 10)
 

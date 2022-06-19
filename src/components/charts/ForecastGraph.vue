@@ -10,16 +10,18 @@ import Graph from "./shared/Graph.vue"
 import type {GraphLayout} from "@/services/core/graphtypes";
 import type {DateValue} from "@/services/core/datatypes";
 import forecastGraph from "@/services/graphs/forecastGraph";
+import type {CGMRanges} from "@/services/core/shared";
 
 
 const props = defineProps<{
   data: DateValue[],
   timeInterval: TimeInterval,
+  cgmRanges : CGMRanges,
   graphLayout?: GraphLayout,
   onBrushEnd?: any,
 }>()
 
 const graph = computed(() =>
-    forecastGraph(props.data, props.timeInterval, {graphLayout: props.graphLayout, onBrushEnd: props.onBrushEnd}).svg)
+    forecastGraph(props.data, props.timeInterval, props.cgmRanges,{graphLayout: props.graphLayout, onBrushEnd: props.onBrushEnd}).svg)
 
 </script>

@@ -1,13 +1,15 @@
 import type {Point} from "@/services/core/datatypes";
 import {pointIsValid} from "@/services/core/datatypes";
 import * as d3 from "d3";
-import {CGM_RANGE, COLOR_SCHEME, LINE_COLOR} from "@/services/core/shared";
+import type {CGMRanges} from "@/services/core/shared";
+import {CGM_RANGE, LINE_COLOR} from "@/services/core/shared";
 import {applyAxis, drawYAxisCGM} from "@/services/core/graph/axisDrawer";
 import {generateSVG} from "@/services/core/graphMethods";
 import {drawHorizontalCGMIndicatorLines} from "@/services/core/graph/lineDrawer";
 import {GraphLayout} from "@/services/core/graphtypes";
 
 export default function lineGraphDaily(points: Point[],
+                                       cgmRanges: CGMRanges,
                                        {
                                            graphLayout = new GraphLayout(800, 400, 20, 30, 20, 40),
                                        }, xDomain: [number, number] | undefined = undefined) {
@@ -35,12 +37,12 @@ export default function lineGraphDaily(points: Point[],
 
 
     //drawVerticalLines(svg, xScale, yScale, [12])
-    drawHorizontalCGMIndicatorLines(svg, xScale, yScale)
+    drawHorizontalCGMIndicatorLines(svg, xScale, yScale, cgmRanges)
 
     // Axis
     const xAxis = d3.axisBottom(xScale).tickFormat(d => d + ":00")
     applyAxis<number>(svg, xAxis, {yOffset: height, textCSS: d => "font-weight: " + (d == 12 ? "bold;" : "normal;")})
-    drawYAxisCGM(svg, yScale)
+    drawYAxisCGM(svg, yScale, cgmRanges)
 
     return out
 }

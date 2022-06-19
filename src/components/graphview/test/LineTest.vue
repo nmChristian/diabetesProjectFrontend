@@ -8,11 +8,13 @@
     <p>Dynamic domain</p>
     <LineGraphDaily
         :data="medianCGMInHours"
+        :cgm-ranges="cgmRanges"
     />
     <p>Fixed domain [0,24]</p>
     <LineGraphDaily
         :data="medianCGMInHours"
         :x-domain="[0, 24]"
+        :cgm-ranges="cgmRanges"
     />
     <h1>Working line graph over the span of days</h1>
     <LineGraph
@@ -25,9 +27,11 @@
 import LineGraph from "@/components/charts/generic/LineGraph.vue"
 import LineGraphDaily from "@/components/charts/generic/LineGraphDaily.vue";
 import type {DateValue, Point} from "@/services/core/datatypes";
+import type {CGMRanges} from "@/services/core/shared";
 
 const props = defineProps<{
   cgm: DateValue[],
+  cgmRanges: CGMRanges,
   medianCGMInHours: Point[]
 }>
 ()

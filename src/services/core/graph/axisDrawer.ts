@@ -1,7 +1,8 @@
 import type {Axis, AxisDomain, AxisScale} from "d3-axis";
 import type {ValueFn} from "d3";
 import * as d3 from "d3";
-import {CGM_THRESHOLDS} from "@/services/core/shared";
+import type {CGMRanges} from "@/services/core/shared";
+import {CGM_RANGE} from "@/services/core/shared";
 import type {SVG} from "@/services/core/graphMethods";
 import {isTarget} from "@/services/core/graphMethods";
 
@@ -35,13 +36,13 @@ function applyAxis<Domain extends AxisDomain>(svg: SVG, axis: Axis<Domain>, axis
     return svgAxis
 }
 
-function drawYAxisCGM<Domain extends AxisDomain>(svg: SVG, yScale: d3.AxisScale<Domain>) {
+function drawYAxisCGM<Domain extends AxisDomain>(svg: SVG, yScale: d3.AxisScale<Domain>, cgmRange: CGMRanges) {
     const highlightTarget = (i: number) =>
         "font-size: " + (isTarget(i - 1) ? "12" : "12") + ";" +
         "font-weight: " + (isTarget(i - 1) ? "bold" : "normal") + ";"
 
     const axis = d3.axisLeft(yScale)
-        .tickValues(CGM_THRESHOLDS.map(d => d.x0) as Iterable<Domain>)
+        .tickValues([...cgmRange.map(d => d[0]), CGM_RANGE[1]] as Iterable<Domain>)
     applyAxis(svg, axis, {textCSS: (d, i) => highlightTarget(i)})
 }
 

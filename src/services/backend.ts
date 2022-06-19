@@ -2,7 +2,7 @@ import {getApiKey} from "@/services/authentication";
 import axios from "axios";
 import type {DateValue} from "@/services/core/datatypes";
 import {mMolPerLToMgPerDL, timeSeriesToDateValue} from "@/services/core/datatypes";
-import type {UserDetails, Diagnosis, Note} from "@/services/core/dbtypes";
+import type {Diagnosis, Note, UserDetails} from "@/services/core/dbtypes";
 import * as d3 from "d3";
 
 class Backend {

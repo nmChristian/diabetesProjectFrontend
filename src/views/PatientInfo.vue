@@ -64,7 +64,7 @@
 				</div>
 
 				<div class="infoItemSmall" style="width: auto;">
-          <TIROverview :ranges="cgmRange" :targets="currentPatient.glycemic_targets" :frequencies="frequencies"/>
+          <TIROverview :ranges="cgmRanges" :targets="currentPatient.glycemic_targets" :frequencies="frequencies"/>
 				</div>
 
       </div>
@@ -78,6 +78,7 @@
 				<ForecastSeries
 					:cgm="cgmInDateValue"
 					:meals="mealsInDateValue"
+          :cgm-ranges="cgmRanges"
 					:showAdvanced="selectedInfoSection === 'forecast'"
 				/>
 			</graph-section>
@@ -93,6 +94,7 @@
 					:cgm="daysBackData(cgmInDateValue, daysBack)"
 					:meals="daysBackData(mealsInDateValue, daysBack)"
 					:dates="dates"
+          :cgm-ranges="cgmRanges"
 					:showAdvanced="selectedInfoSection === 'big-table'"
 				/>
 			</graph-section>
@@ -104,6 +106,7 @@
         <h1>Time in Range per hour</h1>
 				<TIRDailySeries
 					:data="cgmInDateValue"
+          :cgm-ranges="cgmRanges"
 					:showAdvanced="selectedInfoSection === 'tir-series'"
 				/>
 			</graph-section>
@@ -133,17 +136,14 @@ import type {DateValue} from "@/services/core/datatypes"
 import {getCGMOccurrences, mMolPerLToMgPerDL, timeSeriesToDateValue} from "@/services/core/datatypes";
 import type {Ref} from "vue"
 import {computed, onMounted, ref} from "vue";
-import {COLOR_SCHEME} from "@/services/core/shared";
+import type {CGMRanges} from "@/services/core/shared";
 import type {Diagnosis, Note, UserDetails} from "@/services/core/dbtypes";
 import ElementTableSeries from "@/components/charts/graphseries/ElementTableSeries.vue"
 import NoteViwerAndEditor from "@/components/NoteViwerAndEditor.vue";
-import TIRGraph from "@/components/charts/generic/TIRGraph.vue";
-import CGMLegend from "@/components/charts/CGMLegend.vue";
 import GraphSection from "@/components/patientElements/GraphSection.vue";
 import RawSeries from "@/components/charts/graphseries/RawSeries.vue";
 import TIRDailySeries from "@/components/charts/graphseries/TIRDailySeries.vue";
 import ForecastSeries from "@/components/charts/graphseries/ForecastSeries.vue";
-import {GraphLayout} from "@/services/core/graphtypes";
 import InfoElement from "@/components/patientElements/InfoElement.vue";
 import TIROverview from "@/components/charts/graphseries/TIROverview.vue";
 
@@ -272,7 +272,7 @@ const cgmInDateValueLastSeven: Ref<DateValue[]> = ref([] as DateValue[])
 const mealsInDateValue: Ref<DateValue[]> = ref([] as DateValue[])
 const basalInDateValue: Ref<DateValue[]> = ref([] as DateValue[])
 const bolusInDateValue: Ref<DateValue[]> = ref([] as DateValue[])
-const occurrences = computed(() => getCGMOccurrences(cgmInDateValueLastSeven.value))
+const occurrences = computed(() => getCGMOccurrences(cgmInDateValueLastSeven.value, cgmRanges.value))
 const frequencies = computed(() => { const sum = d3.sum(occurrences.value); return occurrences.value.map(val => val / sum || 0)})
 
 const diagnosis = ref([] as Diagnosis[])
@@ -324,14 +324,12 @@ const daysBackData = (data: DateValue[], daysBack: number) =>
 	data.filter(([date,]) => date > d3.timeDay.offset(lastDateInDataSet.value, -daysBack))
 
 // Converts user given cgm range
-const cgmRange = computed( () : [number, number?][] => {
+const cgmRanges = computed( () : CGMRanges => {
   // Ignore warning, since the object can be {}, and therefore {}.glycemic_ranges === undefined
   if (currentPatient.value.glycemic_ranges === undefined)
     return Array(5).fill([NaN, NaN])
 
-
-  const range = [...currentPatient.value.glycemic_ranges].map(mMolPerLToMgPerDL)
-  range.splice(0,0,0)
+  const range = [0,...currentPatient.value.glycemic_ranges].map(mMolPerLToMgPerDL)
   return range.map<[number, number?]>((val,i,a) => [val, a[i+1]])
 })
 </script>

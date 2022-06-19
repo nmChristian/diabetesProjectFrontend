@@ -16,7 +16,6 @@
 import type {DateValue} from "@/services/core/datatypes";
 import {GraphLayout} from "@/services/core/graphtypes";
 import {computed} from "vue";
-import dotGraph from "@/services/graphs/generic/dotGraph";
 import lineGraph from "@/services/graphs/generic/lineGraph";
 import Graph from "@/components/charts/shared/Graph.vue";
 import barGraph from "@/services/graphs/generic/barGraph";

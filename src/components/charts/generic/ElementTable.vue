@@ -45,6 +45,7 @@
 
 <script lang="ts" setup>
 import * as d3 from "d3"
+
 export type ElementRow = {title : string, values: [number, string?][]}
 
 const props = defineProps<{

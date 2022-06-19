@@ -22,9 +22,11 @@
 </template>
 
 <script lang="ts" setup>
-import {COLOR_SCHEME, CGM_TARGET_INDEX} from "@/services/core/shared";
+import type {CGMRanges} from "@/services/core/shared";
+import {CGM_TARGET_INDEX, COLOR_SCHEME} from "@/services/core/shared";
+
 const props = defineProps<{
-  ranges: [number, number?][],
+  ranges: CGMRanges,
   targets?: number[],
   percentages? : number[]
 }>()

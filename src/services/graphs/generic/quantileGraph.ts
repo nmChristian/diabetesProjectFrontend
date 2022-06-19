@@ -1,7 +1,8 @@
 import * as d3 from "d3";
 import type {BucketPoint, Point} from "@/services/core/datatypes";
 import {pointIsValid} from "@/services/core/datatypes";
-import {CGM_RANGE, CGM_THRESHOLDS, COLOR_SCHEME} from "@/services/core/shared";
+import type {CGMRanges} from "@/services/core/shared";
+import {CGM_RANGE, COLOR_SCHEME} from "@/services/core/shared";
 import {generateGradientCGMCSSApply} from "@/services/graphs/generic/generateGradientCSS";
 import {generateSVG} from "@/services/core/graphMethods";
 import {drawXAxisHighlightEvery12Hours, drawYAxisCGM} from "@/services/core/graph/axisDrawer";
@@ -11,6 +12,7 @@ import {GraphLayout} from "@/services/core/graphtypes";
 export function quantileGraph(bucketSeriesOfQuantiles: d3.Series<BucketPoint, number>[],
                               quantilesUsedInBucket: number[],
                               medianPoints: Point[],
+                              cgmRanges: CGMRanges,
                               {
                                   graphLayout = new GraphLayout(800, 400, 20, 30, 20, 40),
                                   indicators = false,
@@ -56,7 +58,7 @@ export function quantileGraph(bucketSeriesOfQuantiles: d3.Series<BucketPoint, nu
         .y1(([, y1]) => yScale(y1))
 
     // Draw Area
-    const cssIDForGradient = generateGradientCGMCSSApply(svg, height)
+    const cssIDForGradient = generateGradientCGMCSSApply(svg, 0, height, cgmRanges)
     svg.append("g")
         .selectAll("path")
         .data(bucketSeriesOfQuantiles)
@@ -79,11 +81,11 @@ export function quantileGraph(bucketSeriesOfQuantiles: d3.Series<BucketPoint, nu
 
 
     // Axises
-    drawYAxisCGM(svg, yScale)
+    drawYAxisCGM(svg, yScale, cgmRanges)
     drawXAxisHighlightEvery12Hours(svg, xScale, height)
 
     // Draw lines
-    drawHorizontalCGMIndicatorLines(svg, xScale, yScale)
+    drawHorizontalCGMIndicatorLines(svg, xScale, yScale, cgmRanges)
     drawVerticalLines<number, number>(svg, xScale, yScale, [6, 12, 18, 24])
 
 
@@ -99,12 +101,12 @@ export function quantileGraph(bucketSeriesOfQuantiles: d3.Series<BucketPoint, nu
     if (indicators) {
         const thresholdIndicators = svg.append("g")
             .selectAll("rect")
-            .data(CGM_THRESHOLDS)
+            .data(cgmRanges)
             .join("rect")
             .attr("x", 0)
             .attr("width", width)
-            .attr("y", d => d.x1 === undefined ? yMax : yScale(d.x1))
-            .attr("height", d => yScale(d.x0) - (d.x1 === undefined ? yMax : yScale(d.x1)))
+            .attr("y", d => d[1] === undefined ? yMax : yScale(d[1]))
+            .attr("height", d => yScale(d[0]) - (d[1] === undefined ? yMax : yScale(d[1])))
             .attr("fill", (d, i) => COLOR_SCHEME[i])
             .attr("opacity", 0.2)
     }

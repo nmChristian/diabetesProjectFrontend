@@ -9,6 +9,7 @@
     <ForecastSeries
         :cgm="cgm"
         :meals="meals"
+        :cgm-ranges="cgmRanges"
         :show-advanced="true"
     />
 
@@ -18,11 +19,13 @@
         :cgm="daysBackData(cgm, daysBack)"
         :meals="daysBackData(meals, daysBack)"
         :dates="dates"
+        :cgm-ranges="cgmRanges"
         :show-advanced="true"
     />
     <TIRGraph style="width: 100px; height: 140px;" :occurrences="frequencies" :colors="COLOR_SCHEME"/>
     <TIRDailySeries
         :data="cgm"
+        :cgm-ranges="cgmRanges"
         :show-advanced="true"
     />
 
@@ -44,7 +47,8 @@ import type {DateValue} from "@/services/core/datatypes";
 import {getCGMOccurrences} from "@/services/core/datatypes";
 import TIRGraph from "@/components/charts/generic/TIRGraph.vue";
 
-import {COLOR_SCHEME, CGM_THRESHOLDS} from "@/services/core/shared";
+import type {CGMRanges} from "@/services/core/shared"
+import {COLOR_SCHEME} from "@/services/core/shared";
 import {computed} from "vue";
 import ForecastSeries from "@/components/charts/graphseries/ForecastSeries.vue";
 import RawSeries from "@/components/charts/graphseries/RawSeries.vue";
@@ -58,6 +62,7 @@ const props = defineProps<{
   meals: DateValue[],
   basal: DateValue[],
   bolus: DateValue[],
+  cgmRanges : CGMRanges
 }>()
 
 
@@ -65,7 +70,7 @@ const props = defineProps<{
 const lastDateInDataSet = computed(() => props.cgm.length === 0 ? new Date() : props.cgm[props.cgm.length - 1][0])
 
 const lastDayData = computed(() => props.cgm.filter(([date,]) => date > d3.timeDay.offset(lastDateInDataSet.value, -1)))
-const frequencies = computed(() => getCGMOccurrences(lastDayData.value))
+const frequencies = computed(() => getCGMOccurrences(lastDayData.value, props.cgmRanges))
 
 
 const daysBack = 7
@@ -74,9 +79,6 @@ const dates = computed( ()  =>
         d3.timeDay.offset(lastDateInDataSet.value, -offset))).reverse())
 
 const daysBackData = (data : DateValue[], daysBack : number) => data.filter(([date,]) => date > d3.timeDay.offset(lastDateInDataSet.value, -daysBack))
-
-// Constants
-const cgmRanges : [number, number?][]= CGM_THRESHOLDS.map(({x0,x1}) => [x0,x1])
 
 </script>
 

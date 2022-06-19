@@ -1,6 +1,7 @@
 import * as d3 from "d3";
 import type {DateValue} from "@/services/core/datatypes";
 import {dateValueIsValid} from "@/services/core/datatypes";
+import type {CGMRanges} from "@/services/core/shared";
 import {CGM_RANGE} from "@/services/core/shared";
 import {generateSVG} from "@/services/core/graphMethods";
 import {generateGradientCGMCSSApply} from "@/services/graphs/generic/generateGradientCSS";
@@ -9,6 +10,7 @@ import {drawHorizontalCGMIndicatorLines, drawVerticalLines} from "@/services/cor
 import {GraphLayout} from "@/services/core/graphtypes";
 
 export default function lineGraphCGM(dateValues: DateValue[],
+                                     cgmRanges : CGMRanges,
                                      {
                                          graphLayout = new GraphLayout(800, 400, 20, 30, 20, 40),
                                      }) {
@@ -30,12 +32,12 @@ export default function lineGraphCGM(dateValues: DateValue[],
 
     svg.append("path")
         .attr("fill", "none")
-        .attr("style", "stroke: " + generateGradientCGMCSSApply(svg, height) + "; stroke-width: 3;")
+        .attr("style", "stroke: " + generateGradientCGMCSSApply(svg, 0, height, cgmRanges) + "; stroke-width: 3;")
         .attr("d", lineGen)
 
 
     // Draw lines
-    drawHorizontalCGMIndicatorLines(svg, xScale, yScale)
+    drawHorizontalCGMIndicatorLines(svg, xScale, yScale, cgmRanges)
     // Drawing
     drawVerticalLines<Date, number>(svg, xScale, yScale,
         // List of days between start and stop
@@ -44,7 +46,7 @@ export default function lineGraphCGM(dateValues: DateValue[],
     // Axis
     const xAxis = d3.axisBottom(xScale)
     applyAxis(svg, xAxis, {yOffset: height})
-    drawYAxisCGM(svg, yScale)
+    drawYAxisCGM(svg, yScale, cgmRanges)
 
     return out
 }

@@ -5,6 +5,7 @@
         :bucket-series-of-quantiles="bucketSeriesOfQuantiles"
         :median-data-in-hours="medianCGMInHours"
         :quantiles-used-in-bucket="quantiles"
+        :cgm-ranges="cgmRanges"
     />
   </div>
 
@@ -16,10 +17,13 @@ import {computed} from "vue";
 import type {BucketPoint, DateValue, Point} from "@/services/core/datatypes";
 import {addEdgesToSplitBucket, SPLIT_BY_DAY, toBuckets} from "@/services/core/datatypes";
 import {calculateQuantiles, toBucketSeries} from "@/services/graphs/generic/quantileGraph";
+import type {CGMRanges} from "@/services/core/shared";
 
 const props = defineProps<{
   cgm: DateValue[],
   medianCGMInHours: Point[],
+  cgmRanges: CGMRanges,
+
 }>()
 
 const RESOLUTION = 96

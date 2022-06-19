@@ -4,7 +4,7 @@ import type {SVG} from "@/services/core/graphMethods";
 import {highlightTargetLineStyle} from "@/services/core/graphMethods";
 import type {AxisDomain} from "d3-axis";
 import {pointIsValid} from "@/services/core/datatypes";
-import {CGM_THRESHOLDS} from "@/services/core/shared";
+import type {CGMRanges} from "@/services/core/shared";
 
 const defaultLineCSS = "stroke-width: 1; opacity: .3; fill: none; stroke: black;"
 
@@ -52,8 +52,9 @@ export function drawHorizontalLines<XDomain extends AxisDomain, YDomain extends 
 export function drawHorizontalCGMIndicatorLines<XDomain extends AxisDomain>(svg: SVG,
                                                                             xScale: d3.AxisScale<XDomain>,
                                                                             yScale: d3.AxisScale<number>,
+                                                                            cgmRanges: CGMRanges,
 ) {
     drawHorizontalLines<XDomain, number>(svg, xScale, yScale,
-        CGM_THRESHOLDS.map<number>(d => d.x1 ?? yScale.domain()[1]),
+        cgmRanges.map<number>(d => d[1] ?? yScale.domain()[1]),
         (d, i) => highlightTargetLineStyle(i))
 }

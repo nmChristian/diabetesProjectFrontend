@@ -5,7 +5,7 @@
 <script lang="ts" setup>
 import Graph from "../shared/Graph.vue"
 
-import {computed, ref, watchEffect} from "vue";
+import {computed} from "vue";
 import tirGraph from "@/services/graphs/generic/tirGraph";
 import type {GraphLayout} from "@/services/core/graphtypes";
 

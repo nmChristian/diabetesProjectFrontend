@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 import type {DateValue} from "@/services/core/datatypes";
-import {COLOR_SCHEME, LINE_COLOR} from "@/services/core/shared";
+import {LINE_COLOR} from "@/services/core/shared";
 import {generateSVG} from "@/services/core/graphMethods";
 import {applyAxis} from "@/services/core/graph/axisDrawer";
 import {GraphLayout} from "@/services/core/graphtypes";

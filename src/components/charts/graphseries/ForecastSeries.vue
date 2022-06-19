@@ -35,7 +35,7 @@
         <TIRGraph class="tir-graph"
             :colors="COLOR_SCHEME"
             :graph-layout="tirLayout"
-            :occurrences="getCGMOccurrences(selectedData)"
+            :occurrences="getCGMOccurrences(selectedData, cgmRanges)"
             :offset="1"
             :r="1"
         />
@@ -54,6 +54,7 @@ import * as d3 from "d3";
 import {GraphLayout} from "@/services/core/graphtypes";
 import type {DateValue} from "@/services/core/datatypes";
 import {getCGMOccurrences} from "@/services/core/datatypes";
+import type {CGMRanges} from "@/services/core/shared";
 import {COLOR_SCHEME} from "@/services/core/shared";
 import forecastGraph from "@/services/graphs/forecastGraph";
 import Graph from "@/components/charts/shared/Graph.vue";
@@ -64,6 +65,7 @@ const props = defineProps<{
   showAdvanced: boolean,
   cgm: DateValue[],
   meals: DateValue[],
+  cgmRanges : CGMRanges,
 }>()
 const weeksBack = [0, 1, 2]
 const lastDateInDataSet = computed(() => props.cgm.length === 0 ? new Date() : props.cgm[props.cgm.length - 1][0])
@@ -119,6 +121,7 @@ const graphs = computed(() => {
             const cgmData = cgmSplitIntoIntervals.value.get(lastThreeIntervals.value[week]) ?? []
             const mealsData = mealsSplitIntoIntervals.value.get(lastThreeIntervals.value[week]) ?? []
             return forecastGraph(cgmData, interval.value,
+                props.cgmRanges,
                 {
                   graphLayout: forecastLayout,
                   onBrushEnd: brushEvent,

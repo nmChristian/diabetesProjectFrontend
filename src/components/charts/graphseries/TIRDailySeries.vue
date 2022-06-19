@@ -18,7 +18,7 @@
             :colors="colors"
             :occurrences="occurrences[i]"
         />
-        <p v-if="showAdvanced" :style="{borderBottom: '6px solid', borderColor: getCGMColor(averages[i]) }">{{ averages[i].toFixed(2) }}</p>
+        <p v-if="showAdvanced" :style="{borderBottom: '6px solid', borderColor: getCGMColor(averages[i], cgmRanges) }">{{ averages[i].toFixed(2) }}</p>
         <p v-if="showAdvanced"  :style="{marginTop: '10px'}">{{ (deviations[i] * 100 / averages[i]).toFixed(0)  }} %</p>
       </div>
     </div>
@@ -30,6 +30,7 @@
 import type {DateValue} from "@/services/core/datatypes";
 import {getCGMColor, getCGMOccurrences, SPLIT_BY_DAY} from "@/services/core/datatypes";
 import {computed, ref} from "vue";
+import type {CGMRanges} from "@/services/core/shared";
 import {COLOR_SCHEME, dateToSeconds} from "@/services/core/shared";
 import * as d3 from "d3";
 import TIRGraph from "@/components/charts/generic/TIRGraph.vue";
@@ -45,6 +46,7 @@ const graphLayout = computed(() => new GraphLayout(hoursPerRange.value === 1 ? 4
 const props = defineProps<{
   data: DateValue[],
   showAdvanced: boolean,
+  cgmRanges: CGMRanges,
 }>()
 
 // Ranges [0, 6, 12, 18],
@@ -60,7 +62,7 @@ const splitDateValues = computed(() => d3.bin<DateValue, number>()
 )
 
 // Convert the bin into date values
-const occurrences = computed(() => splitDateValues.value.map<number[]>(getCGMOccurrences))
+const occurrences = computed(() => splitDateValues.value.map<number[]>(val => getCGMOccurrences(val, props.cgmRanges)))
 
 const averages = computed(() => splitDateValues.value.map<number>(dateValues => d3.mean(dateValues, ([, value]) => value) ?? NaN))
 const deviations = computed(() => splitDateValues.value.map<number>(dateValues => d3.deviation(dateValues, ([, value]) => value) ?? NaN))

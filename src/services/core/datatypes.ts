@@ -1,5 +1,6 @@
 import * as d3 from "d3";
-import {CGM_SD_THRESHOLDS, CGM_THRESHOLDS, COLOR_SCHEME, dateToSeconds} from "@/services/core/shared";
+import type {CGMRanges} from "@/services/core/shared";
+import {COLOR_SCHEME, dateToSeconds} from "@/services/core/shared";
 import type {TimeSeries} from "@/services/core/dbtypes";
 
 export type {DateValue, Point, BucketPoint}
@@ -119,19 +120,19 @@ function bucketToQuantile(bucketPoints: BucketPoint[], quantiles: number[]): Buc
     )
 }
 
-function getCGMOccurrences(data: DateValue[]): number[] {
-    const occurrences: number[] = Array(CGM_THRESHOLDS.length).fill(0)
+function getCGMOccurrences(data: DateValue[], cgmRanges: CGMRanges): number[] {
+    const occurrences: number[] = Array(cgmRanges.length).fill(0)
 
-    // Place each point based on the x0 value
-    const bisect = d3.bisector<{ x0: number }, number>(d => d.x0)
+    // Place each point based on first value
+    const bisect = d3.bisector<[number, number?], number>(d => d[0])
 
     // Its weight is half the time between each neighbor date
     // For example, if a point is good and the next data is in the bad area in 1 hour, followed by good after 30 mins, then the data will be (30 mins of good, (30 + 15) mins of bad, 15 mins of good)
-    data.map<number>(([date, value], i, data) => occurrences[bisect.right(CGM_THRESHOLDS, value) - 1] += (d3.timeSecond.count(data[i - 1]?.[0] ?? date, data[i + 1]?.[0] ?? date) / 2))
+    data.map<number>(([date, value], i, data) => occurrences[bisect.right(cgmRanges, value) - 1] += (d3.timeSecond.count(data[i - 1]?.[0] ?? date, data[i + 1]?.[0] ?? date) / 2))
 
     return occurrences
 }
 
 export const mMolPerLToMgPerDL = (cgm: number) => cgm * 18
-const cgmBisector = d3.bisector<{ x0: number }, number>(d => d.x0)
-export const getCGMColor = (cgm: number) => COLOR_SCHEME[cgmBisector.right(CGM_THRESHOLDS, cgm) - 1]
+const cgmBisector = d3.bisector<[number,number?], number>(d => d[0])
+export const getCGMColor = (cgm: number, cgmRanges: CGMRanges) => COLOR_SCHEME[cgmBisector.right(cgmRanges, cgm) - 1]

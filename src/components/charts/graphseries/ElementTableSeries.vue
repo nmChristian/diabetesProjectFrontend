@@ -22,14 +22,15 @@
 </template>
 
 <script lang="ts" setup>
-import ElementTable from "@/components/charts/generic/ElementTable.vue"
 import type {ElementRow} from "@/components/charts/generic/ElementTable.vue"
+import ElementTable from "@/components/charts/generic/ElementTable.vue"
 
 import type {DateValue} from "@/services/core/datatypes";
 import {getCGMColor} from "@/services/core/datatypes";
-import type {ComputedRef, Ref} from "vue"
-import {computed, reactive, ref, watchEffect} from "vue";
+import type {Ref} from "vue"
+import {computed, ref, watchEffect} from "vue";
 import * as d3 from "d3";
+import type {CGMRanges} from "@/services/core/shared";
 
 const props = defineProps<{
   showAdvanced: boolean,
@@ -38,6 +39,7 @@ const props = defineProps<{
   basal: DateValue[],
   bolus: DateValue[],
   dates: Date[],
+  cgmRanges: CGMRanges,
 }>()
 
 
@@ -109,7 +111,7 @@ const sumOptions : Option[] = [
 ]
 const dataGroups: Group[] =
     [
-      new Group("CGM",  computed( () => splitDataIntoIntervals(props.cgm)), getCGMColor),
+      new Group("CGM",  computed( () => splitDataIntoIntervals(props.cgm)), (val) => getCGMColor(val, props.cgmRanges)),
       new Group("Meal", computed( () => splitDataIntoIntervals(props.meals)), defaultColorMethod, sumOptions),
       new Group("Bolus", computed( () => splitDataIntoIntervals(props.bolus)), defaultColorMethod, sumOptions),
       new Group("Basal", computed( () => splitDataIntoIntervals(props.basal))),//*/
