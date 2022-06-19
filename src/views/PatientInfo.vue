@@ -5,8 +5,7 @@
 			<button @click="this.crossClicked()">Kryds</button>
 			<button v-if="$router.currentRoute.value.fullPath.toLowerCase().includes('list')"
 					@click="fullScreenClicked()">
-				Fuld
-				skærm
+				Full screen
 			</button>
 		</div>
 
