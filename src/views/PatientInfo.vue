@@ -123,7 +123,7 @@ import ForecastSeries from "@/components/charts/graphseries/ForecastSeries.vue";
 import {GraphLayout} from "@/services/core/graphtypes";
 import InfoElement from "@/components/patientElements/InfoElement.vue";
 import TIROverview from "@/components/charts/graphseries/TIROverview.vue";
-import DiagnoseAndMedicine from "/src/components/DiagnoseAndMedicine.vue";
+import DiagnoseAndMedicine from "@/components/DiagnoseAndMedicine.vue";
 import {baseUrl, defaultUrl, getProfilePictureUrl} from "@/services/settingsProvider";
 
 
@@ -257,8 +257,11 @@ async function loadData() {
 	backend.getUserDetailsForSpecific(String(router.currentRoute.value.params.id)).then((user: UserDetails) => {
 		currentPatient.value = user
 		currentPatient.value.glycemic_ranges
-		imageSource.value = baseUrl + currentPatient.value.profile_picture
-		console.log(user)
+		if (currentPatient.value.profile_picture === undefined) {
+			imageSource.value = defaultUrl;
+		} else {
+			imageSource.value = baseUrl + currentPatient.value.profile_picture;
+		}
 	})
 	backend.getDataPatient(21, ["cgm", "meals", "basal", "bolus"], id).then((response) => {
 
