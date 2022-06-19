@@ -134,5 +134,6 @@ function getCGMOccurrences(data: DateValue[], cgmRanges: CGMRanges): number[] {
 }
 
 export const mMolPerLToMgPerDL = (cgm: number) => cgm * 18
+export const iffcToDCCT = (iffc : number) => (iffc + 23.5)/10.93
 const cgmBisector = d3.bisector<[number,number?], number>(d => d[0])
 export const getCGMColor = (cgm: number, cgmRanges: CGMRanges) => COLOR_SCHEME[cgmBisector.right(cgmRanges, cgm) - 1]

@@ -158,9 +158,6 @@ import TIRDailySeries from "@/components/charts/graphseries/TIRDailySeries.vue";
 import ForecastSeries from "@/components/charts/graphseries/ForecastSeries.vue";
 import InfoElement from "@/components/patientElements/InfoElement.vue";
 import TIROverview from "@/components/charts/graphseries/TIROverview.vue";
-import Graph from "@/components/charts/shared/Graph.vue";
-import QuantileGraph from "@/components/charts/generic/QuantileGraph.vue";
-import QuantileTest from "@/components/graphview/test/QuantileTest.vue";
 import QuantileSeries from "@/components/charts/graphseries/QuantileSeries.vue";
 import DiagnoseAndMedicine from "/src/components/DiagnoseAndMedicine.vue";
 
