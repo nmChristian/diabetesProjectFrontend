@@ -14,7 +14,7 @@ async function useProfilePicture(image: File): Promise<Answer> {
     const formData = new FormData();
     formData.set('image', image)
     await axios.put(apiUrl + "/user/image", formData, backend.generateHeader())
-        .then(response => {
+        .then(_ => {
             result.success = true
         }).catch(error => {
             result.errorMessage = error.response.data.error
@@ -35,4 +35,4 @@ async function getProfilePictureUrl(): Promise<string> {
     return result;
 }
 
-export {defaultUrl, useProfilePicture, getProfilePictureUrl}
+export {baseUrl, defaultUrl, useProfilePicture, getProfilePictureUrl};
