@@ -22,16 +22,16 @@
 
 			<div class="infoItem noExpandedView" id="summary">
 				<div class="basicInfoHolder">
-					<img alt="User icon" class="user-icon" :src="getProfilePicturePath()" style="max-width: 50px">
+					<img alt="User icon" class="user-icon" :src=imageSource style="max-width: 50px">
 					<h1> {{ currentPatient.first_name }} </h1>
 				</div>
 				<div class="startInfoHolderLine">
 					<InfoElement value="70" title="HbALc" unit="mmol/mol"/>
-          <InfoElement value="120" title="GIM" unit="mg/dL"/>
-          <InfoElement value="120/80" title="Blood pressure" unit="mmHg"/>
-          <InfoElement value="76" title="Weight" unit="kg"/>
-          <InfoElement value="27" title="Lorem Ipsum" unit="N"/>
-          <InfoElement value="12" title="Lorem Ipsum" unit="kg/m"/>
+					<InfoElement value="120" title="GIM" unit="mg/dL"/>
+					<InfoElement value="120/80" title="Blood pressure" unit="mmHg"/>
+					<InfoElement value="76" title="Weight" unit="kg"/>
+					<InfoElement value="27" title="Lorem Ipsum" unit="N"/>
+					<InfoElement value="12" title="Lorem Ipsum" unit="kg/m"/>
 				</div>
 			</div>
 
@@ -51,33 +51,34 @@
 				</div>
 
 				<div class="infoItemSmall noExpandedView" style="min-width: 260px ">
-          <TIROverview style="height: 100%;" :ranges="cgmRange" :targets="currentPatient.glycemic_targets" :frequencies="frequencies"/>
+					<TIROverview style="height: 100%;" :ranges="cgmRange" :targets="currentPatient.glycemic_targets"
+								 :frequencies="frequencies"/>
 				</div>
 
-        <div
-            id="diagnoseAndMedicine"
-             :class="selectedInfoSection !== 'diagnoseAndMedicine' ? 'infoItemSmall' : 'infoItemSelected'"
-             :style="selectedInfoSection === 'notesAndGoals'  ? 'width: 50%' : 'width: 100%' "
-             @click="selectInfoSection('diagnoseAndMedicine')">
-        <DiagnoseAndMedicine :data="diagnosis"
-                             @updateDiagnose="updateDiagnose()"
-                             :is-doctor="loggedInUser.is_doctor || false"
-                             :id="String(router.currentRoute.value.params.id) || '0'"
-                             :showAdvanced="selectedInfoSection === 'diagnoseAndMedicine'"
-        >
+				<div
+					id="diagnoseAndMedicine"
+					:class="selectedInfoSection !== 'diagnoseAndMedicine' ? 'infoItemSmall' : 'infoItemSelected'"
+					:style="selectedInfoSection === 'notesAndGoals'  ? 'width: 50%' : 'width: 100%' "
+					@click="selectInfoSection('diagnoseAndMedicine')">
+					<DiagnoseAndMedicine :data="diagnosis"
+										 @updateDiagnose="updateDiagnose()"
+										 :is-doctor="loggedInUser.is_doctor || false"
+										 :id="String(router.currentRoute.value.params.id) || '0'"
+										 :showAdvanced="selectedInfoSection === 'diagnoseAndMedicine'"
+					>
 
-        </DiagnoseAndMedicine>
+					</DiagnoseAndMedicine>
 
-        </div>
+				</div>
 
-      </div>
+			</div>
 
 
 			<graph-section
 				id="forecast"
 				:currently-selected="selectedInfoSection"
 				@selected-section="selectInfoSection">
-        <h1>Forecast Series</h1>
+				<h1>Forecast Series</h1>
 				<ForecastSeries
 					:cgm="cgmInDateValue"
 					:meals="mealsInDateValue"
@@ -89,7 +90,7 @@
 				id="big-table"
 				:currently-selected="selectedInfoSection"
 				@selected-section="selectInfoSection">
-        <h1>Table</h1>
+				<h1>Table</h1>
 				<ElementTableSeries
 					:basal="daysBackData(basalInDateValue, daysBack)"
 					:bolus="daysBackData(bolusInDateValue, daysBack)"
@@ -104,7 +105,7 @@
 				id="tir-series"
 				:currently-selected="selectedInfoSection"
 				@selected-section="selectInfoSection">
-        <h1>Time in Range per hour</h1>
+				<h1>Time in Range per hour</h1>
 				<TIRDailySeries
 					:data="cgmInDateValue"
 					:showAdvanced="selectedInfoSection === 'tir-series'"
@@ -115,8 +116,8 @@
 				id="raw-series"
 				:currently-selected="selectedInfoSection"
 				@selected-section="selectInfoSection">
-        <h1>Raw Data Graph Series</h1>
-        <RawSeries
+				<h1>Raw Data Graph Series</h1>
+				<RawSeries
 					:basal="daysBackData(basalInDateValue, daysBack)"
 					:bolus="daysBackData(bolusInDateValue, daysBack)"
 					:cgm="daysBackData(cgmInDateValue, daysBack)"
@@ -150,10 +151,13 @@ import {GraphLayout} from "@/services/core/graphtypes";
 import InfoElement from "@/components/patientElements/InfoElement.vue";
 import TIROverview from "@/components/charts/graphseries/TIROverview.vue";
 import DiagnoseAndMedicine from "/src/components/DiagnoseAndMedicine.vue";
+import {defaultUrl, getProfilePictureUrl} from "@/services/settingsProvider";
 
 
-const loggedInUser : Ref<UserDetails> = ref({} as UserDetails)
-const currentPatient : Ref<UserDetails> = ref({} as UserDetails)
+const loggedInUser: Ref<UserDetails> = ref({} as UserDetails)
+const currentPatient: Ref<UserDetails> = ref({} as UserDetails)
+
+let imageSource: Ref<string> = ref(defaultUrl);
 
 onMounted(() => {
 	loadData()
@@ -174,7 +178,7 @@ window.addEventListener("scroll", onScroll)
 const elementsOnPage = [
 	{id: "summary", text: "Summary"},
 	{id: "notesAndGoals", text: "Goals"},
-  {id: "diagnoseAndMedicine", text: "Diagnoses And Medicine"},
+	{id: "diagnoseAndMedicine", text: "Diagnoses And Medicine"},
 	{id: "forecast", text: "3 week overview"},
 	{id: "big-table", text: "Table of data"},
 	{id: "tir-series", text: "Hourly TIR values"},
@@ -182,13 +186,6 @@ const elementsOnPage = [
 ]
 
 let currentViewedElement = ref(0)
-
-function getProfilePicturePath() {
-	if (!currentPatient.value.profile_picture)
-		return '/src/assets/user.png'
-
-	return currentPatient.value.profile_picture
-}
 
 const selectedInfoSection: Ref<string> = ref('')
 
@@ -237,11 +234,11 @@ const emit = defineEmits<{
 const isFullScreen = ref(false)
 
 const paddingElements = computed(() => {
-  if (isFullScreen.value){
-    return {'--min-distance-to-wall' : '330px'}
-  }else {
-    return {'--min-distance-to-wall' : '0px'}
-  }
+	if (isFullScreen.value) {
+		return {'--min-distance-to-wall': '330px'}
+	} else {
+		return {'--min-distance-to-wall': '0px'}
+	}
 })
 
 function fullScreenClicked() {
@@ -255,7 +252,10 @@ const mealsInDateValue: Ref<DateValue[]> = ref([] as DateValue[])
 const basalInDateValue: Ref<DateValue[]> = ref([] as DateValue[])
 const bolusInDateValue: Ref<DateValue[]> = ref([] as DateValue[])
 const occurrences = computed(() => getCGMOccurrences(cgmInDateValueLastSeven.value))
-const frequencies = computed(() => { const sum = d3.sum(occurrences.value); return occurrences.value.map(val => val / sum || 0)})
+const frequencies = computed(() => {
+	const sum = d3.sum(occurrences.value);
+	return occurrences.value.map(val => val / sum || 0)
+})
 
 const diagnosis = ref([] as Diagnosis[])
 const notes = ref([] as Note[])
@@ -267,24 +267,27 @@ function updateNotes() {
 	})
 }
 
-function updateDiagnose(){
-  let id = String(router.currentRoute.value.params.id)
-  backend.getDiagnosis(id).then((response) => {
-    diagnosis.value = response
-  })
+function updateDiagnose() {
+	let id = String(router.currentRoute.value.params.id)
+	backend.getDiagnosis(id).then((response) => {
+		diagnosis.value = response
+	})
 }
 
 async function loadData() {
-  let id = String(router.currentRoute.value.params.id)
+	let id = String(router.currentRoute.value.params.id)
+	getProfilePictureUrl().then(url => {
+		imageSource.value = url
+	})
 
-  updateDiagnose()
+	updateDiagnose()
 
 	updateNotes()
 
 	backend.getUserDetailsForSpecific(String(router.currentRoute.value.params.id)).then((user: UserDetails) => {
 		currentPatient.value = user
-    currentPatient.value.glycemic_ranges
-    console.log(user)
+		currentPatient.value.glycemic_ranges
+		console.log(user)
 	})
 
 	backend.getDataPatient(21, ["cgm", "meals", "basal", "bolus"], id).then((response) => {
@@ -310,43 +313,44 @@ const daysBackData = (data: DateValue[], daysBack: number) =>
 	data.filter(([date,]) => date > d3.timeDay.offset(lastDateInDataSet.value, -daysBack))
 
 // Converts user given cgm range
-const cgmRange = computed( () : [number, number?][] => {
-  // Ignore warning, since the object can be {}, and therefore {}.glycemic_ranges === undefined
-  if (currentPatient.value.glycemic_ranges === undefined)
-    return Array(5).fill([NaN, NaN])
+const cgmRange = computed((): [number, number?][] => {
+	// Ignore warning, since the object can be {}, and therefore {}.glycemic_ranges === undefined
+	if (currentPatient.value.glycemic_ranges === undefined)
+		return Array(5).fill([NaN, NaN])
 
 
-  const range = [...currentPatient.value.glycemic_ranges].map(mMolPerLToMgPerDL)
-  range.splice(0,0,0)
-  return range.map<[number, number?]>((val,i,a) => [val, a[i+1]])
+	const range = [...currentPatient.value.glycemic_ranges].map(mMolPerLToMgPerDL)
+	range.splice(0, 0, 0)
+	return range.map<[number, number?]>((val, i, a) => [val, a[i + 1]])
 })
 </script>
 
 
 <style scoped>
 .noExpandedView {
-  pointer-events: none;
+	pointer-events: none;
 }
+
 .basicInfoHolder {
 	display: flex;
 	flex: border-box;
 }
 
 .smallInfoItemsHolder {
-  max-width: calc(( 100% - var(--min-distance-to-wall) ) - 10px );
-  width: 1100px;
-  margin-left: -20px;
+	max-width: calc((100% - var(--min-distance-to-wall)) - 10px);
+	width: 1100px;
+	margin-left: -20px;
 	display: grid;
-  grid-template-columns: min-content min-content auto;
+	grid-template-columns: min-content min-content auto;
 }
 
 .smallInfoItemsHolderSelected {
-  width: 100%;
-  max-width: calc(100% - var(--min-distance-to-wall));
+	width: 100%;
+	max-width: calc(100% - var(--min-distance-to-wall));
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-  flex-wrap: wrap;
+	flex-wrap: wrap;
 }
 
 .tableOfContext {
@@ -384,36 +388,38 @@ const cgmRange = computed( () : [number, number?][] => {
 }
 
 .infoItemSmall {
-  height: 220px;
+	height: 220px;
 }
 
 .infoItemSelected {
-  padding: 10px;
-  width: 100%;
-  max-width: calc(100% - var(--min-distance-to-wall));
+	padding: 10px;
+	width: 100%;
+	max-width: calc(100% - var(--min-distance-to-wall));
 }
 
 .infoItem, .infoItemSmall, .infoItemSelected {
-  background-color: #fcfcfc;
-  border: solid 1px #555;
-  border-radius: 4px;
-  margin: 10px;
+	background-color: #fcfcfc;
+	border: solid 1px #555;
+	border-radius: 4px;
+	margin: 10px;
 
-  box-shadow: 0 0 2px rgba(0, 0, 0,0.4);
+	box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
 }
-.infoItem:hover, .infoItemSmall:hover{
+
+.infoItem:hover, .infoItemSmall:hover {
 	box-shadow: 0 0 4px black;
 }
 
-.graph-section>h1 {
-  font-size: 1.5em;
-  text-align: center;
-  text-decoration: underline 5px #bbb ;
+.graph-section > h1 {
+	font-size: 1.5em;
+	text-align: center;
+	text-decoration: underline 5px #bbb;
 
-  font-weight: bold;
+	font-weight: bold;
 }
-.graph-section>*:not(:first-child) {
-  margin-top: 20px;
+
+.graph-section > *:not(:first-child) {
+	margin-top: 20px;
 }
 
 .diagnoseAndMedicine {
