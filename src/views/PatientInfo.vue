@@ -4,16 +4,16 @@
 			<!-- TODO erstat med smukke symboler :) -->
 			<button @click="this.crossClicked()">Kryds</button>
 			<button v-if="$router.currentRoute.value.fullPath.toLowerCase().includes('list')"
-					@click="fullScreenClicked()">
+				@click="fullScreenClicked()">
 				Fuld
 				skærm
 			</button>
 		</div>
 
 		<div v-if="isFullScreen || !$router.currentRoute.value.fullPath.toLowerCase().includes('list')"
-			 class="tableOfContext">
+			class="tableOfContext">
 			<p v-for="(item, index) in elementsOnPage" @click="scrollToElement(item.id)"
-			   :class="{markedTableOfContextItem :(index  === currentViewedElement) , unmarkedTableOfContextItem :(index  !== currentViewedElement) }">
+				:class="{ markedTableOfContextItem: (index === currentViewedElement), unmarkedTableOfContextItem: (index !== currentViewedElement) }">
 				{{ item.text }} </p>
 		</div>
 
@@ -26,46 +26,39 @@
 					<h1> {{ currentPatient.first_name }} </h1>
 				</div>
 				<div class="startInfoHolderLine">
-					<InfoElement value="70" title="HbALc" unit="mmol/mol"/>
-					<InfoElement value="120" title="GIM" unit="mg/dL"/>
-					<InfoElement value="120/80" title="Blood pressure" unit="mmHg"/>
-					<InfoElement value="76" title="Weight" unit="kg"/>
-					<InfoElement value="27" title="Lorem Ipsum" unit="N"/>
-					<InfoElement value="12" title="Lorem Ipsum" unit="kg/m"/>
+					<InfoElement value="70" title="HbALc" unit="mmol/mol" />
+					<InfoElement value="120" title="GIM" unit="mg/dL" />
+					<InfoElement value="120/80" title="Blood pressure" unit="mmHg" />
+					<InfoElement value="76" title="Weight" unit="kg" />
+					<InfoElement value="27" title="Lorem Ipsum" unit="N" />
+					<InfoElement value="12" title="Lorem Ipsum" unit="kg/m" />
 				</div>
 			</div>
 
 			<div
-				:class="(selectedInfoSection === 'notesAndGoals' || selectedInfoSection === 'diagnoseAndMedicine' )? 'smallInfoItemsHolderSelected' : 'smallInfoItemsHolder'">
+				:class="(selectedInfoSection === 'notesAndGoals' || selectedInfoSection === 'diagnoseAndMedicine') ? 'smallInfoItemsHolderSelected' : 'smallInfoItemsHolder'">
 				<div id="notesAndGoals"
-					 :class="selectedInfoSection !== 'notesAndGoals' ? 'infoItemSmall' : 'infoItemSelected'"
-					 @click="selectInfoSection('notesAndGoals')">
-					<NoteViwerAndEditor
-						@click="selectInfoSection('notesAndGoals')"
-						@updateNotes="updateNotes()"
-						:data="notes"
-						:is-doctor="loggedInUser.is_doctor || false"
+					:class="selectedInfoSection !== 'notesAndGoals' ? 'infoItemSmall' : 'infoItemSelected'"
+					@click="selectInfoSection('notesAndGoals')">
+					<NoteViwerAndEditor @click="selectInfoSection('notesAndGoals')" @updateNotes="updateNotes()"
+						:data="notes" :is-doctor="loggedInUser.is_doctor || false"
 						:id="String(router.currentRoute.value.params.id) || '0'"
-						:showAdvanced="selectedInfoSection === 'notesAndGoals'"
-					></NoteViwerAndEditor>
+						:showAdvanced="selectedInfoSection === 'notesAndGoals'"></NoteViwerAndEditor>
 				</div>
 
 				<div class="infoItemSmall noExpandedView" style="min-width: 260px ">
 					<TIROverview style="height: 100%;" :ranges="cgmRange" :targets="currentPatient.glycemic_targets"
-								 :frequencies="frequencies"/>
+						:frequencies="frequencies" />
 				</div>
 
-				<div
-					id="diagnoseAndMedicine"
+				<div id="diagnoseAndMedicine"
 					:class="selectedInfoSection !== 'diagnoseAndMedicine' ? 'infoItemSmall' : 'infoItemSelected'"
-					:style="selectedInfoSection === 'notesAndGoals'  ? 'width: 50%' : 'width: 100%' "
+					:style="selectedInfoSection === 'notesAndGoals' ? 'width: 50%' : 'width: 100%'"
 					@click="selectInfoSection('diagnoseAndMedicine')">
-					<DiagnoseAndMedicine :data="diagnosis"
-										 @updateDiagnose="updateDiagnose()"
-										 :is-doctor="loggedInUser.is_doctor || false"
-										 :id="String(router.currentRoute.value.params.id) || '0'"
-										 :showAdvanced="selectedInfoSection === 'diagnoseAndMedicine'"
-					>
+					<DiagnoseAndMedicine :data="diagnosis" @updateDiagnose="updateDiagnose()"
+						:is-doctor="loggedInUser.is_doctor || false"
+						:id="String(router.currentRoute.value.params.id) || '0'"
+						:showAdvanced="selectedInfoSection === 'diagnoseAndMedicine'">
 
 					</DiagnoseAndMedicine>
 
@@ -74,56 +67,35 @@
 			</div>
 
 
-			<graph-section
-				id="forecast"
-				:currently-selected="selectedInfoSection"
+			<graph-section id="forecast" :currently-selected="selectedInfoSection"
 				@selected-section="selectInfoSection">
 				<h1>Forecast Series</h1>
-				<ForecastSeries
-					:cgm="cgmInDateValue"
-					:meals="mealsInDateValue"
-					:showAdvanced="selectedInfoSection === 'forecast'"
-				/>
+				<ForecastSeries :cgm="cgmInDateValue" :meals="mealsInDateValue"
+					:showAdvanced="selectedInfoSection === 'forecast'" />
 			</graph-section>
 
-			<graph-section
-				id="big-table"
-				:currently-selected="selectedInfoSection"
+			<graph-section id="big-table" :currently-selected="selectedInfoSection"
 				@selected-section="selectInfoSection">
 				<h1>Table</h1>
-				<ElementTableSeries
-					:basal="daysBackData(basalInDateValue, daysBack)"
-					:bolus="daysBackData(bolusInDateValue, daysBack)"
-					:cgm="daysBackData(cgmInDateValue, daysBack)"
-					:meals="daysBackData(mealsInDateValue, daysBack)"
-					:dates="dates"
-					:showAdvanced="selectedInfoSection === 'big-table'"
-				/>
+				<ElementTableSeries :basal="daysBackData(basalInDateValue, daysBack)"
+					:bolus="daysBackData(bolusInDateValue, daysBack)" :cgm="daysBackData(cgmInDateValue, daysBack)"
+					:meals="daysBackData(mealsInDateValue, daysBack)" :dates="dates"
+					:showAdvanced="selectedInfoSection === 'big-table'" />
 			</graph-section>
 
-			<graph-section
-				id="tir-series"
-				:currently-selected="selectedInfoSection"
+			<graph-section id="tir-series" :currently-selected="selectedInfoSection"
 				@selected-section="selectInfoSection">
 				<h1>Time in Range per hour</h1>
-				<TIRDailySeries
-					:data="cgmInDateValue"
-					:showAdvanced="selectedInfoSection === 'tir-series'"
-				/>
+				<TIRDailySeries :data="cgmInDateValue" :showAdvanced="selectedInfoSection === 'tir-series'" />
 			</graph-section>
 
-			<graph-section
-				id="raw-series"
-				:currently-selected="selectedInfoSection"
+			<graph-section id="raw-series" :currently-selected="selectedInfoSection"
 				@selected-section="selectInfoSection">
 				<h1>Raw Data Graph Series</h1>
-				<RawSeries
-					:basal="daysBackData(basalInDateValue, daysBack)"
-					:bolus="daysBackData(bolusInDateValue, daysBack)"
-					:cgm="daysBackData(cgmInDateValue, daysBack)"
+				<RawSeries :basal="daysBackData(basalInDateValue, daysBack)"
+					:bolus="daysBackData(bolusInDateValue, daysBack)" :cgm="daysBackData(cgmInDateValue, daysBack)"
 					:meals="daysBackData(mealsInDateValue, daysBack)"
-					:showAdvanced="selectedInfoSection === 'raw-series'"
-				/>
+					:showAdvanced="selectedInfoSection === 'raw-series'" />
 			</graph-section>
 		</div>
 	</div>
@@ -133,12 +105,12 @@
 import * as d3 from "d3";
 import router from "../router";
 import backend from "../services/backend";
-import type {DateValue} from "@/services/core/datatypes"
-import {getCGMOccurrences, mMolPerLToMgPerDL, timeSeriesToDateValue} from "@/services/core/datatypes";
-import type {Ref} from "vue"
-import {computed, onMounted, ref} from "vue";
-import {COLOR_SCHEME} from "@/services/core/shared";
-import type {Diagnosis, Note, UserDetails} from "@/services/core/dbtypes";
+import type { DateValue } from "@/services/core/datatypes"
+import { getCGMOccurrences, mMolPerLToMgPerDL, timeSeriesToDateValue } from "@/services/core/datatypes";
+import type { Ref } from "vue"
+import { computed, onMounted, ref } from "vue";
+import { COLOR_SCHEME } from "@/services/core/shared";
+import type { Diagnosis, Note, UserDetails } from "@/services/core/dbtypes";
 import ElementTableSeries from "@/components/charts/graphseries/ElementTableSeries.vue"
 import NoteViwerAndEditor from "@/components/NoteViwerAndEditor.vue";
 import TIRGraph from "@/components/charts/generic/TIRGraph.vue";
@@ -147,11 +119,11 @@ import GraphSection from "@/components/patientElements/GraphSection.vue";
 import RawSeries from "@/components/charts/graphseries/RawSeries.vue";
 import TIRDailySeries from "@/components/charts/graphseries/TIRDailySeries.vue";
 import ForecastSeries from "@/components/charts/graphseries/ForecastSeries.vue";
-import {GraphLayout} from "@/services/core/graphtypes";
+import { GraphLayout } from "@/services/core/graphtypes";
 import InfoElement from "@/components/patientElements/InfoElement.vue";
 import TIROverview from "@/components/charts/graphseries/TIROverview.vue";
 import DiagnoseAndMedicine from "/src/components/DiagnoseAndMedicine.vue";
-import {defaultUrl, getProfilePictureUrl} from "@/services/settingsProvider";
+import { defaultUrl, getProfilePictureUrl } from "@/services/settingsProvider";
 
 
 const loggedInUser: Ref<UserDetails> = ref({} as UserDetails)
@@ -169,20 +141,23 @@ onMounted(() => {
 	})
 })
 
-router.afterEach(() => {
-	loadData()
+router.afterEach((to, from) => {
+	if (to.fullPath.includes("patient-info")) {
+		loadData()
+	}
+
 })
 
 window.addEventListener("scroll", onScroll)
 
 const elementsOnPage = [
-	{id: "summary", text: "Summary"},
-	{id: "notesAndGoals", text: "Goals"},
-	{id: "diagnoseAndMedicine", text: "Diagnoses And Medicine"},
-	{id: "forecast", text: "3 week overview"},
-	{id: "big-table", text: "Table of data"},
-	{id: "tir-series", text: "Hourly TIR values"},
-	{id: "raw-series", text: "Raw Data (expandable)"},
+	{ id: "summary", text: "Summary" },
+	{ id: "notesAndGoals", text: "Goals" },
+	{ id: "diagnoseAndMedicine", text: "Diagnoses And Medicine" },
+	{ id: "forecast", text: "3 week overview" },
+	{ id: "big-table", text: "Table of data" },
+	{ id: "tir-series", text: "Hourly TIR values" },
+	{ id: "raw-series", text: "Raw Data (expandable)" },
 ]
 
 let currentViewedElement = ref(0)
@@ -235,9 +210,9 @@ const isFullScreen = ref(false)
 
 const paddingElements = computed(() => {
 	if (isFullScreen.value) {
-		return {'--min-distance-to-wall': '330px'}
+		return { '--min-distance-to-wall': '330px' }
 	} else {
-		return {'--min-distance-to-wall': '0px'}
+		return { '--min-distance-to-wall': '0px' }
 	}
 })
 
@@ -382,7 +357,8 @@ const cgmRange = computed((): [number, number?][] => {
 }
 
 .infoItem {
-	max-width: calc(100% - var(--min-distance-to-wall));;
+	max-width: calc(100% - var(--min-distance-to-wall));
+	;
 	padding: 10px;
 	width: 1100px;
 }
@@ -397,7 +373,9 @@ const cgmRange = computed((): [number, number?][] => {
 	max-width: calc(100% - var(--min-distance-to-wall));
 }
 
-.infoItem, .infoItemSmall, .infoItemSelected {
+.infoItem,
+.infoItemSmall,
+.infoItemSelected {
 	background-color: #fcfcfc;
 	border: solid 1px #555;
 	border-radius: 4px;
@@ -406,11 +384,12 @@ const cgmRange = computed((): [number, number?][] => {
 	box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
 }
 
-.infoItem:hover, .infoItemSmall:hover {
+.infoItem:hover,
+.infoItemSmall:hover {
 	box-shadow: 0 0 4px black;
 }
 
-.graph-section > h1 {
+.graph-section>h1 {
 	font-size: 1.5em;
 	text-align: center;
 	text-decoration: underline 5px #bbb;
@@ -418,7 +397,7 @@ const cgmRange = computed((): [number, number?][] => {
 	font-weight: bold;
 }
 
-.graph-section > *:not(:first-child) {
+.graph-section>*:not(:first-child) {
 	margin-top: 20px;
 }
 
@@ -451,5 +430,4 @@ const cgmRange = computed((): [number, number?][] => {
 	flex-direction: column;
 	align-items: center;
 }
-
 </style>

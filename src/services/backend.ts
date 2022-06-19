@@ -51,6 +51,14 @@ class Backend {
         return response.data
     }
 
+    public async editDiagnosis(id: string, diagnosis : string, medecin : string[]): Promise<UserDetails> {
+        const response = await axios.put(
+            this.getDiagnosisURL(id),
+            {name : diagnosis, medicine: medecin},
+            this.generateHeader())
+        return response.data
+    }
+
     public async getUserDetailsForSpecific(id: String): Promise<UserDetails> {
         let users = (await this.getViewvabel())
         for (let i = 0; i < users.length; i++) {
