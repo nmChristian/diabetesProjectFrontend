@@ -1,5 +1,5 @@
 <template>
-  <div class="diagnoseAndMedicine">
+  <div :class="showAdvanced ? 'diagnoseAndMedicineExtended' : 'diagnoseAndMedicine'">
     <div class="diagnosesHeaderWithButon">
       <p class="diagnoseAndMedicinLabels">Diagnoses</p>
 
@@ -180,12 +180,43 @@ function onSavePressed(){
 </script>
 
 <style scoped>
+.diagnoseAndMedicineExtended{
+  width: 100%;
+  margin: 10px;
+  display: grid;
+  grid-template-columns: auto auto;
+  row-gap: 5px;
+}
 .diagnoseAndMedicine {
   width: 100%;
   margin: 10px;
   display: grid;
   grid-template-columns: auto auto;
   row-gap: 5px;
+  overflow: auto;
+  max-height:  calc(100% - 25px);
+  max-width: calc(100% - 25px);
+}
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: lightgray;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: grey;
 }
 .editButton{
   position: absolute;
