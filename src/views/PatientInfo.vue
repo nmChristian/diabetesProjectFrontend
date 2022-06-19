@@ -327,7 +327,7 @@ const daysBackData = (data: DateValue[], daysBack: number) =>
 const cgmRanges = computed( () : CGMRanges => {
   // Ignore warning, since the object can be {}, and therefore {}.glycemic_ranges === undefined
   if (currentPatient.value.glycemic_ranges === undefined)
-    return Array(5).fill([NaN, NaN])
+    return Array(5).fill([0, 0])
 
   const range = [0,...currentPatient.value.glycemic_ranges].map(mMolPerLToMgPerDL)
   return range.map<[number, number?]>((val,i,a) => [val, a[i+1]])

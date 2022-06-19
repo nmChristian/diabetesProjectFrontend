@@ -16,7 +16,6 @@ let linearID = 0
 export function generateGradientCGMCSSApply(svg: SVG, yMin: number, yMax: number, cgmRanges: CGMRanges): string {
     const id: string = "cgm-gradient-" + linearID
     linearID++
-
     svg.append("linearGradient")
         .attr("id", id)
         .attr("gradientUnits", "userSpaceOnUse")
