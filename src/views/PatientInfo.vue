@@ -27,10 +27,10 @@
 					<h1> {{ currentPatient.first_name }} </h1>
 				</div>
 				<div class="startInfoHolderLine">
-					<InfoElement value="70" title="HbALc" unit="mmol/mol"/>
-          <InfoElement value="120" title="GIM" unit="mg/dL"/>
-          <InfoElement value="120/80" title="Blood pressure" unit="mmHg"/>
-          <InfoElement value="76" title="Weight" unit="kg"/>
+					<InfoElement :value="currentPatient.value?.extra_data.HbA1c ?? '__'" title="HbALc" unit="mmol/mol"/>
+          <InfoElement :value="gmi.toFixed(0)" title="GMI" unit="mg/dL"/>
+          <InfoElement :value="currentPatient.value?.extra_data.blood_pressure ?? '__'" title="Blood pressure" unit="mmHg"/>
+          <InfoElement :value="currentPatient.value?.extra_data.weight ?? '__'" title="Weight" unit="kg"/>
           <InfoElement value="27" title="Lorem Ipsum" unit="N"/>
           <InfoElement value="12" title="Lorem Ipsum" unit="kg/m"/>
 				</div>
@@ -332,6 +332,8 @@ const cgmRanges = computed( () : CGMRanges => {
   const range = [0,...currentPatient.value.glycemic_ranges].map(mMolPerLToMgPerDL)
   return range.map<[number, number?]>((val,i,a) => [val, a[i+1]])
 })
+
+const gmi = computed (() => d3.mean(daysBackData(cgmInDateValue.value, 14), ([,value]) => value) ?? 0)
 </script>
 
 
