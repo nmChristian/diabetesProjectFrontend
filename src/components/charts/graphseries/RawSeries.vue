@@ -1,4 +1,5 @@
 <template>
+  <DateIntervalSelector :text="d3.timeFormat('%d/%m')(cgm[0]?.[0] ?? 0) + ' - ' + d3.timeFormat('%d/%m')(cgm[cgm.length - 1]?.[0] ?? 0) "/>
   <div v-if="showAdvanced" >
     <div class="graphs">
       <div v-for="dataset in datasets">
@@ -19,6 +20,8 @@ import {computed} from "vue";
 import lineGraph from "@/services/graphs/generic/lineGraph";
 import Graph from "@/components/charts/shared/Graph.vue";
 import barGraph from "@/services/graphs/generic/barGraph";
+import * as d3 from "d3";
+import DateIntervalSelector from "@/components/DateIntervalSelector.vue";
 
 const props = defineProps<{
   cgm: DateValue[],

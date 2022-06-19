@@ -1,6 +1,7 @@
 <template>
-  <div v-if="showAdvanced">
-    <div class="quantile-settings">
+  <DateIntervalSelector :text="d3.timeFormat('%d/%m')(cgm[0]?.[0] ?? 0) + ' - ' + d3.timeFormat('%d/%m')(cgm[cgm.length - 1]?.[0] ?? 0) "/>
+  <div class="quantile-series">
+    <div v-if="showAdvanced" class="quantile-settings">
       <p>Change quantiles</p>
       <div class="input-range">
         <input type="range" step="0.01" min="0" max=".24" name="lowest-quantile" v-model="lowestQuantile">
@@ -12,7 +13,7 @@
         <label for="highest-quantile">{{(highestQuantile * 100).toFixed(0)}}%</label>
       </div>
     </div>
-    <QuantileGraph
+    <QuantileGraph class="quantile-graph"
         :bucket-series-of-quantiles="bucketSeriesOfQuantiles"
         :median-data-in-hours="medianCGMInHours ?? cgmMedian()"
         :quantiles-used-in-bucket="quantiles"
@@ -23,7 +24,6 @@
 </template>
 
 <script lang="ts" setup>
-
 import QuantileGraph from "@/components/charts/generic/QuantileGraph.vue"
 import {computed, ref} from "vue";
 import type {BucketPoint, DateValue, Point} from "@/services/core/datatypes";
@@ -36,6 +36,10 @@ import {
 } from "@/services/core/datatypes";
 import {calculateQuantiles, toBucketSeries} from "@/services/graphs/generic/quantileGraph";
 import type {CGMRanges} from "@/services/core/shared";
+import DateIntervalSelector from "@/components/DateIntervalSelector.vue";
+//@ts-ignore
+import * as d3 from "d3";
+
 
 const lowestQuantile = ref(.05)
 const highestQuantile = ref(.25)
@@ -85,6 +89,15 @@ const bucketSeriesOfQuantiles = computed(() => {
 </script>
 
 <style scoped>
+.quantile-series {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.quantile-graph {
+  width: 90%;
+}
 .quantile-settings {
   margin-bottom: 20px;
 }

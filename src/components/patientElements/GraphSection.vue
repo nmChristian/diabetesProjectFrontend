@@ -1,15 +1,22 @@
 <template>
   <div :id="id"
+       class="graph-section"
        @click="emit('selectedSection', id)"
        :class="[currentlySelected !== id ? 'infoItem' : 'infoItemSelected','graph-section']">
-        <slot/>
+      <div class="slot">
+      <slot/>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import DateIntervalSelector from "@/components/DateIntervalSelector.vue";
+
 const props = defineProps<{
   id: string,
   currentlySelected : string,
+  daysBackOptions? : number[],
+  showAdvanced?: boolean,
 }>()
 const emit = defineEmits<{
     (e: 'selectedSection', id: string) : void
@@ -17,6 +24,7 @@ const emit = defineEmits<{
 </script>
 
 <style scoped>
+
 .wrapper h1 {
   border: 1px solid red;
   text-align: center;

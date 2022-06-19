@@ -1,4 +1,5 @@
 <template>
+  <DateIntervalSelector v-if="days !== undefined" :text="'last ' + days + ' days'"/>
   <div style="display:flex; flex-direction: column; align-items: center; justify-content: center;">
     <div v-if="showAdvanced" class="groups">
       <div class="group" v-for="(group, i) in dataGroups">
@@ -31,6 +32,7 @@ import type {Ref} from "vue"
 import {computed, ref, watchEffect} from "vue";
 import * as d3 from "d3";
 import type {CGMRanges} from "@/services/core/shared";
+import DateIntervalSelector from "@/components/DateIntervalSelector.vue";
 
 const props = defineProps<{
   showAdvanced: boolean,
@@ -40,10 +42,11 @@ const props = defineProps<{
   bolus: DateValue[],
   dates: Date[],
   cgmRanges: CGMRanges,
+  days?: number,
 }>()
 
 
-const hourIncrement = 1 // MUST BE DIVISIBLE WITH 24
+const hourIncrement = 1 // 24 MUST BE DIVISIBLE WITH THIS,
 
 // Outputs a list of columns with the title example,  [0, 4, 8, 12, 16, 20] or [0, 3, 6, 9, 12, 15, 18, 21]
 const columns = [...Array(24 / hourIncrement).keys()].map<number>(hour => hour * hourIncrement)

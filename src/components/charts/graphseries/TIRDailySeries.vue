@@ -1,4 +1,5 @@
 <template>
+  <DateIntervalSelector :text="d3.timeFormat('%d/%m')(data[0]?.[0] ?? 0) + ' - ' + d3.timeFormat('%d/%m')(data[data.length - 1]?.[0] ?? 0) "/>
   <div class="tir-daily-series">
     <div v-if="showAdvanced" style="display: grid; place-items: center;">
       <p>Split by</p>
@@ -35,6 +36,7 @@ import {COLOR_SCHEME, dateToSeconds} from "@/services/core/shared";
 import * as d3 from "d3";
 import TIRGraph from "@/components/charts/generic/TIRGraph.vue";
 import {GraphLayout} from "@/services/core/graphtypes";
+import DateIntervalSelector from "@/components/DateIntervalSelector.vue";
 
 const hoursPerRange = ref(2)
 

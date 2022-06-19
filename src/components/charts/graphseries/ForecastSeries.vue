@@ -1,4 +1,5 @@
 <template>
+  <DateIntervalSelector :text="d3.timeFormat('%d/%m')(lastThreeIntervals[2]) + ' - ' + d3.timeFormat('%d/%m')(lastDateInDataSet)"/>
   <div class="forecast-series">
     <div v-if="showAdvanced">
       <div style="display: grid; place-items: center;">
@@ -58,6 +59,7 @@ import type {CGMRanges} from "@/services/core/shared";
 import {COLOR_SCHEME} from "@/services/core/shared";
 import forecastGraph from "@/services/graphs/forecastGraph";
 import Graph from "@/components/charts/shared/Graph.vue";
+import DateIntervalSelector from "@/components/DateIntervalSelector.vue";
 
 const interval = ref(d3.timeMonday)
 const mealsEnabled = ref(false)

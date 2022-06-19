@@ -75,7 +75,8 @@
 			<graph-section
 				id="forecast"
 				:currently-selected="selectedInfoSection"
-				@selected-section="selectInfoSection">
+				@selected-section="selectInfoSection"
+        :show-advanced="selectedInfoSection === 'forecast'">
         <h1>Forecast Series</h1>
 				<ForecastSeries
 					:cgm="cgmInDateValue"
@@ -84,7 +85,6 @@
 					:show-advanced="selectedInfoSection === 'forecast'"
 				/>
 			</graph-section>
-
 			<graph-section
 				id="big-table"
 				:currently-selected="selectedInfoSection"
@@ -97,6 +97,7 @@
 					:meals="daysBackData(mealsInDateValue, daysBack)"
 					:dates="dates"
           :cgm-ranges="cgmRanges"
+          :days="daysBack"
 					:show-advanced="selectedInfoSection === 'big-table'"
 				/>
 			</graph-section>
@@ -434,17 +435,20 @@ const gmi = computed (() => d3.mean(daysBackData(cgmInDateValue.value, 14), ([,v
 	box-shadow: 0 0 4px black;
 }
 
-.graph-section>h1 {
+.graph-section {
+  min-height: 3em;
+}
+.graph-section h1 {
   font-size: 1.5em;
   text-align: center;
   text-decoration: underline 5px #bbb ;
 
   font-weight: bold;
 }
-.graph-section>*:not(:first-child) {
+
+.graph-section>.slot>*:not(:first-child) {
   margin-top: 20px;
 }
-
 .diagnoseAndMedicine {
 	display: grid;
 	grid-template-columns: auto auto;
