@@ -4,6 +4,7 @@ import type {DateValue} from "@/services/core/datatypes";
 import {mMolPerLToMgPerDL, timeSeriesToDateValue} from "@/services/core/datatypes";
 import type {UserDetails, Diagnosis, Note} from "@/services/core/dbtypes";
 import * as d3 from "d3";
+import router from "@/router";
 
 class Backend {
     public url: string
@@ -41,6 +42,10 @@ class Backend {
         const response = await axios.get(
             this.getDiagnosisURL(id),
             this.generateHeader())
+        if(response.status === 404) {
+            await router.push('/display-patients-list');
+            return []
+        }
         return response.data
     }
 
@@ -66,6 +71,9 @@ class Backend {
                 return users[i]
             }
         }
+
+        await router.push('/display-patients-list');
+
         return {
             glycemic_ranges: [],
             glycemic_targets: [],
@@ -76,6 +84,10 @@ class Backend {
         const response = await axios.get(
             this.getNameURL(),
             this.generateHeader())
+        if(response.status === 404) {
+            await router.push('/display-patients-list');
+            return []
+        }
         return response.data.viewable
     }
 
@@ -110,6 +122,10 @@ class Backend {
             this.getNotesURL(id),
             this.generateHeader())
 
+        if(response.status === 404) {
+            await router.push('/display-patients-list');
+            return []
+        }
         return response.data
     }
 
@@ -158,6 +174,11 @@ class Backend {
             {ndays: (daysSinceLastData + daysBack), show: show},
             this.generateHeader())
 
+        if(response.status === 404) {
+            await router.push('/display-patients-list');
+            return []
+        }
+
         return response.data
     }
 
@@ -167,6 +188,11 @@ class Backend {
             this.getDataURL(),
             {ndays: (daysSinceLastData + daysBack), show: show},
             this.generateHeader())
+
+        if(response.status === 404) {
+            await router.push('/display-patients-list');
+            return []
+        }
 
         return response.data
     }
