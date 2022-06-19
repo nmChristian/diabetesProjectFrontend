@@ -49,7 +49,7 @@
 			</div>
 
 			<div
-				:class="selectedInfoSection === 'notesAndGoals' ? 'smallInfoItemsHolder' : 'smallInfoItemsHolderSelected'">
+				:class="selectedInfoSection === 'notesAndGoals' ? 'smallInfoItemsHolderSelected' : 'smallInfoItemsHolder'">
 				<div id="notesAndGoals"
 					 :class="selectedInfoSection !== 'notesAndGoals' ? 'infoItemSmall' : 'infoItemSelected'"
 					 @click="selectInfoSection('notesAndGoals')">
@@ -344,15 +344,20 @@ const cgmRange = computed( () : [number, number?][] => {
 }
 
 .smallInfoItemsHolder {
-	max-width: 1200px;
+  max-width: calc(( 100% - var(--min-distance-to-wall) ) - 10px );
+  width: 1100px;
+  margin: 0;
+  padding: 0;
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	align-items: center;
 }
 
 .smallInfoItemsHolderSelected {
+  width: 100%;
+  max-width: calc(100% - var(--min-distance-to-wall));
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	align-items: center;
 }
 
@@ -386,10 +391,9 @@ const cgmRange = computed( () : [number, number?][] => {
 
 
 .infoItem {
-	max-width: calc(100% - 320px);;
+	max-width: calc(100% - var(--min-distance-to-wall));;
 	padding: 10px;
-	width: 1200px;
-	min-width: 1020px;
+	width: 1100px;
 }
 
 .infoItemSmall {
@@ -399,8 +403,7 @@ const cgmRange = computed( () : [number, number?][] => {
 .infoItemSelected {
   padding: 10px;
   width: 100%;
-  min-width: 1100px;
-  max-width: calc(100% - 320px);
+  max-width: calc(100% - var(--min-distance-to-wall));
 }
 
 .infoItem, .infoItemSmall, .infoItemSelected {
