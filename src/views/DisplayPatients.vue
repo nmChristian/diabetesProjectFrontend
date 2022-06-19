@@ -3,22 +3,22 @@
       <div v-for="index in Math.floor((usersWithData.length+1)/2)">
         <div class="column">
           <patient-card
-              :id="usersWithData[index].user._id.$oid"
-              :age="usersWithData[index].user.age"
-              :eGFR="usersWithData[index].eGFR"
-              :hba1c="usersWithData[index].HbA1c"
-              :hypos="usersWithData[index].hypos"
-              :name="usersWithData[index].user.first_name"
+              :id="usersWithData[(index-1)*2].user._id.$oid"
+              :age="usersWithData[(index-1)*2].user.age"
+              :eGFR="usersWithData[(index-1)*2].eGFR"
+              :hba1c="usersWithData[(index-1)*2].HbA1c"
+              :hypos="usersWithData[(index-1)*2].hypos"
+              :name="usersWithData[(index-1)*2].user.first_name"
               :weight="'n/a'">
           </patient-card>
           <div v-if="(index-1)*2 + 1 < usersWithData.length">
             <patient-card
-                :id="usersWithData[index+1].user._id.$oid"
-                :age="usersWithData[index+1].user.age"
-                :eGFR="usersWithData[index+1].eGFR"
-                :hba1c="usersWithData[index+1].HbA1c"
-                :hypos="usersWithData[index+1].hypos"
-                :name="usersWithData[index+1].user.first_name"
+                :id="usersWithData[(index-1)*2+1].user._id.$oid"
+                :age="usersWithData[(index-1)*2+1].user.age"
+                :eGFR="usersWithData[(index-1)*2+1].eGFR"
+                :hba1c="usersWithData[(index-1)*2+1].HbA1c"
+                :hypos="usersWithData[(index-1)*2+1].hypos"
+                :name="usersWithData[(index-1)*2+1].user.first_name"
                 :weight="'n/a'">
             </patient-card>
           </div>

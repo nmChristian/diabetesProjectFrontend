@@ -13,9 +13,9 @@
 				</div>
 			</div>
 			<div class="infoBoxes" v-on:click.stop>
-				<info-element :number=hba1c title="HbA1c:"></info-element>
-				<info-element :number=hypos title="Hypos:"></info-element>
-				<info-element :number=eGFR title="eGFR:"></info-element>
+				<info-element :value=hba1c title="HbA1c:" unit=""></info-element>
+				<info-element :value=hypos title="GIM:" unit="mg/dL"></info-element>
+				<info-element :value=eGFR title="eGFR:" unit="mmHg"></info-element>
 			</div>
 		</div>
 	</div>
