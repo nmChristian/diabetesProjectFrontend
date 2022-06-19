@@ -36,7 +36,7 @@
 			</div>
 
 			<div
-				:class="selectedInfoSection === 'notesAndGoals' ? 'smallInfoItemsHolderSelected' : 'smallInfoItemsHolder'">
+				:class="(selectedInfoSection === 'notesAndGoals' || selectedInfoSection === 'diagnoseAndMedicine' )? 'smallInfoItemsHolderSelected' : 'smallInfoItemsHolder'">
 				<div id="notesAndGoals"
 					 :class="selectedInfoSection !== 'notesAndGoals' ? 'infoItemSmall' : 'infoItemSelected'"
 					 @click="selectInfoSection('notesAndGoals')">
@@ -57,12 +57,12 @@
         <div
             id="diagnoseAndMedicine"
              :class="selectedInfoSection !== 'diagnoseAndMedicine' ? 'infoItemSmall' : 'infoItemSelected'"
-             style="width: 100%"
+             :style="selectedInfoSection === 'notesAndGoals'  ? 'width: 50%' : 'width: 100%' "
              @click="selectInfoSection('diagnoseAndMedicine')">
         <DiagnoseAndMedicine :data="diagnosis"
                              :is-doctor="loggedInUser.is_doctor || false"
                              :id="String(router.currentRoute.value.params.id) || '0'"
-                             :showAdvanced="selectedInfoSection === 'notesAndGoals'"
+                             :showAdvanced="selectedInfoSection === 'diagnosis'"
         >
 
         </DiagnoseAndMedicine>
@@ -218,14 +218,6 @@ function onScroll() {
 	currentViewedElement.value = elementsOnPage.length - 1;
 }
 
-
-function closePopUp() {
-	let currentRoute = router.currentRoute.value.fullPath
-	let indexOfHash = currentRoute.indexOf("#")
-	let newRoute = currentRoute.substring(0, indexOfHash)
-	router.replace(newRoute)
-}
-
 let crossClicked = () => {
 	if (router.currentRoute.value.fullPath.includes("List")) {
 		if (isFullScreen.value) {
@@ -245,7 +237,7 @@ const isFullScreen = ref(false)
 
 const paddingElements = computed(() => {
   if (isFullScreen.value){
-    return {'--min-distance-to-wall' : '320px'}
+    return {'--min-distance-to-wall' : '330px'}
   }else {
     return {'--min-distance-to-wall' : '0px'}
   }
@@ -254,20 +246,6 @@ const paddingElements = computed(() => {
 function fullScreenClicked() {
 	isFullScreen.value = !isFullScreen.value
 	emit('hideSidebar');
-}
-
-function listToString(inListe: string | any[] | undefined) {
-	let re = ""
-	if (inListe === undefined) {
-		return ""
-	}
-	for (let i = 0; i < inListe.length; i++) {
-		re += String(inListe[i])
-		if (i < inListe.length - 1) {
-			re += ", "
-		}
-	}
-	return re;
 }
 
 const cgmInDateValue: Ref<DateValue[]> = ref([] as DateValue[])
@@ -312,8 +290,6 @@ async function loadData() {
 		cgmInDateValueLastSeven.value = cgmInDateValue.value.filter(([date,]) => date > d3.timeDay.offset(new Date(), -7))
 
 	})
-
-
 }
 
 /* BEHOLD MY STUFF */
@@ -352,19 +328,18 @@ const cgmRange = computed( () : [number, number?][] => {
 .smallInfoItemsHolder {
   max-width: calc(( 100% - var(--min-distance-to-wall) ) - 10px );
   width: 1100px;
-  margin: 0;
-  padding: 0;
-	display: flex;
-	flex-direction: row;
-  align-items: stretch;
+  margin-left: -20px;
+	display: grid;
+  grid-template-columns: min-content min-content auto;
 }
 
 .smallInfoItemsHolderSelected {
   width: 100%;
   max-width: calc(100% - var(--min-distance-to-wall));
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	align-items: center;
+  flex-wrap: wrap;
 }
 
 .tableOfContext {
