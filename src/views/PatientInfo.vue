@@ -56,7 +56,7 @@
 			</div>
 
 			<div
-				:class="selectedInfoSection === 'notesAndGoals' ? 'smallInfoItemsHolder' : 'smallInfoItemsHolderSelected'">
+				:class="selectedInfoSection === 'notesAndGoals' ? 'smallInfoItemsHolderSelected' : 'smallInfoItemsHolder'">
 				<div id="notesAndGoals"
 					 :class="selectedInfoSection !== 'notesAndGoals' ? 'infoItemSmall' : 'infoItemSelected'"
 					 @click="selectInfoSection('notesAndGoals')">
@@ -361,10 +361,12 @@ const daysBackData = (data: DateValue[], daysBack: number) =>
 }
 
 .smallInfoItemsHolder {
-  max-width: calc(100% - var(--min-distance-to-wall));
+  max-width: calc(( 100% - var(--min-distance-to-wall) ) - 10px );
   width: 1100px;
+  margin: 0;
+  padding: 0;
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	align-items: center;
 }
 
@@ -372,7 +374,7 @@ const daysBackData = (data: DateValue[], daysBack: number) =>
   width: 100%;
   max-width: calc(100% - var(--min-distance-to-wall));
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	align-items: center;
 }
 

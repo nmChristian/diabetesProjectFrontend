@@ -25,7 +25,7 @@ const paddingElements = computed(() => {
   if (sidebarHidden.value){
     return {'--space-needed-for-ist' : '0x'}
   }else {
-    return {'--space-needed-for-ist' : '106px'}
+    return {'--space-needed-for-ist' : '0px'}
   }
 })
 
