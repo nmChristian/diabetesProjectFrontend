@@ -63,8 +63,8 @@
 					></NoteViwerAndEditor>
 				</div>
 
-				<div class="infoItemSmall" style="width: auto;">
-          <TIROverview :ranges="cgmRange" :targets="currentPatient.glycemic_targets" :frequencies="frequencies"/>
+				<div class="infoItemSmall" style=" width: auto;">
+          <TIROverview style="height: 100%;" :ranges="cgmRange" :targets="currentPatient.glycemic_targets" :frequencies="frequencies"/>
 				</div>
 
       </div>
@@ -397,6 +397,7 @@ const cgmRange = computed( () : [number, number?][] => {
 }
 
 .infoItemSmall {
+  height: 220px;
 	width: min-content;
 }
 
