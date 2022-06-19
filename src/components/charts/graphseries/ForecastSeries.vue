@@ -27,9 +27,9 @@
       <div class="selection-group">
         <div class="interval-indicator">
           <p v-for="date in (selectedRange ?? [lastThreeIntervals[2], lastDateInDataSet])">
-            <span class="date"> {{ d3.timeFormat("%d/%m")(date) }}  </span>
-            <span class="time"> {{ d3.timeFormat("%H:%M")(date) }} </span>
             <span class="day-of-week"> {{ d3.timeFormat("%a")(date) }} </span>
+            <span class="time"> {{ d3.timeFormat("%H:%M")(date) }} </span>
+            <span class="date"> {{ d3.timeFormat("%d/%m")(date) }}  </span>
           </p>
         </div>
         <TIRGraph class="tir-graph"
@@ -159,20 +159,19 @@ const graphs = computed(() => {
 }
 
 .interval-indicator {
+  text-align: end;
   width: 90%;
   margin: 0 auto 10px auto;
   border-bottom: 2px solid black;
 }
 .interval-indicator span {margin-right: 5px; }
 .interval-indicator .date {
-  padding: 0 2px;
-  border-radius: 5px;
+  font-style: italic;
 }
 .interval-indicator .time {
-  font-weight: bold;
 }
 .interval-indicator .day-of-week {
-  font-style: italic;
+
 }
 
 </style>
