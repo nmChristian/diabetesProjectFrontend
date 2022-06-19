@@ -63,9 +63,8 @@
 					></NoteViwerAndEditor>
 				</div>
 
-				<div class="infoItemSmall" style=" width: auto;">
-					<TIRGraph style="width: 400px;" :rotate="true" :graph-layout="new GraphLayout(400, 50)" :occurrences="occurrences" :colors="COLOR_SCHEME"/>
-					<CGMLegend :ranges="cgmRange" :targets="currentPatient.glycemic_targets" :percentages="frequencies" />
+				<div class="infoItemSmall" style="width: auto;">
+          <TIROverview :ranges="cgmRange" :targets="currentPatient.glycemic_targets" :frequencies="frequencies"/>
 				</div>
 
       </div>
@@ -146,6 +145,7 @@ import TIRDailySeries from "@/components/charts/graphseries/TIRDailySeries.vue";
 import ForecastSeries from "@/components/charts/graphseries/ForecastSeries.vue";
 import {GraphLayout} from "@/services/core/graphtypes";
 import InfoElement from "@/components/patientElements/InfoElement.vue";
+import TIROverview from "@/components/charts/graphseries/TIROverview.vue";
 
 
 const loggedInUser : Ref<UserDetails> = ref({} as UserDetails)
