@@ -62,11 +62,13 @@
 						:showAdvanced="selectedInfoSection === 'notesAndGoals'"
 					></NoteViwerAndEditor>
 				</div>
+
 				<div class="infoItemSmall" style=" width: auto;">
 					<TIRGraph style="width: 400px;" :rotate="true" :graph-layout="new GraphLayout(400, 50)" :occurrences="occurrences" :colors="COLOR_SCHEME"/>
 					<CGMLegend :ranges="cgmRange" :targets="currentPatient.glycemic_targets" :percentages="frequencies" />
 				</div>
-			</div>
+
+      </div>
 
 
 			<graph-section

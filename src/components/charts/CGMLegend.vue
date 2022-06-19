@@ -3,21 +3,20 @@
     <tr v-if="targets !== undefined || percentages !== undefined">
         <th>mg/dL</th>
       <th></th>
-      <th v-if="targets !== undefined"> targets</th>
       <th v-if="percentages !== undefined">result</th>
-
+      <th v-if="targets !== undefined"> targets</th>
     </tr>
     <tr v-for="i in [...COLOR_SCHEME.keys()].reverse()">
       <td class="threshold-legend">
         {{ranges[i][0].toFixed(0)}} - {{ranges[i][1]?.toFixed(0) ?? ""}}
       </td>
-      <td class="color-legend" :style="{backgroundColor: COLOR_SCHEME[i]}"></td>
-      <td v-if="targets !== undefined" class="target-legend">
-        {{ i === CGM_TARGET_INDEX ? ">" : "<" }} {{ targets[i] * 100 }}%
-      </td>
+      <td class="color-legend"><span  :style="{backgroundColor: COLOR_SCHEME[i]}" class="circle"></span></td>
       <td v-if="percentages !== undefined" :class="['percentage', getClass(i)]">
-        {{(percentages[i] * 100).toFixed(0)}}%
+        {{(percentages[i] * 100).toFixed(1)}}%
       </td>
+        <td v-if="targets !== undefined" class="target-legend">
+          {{ i === CGM_TARGET_INDEX ? ">" : "<" }} {{ targets[i] * 100 }}%
+        </td>
     </tr>
   </table>
 </template>
@@ -47,7 +46,6 @@ function getClass (index : number) : string {
 
 tr:not(:last-child) {
   border-bottom: 1px solid rgba(0, 0, 0, 50%);
-  border-radius: 5px;
 }
 
 td {
@@ -56,11 +54,11 @@ td {
 }
 .threshold-legend {
   font-weight: bold;
-  font-size: 14px;
+  font-size: 0.8em;
   text-align: end;
 }
 .target-legend {
-  font-size: 12px;
+  font-size: 0.8em;
 }
 .percentage {
   font-style: normal;
@@ -70,11 +68,19 @@ td {
 th {
   font-weight: bold;
   font-style: italic;
-  font-size: 12px;
+  font-size: 0.8em;
 }
 
 .color-legend {
-  width: 10px;
+  padding: 0;
+}
+.circle {
+  display: block;
+  background-color: blue;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  margin: 0;
 }
 
 .success {

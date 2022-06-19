@@ -9,9 +9,8 @@
             :value="intervalOption"> {{ intervalOption }} hour{{ intervalOption === 1 ? "" : "s" }}
         </option>
       </select>
+      <br>
     </div>
-
-    <br>
     <div class="tir-graphs">
       <div v-for="(hour, i) in hours">
         <p>{{ hour }} - {{ hours[i + 1] ?? 24 }}</p>
@@ -71,7 +70,6 @@ const deviations = computed(() => splitDateValues.value.map<number>(dateValues =
 
 <style scoped>
 .tir-daily-series {
-  padding: 10px 0 30px 0;
   text-align: center;
 }
 
