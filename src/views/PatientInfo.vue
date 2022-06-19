@@ -361,13 +361,16 @@ const daysBackData = (data: DateValue[], daysBack: number) =>
 }
 
 .smallInfoItemsHolder {
-	max-width: 1200px;
+  max-width: calc(100% - var(--min-distance-to-wall));
+  width: 1100px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
 
 .smallInfoItemsHolderSelected {
+  width: 100%;
+  max-width: calc(100% - var(--min-distance-to-wall));
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -403,10 +406,9 @@ const daysBackData = (data: DateValue[], daysBack: number) =>
 
 
 .infoItem {
-	max-width: calc(100% - 320px);;
+	max-width: calc(100% - var(--min-distance-to-wall));;
 	padding: 10px;
-	width: 1200px;
-	min-width: 1020px;
+	width: 1100px;
 }
 
 .infoItemSmall {
@@ -416,8 +418,7 @@ const daysBackData = (data: DateValue[], daysBack: number) =>
 .infoItemSelected {
   padding: 10px;
   width: 100%;
-  min-width: 1100px;
-  max-width: calc(100% - 320px);
+  max-width: calc(100% - var(--min-distance-to-wall));
 }
 
 .infoItem, .infoItemSmall, .infoItemSelected {
