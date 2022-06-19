@@ -27,15 +27,17 @@
       <div class="selection-group">
         <div class="interval-indicator">
           <p v-for="date in (selectedRange ?? [lastThreeIntervals[2], lastDateInDataSet])">
-            {{ d3.timeFormat("%a %H:%M [%d/%m]")(date) }}</p>
+            <span class="date"> {{ d3.timeFormat("%d/%m")(date) }}  </span>
+            <span class="time"> {{ d3.timeFormat("%H:%M")(date) }} </span>
+            <span class="day-of-week"> {{ d3.timeFormat("%a")(date) }} </span>
+          </p>
         </div>
         <TIRGraph class="tir-graph"
             :colors="COLOR_SCHEME"
             :graph-layout="tirLayout"
             :occurrences="getCGMOccurrences(selectedData)"
             :offset="1"
-            :rx="1"
-            :ry="1"
+            :r="1"
         />
       </div>
     </div>
@@ -157,10 +159,20 @@ const graphs = computed(() => {
 }
 
 .interval-indicator {
-  text-align: center;
   width: 90%;
   margin: 0 auto 10px auto;
-  border-bottom: 3px solid black;
+  border-bottom: 2px solid black;
+}
+.interval-indicator span {margin-right: 5px; }
+.interval-indicator .date {
+  padding: 0 2px;
+  border-radius: 5px;
+}
+.interval-indicator .time {
+  font-weight: bold;
+}
+.interval-indicator .day-of-week {
+  font-style: italic;
 }
 
 </style>
