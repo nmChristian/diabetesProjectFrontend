@@ -9,7 +9,7 @@ type UserDetails = {_id : any,
     glycemic_ranges: number[], glycemic_targets: number[]}
 
 type TimeSeries = { t: number, v: number }
-type Diagnosis = { "name": "string" , medicine : Array<string>}
+type Diagnosis = { "name": string , medicine : Array<string>, _id: {$oid: string}}
 type Note = {_id: { $oid: string }, text: string, private: false, writer: {$oid: string},
 "timestamp": {
     "$date": "2022-06-08T16:21:42.600Z"

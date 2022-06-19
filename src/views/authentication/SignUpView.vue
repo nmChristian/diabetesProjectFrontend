@@ -31,7 +31,7 @@
 			<primary-button type="submit" @click="onSignUpClick" text="Sign up"/>
 		</div>
 		<p>Or</p>
-		<div class="sing-in-link">
+		<div class="sign-in-link">
 			<a href="/sign-in">SIGN IN</a>
 		</div>
 		<div class="spinner-container">
@@ -151,7 +151,7 @@ div a {
 	text-decoration: underline;
 }
 
-.sing-in-link {
+.sign-in-link {
 	margin-top: 2.75rem;
 	font-size: 0.8rem;
 	text-align: center;

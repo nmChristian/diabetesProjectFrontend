@@ -3,7 +3,7 @@
 		<div class="allSides" @click="mainClicked()">
 			<div class="topDiv">
 				<div style="width: 20%; float:left">
-					<img src="@/assets/logo.svg" alt="">
+					<img src="@/assets/user.png" alt="" style="width: 100%">
 				</div>
 
 				<div style="width: 80%; float:right">
@@ -13,9 +13,9 @@
 				</div>
 			</div>
 			<div class="infoBoxes" v-on:click.stop>
-				<info-element :number=hbalc title="HbALc:"></info-element>
-				<info-element :number=hypos title="Hypos:"></info-element>
-				<info-element :number=eGFR title="eGFR:"></info-element>
+				<info-element :value=hba1c title="HbA1c:" unit=""></info-element>
+				<info-element :value=hypos title="GIM:" unit="mg/dL"></info-element>
+				<info-element :value=eGFR title="eGFR:" unit="mmHg"></info-element>
 			</div>
 		</div>
 	</div>
@@ -32,7 +32,7 @@ export default defineComponent({
 		name: String,
 		age: Number,
 		weight: String,
-		hbalc: String,
+		hba1c: String,
 		hypos: String,
 		eGFR: String,
 	},

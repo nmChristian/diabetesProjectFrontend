@@ -4,6 +4,7 @@ import type {DateValue} from "@/services/core/datatypes";
 import {mMolPerLToMgPerDL, timeSeriesToDateValue} from "@/services/core/datatypes";
 import type {Diagnosis, Note, UserDetails} from "@/services/core/dbtypes";
 import * as d3 from "d3";
+import router from "@/router";
 
 class Backend {
     public url: string
@@ -29,9 +30,36 @@ class Backend {
         return response.data.self
     }
 
+    public async saveNewDiagnosis(id: string, diagnosis : string, medecin : string[]){
+        const response = await axios.post(
+            this.getDiagnosisURL(id),
+            {name : diagnosis, medicine: medecin},
+            this.generateHeader())
+        return response.data
+    }
+
     public async getDiagnosis(id: string): Promise<Array<Diagnosis>> {
         const response = await axios.get(
             this.getDiagnosisURL(id),
+            this.generateHeader())
+        if(response.status === 404) {
+            await router.push('/display-patients-list');
+            return []
+        }
+        return response.data
+    }
+
+    public async deleteDiagnosis(id: string): Promise<Array<Diagnosis>> {
+        const response = await axios.delete(
+            this.getDiagnosisURL(id),
+            this.generateHeader())
+        return response.data
+    }
+
+    public async editDiagnosis(id: string, diagnosis : string, medecin : string[]): Promise<UserDetails> {
+        const response = await axios.put(
+            this.getDiagnosisURL(id),
+            {name : diagnosis, medicine: medecin},
             this.generateHeader())
         return response.data
     }
@@ -43,13 +71,23 @@ class Backend {
                 return users[i]
             }
         }
-        return {email: "", first_name: "", last_name: "", is_doctor: false, _id: {}, age: 0, profile_picture: "", glycemic_ranges: Array(4).fill(NaN), glycemic_targets: Array(5).fill(NaN)}
+
+        await router.push('/display-patients-list');
+
+        return {
+            glycemic_ranges: [],
+            glycemic_targets: [],
+            email: "", first_name: "", last_name: "", is_doctor: false, _id: {}, age: 0, profile_picture: "", glycemic_ranges: Array(4).fill(NaN), glycemic_targets: Array(5).fill(NaN)}
     }
 
     public async getViewabel(): Promise<Array<UserDetails>> {
         const response = await axios.get(
             this.getNameURL(),
             this.generateHeader())
+        if(response.status === 404) {
+            await router.push('/display-patients-list');
+            return []
+        }
         return response.data.viewable
     }
 
@@ -84,6 +122,10 @@ class Backend {
             this.getNotesURL(id),
             this.generateHeader())
 
+        if(response.status === 404) {
+            await router.push('/display-patients-list');
+            return []
+        }
         return response.data
     }
 
@@ -132,6 +174,11 @@ class Backend {
             {ndays: (daysSinceLastData + daysBack), show: show},
             this.generateHeader())
 
+        if(response.status === 404) {
+            await router.push('/display-patients-list');
+            return []
+        }
+
         return response.data
     }
 
@@ -141,6 +188,11 @@ class Backend {
             this.getDataURL(),
             {ndays: (daysSinceLastData + daysBack), show: show},
             this.generateHeader())
+
+        if(response.status === 404) {
+            await router.push('/display-patients-list');
+            return []
+        }
 
         return response.data
     }
