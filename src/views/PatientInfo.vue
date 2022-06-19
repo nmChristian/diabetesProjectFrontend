@@ -23,8 +23,8 @@
 
 			<div class="infoItem" id="summary">
 				<div class="basicInfoHolder">
-					<img alt="User icon" class=user-icon :src="getProfilePicturePath()" style="max-width: 50px">
-					<h1>Name: {{ currentPatient.first_name }} </h1>
+					<img alt="User icon" class="user-icon" :src="getProfilePicturePath()" style="max-width: 50px">
+					<h1> {{ currentPatient.first_name }} </h1>
 				</div>
 				<div class="startInfoHolderLine">
 					<InfoElement value="70" title="HbALc" unit="mmol/mol"/>
@@ -63,8 +63,8 @@
 					></NoteViwerAndEditor>
 				</div>
 				<div class="infoItemSmall" style=" width: auto;">
-					<TIRGraph style="width: 400px;" :rotate="true" :graph-layout="new GraphLayout(400, 50)" :occurrences="frequencies" :colors="COLOR_SCHEME"/>
-					<CGMLegend/>
+					<TIRGraph style="width: 400px;" :rotate="true" :graph-layout="new GraphLayout(400, 50)" :occurrences="occurrences" :colors="COLOR_SCHEME"/>
+					<CGMLegend :ranges="cgmRange" :targets="currentPatient.glycemic_targets" :percentages="frequencies" />
 				</div>
 			</div>
 
@@ -129,7 +129,7 @@ import * as d3 from "d3";
 import router from "../router";
 import backend from "../services/backend";
 import type {DateValue} from "@/services/core/datatypes"
-import {getCGMOccurrences, mMolPerLToMgPerL, timeSeriesToDateValue} from "@/services/core/datatypes";
+import {getCGMOccurrences, mMolPerLToMgPerDL, timeSeriesToDateValue} from "@/services/core/datatypes";
 import type {Ref} from "vue"
 import {computed, onMounted, ref} from "vue";
 import {COLOR_SCHEME} from "@/services/core/shared";
@@ -144,14 +144,17 @@ import TIRDailySeries from "@/components/charts/graphseries/TIRDailySeries.vue";
 import ForecastSeries from "@/components/charts/graphseries/ForecastSeries.vue";
 import {GraphLayout} from "@/services/core/graphtypes";
 import InfoElement from "@/components/patientElements/InfoElement.vue";
-const loggedInUser = ref({first_name: ""} as UserDetails)
+
+
+const loggedInUser : Ref<UserDetails> = ref({} as UserDetails)
+const currentPatient : Ref<UserDetails> = ref({} as UserDetails)
+
 onMounted(() => {
 	loadData()
-
 	backend.getUserDetails().then((result) => {
-		if (result === null) {
+		if (result === null)
 			return
-		}
+
 		loggedInUser.value = result
 	})
 })
@@ -170,16 +173,15 @@ const elementsOnPage = [
 	{id: "big-table", text: "Table of data"},
 	{id: "tir-series", text: "Hourly TIR values"},
 	{id: "raw-series", text: "Raw Data (expandable)"},
-
 ]
 
 let currentViewedElement = ref(0)
 
 function getProfilePicturePath() {
-	if (currentPatient.value.profile_picture === undefined || currentPatient.value.profile_picture === "") {
+	if (!currentPatient.value.profile_picture)
 		return '/src/assets/user.png'
-	}
-	return currentPatient.profile_picture
+
+	return currentPatient.value.profile_picture
 }
 
 const selectedInfoSection: Ref<string> = ref('')
@@ -211,7 +213,6 @@ function onScroll() {
 	currentViewedElement.value = elementsOnPage.length - 1;
 }
 
-const currentPatient = ref({first_name: ""})
 
 function closePopUp() {
 	let currentRoute = router.currentRoute.value.fullPath
@@ -269,19 +270,16 @@ const cgmInDateValueLastSeven: Ref<DateValue[]> = ref([] as DateValue[])
 const mealsInDateValue: Ref<DateValue[]> = ref([] as DateValue[])
 const basalInDateValue: Ref<DateValue[]> = ref([] as DateValue[])
 const bolusInDateValue: Ref<DateValue[]> = ref([] as DateValue[])
-const frequencies = computed(() => getCGMOccurrences(cgmInDateValueLastSeven.value))
-
+const occurrences = computed(() => getCGMOccurrences(cgmInDateValueLastSeven.value))
+const frequencies = computed(() => { const sum = d3.sum(occurrences.value); return occurrences.value.map(val => val / sum || 0)})
 
 const diagnosis = ref([] as Diagnosis[])
-
 const notes = ref([] as Note[])
 
 function updateNotes() {
 	let id = String(router.currentRoute.value.params.id)
-	console.log("Updating notes")
 	backend.getNotes(id).then((response) => {
 		notes.value = response
-		console.log(response)
 	})
 }
 
@@ -295,12 +293,13 @@ async function loadData() {
 
 	backend.getUserDetailsForSpecific(String(router.currentRoute.value.params.id)).then((user: UserDetails) => {
 		currentPatient.value = user
-		console.log(user)
+    currentPatient.value.glycemic_ranges
+    console.log(user)
 	})
 
 	backend.getDataPatient(21, ["cgm", "meals", "basal", "bolus"], id).then((response) => {
 
-		cgmInDateValue.value = timeSeriesToDateValue(response.cgm, mMolPerLToMgPerL)
+		cgmInDateValue.value = timeSeriesToDateValue(response.cgm, mMolPerLToMgPerDL)
 		mealsInDateValue.value = timeSeriesToDateValue(response.meals)
 		basalInDateValue.value = timeSeriesToDateValue(response.basal)
 		bolusInDateValue.value = timeSeriesToDateValue(response.bolus)
@@ -322,36 +321,24 @@ const dates = computed(() =>
 const daysBackData = (data: DateValue[], daysBack: number) =>
 	data.filter(([date,]) => date > d3.timeDay.offset(lastDateInDataSet.value, -daysBack))
 
+// Converts user given cgm range
+const cgmRange = computed( () : [number, number?][] => {
+  // Ignore warning, since the object can be {}, and therefore {}.glycemic_ranges === undefined
+  if (currentPatient.value.glycemic_ranges === undefined)
+    return Array(5).fill([NaN, NaN])
 
+
+  const range = [...currentPatient.value.glycemic_ranges].map(mMolPerLToMgPerDL)
+  range.splice(0,0,0)
+  return range.map<[number, number?]>((val,i,a) => [val, a[i+1]])
+})
 </script>
 
 
 <style scoped>
-.popupBackground {
-	position: fixed;
-	left: 0;
-	top: 0;
-	height: 100%;
-	width: 100%;
-	border-radius: 15px;
-	z-index: 11;
-}
-
 .basicInfoHolder {
 	display: flex;
 	flex: border-box;
-}
-
-.popup {
-	position: fixed;
-	left: 15%;
-	top: 10%;
-	height: 80%;
-	width: 70%;
-	border-radius: 15px;
-	background: pink;
-	border: blue 1px dashed;
-	z-index: 12;
 }
 
 .smallInfoItemsHolder {

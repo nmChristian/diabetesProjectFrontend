@@ -1,41 +1,39 @@
 <template>
   <table class="cgm-legend">
-    <tr v-if="goals !== undefined">
-      <th>mg/dL</th>
+    <tr v-if="targets !== undefined || percentages !== undefined">
+        <th>mg/dL</th>
       <th></th>
-      <th>goal</th>
+      <th v-if="targets !== undefined"> targets</th>
       <th v-if="percentages !== undefined">result</th>
 
     </tr>
     <tr v-for="i in [...COLOR_SCHEME.keys()].reverse()">
-      <td class="color-legend" >
-        {{ CGM_THRESHOLDS[i].x0 + "-" + (CGM_THRESHOLDS[i].x1 ?? "") }}
+      <td class="threshold-legend">
+        {{ranges[i][0].toFixed(0)}} - {{ranges[i][1]?.toFixed(0) ?? ""}}
       </td>
-      <td class="splitter" :style="{backgroundColor: COLOR_SCHEME[i]}"></td>
-      <td v-if="goals !== undefined" class="goal-legend">
-        {{i === 2 ? ">" : "<"}} {{goals[i] * 100}}%
+      <td class="color-legend" :style="{backgroundColor: COLOR_SCHEME[i]}"></td>
+      <td v-if="targets !== undefined" class="target-legend">
+        {{ i === CGM_TARGET_INDEX ? ">" : "<" }} {{ targets[i] * 100 }}%
       </td>
       <td v-if="percentages !== undefined" :class="['percentage', getClass(i)]">
-        {{percentages[i] * 100}}%
+        {{(percentages[i] * 100).toFixed(0)}}%
       </td>
     </tr>
   </table>
 </template>
 
 <script lang="ts" setup>
-import {CGM_THRESHOLDS, COLOR_SCHEME} from "@/services/core/shared";
-import {computed, onMounted} from "vue";
+import {COLOR_SCHEME, CGM_TARGET_INDEX} from "@/services/core/shared";
 const props = defineProps<{
-  thresholds? : number[],
-  goals?: number[],
+  ranges: [number, number?][],
+  targets?: number[],
   percentages? : number[]
 }>()
-
 function getClass (index : number) : string {
-  if (props.percentages === undefined || props.goals === undefined)
+  if (props.percentages === undefined || props.targets === undefined)
     return ""
-  const below = (props.percentages[index] > props.goals[index])
-  return (index == 2 ? !below : below) ? "fail" : "success"
+  const below = (props.percentages[index] > props.targets[index])
+  return (index === CGM_TARGET_INDEX ? !below : below) ? "fail" : "success"
 }
 </script>
 
@@ -56,12 +54,12 @@ td {
   font-style: italic;
   padding: 0 10px;
 }
-.color-legend {
+.threshold-legend {
   font-weight: bold;
   font-size: 14px;
   text-align: end;
 }
-.goal-legend {
+.target-legend {
   font-size: 12px;
 }
 .percentage {
@@ -75,7 +73,7 @@ th {
   font-size: 12px;
 }
 
-.splitter {
+.color-legend {
   width: 10px;
 }
 

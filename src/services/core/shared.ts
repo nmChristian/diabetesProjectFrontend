@@ -27,7 +27,7 @@ const CGM_THRESHOLDS =
         , {x0: 70, x1: 180}
         , {x0: 180, x1: 250}
         , {x0: 250, x1: undefined}]
-const CGM_TARGET_INDEX = 2
+export const CGM_TARGET_INDEX = 2
 const CGM_TARGET: [number, number] = [CGM_THRESHOLDS[CGM_TARGET_INDEX].x0, CGM_THRESHOLDS[CGM_TARGET_INDEX].x1 ?? NaN]
 
 export const CGM_SD_THRESHOLDS = [0, 15, 30]    //TODO: GET REAL VALUES

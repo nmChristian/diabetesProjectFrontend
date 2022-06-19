@@ -1,9 +1,10 @@
 <template>
   <div class="everything">
     <div style="display: flex; gap: 100px;">
-      <CGMLegend :goals="[.01, .04, .70, .25, .05]" :percentages="[0.2, 0.3, 0.4, 0.05, 0.05]"/>
-      <CGMLegend :goals="[.01, .04, .70, .25, .05]"/>
-      <CGMLegend />
+      <CGMLegend :ranges="cgmRanges" :targets="[0.01, 0.04, 0.7, 0.25, 0.05]" :percentages="[0.2, 0.3, 0.4, 0.05, 0.05]"/>
+      <CGMLegend :ranges="cgmRanges" :percentages="[0.2, 0.3, 0.4, 0.05, 0.05]"/>
+      <CGMLegend :ranges="cgmRanges" :targets="[0.01, 0.04, 0.7, 0.25, 0.05]" />
+      <CGMLegend :ranges="cgmRanges"/>
     </div>
     <ForecastSeries
         :cgm="cgm"
@@ -73,6 +74,9 @@ const dates = computed( ()  =>
         d3.timeDay.offset(lastDateInDataSet.value, -offset))).reverse())
 
 const daysBackData = (data : DateValue[], daysBack : number) => data.filter(([date,]) => date > d3.timeDay.offset(lastDateInDataSet.value, -daysBack))
+
+// Constants
+const cgmRanges : [number, number?][]= CGM_THRESHOLDS.map(({x0,x1}) => [x0,x1])
 
 </script>
 

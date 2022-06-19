@@ -96,8 +96,6 @@ function noteClicked(index : number){
   canBeeSeenByPatient.value = !props.data[index].private
   selected.value = index;
 }
-
-console.log(props.data)
 </script>
 
 <style scoped>

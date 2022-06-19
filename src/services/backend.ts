@@ -1,7 +1,7 @@
 import {getApiKey} from "@/services/authentication";
 import axios from "axios";
 import type {DateValue} from "@/services/core/datatypes";
-import {mMolPerLToMgPerL, timeSeriesToDateValue} from "@/services/core/datatypes";
+import {mMolPerLToMgPerDL, timeSeriesToDateValue} from "@/services/core/datatypes";
 import type {UserDetails, Diagnosis, Note} from "@/services/core/dbtypes";
 import * as d3 from "d3";
 
@@ -23,7 +23,6 @@ class Backend {
         if (getApiKey() === null) {
             return null;
         }
-        console.log(getApiKey())
         const response = await axios.get(
             this.getNameURL(),
             this.generateHeader())
@@ -77,11 +76,10 @@ class Backend {
             this.getCGMDaysBack(daysSinceLastData + daysBack),
             this.generateHeader())
 
-        return timeSeriesToDateValue(response.data.cgm, mMolPerLToMgPerL)
+        return timeSeriesToDateValue(response.data.cgm, mMolPerLToMgPerDL)
     }
 
     public async getNotes(id: string): Promise<Note[]> {
-        console.log(getApiKey())
         const response = await axios.get(
             this.getNotesURL(id),
             this.generateHeader())

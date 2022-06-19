@@ -18,7 +18,7 @@ import {ref} from 'vue'
 
 import router from "@/router"
 import type {DateValue, Point} from "@/services/core/datatypes"
-import {bucketToMedian, mMolPerLToMgPerL, toBuckets} from "@/services/core/datatypes"
+import {bucketToMedian, mMolPerLToMgPerDL, toBuckets} from "@/services/core/datatypes"
 import backend from "@/services/backend";
 import type {UserDetails} from "@/services/core/dbtypes";
 
@@ -47,7 +47,7 @@ let dataForAllUsers = backend.getPreviews();
 function medianDataToMedianAndData(values: number[]): Point[] {
 	const re = []
 	for (let i = 0; i < values.length; i++) {
-		re.push([i, mMolPerLToMgPerL(values[i])] as Point)
+		re.push([i, mMolPerLToMgPerDL(values[i])] as Point)
 	}
 	return re
 }
@@ -75,7 +75,6 @@ accessiblelUsersPromise.then((accessiblelUsers : Array<UserDetails>)  => {
 	let tempList: UserWithDate[] = []
 
   dataForAllUsers.then((returnedDAta : {_id: any , patient: any ,values: number[],problems: number []}[]) => {
-    console.log(returnedDAta)
     for(let i = 0; i < accessiblelUsers.length; i++){
         for(let j = 0; j < accessiblelUsers.length; j++){
           if(accessiblelUsers[i]._id.$oid === returnedDAta[j].patient.$oid){

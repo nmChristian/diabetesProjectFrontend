@@ -30,7 +30,7 @@ import type {DateValue, Point} from "@/services/core/datatypes"
 import {
 	addEdgesToSplit,
 	bucketToMedian,
-	mMolPerLToMgPerL,
+	mMolPerLToMgPerDL,
 	SPLIT_BY_DAY,
 	timeSeriesToDateValue,
 	toBuckets
@@ -61,7 +61,7 @@ async function loadUserDetails() {
 //, "basal", "meals", "bolus", "exercise"
 async function loadData() {
 	const response = await backend.getData(21, ["cgm", "meals", "basal", "bolus"])
-	cgmInDateValue.value = timeSeriesToDateValue(response.cgm, mMolPerLToMgPerL)
+	cgmInDateValue.value = timeSeriesToDateValue(response.cgm, mMolPerLToMgPerDL)
 	mealsInDateValue.value = timeSeriesToDateValue(response.meals)
 	basalInDateValue.value = timeSeriesToDateValue(response.basal)
 	bolusInDateValue.value = timeSeriesToDateValue(response.bolus)
