@@ -173,6 +173,7 @@ const elementsOnPage = [
 	{ id: "forecast", text: "3 week overview" },
 	{ id: "big-table", text: "Table of data" },
 	{ id: "tir-series", text: "Hourly TIR values" },
+  { id: 'quantile-series',text: 'Quantile Graph'},
 	{ id: "raw-series", text: "Raw Data (expandable)" },
 ]
 
