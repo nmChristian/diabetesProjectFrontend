@@ -129,16 +129,16 @@ import type { Ref } from "vue"
 import { computed, onMounted, ref } from "vue";
 import type {CGMRanges } from "@/services/core/shared";
 import type { Diagnosis, Note, UserDetails } from "@/services/core/dbtypes";
-import ElementTableSeries from "@/components/charts/graphseries/ElementTableSeries.vue"
+import ElementTableSeries from "@/components/charts/series/ElementTableSeries.vue"
 import NoteViwerAndEditor from "@/components/NoteViwerAndEditor.vue";
 import GraphSection from "@/components/patientElements/GraphSection.vue";
-import RawSeries from "@/components/charts/graphseries/RawSeries.vue";
-import TIRDailySeries from "@/components/charts/graphseries/TIRDailySeries.vue";
-import ForecastSeries from "@/components/charts/graphseries/ForecastSeries.vue";
+import RawSeries from "@/components/charts/series/RawSeries.vue";
+import TIRDailySeries from "@/components/charts/series/TIRDailySeries.vue";
+import ForecastSeries from "@/components/charts/series/ForecastSeries.vue";
 import { GraphLayout } from "@/services/core/graphtypes";
 import InfoElement from "@/components/patientElements/InfoElement.vue";
-import TIROverview from "@/components/charts/graphseries/TIROverview.vue";
-import QuantileSeries from "@/components/charts/graphseries/QuantileSeries.vue";
+import TIROverview from "@/components/charts/series/TIROverview.vue";
+import QuantileSeries from "@/components/charts/series/QuantileSeries.vue";
 import DiagnoseAndMedicine from "@/components/DiagnoseAndMedicine.vue";
 import { defaultUrl, getProfilePictureUrlFrom } from "@/services/settingsProvider";
 

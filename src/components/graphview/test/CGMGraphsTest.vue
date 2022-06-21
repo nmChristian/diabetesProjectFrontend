@@ -49,12 +49,12 @@ import {getCGMOccurrences} from "@/services/core/datatypes";
 import type {CGMRanges} from "@/services/core/shared"
 import {COLOR_SCHEME} from "@/services/core/shared";
 import {computed} from "vue";
-import ForecastSeries from "@/components/charts/graphseries/ForecastSeries.vue";
-import RawSeries from "@/components/charts/graphseries/RawSeries.vue";
-import TIRDailySeries from "@/components/charts/graphseries/TIRDailySeries.vue";
-import ElementTableSeries from "@/components/charts/graphseries/ElementTableSeries.vue";
+import ForecastSeries from "@/components/charts/series/ForecastSeries.vue";
+import RawSeries from "@/components/charts/series/RawSeries.vue";
+import TIRDailySeries from "@/components/charts/series/TIRDailySeries.vue";
+import ElementTableSeries from "@/components/charts/series/ElementTableSeries.vue";
 import CGMLegend from "@/components/charts/CGMLegend.vue";
-import QuantileSeries from "@/components/charts/graphseries/QuantileSeries.vue";
+import QuantileSeries from "@/components/charts/series/QuantileSeries.vue";
 
 
 const props = defineProps<{
