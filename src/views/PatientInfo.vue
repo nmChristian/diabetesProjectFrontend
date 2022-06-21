@@ -140,7 +140,7 @@ import InfoElement from "@/components/patientElements/InfoElement.vue";
 import TIROverview from "@/components/charts/series/TIROverview.vue";
 import QuantileSeries from "@/components/charts/series/QuantileSeries.vue";
 import DiagnoseAndMedicine from "@/components/DiagnoseAndMedicine.vue";
-import {defaultUrl, getProfilePictureUrlFrom} from "@/services/settingsProvider";
+import {defaultUrl, getProfilePictureUrlFrom} from "@/services/settings-provider";
 
 
 const loggedInUser: Ref<UserDetails> = ref({} as UserDetails)

@@ -40,7 +40,7 @@ import {RouterLink, RouterView} from 'vue-router'
 import {defineComponent} from "vue";
 import backend from "@/services/backend";
 import {isAuthenticated} from "@/services/authentication";
-import {defaultUrl, getProfilePictureUrl} from "@/services/settingsProvider";
+import {defaultUrl, getProfilePictureUrl} from "@/services/settings-provider";
 
 function loadName() {
   const userData = backend.getUserDetails();
