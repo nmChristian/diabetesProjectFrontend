@@ -224,7 +224,9 @@ const emit = defineEmits<{
 	(e: 'hideSidebar'): void
 }>()
 
-const isFullScreen = ref(false)
+const isListView = router.currentRoute.value.fullPath.includes('list')
+
+const isFullScreen = ref(!isListView)
 
 const paddingElements = computed(() => {
 	if (isFullScreen.value) {
