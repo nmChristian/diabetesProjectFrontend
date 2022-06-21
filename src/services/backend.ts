@@ -9,6 +9,7 @@ import {mMolPerLToMgPerDL, timeSeriesToDateValue} from "@/services/core/datatype
 import type {Diagnosis, Note, UserDetails} from "@/services/core/dbtypes";
 import * as d3 from "d3";
 import router from "@/router";
+import {defaultUserDetails} from "@/services/core/dbtypes";
 
 class Backend {
     public url: string
@@ -78,11 +79,9 @@ class Backend {
 
         await router.push('/display-patients-list');
 
-        return {
-            glycemic_ranges: [],
-            glycemic_targets: [],
-            email: "", first_name: "", last_name: "", is_doctor: false, _id: {}, age: 0, profile_picture: "", glycemic_ranges: Array(4).fill(NaN), glycemic_targets: Array(5).fill(NaN)}
+        return defaultUserDetails
     }
+
 
     public async getViewabel(): Promise<Array<UserDetails>> {
         const response = await axios.get(

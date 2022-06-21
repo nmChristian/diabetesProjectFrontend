@@ -16,3 +16,13 @@ type Note = {_id: { $oid: string }, text: string, private: false, writer: {$oid:
 }
 }
 export type Answer = { success: boolean, errorMessage: string }
+
+
+export const defaultUserDetails : UserDetails = {
+    email: "", profile_picture: "",
+    first_name: "", last_name: "", age: 0,
+    is_doctor: false, _id: {},
+    extra_data: {HbA1c:0, weight: 0, blood_pressure: 0},
+    glycemic_ranges: Array(4).fill(NaN),
+    glycemic_targets: Array(5).fill(NaN),
+}
