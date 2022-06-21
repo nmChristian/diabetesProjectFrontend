@@ -23,8 +23,8 @@
 </template>
 
 <script lang="ts" setup>
-import type {ElementRow} from "@/components/charts/generic/ElementTable.vue"
-import ElementTable from "@/components/charts/generic/ElementTable.vue"
+import type {ElementRow} from "@/components/charts/ElementTable.vue"
+import ElementTable from "@/components/charts/ElementTable.vue"
 
 import type {DateValue} from "@/services/core/datatypes";
 import {getCGMColor} from "@/services/core/datatypes";
