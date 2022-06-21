@@ -91,31 +91,6 @@ class Backend {
         return response.data.viewable
     }
 
-    public async getCGMDataPatient(daysBack: number, patientId: String): Promise<DateValue[]> {
-        const daysSinceLastData = d3.timeDays(new Date("2022-01-29"), new Date()).length
-
-        if (patientId === undefined) {
-            return []
-        }
-
-        const response = await axios.post(
-            this.getDataURLPatient(patientId),
-            this.getCGMDaysBack(daysSinceLastData + daysBack),
-            this.generateHeader())
-
-        return timeSeriesToDateValue(response.data.cgm, v => v * 18)
-    }
-
-    public async getCGMDataMGDL(daysBack: number): Promise<DateValue[]> {
-        const daysSinceLastData = d3.timeDays(new Date("2022-01-29"), new Date()).length
-
-        const response = await axios.post(
-            this.getDataURL(),
-            this.getCGMDaysBack(daysSinceLastData + daysBack),
-            this.generateHeader())
-
-        return timeSeriesToDateValue(response.data.cgm, mMolPerLToMgPerDL)
-    }
 
     public async getNotes(id: string): Promise<Note[]> {
         const response = await axios.get(
@@ -167,26 +142,22 @@ class Backend {
         if (patientId === undefined) {
             return []
         }
-        //TODO ret dette da dataen er flyttet i db, samme problem flere steder
-        const daysSinceLastData = d3.timeDays(new Date("2022-01-29"), new Date()).length
         const response = await axios.post(
             this.getDataURLPatient(patientId),
-            {ndays: (daysSinceLastData + daysBack), show: show},
+            {ndays: (daysBack), show: show},
             this.generateHeader())
 
         if(response.status === 404) {
             await router.push('/display-patients-list');
             return []
         }
-
         return response.data
     }
 
     public async getData(daysBack: number = 7, show: string[] = ["cgm"]) {
-        const daysSinceLastData = d3.timeDays(new Date("2022-01-29"), new Date()).length
         const response = await axios.post(
             this.getDataURL(),
-            {ndays: (daysSinceLastData + daysBack), show: show},
+            {ndays: (daysBack), show: show},
             this.generateHeader())
 
         if(response.status === 404) {
@@ -196,13 +167,6 @@ class Backend {
 
         return response.data
     }
-
-    /**
-     * Returns the data type that is used to request the GCM data N days back
-     * @param daysBack - The amount of days we have to go back
-     */
-    public getCGMDaysBack = (daysBack: number) => ({ndays: daysBack, show: ["cgm"]})
-
 
     public generateHeader(): { headers: { api_key: string } } {
         const api: string = getApiKey() ?? ""

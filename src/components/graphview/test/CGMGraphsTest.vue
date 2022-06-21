@@ -69,18 +69,18 @@ const props = defineProps<{
 
 
 // TIR Methods
-const lastDateInDataSet = computed(() => props.cgm.length === 0 ? new Date() : props.cgm[props.cgm.length - 1][0])
+const now = new Date();
 
-const lastDayData = computed(() => props.cgm.filter(([date,]) => date > d3.timeDay.offset(lastDateInDataSet.value, -1)))
+const lastDayData = computed(() => props.cgm.filter(([date,]) => date > d3.timeDay.offset(now, -1)))
 const frequencies = computed(() => getCGMOccurrences(lastDayData.value, props.cgmRanges))
 
 
 const daysBack = 7
 const dates = computed( ()  =>
     [...Array(daysBack).keys()].map<Date>((offset) => d3.timeDay(
-        d3.timeDay.offset(lastDateInDataSet.value, -offset))).reverse())
+        d3.timeDay.offset(now, -offset))).reverse())
 
-const daysBackData = (data : DateValue[], daysBack : number) => data.filter(([date,]) => date > d3.timeDay.offset(lastDateInDataSet.value, -daysBack))
+const daysBackData = (data : DateValue[], daysBack : number) => data.filter(([date,]) => date > d3.timeDay.offset(now, -daysBack))
 
 </script>
 

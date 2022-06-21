@@ -1,5 +1,5 @@
 <template>
-  <DateIntervalSelector :text="d3.timeFormat('%d/%m')(lastThreeIntervals[2]) + ' - ' + d3.timeFormat('%d/%m')(lastDateInDataSet)"/>
+  <DateIntervalSelector :text="d3.timeFormat('%d/%m')(lastThreeIntervals[2]) + ' - ' + d3.timeFormat('%d/%m')(now)"/>
   <div class="forecast-series">
     <div v-if="showAdvanced">
       <div style="display: grid; place-items: center;">
@@ -27,7 +27,7 @@
       </div>
       <div class="selection-group">
         <div class="interval-indicator">
-          <p v-for="date in (selectedRange ?? [lastThreeIntervals[2], lastDateInDataSet])">
+          <p v-for="date in (selectedRange ?? [lastThreeIntervals[2], now])">
             <span class="day-of-week"> {{ d3.timeFormat("%a")(date) }} </span>
             <span class="time"> {{ d3.timeFormat("%H:%M")(date) }} </span>
             <span class="date"> {{ d3.timeFormat("%d/%m")(date) }}  </span>
@@ -70,8 +70,9 @@ const props = defineProps<{
   cgmRanges : CGMRanges,
 }>()
 const weeksBack = [0, 1, 2]
-const lastDateInDataSet = computed(() => props.cgm.length === 0 ? new Date() : props.cgm[props.cgm.length - 1][0])
-const lastThreeIntervals = computed(() => weeksBack.map<Date>(back => interval.value.offset(interval.value(lastDateInDataSet.value), -back)))
+
+const now = new Date()
+const lastThreeIntervals = computed(() => weeksBack.map<Date>(back => interval.value.offset(interval.value(now), -back)))
 
 const cgmSplitIntoIntervals = computed(() => d3.group(props.cgm, ([date,]) => interval.value(date)))
 const mealsSplitIntoIntervals = computed(() => d3.group(props.meals, ([date,]) => interval.value(date)))
@@ -82,7 +83,7 @@ const forecastLayout = new GraphLayout(width, 90, 15, marginRight, 20, marginLef
 
 // TIR methods
 const getDataBack = (dateValues: DateValue[], timeInterval: TimeInterval, back: number): DateValue[] =>
-    dateValues.filter(([date,]) => date > timeInterval.offset(timeInterval(lastDateInDataSet.value), -back))
+    dateValues.filter(([date,]) => date > timeInterval.offset(timeInterval(now), -back))
 
 
 const lastThreeMondaysData = computed(() => getDataBack(props.cgm, d3.timeMonday, 2))

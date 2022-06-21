@@ -287,14 +287,14 @@ async function loadData() {
 }
 
 /* BEHOLD MY STUFF */
-const lastDateInDataSet = computed(() => cgmInDateValue.value.length === 0 ? new Date() : cgmInDateValue.value[cgmInDateValue.value.length - 1][0])
+const now = new Date()
 const daysBack = 7
 const dates = computed(() =>
 	[...Array(daysBack).keys()].map<Date>((offset) => d3.timeDay(
-		d3.timeDay.offset(lastDateInDataSet.value, -offset))).reverse())
+		d3.timeDay.offset(now, -offset))).reverse())
 
 const daysBackData = (data: DateValue[], daysBack: number) =>
-	data.filter(([date,]) => date > d3.timeDay.offset(lastDateInDataSet.value, -daysBack))
+	data.filter(([date,]) => date > d3.timeDay.offset(now, -daysBack))
 
 // Converts user given cgm range
 const cgmRanges = computed((): CGMRanges => {
