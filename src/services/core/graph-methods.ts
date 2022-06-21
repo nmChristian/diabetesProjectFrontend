@@ -1,7 +1,7 @@
 // Target is the are which is green
 import {COLOR_SCHEME} from "@/services/core/shared";
 import * as d3 from "d3";
-import {GraphLayout} from "@/services/core/graphtypes";
+import {GraphLayout} from "@/services/core/graph-types";
 
 export type SVG = d3.Selection<SVGGElement, undefined, null, undefined>
 

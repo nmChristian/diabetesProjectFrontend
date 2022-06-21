@@ -34,7 +34,7 @@ import {
   SPLIT_BY_DAY,
   toBuckets
 } from "@/services/core/datatypes";
-import {calculateQuantiles, quantileGraph, toBucketSeries} from "@/services/graphs/generic/quantileGraph";
+import {calculateQuantiles, quantileGraph, toBucketSeries} from "@/services/graphs/generic/quantile-graph";
 import type {CGMRanges} from "@/services/core/shared";
 import DateIntervalSelector from "@/components/DateIntervalSelector.vue";
 //@ts-ignore

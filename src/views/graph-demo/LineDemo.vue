@@ -21,8 +21,8 @@
 import type {DateValue, Point} from "@/services/core/datatypes";
 import type {CGMRanges} from "@/services/core/shared";
 import Graph from "@/components/charts/shared/Graph.vue";
-import lineGraph from "@/services/graphs/generic/lineGraph";
-import lineGraphDaily from "@/services/graphs/generic/lineGraphDaily";
+import lineGraph from "@/services/graphs/generic/line-graph";
+import lineGraphDaily from "@/services/graphs/generic/line-graph-daily";
 
 const props = defineProps<{
   cgm: DateValue[],

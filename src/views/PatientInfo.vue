@@ -135,7 +135,7 @@ import GraphSection from "@/components/patientElements/GraphSection.vue";
 import RawSeries from "@/components/charts/series/RawSeries.vue";
 import TIRDailySeries from "@/components/charts/series/TIRDailySeries.vue";
 import ForecastSeries from "@/components/charts/series/ForecastSeries.vue";
-import { GraphLayout } from "@/services/core/graphtypes";
+import { GraphLayout } from "@/services/core/graph-types";
 import InfoElement from "@/components/patientElements/InfoElement.vue";
 import TIROverview from "@/components/charts/series/TIROverview.vue";
 import QuantileSeries from "@/components/charts/series/QuantileSeries.vue";

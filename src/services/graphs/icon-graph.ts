@@ -2,15 +2,14 @@ import * as d3 from "d3";
 import type {Point} from "@/services/core/datatypes"
 import {pointIsValid} from "@/services/core/datatypes";
 import {CGM_RANGE, HealthLevel, healthLevelToColor} from "@/services/core/shared";
-import {generateSVG} from "@/services/core/graphMethods";
-import {GraphLayout} from "@/services/core/graphtypes";
+import {generateSVG} from "@/services/core/graph-methods";
+import {GraphLayout} from "@/services/core/graph-types";
 
 /**
  * Draws a small graph given the data (in hours)
  * @param dataInHours - The data in given in hours
  * @param healthLevel - The HealthLevel of the patient
- * @param width - The width of the graph in px
- * @param height - The height of the graph in px
+ * @param graphLayout - Width to height Ratio
  * @param strokeWidth - The width of line in px
  */
 export default function iconGraph(dataInHours: Point[], healthLevel: HealthLevel, {

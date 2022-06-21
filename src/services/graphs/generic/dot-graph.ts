@@ -1,8 +1,8 @@
 import * as d3 from "d3";
 import type {DateValue} from "@/services/core/datatypes";
-import {generateSVG} from "@/services/core/graphMethods";
-import {applyAxis} from "@/services/core/graph/axisDrawer";
-import {GraphLayout} from "@/services/core/graphtypes";
+import {generateSVG} from "@/services/core/graph-methods";
+import {applyAxis} from "@/services/graphs/auxillary/axis-drawer";
+import {GraphLayout} from "@/services/core/graph-types";
 
 export default function dotGraph(dateValues: DateValue[],
                                  {

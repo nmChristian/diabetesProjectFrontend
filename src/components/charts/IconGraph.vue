@@ -6,10 +6,10 @@
 import {computed} from "vue";
 
 import Graph from "./shared/Graph.vue"
-import iconGraph from "@/services/graphs/iconGraph";
+import iconGraph from "@/services/graphs/icon-graph";
 import type {Point} from "@/services/core/datatypes";
 import type {HealthLevel} from "@/services/core/shared";
-import type {GraphLayout} from "@/services/core/graphtypes";
+import type {GraphLayout} from "@/services/core/graph-types";
 
 const props = defineProps<{
   medianDataInHours: Point[],

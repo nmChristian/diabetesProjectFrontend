@@ -1,7 +1,7 @@
 // Gradient method
 import type {CGMRanges} from "@/services/core/shared";
 import {CGM_RANGE, COLOR_SCHEME} from "@/services/core/shared";
-import type {SVG} from "@/services/core/graphMethods";
+import type {SVG} from "@/services/core/graph-methods";
 
 let linearID = 0
 

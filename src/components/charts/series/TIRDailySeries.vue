@@ -31,9 +31,9 @@ import {computed, ref} from "vue";
 import type {CGMRanges} from "@/services/core/shared";
 import {COLOR_SCHEME, dateToSeconds} from "@/services/core/shared";
 import * as d3 from "d3";
-import {GraphLayout} from "@/services/core/graphtypes";
+import {GraphLayout} from "@/services/core/graph-types";
 import DateIntervalSelector from "@/components/DateIntervalSelector.vue";
-import tirGraph from "@/services/graphs/generic/tirGraph";
+import tirGraph from "@/services/graphs/generic/tir-graph";
 import Graph from "@/components/charts/shared/Graph.vue";
 
 const hoursPerRange = ref(2)

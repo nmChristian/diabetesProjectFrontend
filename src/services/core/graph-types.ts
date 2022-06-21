@@ -1,10 +1,10 @@
 export {GraphLayout}
 
-// Used in graphs to determine size
+// Used in graphs to determine ratio
 class GraphLayout {
-    // outer width, in pixels
+    // width, in pixels
     public width: number
-    // outer height, in pixels
+    // height, in pixels
     public height: number
     // top margin, in pixels
     public marginTop: number

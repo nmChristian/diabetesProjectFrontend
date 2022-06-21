@@ -15,11 +15,11 @@
 
 <script lang="ts" setup>
 import type {DateValue} from "@/services/core/datatypes";
-import {GraphLayout} from "@/services/core/graphtypes";
+import {GraphLayout} from "@/services/core/graph-types";
 import {computed} from "vue";
-import lineGraph from "@/services/graphs/generic/lineGraph";
+import lineGraph from "@/services/graphs/generic/line-graph";
 import Graph from "@/components/charts/shared/Graph.vue";
-import barGraph from "@/services/graphs/generic/barGraph";
+import barGraph from "@/services/graphs/generic/bar-graph";
 import * as d3 from "d3";
 import DateIntervalSelector from "@/components/DateIntervalSelector.vue";
 

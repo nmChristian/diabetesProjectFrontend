@@ -3,11 +3,11 @@ import type {DateValue} from "@/services/core/datatypes";
 import {dateValueIsValid} from "@/services/core/datatypes";
 import type {CGMRanges} from "@/services/core/shared";
 import {CGM_RANGE} from "@/services/core/shared";
-import {generateSVG} from "@/services/core/graphMethods";
-import {generateGradientCGMCSSApply} from "@/services/graphs/generic/generateGradientCSS";
-import {applyAxis, drawYAxisCGM} from "@/services/core/graph/axisDrawer";
-import {drawHorizontalCGMIndicatorLines, drawVerticalLines} from "@/services/core/graph/lineDrawer";
-import {GraphLayout} from "@/services/core/graphtypes";
+import {generateSVG} from "@/services/core/graph-methods";
+import {generateGradientCGMCSSApply} from "@/services/graphs/generic/generate-gradient-css";
+import {applyAxis, drawYAxisCGM} from "@/services/graphs/auxillary/axis-drawer";
+import {drawHorizontalCGMIndicatorLines, drawVerticalLines} from "@/services/graphs/auxillary/line-drawer";
+import {GraphLayout} from "@/services/core/graph-types";
 
 export default function lineGraphCGM(dateValues: DateValue[],
                                      cgmRanges : CGMRanges,

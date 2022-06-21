@@ -3,10 +3,10 @@ import {pointIsValid} from "@/services/core/datatypes";
 import * as d3 from "d3";
 import type {CGMRanges} from "@/services/core/shared";
 import {CGM_RANGE, LINE_COLOR} from "@/services/core/shared";
-import {applyAxis, drawYAxisCGM} from "@/services/core/graph/axisDrawer";
-import {generateSVG} from "@/services/core/graphMethods";
-import {drawHorizontalCGMIndicatorLines} from "@/services/core/graph/lineDrawer";
-import {GraphLayout} from "@/services/core/graphtypes";
+import {applyAxis, drawYAxisCGM} from "@/services/graphs/auxillary/axis-drawer";
+import {generateSVG} from "@/services/core/graph-methods";
+import {drawHorizontalCGMIndicatorLines} from "@/services/graphs/auxillary/line-drawer";
+import {GraphLayout} from "@/services/core/graph-types";
 
 export default function lineGraphDaily(points: Point[],
                                        cgmRanges: CGMRanges,

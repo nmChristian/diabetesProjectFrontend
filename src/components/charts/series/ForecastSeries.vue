@@ -48,15 +48,15 @@ import type {Ref} from "vue"
 import {computed, ref} from "vue";
 import type {TimeInterval} from "d3";
 import * as d3 from "d3";
-import {GraphLayout} from "@/services/core/graphtypes";
+import {GraphLayout} from "@/services/core/graph-types";
 import type {DateValue} from "@/services/core/datatypes";
 import {getCGMOccurrences} from "@/services/core/datatypes";
 import type {CGMRanges} from "@/services/core/shared";
 import {COLOR_SCHEME} from "@/services/core/shared";
-import forecastGraph from "@/services/graphs/forecastGraph";
+import forecastGraph from "@/services/graphs/forecast-graph";
 import Graph from "@/components/charts/shared/Graph.vue";
 import DateIntervalSelector from "@/components/DateIntervalSelector.vue";
-import tirGraph from "@/services/graphs/generic/tirGraph";
+import tirGraph from "@/services/graphs/generic/tir-graph";
 
 const interval = ref(d3.timeMonday)
 const mealsEnabled = ref(false)

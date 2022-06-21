@@ -7,9 +7,9 @@ import {computed} from "vue";
 import type {TimeInterval} from "d3";
 
 import Graph from "./shared/Graph.vue"
-import type {GraphLayout} from "@/services/core/graphtypes";
+import type {GraphLayout} from "@/services/core/graph-types";
 import type {DateValue} from "@/services/core/datatypes";
-import forecastGraph from "@/services/graphs/forecastGraph";
+import forecastGraph from "@/services/graphs/forecast-graph";
 import type {CGMRanges} from "@/services/core/shared";
 
 

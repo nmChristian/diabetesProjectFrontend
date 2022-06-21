@@ -1,5 +1,5 @@
-import {GraphLayout} from "@/services/core/graphtypes";
-import {generateSVG} from "@/services/core/graphMethods";
+import {GraphLayout} from "@/services/core/graph-types";
+import {generateSVG} from "@/services/core/graph-methods";
 import * as d3 from "d3";
 
 const tooltipId = "tir-tooltip"

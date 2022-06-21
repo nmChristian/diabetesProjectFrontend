@@ -11,12 +11,12 @@
 <script lang="ts" setup>
 
 import {defineProps} from "vue";
-import {GraphLayout} from "@/services/core/graphtypes";
+import {GraphLayout} from "@/services/core/graph-types";
 import type {CGMRanges} from "@/services/core/shared";
 import {COLOR_SCHEME} from "@/services/core/shared";
 import CGMLegend from "@/components/charts/CGMLegend.vue";
 import Graph from "@/components/charts/shared/Graph.vue";
-import tirGraph from "@/services/graphs/generic/tirGraph";
+import tirGraph from "@/services/graphs/generic/tir-graph";
 
 const props = defineProps<{
   ranges: CGMRanges,

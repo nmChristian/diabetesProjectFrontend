@@ -1,7 +1,7 @@
 import type {AxisScale, BaseType, ValueFn} from "d3";
 import * as d3 from "d3";
-import type {SVG} from "@/services/core/graphMethods";
-import {highlightTargetLineStyle} from "@/services/core/graphMethods";
+import type {SVG} from "@/services/core/graph-methods";
+import {highlightTargetLineStyle} from "@/services/core/graph-methods";
 import type {AxisDomain} from "d3-axis";
 import {pointIsValid} from "@/services/core/datatypes";
 import type {CGMRanges} from "@/services/core/shared";
