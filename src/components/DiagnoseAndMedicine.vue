@@ -50,17 +50,17 @@
       </div>
 
     </template>
-    <p v-else>No diagnoses registered for this patient</p>
+    <p v-else-if="!addingNew || !showAdvanced">No diagnoses registered for this patient</p>
 
-    <input v-model="diagnoseInputText" v-if="addingNew" type="text" class="inputFieldForMedAndDia">
+    <input v-model="diagnoseInputText" v-if="addingNew && showAdvanced" type="text" class="inputFieldForMedAndDia">
 
     <input v-model="medicineInputText"
-           v-if="addingNew"
+           v-if="addingNew && showAdvanced"
            type="text"
            placeholder="Seperate all medecin with a ','"
            class="inputFieldForMedAndDia">
 
-    <button v-if="addingNew" @click="onSavePressed()" style="width: min-content;">Save</button>
+    <button v-if="addingNew && showAdvanced" @click="onSavePressed()" style="width: min-content;">Save</button>
 
   </div>
 
