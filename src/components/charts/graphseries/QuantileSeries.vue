@@ -13,18 +13,18 @@
         <label for="highest-quantile">{{(highestQuantile * 100).toFixed(0)}}%</label>
       </div>
     </div>
-    <QuantileGraph class="quantile-graph"
-        :bucket-series-of-quantiles="bucketSeriesOfQuantiles"
-        :median-data-in-hours="medianCGMInHours ?? cgmMedian()"
-        :quantiles-used-in-bucket="quantiles"
-        :cgm-ranges="cgmRanges"
-    />
+    <Graph class="quantile-graph" :svg="quantileGraph(
+        bucketSeriesOfQuantiles,
+        quantiles,
+        medianCGMInHours ?? cgmMedian(),
+        cgmRanges,
+        {})" />
   </div>
 
 </template>
 
 <script lang="ts" setup>
-import QuantileGraph from "@/components/charts/generic/QuantileGraph.vue"
+
 import {computed, ref} from "vue";
 import type {BucketPoint, DateValue, Point} from "@/services/core/datatypes";
 import {
@@ -34,11 +34,12 @@ import {
   SPLIT_BY_DAY,
   toBuckets
 } from "@/services/core/datatypes";
-import {calculateQuantiles, toBucketSeries} from "@/services/graphs/generic/quantileGraph";
+import {calculateQuantiles, quantileGraph, toBucketSeries} from "@/services/graphs/generic/quantileGraph";
 import type {CGMRanges} from "@/services/core/shared";
 import DateIntervalSelector from "@/components/DateIntervalSelector.vue";
 //@ts-ignore
 import * as d3 from "d3";
+import Graph from "@/components/charts/shared/Graph.vue";
 
 
 const lowestQuantile = ref(.05)
@@ -52,10 +53,8 @@ const props = defineProps<{
   showAdvanced: boolean,
 
 }>()
-
 const RESOLUTION = 96, SPLIT = SPLIT_BY_DAY
 
-//const quantiles = [0.05, 0.25, 0.75, 0.95]
 const quantiles = computed(() => [lowestQuantile.value, highestQuantile.value, 1-highestQuantile.value, 1-lowestQuantile.value])
 const buckets = computed( () => toBuckets(props.cgm, SPLIT, RESOLUTION))
 
