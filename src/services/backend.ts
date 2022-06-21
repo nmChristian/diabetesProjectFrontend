@@ -178,14 +178,6 @@ class Backend {
             headers: {api_key: api}
         }
     }
-
-
-    /*
-    *   import cgm_083 from "@/assets/demo/users/cgm_083.json"  // 95% 5%
-        import cgm_123 from "@/assets/demo/users/cgm_123.json"  // 76% 21% 3%
-        import cgm_200 from "@/assets/demo/users/cgm_200.json"  // 2% 80% 15% 4%
-        import cgm_538 from "@/assets/demo/users/cgm_538.json"  // Lowest and nice 100%
-    * */
 }
 
 const backend: Backend = new Backend()
