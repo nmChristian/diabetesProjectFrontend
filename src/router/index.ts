@@ -27,34 +27,34 @@ const router = createRouter({
         {
             path: '/graph-demo',
             name: 'graph-demo',
-            component: () => import('@/views/GraphView.vue'),
+            component: () => import('@/views/graph-demo-view/GraphDemoView.vue'),
             redirect: {name: "graphview.cgmgraphstest"},
             children:
                 [
                     {
                         path: "IconTest",
                         name: "graphview.icontest",
-                        component: () => import("@/components/graphview/test/IconTest.vue"),
+                        component: () => import("@/views/graph-demo-view/IconTest.vue"),
                     },
                     {
                         path: "LineTest",
                         name: "graphview.linetest",
-                        component: () => import("@/components/graphview/test/LineTest.vue"),
+                        component: () => import("@/views/graph-demo-view/LineTest.vue"),
                     },
                     {
                         path: "QuantileTest",
                         name: "graphview.quantiletest",
-                        component: () => import("@/components/graphview/test/QuantileTest.vue"),
+                        component: () => import("@/views/graph-demo-view/QuantileTest.vue"),
                     },
                     {
                         path: "CGMGraphsTest",
                         name: "graphview.cgmgraphstest",
-                        component: () => import("@/components/graphview/test/CGMGraphsTest.vue"),
+                        component: () => import("@/views/graph-demo-view/CGMGraphsTest.vue"),
                     },
                     {
                         path: "TIRTest",
                         name: "graphview.tirtest",
-                        component: () => import("@/components/graphview/test/TIRTest.vue"),
+                        component: () => import("@/views/graph-demo-view/TIRTest.vue"),
                     },
                 ]
         },
