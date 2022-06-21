@@ -5,12 +5,12 @@
         quantiles,
         medianCGMInHours ?? cgmMedian(),
         cgmRanges,
-        {})" />
+        {})"/>
   </div>
 </template>
 
 <script lang="ts" setup>
-import {quantileGraph} from "@/services/graphs/generic/quantile-graph";
+import {calculateQuantiles, quantileGraph, toBucketSeries} from "@/services/graphs/generic/quantile-graph";
 import {computed} from "vue";
 import {
   addEdgesToSplit,
@@ -19,7 +19,6 @@ import {
   SPLIT_BY_DAY,
   toBuckets
 } from "@/services/graphs/datatypes";
-import {calculateQuantiles, toBucketSeries} from "@/services/graphs/generic/quantile-graph";
 import type {CGMRanges} from "@/services/core/shared";
 import Graph from "@/components/charts/Graph.vue";
 
@@ -35,9 +34,9 @@ const RESOLUTION = 96, SPLIT = SPLIT_BY_DAY
 const quantiles = [0.05, 0.25, 0.75, 0.95]
 
 
-const buckets = computed( () => toBuckets(props.cgm, SPLIT, RESOLUTION))
+const buckets = computed(() => toBuckets(props.cgm, SPLIT, RESOLUTION))
 
-function cgmMedian () : Point[] {
+function cgmMedian(): Point[] {
   const median: Point[] = bucketToMedian(buckets.value)
   addEdgesToSplit(median, SPLIT)
   return median

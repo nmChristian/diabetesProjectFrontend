@@ -1,4 +1,3 @@
-
 import * as d3 from "d3";
 import type {CGMRanges} from "@/services/core/shared";
 import {CGM_RANGE, LINE_COLOR} from "@/services/core/shared";

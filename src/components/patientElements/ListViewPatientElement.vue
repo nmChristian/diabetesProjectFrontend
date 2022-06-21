@@ -4,14 +4,14 @@
 <template>
   <div
       class="outerHolder"
-      v-bind:class ="{outerHolderSelected:(user._id.$oid === selected)}" >
+      v-bind:class="{outerHolderSelected:(user._id.$oid === selected)}">
     <div class="icon">
       <Graph :svg="iconGraph(medianDataInHours, healthLevel, {})"/>
     </div>
     <div class="generalInfo">
-      <p class="name">{{user.first_name}}</p>
-      <p v-if="doctor" class="cprNumber">{{cpr}}</p>
-      <p v-else class="age">{{getAgeText(user.age)}}</p>
+      <p class="name">{{ user.first_name }}</p>
+      <p v-if="doctor" class="cprNumber">{{ cpr }}</p>
+      <p v-else class="age">{{ getAgeText(user.age) }}</p>
     </div>
   </div>
 </template>
@@ -20,6 +20,7 @@
 import type {UserDetails} from "@/services/core/db-types";
 import Graph from "@/components/charts/Graph.vue";
 import iconGraph from "@/services/graphs/icon-graph";
+
 defineProps<{
   user: UserDetails,
   cpr: string,
@@ -29,11 +30,11 @@ defineProps<{
   healthLevel: number,
 }>()
 
-function getAgeText(age){
-  if(age === undefined){
+function getAgeText(age) {
+  if (age === undefined) {
     return "Birthday not given"
-  }else{
-    return "age: " + String(age) +  " years old"
+  } else {
+    return "age: " + String(age) + " years old"
   }
 }
 

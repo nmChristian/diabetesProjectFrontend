@@ -4,7 +4,7 @@
         frequencies,
         COLOR_SCHEME,
         {graphLayout: new GraphLayout(400,50), rotate: true})"/>
-    <CGMLegend :ranges="ranges" :targets="targets" :percentages="frequencies" />
+    <CGMLegend :ranges="ranges" :targets="targets" :percentages="frequencies"/>
   </div>
 </template>
 
@@ -30,6 +30,7 @@ const props = defineProps<{
 .tir-overview {
   margin: 15px;
 }
+
 .tir-graph {
   width: 100%;
 }

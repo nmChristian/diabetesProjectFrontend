@@ -22,7 +22,7 @@ const healthLevelToColor = (healthLevel: HealthLevel): string => COLOR_SCHEME[he
 // Thresholds
 type CGMRanges = [number, number?][]
 export const CGM_TARGET_INDEX = 2
-const getCGMTarget = (cgmRanges : CGMRanges) : [number, number] => [cgmRanges[CGM_TARGET_INDEX][0], cgmRanges[CGM_TARGET_INDEX][1] ?? NaN]
+const getCGMTarget = (cgmRanges: CGMRanges): [number, number] => [cgmRanges[CGM_TARGET_INDEX][0], cgmRanges[CGM_TARGET_INDEX][1] ?? NaN]
 
 // Methods
 // Converts date into seconds

@@ -9,7 +9,7 @@ import {GraphLayout} from "@/services/graphs/models/graph-layout";
 import {dateValueIsValid} from "@/services/graphs/graph-types";
 
 export default function lineGraphCGM(dateValues: DateValue[],
-                                     cgmRanges : CGMRanges,
+                                     cgmRanges: CGMRanges,
                                      {
                                          graphLayout = new GraphLayout(800, 400, 20, 30, 20, 40),
                                      }) {

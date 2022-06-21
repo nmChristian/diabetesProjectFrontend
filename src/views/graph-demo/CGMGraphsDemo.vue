@@ -2,9 +2,10 @@
   <div class="everything">
     <QuantileSeries :cgm-ranges="cgmRanges" :show-advanced="true" :cgm="cgm"/>
     <div style="display: flex; gap: 100px;">
-      <CGMLegend :ranges="cgmRanges" :targets="[0.01, 0.04, 0.7, 0.25, 0.05]" :percentages="[0.2, 0.3, 0.4, 0.05, 0.05]"/>
+      <CGMLegend :ranges="cgmRanges" :targets="[0.01, 0.04, 0.7, 0.25, 0.05]"
+                 :percentages="[0.2, 0.3, 0.4, 0.05, 0.05]"/>
       <CGMLegend :ranges="cgmRanges" :percentages="[0.2, 0.3, 0.4, 0.05, 0.05]"/>
-      <CGMLegend :ranges="cgmRanges" :targets="[0.01, 0.04, 0.7, 0.25, 0.05]" />
+      <CGMLegend :ranges="cgmRanges" :targets="[0.01, 0.04, 0.7, 0.25, 0.05]"/>
       <CGMLegend :ranges="cgmRanges"/>
     </div>
     <ForecastSeries
@@ -30,7 +31,6 @@
     />
 
 
-
     <RawSeries
         :basal="basal"
         :bolus="bolus"
@@ -46,7 +46,6 @@ import * as d3 from "d3";
 import {getCGMOccurrences} from "@/services/graphs/datatypes";
 
 import type {CGMRanges} from "@/services/core/shared"
-import {COLOR_SCHEME} from "@/services/core/shared";
 import {computed} from "vue";
 import ForecastSeries from "@/components/charts/series/ForecastSeries.vue";
 import RawSeries from "@/components/charts/series/RawSeries.vue";
@@ -61,7 +60,7 @@ const props = defineProps<{
   meals: DateValue[],
   basal: DateValue[],
   bolus: DateValue[],
-  cgmRanges : CGMRanges
+  cgmRanges: CGMRanges
 }>()
 
 
@@ -73,11 +72,11 @@ const frequencies = computed(() => getCGMOccurrences(lastDayData.value, props.cg
 
 
 const daysBack = 7
-const dates = computed( ()  =>
+const dates = computed(() =>
     [...Array(daysBack).keys()].map<Date>((offset) => d3.timeDay(
         d3.timeDay.offset(now, -offset))).reverse())
 
-const daysBackData = (data : DateValue[], daysBack : number) => data.filter(([date,]) => date > d3.timeDay.offset(now, -daysBack))
+const daysBackData = (data: DateValue[], daysBack: number) => data.filter(([date,]) => date > d3.timeDay.offset(now, -daysBack))
 
 </script>
 
@@ -86,7 +85,8 @@ const daysBackData = (data : DateValue[], daysBack : number) => data.filter(([da
   display: flex;
   flex-direction: column;
 }
-.everything>* {
+
+.everything > * {
   width: 80%;
   margin: auto;
 }

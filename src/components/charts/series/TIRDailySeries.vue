@@ -1,5 +1,6 @@
 <template>
-  <DateIntervalSelector :text="d3.timeFormat('%d/%m')(data[0]?.[0] ?? 0) + ' - ' + d3.timeFormat('%d/%m')(data[data.length - 1]?.[0] ?? 0) "/>
+  <DateIntervalSelector
+      :text="d3.timeFormat('%d/%m')(data[0]?.[0] ?? 0) + ' - ' + d3.timeFormat('%d/%m')(data[data.length - 1]?.[0] ?? 0) "/>
   <div class="tir-daily-series">
     <div v-if="showAdvanced" style="display: grid; place-items: center;">
       <p>Split by</p>
@@ -16,8 +17,9 @@
       <div v-for="(hour, i) in hours">
         <p>{{ hour }} - {{ hours[i + 1] ?? 24 }}</p>
         <Graph class="tir-graph" :svg="tirGraph(occurrences[i], colors, {})"/>
-        <p v-if="showAdvanced" :style="{borderBottom: '6px solid', borderColor: getCGMColor(averages[i], cgmRanges) }">{{ averages[i].toFixed(2) }}</p>
-        <p v-if="showAdvanced"  :style="{marginTop: '10px'}">{{ (deviations[i] * 100 / averages[i]).toFixed(0)  }} %</p>
+        <p v-if="showAdvanced" :style="{borderBottom: '6px solid', borderColor: getCGMColor(averages[i], cgmRanges) }">
+          {{ averages[i].toFixed(2) }}</p>
+        <p v-if="showAdvanced" :style="{marginTop: '10px'}">{{ (deviations[i] * 100 / averages[i]).toFixed(0) }} %</p>
       </div>
     </div>
   </div>
@@ -81,10 +83,12 @@ const deviations = computed(() => splitDateValues.value.map<number>(dateValues =
   max-width: 80%;
   margin: auto;
 }
-.tir-graphs>div {
+
+.tir-graphs > div {
   max-width: 75px;
   flex: 1 1 0;
 }
+
 .tir-graph {
   margin: 10px 0 15px 0;
 }

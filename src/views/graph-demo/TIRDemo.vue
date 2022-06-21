@@ -31,6 +31,7 @@ import {COLOR_SCHEME} from "@/services/core/shared";
 import {GraphLayout} from "@/services/graphs/models/graph-layout";
 import tirGraph from "@/services/graphs/generic/tir-graph";
 import Graph from "@/components/charts/Graph.vue";
+
 const props = defineProps<{
   cgm: DateValue[],
   cgmRanges: CGMRanges,

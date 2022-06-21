@@ -3,23 +3,22 @@
        class="graph-section"
        @click="emit('selectedSection', id)"
        :class="[currentlySelected !== id ? 'infoItem' : 'infoItemSelected','graph-section']">
-      <div class="slot">
+    <div class="slot">
       <slot/>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import DateIntervalSelector from "@/components/DateIntervalSelector.vue";
 
 const props = defineProps<{
   id: string,
-  currentlySelected : string,
-  daysBackOptions? : number[],
+  currentlySelected: string,
+  daysBackOptions?: number[],
   showAdvanced?: boolean,
 }>()
 const emit = defineEmits<{
-    (e: 'selectedSection', id: string) : void
+  (e: 'selectedSection', id: string): void
 }>()
 </script>
 

@@ -36,7 +36,7 @@
         <Graph class="tir-graph" :svg="tirGraph(
             getCGMOccurrences(selectedData, cgmRanges),
             COLOR_SCHEME,
-            {graphLayout: tirLayout, offset: 1, r: 1})" />
+            {graphLayout: tirLayout, offset: 1, r: 1})"/>
       </div>
     </div>
   </div>
@@ -63,7 +63,7 @@ const props = defineProps<{
   showAdvanced: boolean,
   cgm: DateValue[],
   meals: DateValue[],
-  cgmRanges : CGMRanges,
+  cgmRanges: CGMRanges,
 }>()
 const weeksBack = [0, 1, 2]
 
@@ -113,7 +113,7 @@ const brushEvent = (event: d3.D3BrushEvent<any>) => {
 }
 const graphs = computed(() => {
       // Used to sync up all the axis'
-      const mealMaxValue = weeksBack.reduce((max, week) => Math.max(d3.max( mealsSplitIntoIntervals.value.get(lastThreeIntervals.value[week]) ?? [], ([, value]) => value) ?? 0,max), 0)
+      const mealMaxValue = weeksBack.reduce((max, week) => Math.max(d3.max(mealsSplitIntoIntervals.value.get(lastThreeIntervals.value[week]) ?? [], ([, value]) => value) ?? 0, max), 0)
 
       const graphObjects =
           [...weeksBack].reverse().map((week) => {
@@ -140,14 +140,17 @@ const graphs = computed(() => {
   display: flex;
   height: 600px;
 }
+
 .forecast-graphs {
   flex: 1;
   display: flex;
   flex-direction: column;
 }
-.forecast-graphs>div {
+
+.forecast-graphs > div {
   flex: 1 1 auto;
 }
+
 .selection-group {
   display: flex;
   flex-direction: column;
@@ -155,6 +158,7 @@ const graphs = computed(() => {
   flex-basis: 130px;
   font-size: 14px;
 }
+
 .tir-graph {
   width: 50px;
   margin: auto;
@@ -166,12 +170,18 @@ const graphs = computed(() => {
   margin: 0 auto 10px auto;
   border-bottom: 2px solid black;
 }
-.interval-indicator span {margin-right: 5px; }
+
+.interval-indicator span {
+  margin-right: 5px;
+}
+
 .interval-indicator .date {
   font-style: italic;
 }
+
 .interval-indicator .time {
 }
+
 .interval-indicator .day-of-week {
 
 }

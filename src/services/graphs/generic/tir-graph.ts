@@ -53,8 +53,7 @@ export default function tirGraph(occurrences: number[], colors: string[], {
     if (rotate) {
         barRect
             .attr("x", (_, i) => getPos(i))
-    }
-    else {
+    } else {
         barRect
             .attr("y", (_, i) => getPos(i))
     }
@@ -65,7 +64,7 @@ export default function tirGraph(occurrences: number[], colors: string[], {
         .attr("ry", r)
 
     barTransition
-        .attr(rotate ? "width" : "height", (_,i) => sizes[i])
+        .attr(rotate ? "width" : "height", (_, i) => sizes[i])
 
 
     // Tooltip

@@ -1,6 +1,7 @@
 <template>
-  <DateIntervalSelector :text="d3.timeFormat('%d/%m')(cgm[0]?.[0] ?? 0) + ' - ' + d3.timeFormat('%d/%m')(cgm[cgm.length - 1]?.[0] ?? 0) "/>
-  <div v-if="showAdvanced" >
+  <DateIntervalSelector
+      :text="d3.timeFormat('%d/%m')(cgm[0]?.[0] ?? 0) + ' - ' + d3.timeFormat('%d/%m')(cgm[cgm.length - 1]?.[0] ?? 0) "/>
+  <div v-if="showAdvanced">
     <div class="graphs">
       <div v-for="dataset in datasets">
         <p>{{ dataset.title }}</p>

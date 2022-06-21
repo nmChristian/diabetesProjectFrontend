@@ -64,7 +64,7 @@ function splitDataIntoIntervals(data: DateValue[]): number[][][] {
 }
 
 const elements = computed(() => {
-  return props.dates.map<[Date, ElementRow[]]>((date, i) =>
+      return props.dates.map<[Date, ElementRow[]]>((date, i) =>
           [
             date,
             // For every group that is active
@@ -94,7 +94,7 @@ class Group {
   selectedOption: Ref<Option>
   active: Ref<boolean> = ref(false)
 
-  constructor(title: string, data: Ref<number[][][]>, colorMethod: ColorMethod = defaultColorMethod, options: Option[] = defaultOptions, defaultOption : number = 0) {
+  constructor(title: string, data: Ref<number[][][]>, colorMethod: ColorMethod = defaultColorMethod, options: Option[] = defaultOptions, defaultOption: number = 0) {
     this.title = title;
     this.data = data
     this.colorMethod = colorMethod
@@ -102,28 +102,32 @@ class Group {
     this.selectedOption = ref(options[defaultOption])
   }
 }
+
 const defaultOptions: Option[] = [
   ["mean", d3.mean],
   ["max", d3.max],
   ["median", d3.median],
   ["min", d3.min],
 ]
-const sumOptions : Option[] = [
-    ["sum", (values) => { const sum = d3.sum(values); return sum === 0 ? NaN : sum} ],
+const sumOptions: Option[] = [
+  ["sum", (values) => {
+    const sum = d3.sum(values);
+    return sum === 0 ? NaN : sum
+  }],
 ]
 const dataGroups: Group[] =
     [
-      new Group("CGM",  computed( () => splitDataIntoIntervals(props.cgm)), (val) => getCGMColor(val, props.cgmRanges)),
-      new Group("Meal", computed( () => splitDataIntoIntervals(props.meals)), defaultColorMethod, sumOptions),
-      new Group("Bolus", computed( () => splitDataIntoIntervals(props.bolus)), defaultColorMethod, sumOptions),
-      new Group("Basal", computed( () => splitDataIntoIntervals(props.basal))),//*/
+      new Group("CGM", computed(() => splitDataIntoIntervals(props.cgm)), (val) => getCGMColor(val, props.cgmRanges)),
+      new Group("Meal", computed(() => splitDataIntoIntervals(props.meals)), defaultColorMethod, sumOptions),
+      new Group("Bolus", computed(() => splitDataIntoIntervals(props.bolus)), defaultColorMethod, sumOptions),
+      new Group("Basal", computed(() => splitDataIntoIntervals(props.basal))),//*/
     ] as Group[]
 
 const getGroupId = (i: number) => "group-" + i
 const getOptionId = (i: number, j: number) => "option-" + i + "-" + j
 
 // Set first group to be active
-watchEffect(() => [0,1].map(i => dataGroups[i].active.value = true))
+watchEffect(() => [0, 1].map(i => dataGroups[i].active.value = true))
 
 </script>
 

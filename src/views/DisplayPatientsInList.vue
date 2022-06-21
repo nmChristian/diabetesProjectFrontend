@@ -15,14 +15,13 @@
 
 <script lang="ts" setup>
 
-import {computed, ref} from "vue";
+import {ref} from "vue";
 
 let sidebarHidden = ref(false)
 
-function hideSidebar(){
+function hideSidebar() {
   sidebarHidden.value = !sidebarHidden.value
 }
-
 
 
 </script>
@@ -33,11 +32,11 @@ function hideSidebar(){
   width: 100%;
 }
 
-.hidden{
+.hidden {
   display: none;
 }
 
-.holderWithHiddenList{
+.holderWithHiddenList {
   width: 100%;
   height: 100%;
 }

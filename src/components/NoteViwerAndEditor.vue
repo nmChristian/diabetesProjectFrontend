@@ -20,19 +20,20 @@
 
         <template v-for="(item, index) in data">
           <div :class="index === selected ? 'noteItemselected' : 'noteItem'" @click="noteClicked(index)">
-            <p>{{item.timestamp.$date.slice(0,10)}}</p>
-            <p>{{item.text.slice(0,20) + "..."}}</p>
+            <p>{{ item.timestamp.$date.slice(0, 10) }}</p>
+            <p>{{ item.text.slice(0, 20) + "..." }}</p>
           </div>
         </template>
       </div>
     </div>
     <div v-if="showAdvanced" class="noteEditor" id="noteTextField">
-      <textarea  v-model="noteText" class="textField" :readonly="!isDoctor"></textarea>
+      <textarea v-model="noteText" class="textField" :readonly="!isDoctor"></textarea>
       <div v-if="isDoctor">
-        <button @click="onSaveClicked()">{{selected === -1 ? 'Save as new' : 'Save edit'}}</button>
+        <button @click="onSaveClicked()">{{ selected === -1 ? 'Save as new' : 'Save edit' }}</button>
         <button v-if="selected !== -1" @click="deleteNote()">Delete note</button>
         <input type="checkbox" v-model="canBeeSeenByPatient">
-        <label style="padding: 5px">{{canBeeSeenByPatient ? 'Note is visible to patient' : "Note is not visible to patient"}}</label>
+        <label
+            style="padding: 5px">{{ canBeeSeenByPatient ? 'Note is visible to patient' : "Note is not visible to patient" }}</label>
       </div>
     </div>
     <div v-else style="width: 0px"></div>
@@ -47,14 +48,15 @@ import backend from "@/services/backend";
 
 
 const props = defineProps<{
-      data: Note[],
-      isDoctor: boolean,
-      id: string,
-      showAdvanced: boolean
+  data: Note[],
+  isDoctor: boolean,
+  id: string,
+  showAdvanced: boolean
 }>()
 
 const emit = defineEmits<{
-  (e: 'updateNotes'): void}>()
+  (e: 'updateNotes'): void
+}>()
 
 
 const selected = ref(-1)
@@ -63,37 +65,37 @@ const noteText = ref("")
 
 const canBeeSeenByPatient = ref(false)
 
-function deleteNote(){
-  backend.deleteNote(props.data[selected.value]._id.$oid).then(() =>{
+function deleteNote() {
+  backend.deleteNote(props.data[selected.value]._id.$oid).then(() => {
     emit("updateNotes")
   })
   clearField()
 }
 
-function clearField(){
+function clearField() {
   selected.value = -1
   noteText.value = ""
   canBeeSeenByPatient.value = false
 }
 
-function onSaveClicked(){
-  if(noteText.value === ""){
+function onSaveClicked() {
+  if (noteText.value === "") {
     return
   }
-  if(selected.value === -1){
-    backend.postNote(props.id,noteText.value,!canBeeSeenByPatient.value).then((result) => {
+  if (selected.value === -1) {
+    backend.postNote(props.id, noteText.value, !canBeeSeenByPatient.value).then((result) => {
       emit("updateNotes")
       clearField()
     })
-  }else{
-    backend.updateNote(props.data[selected.value]._id.$oid,noteText.value,!canBeeSeenByPatient.value).then(() => {
+  } else {
+    backend.updateNote(props.data[selected.value]._id.$oid, noteText.value, !canBeeSeenByPatient.value).then(() => {
       emit("updateNotes")
     })
   }
   emit("updateNotes")
 }
 
-function noteClicked(index : number){
+function noteClicked(index: number) {
 
   noteText.value = props.data[index].text;
   canBeeSeenByPatient.value = !props.data[index].private
@@ -102,23 +104,27 @@ function noteClicked(index : number){
 </script>
 
 <style scoped>
-.noteEditor{
+.noteEditor {
   width: 100%;
   height: 500px;
 }
-.nodesHeaderBar{
+
+.nodesHeaderBar {
   border-bottom: 2px black solid;
   width: 100%;
 }
-.nodesHeader{
+
+.nodesHeader {
   font-size: 30px;
 }
-.newNoteButton{
+
+.newNoteButton {
   position: absolute;
   right: 10px;
   top: 15px;
 }
-.textField{
+
+.textField {
   height: 90%;
   width: 100%;
   padding: 10px;
@@ -126,34 +132,40 @@ function noteClicked(index : number){
   text-align: start;
   resize: none;
 }
-.noterMain{
+
+.noterMain {
   display: grid;
   width: 100%;
   grid-template-columns: min-content auto;
 }
-.noteItem{
+
+.noteItem {
   width: 100%;
   border-bottom: 1px black solid;
   padding-bottom: 10px;
 }
-.noteItemselected{
+
+.noteItemselected {
   width: 100%;
   border-bottom: 1px black solid;
   padding-bottom: 10px;
   background-color: lightsteelblue;
 }
-.leftContainer{
+
+.leftContainer {
   min-width: 300px;
   padding: 10px;
   height: 500px;
 }
-.leftContainerNormal{
+
+.leftContainerNormal {
   min-width: 300px;
   width: 100%;
   padding: 10px;
   height: 200px;
 }
-.noteList{
+
+.noteList {
   min-width: 300px;
   margin: 10px 0 10px 10px;
   height: 100%;

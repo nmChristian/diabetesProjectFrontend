@@ -4,7 +4,7 @@
   <div class="info-box">
     <div class="inner-box">
       <p class="title">{{ title }}</p>
-      <p class="number">{{ value }} <span class="unit"> {{unit}} </span></p>
+      <p class="number">{{ value }} <span class="unit"> {{ unit }} </span></p>
     </div>
   </div>
 </template>
@@ -13,9 +13,9 @@
 import {defineProps} from "vue";
 
 const props = defineProps<{
-  title : string,
+  title: string,
   value: string,
-  unit? : string,
+  unit?: string,
 }>()
 </script>
 
@@ -38,6 +38,7 @@ const props = defineProps<{
   font-size: 2em;
   color: #181818;
 }
+
 .unit {
   font-size: .5em;
   color: #555;

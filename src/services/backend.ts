@@ -4,11 +4,9 @@
 
 import {getApiKey} from "@/services/authentication";
 import axios from "axios";
-import {mMolPerLToMgPerDL, timeSeriesToDateValue} from "@/services/graphs/datatypes";
 import type {Diagnosis, Note, UserDetails} from "@/services/core/db-types";
-import * as d3 from "d3";
-import router from "@/index";
 import {defaultUserDetails} from "@/services/core/db-types";
+import router from "@/index";
 
 class Backend {
     public url: string
@@ -34,10 +32,10 @@ class Backend {
         return response.data.self
     }
 
-    public async saveNewDiagnosis(id: string, diagnosis : string, medecin : string[]){
+    public async saveNewDiagnosis(id: string, diagnosis: string, medecin: string[]) {
         const response = await axios.post(
             this.getDiagnosisURL(id),
-            {name : diagnosis, medicine: medecin},
+            {name: diagnosis, medicine: medecin},
             this.generateHeader())
         return response.data
     }
@@ -46,7 +44,7 @@ class Backend {
         const response = await axios.get(
             this.getDiagnosisURL(id),
             this.generateHeader())
-        if(response.status === 404) {
+        if (response.status === 404) {
             await router.push('/display-patients-list');
             return []
         }
@@ -60,10 +58,10 @@ class Backend {
         return response.data
     }
 
-    public async editDiagnosis(id: string, diagnosis : string, medecin : string[]): Promise<UserDetails> {
+    public async editDiagnosis(id: string, diagnosis: string, medecin: string[]): Promise<UserDetails> {
         const response = await axios.put(
             this.getDiagnosisURL(id),
-            {name : diagnosis, medicine: medecin},
+            {name: diagnosis, medicine: medecin},
             this.generateHeader())
         return response.data
     }
@@ -86,7 +84,7 @@ class Backend {
         const response = await axios.get(
             this.getNameURL(),
             this.generateHeader())
-        if(response.status === 404) {
+        if (response.status === 404) {
             await router.push('/display-patients-list');
             return []
         }
@@ -99,26 +97,26 @@ class Backend {
             this.getNotesURL(id),
             this.generateHeader())
 
-        if(response.status === 404) {
+        if (response.status === 404) {
             await router.push('/display-patients-list');
             return []
         }
         return response.data
     }
 
-    public async postNote(id: string , text: string , isPrivate :boolean ): Promise<Note[]> {
+    public async postNote(id: string, text: string, isPrivate: boolean): Promise<Note[]> {
         const response = await axios.post(
             this.getNotesURL(id),
-            {text : text , private: isPrivate},
+            {text: text, private: isPrivate},
             this.generateHeader())
 
         return response.data
     }
 
-    public async updateNote(idNote: string , text: string , isPrivate :boolean ): Promise<Note[]> {
+    public async updateNote(idNote: string, text: string, isPrivate: boolean): Promise<Note[]> {
         const response = await axios.put(
             this.getNotesURL(idNote),
-            {text : text , private: isPrivate},
+            {text: text, private: isPrivate},
             this.generateHeader())
 
         return response.data
@@ -132,7 +130,7 @@ class Backend {
         return response.data
     }
 
-    public async getPreviews(): Promise<{ _id: any, patient: any, values: number[] , problems : number[] }[]> {
+    public async getPreviews(): Promise<{ _id: any, patient: any, values: number[], problems: number[] }[]> {
         const response = await axios.get(
             this.getAllPreviewsURL(),
             this.generateHeader())
@@ -149,7 +147,7 @@ class Backend {
             {ndays: (daysBack), show: show},
             this.generateHeader())
 
-        if(response.status === 404) {
+        if (response.status === 404) {
             await router.push('/display-patients-list');
             return []
         }
@@ -162,7 +160,7 @@ class Backend {
             {ndays: (daysBack), show: show},
             this.generateHeader())
 
-        if(response.status === 404) {
+        if (response.status === 404) {
             await router.push('/display-patients-list');
             return []
         }

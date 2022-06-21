@@ -1,16 +1,17 @@
 <template>
-  <DateIntervalSelector :text="d3.timeFormat('%d/%m')(cgm[0]?.[0] ?? 0) + ' - ' + d3.timeFormat('%d/%m')(cgm[cgm.length - 1]?.[0] ?? 0) "/>
+  <DateIntervalSelector
+      :text="d3.timeFormat('%d/%m')(cgm[0]?.[0] ?? 0) + ' - ' + d3.timeFormat('%d/%m')(cgm[cgm.length - 1]?.[0] ?? 0) "/>
   <div class="quantile-series">
     <div v-if="showAdvanced" class="quantile-settings">
       <p>Change quantiles</p>
       <div class="input-range">
         <input type="range" step="0.01" min="0" max=".24" name="lowest-quantile" v-model="lowestQuantile">
-        <label for="lowest-quantile">{{(lowestQuantile * 100).toFixed(0)}}%</label>
+        <label for="lowest-quantile">{{ (lowestQuantile * 100).toFixed(0) }}%</label>
       </div>
 
       <div class="input-range">
         <input type="range" step="0.01" min=".25" max=".49" name="highest-quantile" v-model="highestQuantile">
-        <label for="highest-quantile">{{(highestQuantile * 100).toFixed(0)}}%</label>
+        <label for="highest-quantile">{{ (highestQuantile * 100).toFixed(0) }}%</label>
       </div>
     </div>
     <Graph class="quantile-graph" :svg="quantileGraph(
@@ -18,7 +19,7 @@
         quantiles,
         medianCGMInHours ?? cgmMedian(),
         cgmRanges,
-        {})" />
+        {})"/>
   </div>
 
 </template>
@@ -54,10 +55,10 @@ const props = defineProps<{
 }>()
 const RESOLUTION = 96, SPLIT = SPLIT_BY_DAY
 
-const quantiles = computed(() => [lowestQuantile.value, highestQuantile.value, 1-highestQuantile.value, 1-lowestQuantile.value])
-const buckets = computed( () => toBuckets(props.cgm, SPLIT, RESOLUTION))
+const quantiles = computed(() => [lowestQuantile.value, highestQuantile.value, 1 - highestQuantile.value, 1 - lowestQuantile.value])
+const buckets = computed(() => toBuckets(props.cgm, SPLIT, RESOLUTION))
 
-function cgmMedian () : Point[] {
+function cgmMedian(): Point[] {
   const median: Point[] = bucketToMedian(buckets.value)
   addEdgesToSplit(median, SPLIT)
   return median
@@ -93,16 +94,20 @@ const bucketSeriesOfQuantiles = computed(() => {
   justify-content: center;
   flex-direction: column;
 }
+
 .quantile-graph {
   width: 90%;
 }
+
 .quantile-settings {
   margin-bottom: 20px;
 }
+
 .input-range input {
   width: 200px;
 }
-.input-range label{
+
+.input-range label {
   font-size: 1em;
   font-style: italic;
   margin-left: 20px;

@@ -6,7 +6,6 @@
 </template>
 
 <script lang="ts" setup>
-import * as d3 from "d3"
 const props = defineProps<{
   text: string,
 }>()

@@ -8,22 +8,25 @@
 
       <button
           v-if="isDoctor && showAdvanced"
-          @click="oneAddNewDiag">+</button>
+          @click="oneAddNewDiag">+
+      </button>
     </div>
     <p class="diagnoseAndMedicinLabels">Medicine</p>
 
     <template v-if="data && data.length !==0" v-for="(diag,mdecinIndex) in data">
 
-      <div class="medicine-line" @mouseover="howeringElement(mdecinIndex,0)" >
-        <p v-if="!(currentlyEdeting.x=== mdecinIndex && currentlyEdeting.y === 0 && isDoctor && showAdvanced)"  class="diagnoseAndMedicinItems">{{ diag.name }}</p>
+      <div class="medicine-line" @mouseover="howeringElement(mdecinIndex,0)">
+        <p v-if="!(currentlyEdeting.x=== mdecinIndex && currentlyEdeting.y === 0 && isDoctor && showAdvanced)"
+           class="diagnoseAndMedicinItems">{{ diag.name }}</p>
         <input v-else v-model="edetingValue" type="text" class="inputFieldForMedAndDia">
 
         <div class="editButton"
-                v-if="currentHowever.x=== mdecinIndex && currentHowever.y === 0 && isDoctor && showAdvanced">
+             v-if="currentHowever.x=== mdecinIndex && currentHowever.y === 0 && isDoctor && showAdvanced">
           <button v-if="currentlyEdeting.x !== mdecinIndex" @click="startEdeting(mdecinIndex,0)">Edit</button>
           <button
               @click="submitEdit(mdecinIndex,0)"
-              v-else-if="currentlyEdeting.x=== mdecinIndex">Save</button>
+              v-else-if="currentlyEdeting.x=== mdecinIndex">Save
+          </button>
           <button @click="deleteDiagnose(mdecinIndex)">Delete</button>
         </div>
 
@@ -34,7 +37,7 @@
             v-if="!(currentlyEdeting.x=== mdecinIndex && currentlyEdeting.y === 1 && isDoctor && showAdvanced)"
             v-for="(item,index) in diag.medicine">
           <div>
-            <p>{{item}}</p>
+            <p>{{ item }}</p>
           </div>
           <p v-if="index !== diag.medicine.length-1" style="padding-right:5px;">, </p>
         </template>
@@ -44,11 +47,14 @@
 
         <button class="editButton"
                 @click="startEdeting(mdecinIndex,1)"
-                v-if="!(currentlyEdeting.x=== mdecinIndex) && currentHowever.x=== mdecinIndex && currentHowever.y === 1 && isDoctor && showAdvanced">edit</button>
+                v-if="!(currentlyEdeting.x=== mdecinIndex) && currentHowever.x=== mdecinIndex && currentHowever.y === 1 && isDoctor && showAdvanced">
+          edit
+        </button>
 
         <button
             @click="submitEdit(mdecinIndex,1)"
-            v-else-if="currentlyEdeting.x=== mdecinIndex && currentlyEdeting.y=== 1">Save</button>
+            v-else-if="currentlyEdeting.x=== mdecinIndex && currentlyEdeting.y=== 1">Save
+        </button>
 
       </div>
 
@@ -72,7 +78,7 @@
 <script setup lang="ts">
 
 import type {Diagnosis} from "@/services/core/db-types";
-import {computed, ref} from "vue";
+import {ref} from "vue";
 import backend from "@/services/backend";
 
 const props = defineProps<{
@@ -87,67 +93,68 @@ enum textTypes {
   medicine
 }
 
-const currentHowever = ref({x:-1,y:-1})
+const currentHowever = ref({x: -1, y: -1})
 
-function howeringElement(index : number, textType : textTypes){
+function howeringElement(index: number, textType: textTypes) {
   currentHowever.value = {x: index, y: textType}
 }
 
 const emit = defineEmits<{
-  (e: 'updateDiagnose'): void}>()
+  (e: 'updateDiagnose'): void
+}>()
 
 const addingNew = ref(false)
 const diagnoseInputText = ref("")
-const medicineInputText =ref("")
+const medicineInputText = ref("")
 
-const currentlyEdeting = ref({x:-1,y:-1})
+const currentlyEdeting = ref({x: -1, y: -1})
 const edetingValue = ref("")
 
-function oneAddNewDiag(){
+function oneAddNewDiag() {
   addingNew.value = true
   diagnoseInputText.value = ""
   medicineInputText.value = ""
 }
 
-function deleteDiagnose(index: number){
+function deleteDiagnose(index: number) {
   backend.deleteDiagnosis(props.data[index]._id.$oid).then((response) => {
     emit("updateDiagnose")
   })
 }
 
-function startEdeting(index : number, textType : textTypes){
-  if(textType === textTypes.diagnose){
+function startEdeting(index: number, textType: textTypes) {
+  if (textType === textTypes.diagnose) {
     edetingValue.value = props.data[index].name
-  }else if(textType === textTypes.medicine){
+  } else if (textType === textTypes.medicine) {
     edetingValue.value = listToString(props.data[index].medicine)
   }
   currentlyEdeting.value = {x: index, y: textType}
 }
 
-function submitEdit(index: number, textType : textTypes) {
-  if(textType === textTypes.diagnose && edetingValue.value ===""){
+function submitEdit(index: number, textType: textTypes) {
+  if (textType === textTypes.diagnose && edetingValue.value === "") {
     return
   }
   let diagnose = ""
   let medecin = []
-  if(textType == textTypes.diagnose){
+  if (textType == textTypes.diagnose) {
     medecin = props.data[index].medicine
     diagnose = edetingValue.value
-  }else {
+  } else {
     medecin = medecinToList(edetingValue.value)
     diagnose = props.data[index].name
   }
-  backend.editDiagnosis(props.data[index]._id.$oid,diagnose,medecin).then(()=>{
+  backend.editDiagnosis(props.data[index]._id.$oid, diagnose, medecin).then(() => {
     emit("updateDiagnose")
     edetingValue.value = ""
-    currentlyEdeting.value ={x:-1,y:-1}
+    currentlyEdeting.value = {x: -1, y: -1}
   })
 
 }
 
-function medecinToList(medecinAsString : string) : string[]{
+function medecinToList(medecinAsString: string): string[] {
   let re = medecinAsString.split(',')
-  for(let i = 0; i < re.length; i++){
+  for (let i = 0; i < re.length; i++) {
     re[i] = re[i].trim()
   }
   return re
@@ -155,7 +162,9 @@ function medecinToList(medecinAsString : string) : string[]{
 
 function listToString(inListe: string | any[] | undefined) {
   let re = ""
-  if (inListe === undefined) {return ""}
+  if (inListe === undefined) {
+    return ""
+  }
   for (let i = 0; i < inListe.length; i++) {
     re += String(inListe[i])
     if (i < inListe.length - 1) {
@@ -165,8 +174,8 @@ function listToString(inListe: string | any[] | undefined) {
   return re;
 }
 
-function onSavePressed(){
-  if(diagnoseInputText.value ==="") return
+function onSavePressed() {
+  if (diagnoseInputText.value === "") return
   backend.saveNewDiagnosis(
       props.id,
       diagnoseInputText.value,
@@ -183,13 +192,14 @@ function onSavePressed(){
 </script>
 
 <style scoped>
-.diagnoseAndMedicineExtended{
+.diagnoseAndMedicineExtended {
   width: 100%;
   margin: 10px;
   display: grid;
   grid-template-columns: auto auto;
   row-gap: 5px;
 }
+
 .diagnoseAndMedicine {
   width: 100%;
   margin: 10px;
@@ -197,9 +207,10 @@ function onSavePressed(){
   grid-template-columns: auto auto;
   row-gap: 5px;
   overflow: auto;
-  max-height:  calc(100% - 25px);
+  max-height: calc(100% - 25px);
   max-width: calc(100% - 25px);
 }
+
 /* width */
 ::-webkit-scrollbar {
   width: 10px;
@@ -221,28 +232,34 @@ function onSavePressed(){
 ::-webkit-scrollbar-thumb:hover {
   background: grey;
 }
-.editButton{
+
+.editButton {
   position: absolute;
   right: 10px;
   margin-left: 10px
 }
+
 .diagnoseAndMedicine {
   display: grid;
   grid-template-columns: auto auto;
 }
-.medicine-line{
+
+.medicine-line {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
-.diagnosesHeaderWithButon{
+
+.diagnosesHeaderWithButon {
   display: grid;
   grid-template-columns: min-content min-content;
   column-gap: 10px;
 }
-.inputFieldForMedAndDia{
+
+.inputFieldForMedAndDia {
   width: 80%;
 }
+
 .diagnoseAndMedicinLabels {
   font-size: 30px;
   text-decoration: underline rgba(128, 128, 128, 0.62);

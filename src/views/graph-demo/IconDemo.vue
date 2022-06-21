@@ -11,7 +11,7 @@ import {HealthLevel} from "@/services/core/shared";
 import Graph from "@/components/charts/Graph.vue";
 import iconGraph from "@/services/graphs/icon-graph";
 
-const healthLevels : HealthLevel[] = [HealthLevel.Good, HealthLevel.High, HealthLevel.VeryHigh, HealthLevel.Low, HealthLevel.VeryLow]
+const healthLevels: HealthLevel[] = [HealthLevel.Good, HealthLevel.High, HealthLevel.VeryHigh, HealthLevel.Low, HealthLevel.VeryLow]
 const props = defineProps<{
   medianCGMInHours: Point[]
 }>()
