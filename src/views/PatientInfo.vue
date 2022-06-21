@@ -16,21 +16,20 @@
 				{{ item.text }} </p>
 		</div>
 
-
 		<div class=holderInfo>
 
 			<div class="infoItem noExpandedView" id="summary">
 				<div class="basicInfoHolder">
 					<img alt="User icon" class="user-icon" :src=imageSource style="max-width: 50px">
 					<h1> {{ currentPatient.first_name }} </h1>
-				</div>
+        </div>
 				<div class="startInfoHolderLine">
-					<InfoElement :value="currentPatient.value?.extra_data.HbA1c ?? '__'" title="HbALc" unit="mmol/mol" />
+					<InfoElement :value="currentPatient.extra_data?.HbA1c.toFixed(0) ?? '__'" title="HbALc" unit="mmol/mol" />
           <InfoElement :value="avg14.toFixed(1)" title="Average Glucose" unit="mg/dL" />
           <InfoElement :value="(gmi * 100).toFixed(1)" title="GMI" unit="%" />
           <InfoElement :value="(gv * 100).toFixed(1)" title="Glucose Variability" unit="%" />
-					<InfoElement :value="currentPatient.value?.extra_data.blood_pressure ?? '__'" title="Blood pressure" unit="mmHg" />
-					<InfoElement :value="currentPatient.value?.extra_data.weight ?? '__'" title="Weight" unit="kg" />
+					<InfoElement :value="currentPatient.extra_data?.blood_pressure.toFixed(0) ?? '__'" title="Blood pressure" unit="mmHg" />
+					<InfoElement :value="currentPatient.extra_data?.weight.toFixed(0) ?? '__'" title="Weight" unit="kg" />
 				</div>
 			</div>
 
