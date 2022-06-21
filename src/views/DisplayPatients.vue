@@ -1,3 +1,5 @@
+<!-- Author: Christian -->
+<!-- Description: Shows available patients and shows them in a grid with a brief overview -->
 <template xmlns="http://www.w3.org/1999/html">
 	<div class=outerGridHolder>
       <div v-for="index in Math.floor((usersWithData.length+1)/2)">

@@ -1,3 +1,7 @@
+/* Author: Christian, Jonas, Niels */
+/* Description: Turns all the api calls into easy usable TS functions */
+
+
 import {getApiKey} from "@/services/authentication";
 import axios from "axios";
 import type {DateValue} from "@/services/core/datatypes";

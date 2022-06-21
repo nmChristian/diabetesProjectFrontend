@@ -1,3 +1,5 @@
+<!-- Author: Christian, Jonas -->
+<!-- Description: A small box containing a value with a title and a unit-->
 <template>
   <div class="info-box">
     <div class="inner-box">

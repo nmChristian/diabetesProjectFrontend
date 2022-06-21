@@ -1,3 +1,5 @@
+<!-- Author: Christian -->
+<!-- Description: Takes information from the backend and uses it to create a list of "ListViewPatientElement.vue" -->
 <template>
 	<div>
 		<ListViewPatientElement

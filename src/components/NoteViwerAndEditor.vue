@@ -1,3 +1,6 @@
+<!-- Author: Christian -->
+<!-- Description: Provides a module where notes and goals can be entered and shown, it has two mode depending on
+                  the state of the variable showAdvanced -->
 <template>
   <div class="noterMain">
     <div :class="showAdvanced ? 'leftContainer' : 'leftContainerNormal'">

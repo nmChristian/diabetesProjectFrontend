@@ -1,3 +1,6 @@
+<!-- Author: Christian -->
+<!-- Description: Provides a module where diagnoses and medicine can be entered and shown, it has two mode depending on
+                  the state of the variable showAdvanced -->
 <template>
   <div :class="showAdvanced ? 'diagnoseAndMedicineExtended' : 'diagnoseAndMedicine'">
     <div class="diagnosesHeaderWithButon">

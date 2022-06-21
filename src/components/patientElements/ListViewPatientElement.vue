@@ -1,3 +1,6 @@
+<!-- Author: Christian -->
+<!-- Description: Shows a patients name age and average data fro the last week, coloured depending on how well the
+                  patient is doing, meant to be used in "DisplayPatientsFullList.vue"-->
 <template>
   <div
       class="outerHolder"
@@ -6,7 +9,6 @@
       <IconGraph
           :healthLevel="healthLevel"
           :medianDataInHours="medianDataInHours"></IconGraph>
-      <!--<img src="@/assets/logo.svg" class="icon"> -->
     </div>
     <div class="generalInfo">
       <p class="name">{{user.first_name}}</p>

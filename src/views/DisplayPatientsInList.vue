@@ -1,3 +1,5 @@
+<!-- Author: Christian -->
+<!-- Description: Shows a list of all patients available to the user and lets you select one to get more information about -->
 <template>
   <div :class="{holder: !sidebarHidden, holderWithHiddenList: sidebarHidden}">
     <PatientsFullList :class="{list : !sidebarHidden, hidden: sidebarHidden}">
