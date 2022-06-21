@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import {CGM_RANGE, HealthLevel, healthLevelToColor} from "@/services/core/shared";
 import {generateSVG} from "@/services/core/graph-methods";
 import {GraphLayout} from "@/services/graphs/models/graph-layout";
-import {Point, pointIsValid} from "@/services/graphs/graph-types";
+import {pointIsValid} from "@/services/graphs/graph-types";
 
 /**
  * Draws a small graph given the data (in hours)
