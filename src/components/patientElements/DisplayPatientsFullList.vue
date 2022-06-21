@@ -74,6 +74,11 @@ accessiblelUsersPromise.then((accessiblelUsers : Array<UserDetails>)  => {
 
 	let tempList: UserWithDate[] = []
 
+  if(accessiblelUsers.length === 1){
+    router.replace('/patient-info/' + accessiblelUsers[0]._id.$oid )
+    return
+  }
+
   dataForAllUsers.then((returnedDAta : {_id: any , patient: any ,values: number[],problems: number []}[]) => {
     for(let i = 0; i < accessiblelUsers.length; i++){
         for(let j = 0; j < accessiblelUsers.length; j++){
