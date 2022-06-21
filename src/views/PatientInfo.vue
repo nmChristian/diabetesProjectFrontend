@@ -1,3 +1,5 @@
+<!-- Author: Christian, Jonas -->
+<!-- Description: Loads and displays all data from a patient in graphs and boxes and tables -->
 <template>
 	<div :style="paddingElements">
 		<div class="navButtons">
