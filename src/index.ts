@@ -27,34 +27,34 @@ const router = createRouter({
         {
             path: '/graph-demo',
             name: 'graph-demo',
-            component: () => import('@/views/graph-demo-view/GraphDemoView.vue'),
+            component: () => import('@/views/graph-demo/GraphDemoView.vue'),
             redirect: {name: "graphview.cgmgraphstest"},
             children:
                 [
                     {
                         path: "IconTest",
                         name: "graphview.icontest",
-                        component: () => import("@/views/graph-demo-view/IconDemo.vue"),
+                        component: () => import("@/views/graph-demo/IconDemo.vue"),
                     },
                     {
                         path: "LineTest",
                         name: "graphview.linetest",
-                        component: () => import("@/views/graph-demo-view/LineDemo.vue"),
+                        component: () => import("@/views/graph-demo/LineDemo.vue"),
                     },
                     {
                         path: "QuantileTest",
                         name: "graphview.quantiletest",
-                        component: () => import("@/views/graph-demo-view/QuantileDemo.vue"),
+                        component: () => import("@/views/graph-demo/QuantileDemo.vue"),
                     },
                     {
                         path: "CGMGraphsTest",
                         name: "graphview.cgmgraphstest",
-                        component: () => import("@/views/graph-demo-view/CGMGraphsDemo.vue"),
+                        component: () => import("@/views/graph-demo/CGMGraphsDemo.vue"),
                     },
                     {
                         path: "TIRTest",
                         name: "graphview.tirtest",
-                        component: () => import("@/views/graph-demo-view/TIRDemo.vue"),
+                        component: () => import("@/views/graph-demo/TIRDemo.vue"),
                     },
                 ]
         },
