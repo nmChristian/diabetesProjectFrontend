@@ -18,7 +18,7 @@
 
 <script lang="ts" setup>
 import type {UserDetails} from "@/services/core/dbtypes";
-import Graph from "@/components/charts/shared/Graph.vue";
+import Graph from "@/components/charts/Graph.vue";
 import iconGraph from "@/services/graphs/icon-graph";
 defineProps<{
   user: UserDetails,

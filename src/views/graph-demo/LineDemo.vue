@@ -20,7 +20,7 @@
 <script lang="ts" setup>
 import type {DateValue, Point} from "@/services/core/datatypes";
 import type {CGMRanges} from "@/services/core/shared";
-import Graph from "@/components/charts/shared/Graph.vue";
+import Graph from "@/components/charts/Graph.vue";
 import lineGraph from "@/services/graphs/generic/line-graph";
 import lineGraphDaily from "@/services/graphs/generic/line-graph-daily";
 

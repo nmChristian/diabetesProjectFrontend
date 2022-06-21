@@ -34,7 +34,7 @@ import * as d3 from "d3";
 import {GraphLayout} from "@/services/core/graph-types";
 import DateIntervalSelector from "@/components/DateIntervalSelector.vue";
 import tirGraph from "@/services/graphs/generic/tir-graph";
-import Graph from "@/components/charts/shared/Graph.vue";
+import Graph from "@/components/charts/Graph.vue";
 
 const hoursPerRange = ref(2)
 

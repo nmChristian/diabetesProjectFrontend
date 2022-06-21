@@ -14,8 +14,8 @@ import {defineProps} from "vue";
 import {GraphLayout} from "@/services/core/graph-types";
 import type {CGMRanges} from "@/services/core/shared";
 import {COLOR_SCHEME} from "@/services/core/shared";
-import CGMLegend from "@/components/charts/CGMLegend.vue";
-import Graph from "@/components/charts/shared/Graph.vue";
+import CGMLegend from "@/components/charts/others/CGMLegend.vue";
+import Graph from "@/components/charts/Graph.vue";
 import tirGraph from "@/services/graphs/generic/tir-graph";
 
 const props = defineProps<{

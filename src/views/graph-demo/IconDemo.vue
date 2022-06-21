@@ -9,7 +9,7 @@
 <script lang="ts" setup>
 import {HealthLevel} from "@/services/core/shared";
 import type {Point} from "@/services/core/datatypes";
-import Graph from "@/components/charts/shared/Graph.vue";
+import Graph from "@/components/charts/Graph.vue";
 import iconGraph from "@/services/graphs/icon-graph";
 
 const healthLevels : HealthLevel[] = [HealthLevel.Good, HealthLevel.High, HealthLevel.VeryHigh, HealthLevel.Low, HealthLevel.VeryLow]

@@ -39,7 +39,7 @@ import type {CGMRanges} from "@/services/core/shared";
 import DateIntervalSelector from "@/components/DateIntervalSelector.vue";
 //@ts-ignore
 import * as d3 from "d3";
-import Graph from "@/components/charts/shared/Graph.vue";
+import Graph from "@/components/charts/Graph.vue";
 
 
 const lowestQuantile = ref(.05)

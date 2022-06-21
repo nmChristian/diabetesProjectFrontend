@@ -54,7 +54,7 @@ import {getCGMOccurrences} from "@/services/core/datatypes";
 import type {CGMRanges} from "@/services/core/shared";
 import {COLOR_SCHEME} from "@/services/core/shared";
 import forecastGraph from "@/services/graphs/forecast-graph";
-import Graph from "@/components/charts/shared/Graph.vue";
+import Graph from "@/components/charts/Graph.vue";
 import DateIntervalSelector from "@/components/DateIntervalSelector.vue";
 import tirGraph from "@/services/graphs/generic/tir-graph";
 

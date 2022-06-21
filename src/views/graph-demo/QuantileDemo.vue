@@ -22,7 +22,7 @@ import {
 } from "@/services/core/datatypes";
 import {calculateQuantiles, toBucketSeries} from "@/services/graphs/generic/quantile-graph";
 import type {CGMRanges} from "@/services/core/shared";
-import Graph from "@/components/charts/shared/Graph.vue";
+import Graph from "@/components/charts/Graph.vue";
 
 const props = defineProps<{
   cgm: DateValue[],

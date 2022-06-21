@@ -18,7 +18,7 @@ import type {DateValue} from "@/services/core/datatypes";
 import {GraphLayout} from "@/services/core/graph-types";
 import {computed} from "vue";
 import lineGraph from "@/services/graphs/generic/line-graph";
-import Graph from "@/components/charts/shared/Graph.vue";
+import Graph from "@/components/charts/Graph.vue";
 import barGraph from "@/services/graphs/generic/bar-graph";
 import * as d3 from "d3";
 import DateIntervalSelector from "@/components/DateIntervalSelector.vue";

@@ -53,7 +53,7 @@ import ForecastSeries from "@/components/charts/series/ForecastSeries.vue";
 import RawSeries from "@/components/charts/series/RawSeries.vue";
 import TIRDailySeries from "@/components/charts/series/TIRDailySeries.vue";
 import ElementTableSeries from "@/components/charts/series/ElementTableSeries.vue";
-import CGMLegend from "@/components/charts/CGMLegend.vue";
+import CGMLegend from "@/components/charts/others/CGMLegend.vue";
 import QuantileSeries from "@/components/charts/series/QuantileSeries.vue";
 
 
