@@ -15,10 +15,7 @@
     <div class="tir-graphs">
       <div v-for="(hour, i) in hours">
         <p>{{ hour }} - {{ hours[i + 1] ?? 24 }}</p>
-        <TIRGraph class="tir-graph"
-            :colors="colors"
-            :occurrences="occurrences[i]"
-        />
+        <Graph class="tir-graph" :svg="tirGraph(occurrences[i], colors, {})"/>
         <p v-if="showAdvanced" :style="{borderBottom: '6px solid', borderColor: getCGMColor(averages[i], cgmRanges) }">{{ averages[i].toFixed(2) }}</p>
         <p v-if="showAdvanced"  :style="{marginTop: '10px'}">{{ (deviations[i] * 100 / averages[i]).toFixed(0)  }} %</p>
       </div>
@@ -34,9 +31,10 @@ import {computed, ref} from "vue";
 import type {CGMRanges} from "@/services/core/shared";
 import {COLOR_SCHEME, dateToSeconds} from "@/services/core/shared";
 import * as d3 from "d3";
-import TIRGraph from "@/components/charts/generic/TIRGraph.vue";
 import {GraphLayout} from "@/services/core/graphtypes";
 import DateIntervalSelector from "@/components/DateIntervalSelector.vue";
+import tirGraph from "@/services/graphs/generic/tirGraph";
+import Graph from "@/components/charts/shared/Graph.vue";
 
 const hoursPerRange = ref(2)
 

@@ -33,13 +33,10 @@
             <span class="date"> {{ d3.timeFormat("%d/%m")(date) }}  </span>
           </p>
         </div>
-        <TIRGraph class="tir-graph"
-            :colors="COLOR_SCHEME"
-            :graph-layout="tirLayout"
-            :occurrences="getCGMOccurrences(selectedData, cgmRanges)"
-            :offset="1"
-            :r="1"
-        />
+        <Graph class="tir-graph" :svg="tirGraph(
+            getCGMOccurrences(selectedData, cgmRanges),
+            COLOR_SCHEME,
+            {graphLayout: tirLayout, offset: 1, r: 1})" />
       </div>
     </div>
   </div>
@@ -47,7 +44,6 @@
 
 
 <script lang="ts" setup>
-import TIRGraph from "@/components/charts/generic/TIRGraph.vue";
 import type {Ref} from "vue"
 import {computed, ref} from "vue";
 import type {TimeInterval} from "d3";
@@ -60,6 +56,7 @@ import {COLOR_SCHEME} from "@/services/core/shared";
 import forecastGraph from "@/services/graphs/forecastGraph";
 import Graph from "@/components/charts/shared/Graph.vue";
 import DateIntervalSelector from "@/components/DateIntervalSelector.vue";
+import tirGraph from "@/services/graphs/generic/tirGraph";
 
 const interval = ref(d3.timeMonday)
 const mealsEnabled = ref(false)

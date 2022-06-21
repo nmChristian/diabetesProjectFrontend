@@ -23,7 +23,6 @@
         :cgm-ranges="cgmRanges"
         :show-advanced="true"
     />
-    <TIRGraph style="width: 100px; height: 140px;" :occurrences="frequencies" :colors="COLOR_SCHEME"/>
     <TIRDailySeries
         :data="cgm"
         :cgm-ranges="cgmRanges"
@@ -46,7 +45,6 @@
 import * as d3 from "d3";
 import type {DateValue} from "@/services/core/datatypes";
 import {getCGMOccurrences} from "@/services/core/datatypes";
-import TIRGraph from "@/components/charts/generic/TIRGraph.vue";
 
 import type {CGMRanges} from "@/services/core/shared"
 import {COLOR_SCHEME} from "@/services/core/shared";

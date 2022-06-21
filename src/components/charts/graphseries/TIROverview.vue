@@ -1,6 +1,9 @@
 <template>
   <div class="tir-overview">
-    <TIRGraph class="tir-graph" :rotate="true" :graph-layout="new GraphLayout(400, 50)" :occurrences="frequencies" :colors="COLOR_SCHEME"/>
+    <Graph class="tir-graph" :svg="tirGraph(
+        frequencies,
+        COLOR_SCHEME,
+        {graphLayout: new GraphLayout(400,50), rotate: true})"/>
     <CGMLegend :ranges="ranges" :targets="targets" :percentages="frequencies" />
   </div>
 </template>
@@ -12,7 +15,8 @@ import {GraphLayout} from "@/services/core/graphtypes";
 import type {CGMRanges} from "@/services/core/shared";
 import {COLOR_SCHEME} from "@/services/core/shared";
 import CGMLegend from "@/components/charts/CGMLegend.vue";
-import TIRGraph from "@/components/charts/generic/TIRGraph.vue";
+import Graph from "@/components/charts/shared/Graph.vue";
+import tirGraph from "@/services/graphs/generic/tirGraph";
 
 const props = defineProps<{
   ranges: CGMRanges,
