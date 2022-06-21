@@ -1,5 +1,4 @@
-import type {DateValue} from "@/services/graphs/datatypes";
-import {dateValueIsValid} from "@/services/graphs/datatypes";
+
 import {GraphLayout} from "@/services/graphs/models/graph-layout";
 import {generateSVG} from "@/services/core/graph-methods";
 import type {TimeInterval} from "d3";
@@ -10,6 +9,7 @@ import {generateGradientCGMCSSApply} from "@/services/graphs/generic/generate-gr
 import {drawHorizontalLines, drawVerticalLines} from "@/services/graphs/drawers/line-drawer";
 import {applyAxis} from "@/services/graphs/drawers/axis-drawer";
 import {fillHorizontalArea} from "@/services/graphs/drawers/shape-drawer";
+import {dateValueIsValid} from "@/services/graphs/graph-types";
 
 //TODO: Implement måltider
 export default function forecastGraph(dateValues: DateValue[], timeInterval: TimeInterval,

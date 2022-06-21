@@ -34,9 +34,10 @@ import {ref} from "vue";
 import backend from "@/services/backend";
 import type {UserDetails} from "@/services/core/db-types";
 import PatientCard from "@/components/patientElements/PatientCard.vue";
+import {defaultUserDetails} from "@/services/core/db-types";
 
 class UserWithData {
-  user: UserDetails;
+  user: UserDetails = defaultUserDetails;
   eGFR: string | undefined;
   HbA1c: string | undefined;
   hypos: string | undefined;

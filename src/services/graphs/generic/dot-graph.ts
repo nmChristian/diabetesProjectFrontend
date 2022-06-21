@@ -1,5 +1,4 @@
 import * as d3 from "d3";
-import type {DateValue} from "@/services/graphs/datatypes";
 import {generateSVG} from "@/services/core/graph-methods";
 import {applyAxis} from "@/services/graphs/drawers/axis-drawer";
 import {GraphLayout} from "@/services/graphs/models/graph-layout";

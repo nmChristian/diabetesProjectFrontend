@@ -26,7 +26,6 @@
 import type {ElementRow} from "@/components/charts/others/ElementTable.vue"
 import ElementTable from "@/components/charts/others/ElementTable.vue"
 
-import type {DateValue} from "@/services/graphs/datatypes";
 import {getCGMColor} from "@/services/graphs/datatypes";
 import type {Ref} from "vue"
 import {computed, ref, watchEffect} from "vue";

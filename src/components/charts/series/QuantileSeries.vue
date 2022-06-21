@@ -26,7 +26,6 @@
 <script lang="ts" setup>
 
 import {computed, ref} from "vue";
-import type {BucketPoint, DateValue, Point} from "@/services/graphs/datatypes";
 import {
   addEdgesToSplit,
   addEdgesToSplitBucket,

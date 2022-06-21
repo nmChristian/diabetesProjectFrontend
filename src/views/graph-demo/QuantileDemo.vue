@@ -12,7 +12,6 @@
 <script lang="ts" setup>
 import {quantileGraph} from "@/services/graphs/generic/quantile-graph";
 import {computed} from "vue";
-import type {BucketPoint, DateValue, Point} from "@/services/graphs/datatypes";
 import {
   addEdgesToSplit,
   addEdgesToSplitBucket,

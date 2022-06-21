@@ -25,7 +25,6 @@
 
 <script lang="ts" setup>
 import {computed} from "vue";
-import type {DateValue} from "@/services/graphs/datatypes";
 import {getCGMOccurrences} from "@/services/graphs/datatypes";
 import type {CGMRanges} from "@/services/core/shared";
 import {COLOR_SCHEME} from "@/services/core/shared";

@@ -27,7 +27,6 @@
 <script lang="ts" setup>
 import type {Ref} from "vue"
 import {computed, onMounted, ref,} from "vue";
-import type {DateValue, Point} from "@/services/graphs/datatypes"
 import {
   addEdgesToSplit,
   bucketToMedian,

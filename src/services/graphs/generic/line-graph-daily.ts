@@ -1,5 +1,4 @@
-import type {Point} from "@/services/graphs/datatypes";
-import {pointIsValid} from "@/services/graphs/datatypes";
+
 import * as d3 from "d3";
 import type {CGMRanges} from "@/services/core/shared";
 import {CGM_RANGE, LINE_COLOR} from "@/services/core/shared";
@@ -7,6 +6,7 @@ import {applyAxis, drawYAxisCGM} from "@/services/graphs/drawers/axis-drawer";
 import {generateSVG} from "@/services/core/graph-methods";
 import {drawHorizontalCGMIndicatorLines} from "@/services/graphs/drawers/line-drawer";
 import {GraphLayout} from "@/services/graphs/models/graph-layout";
+import {pointIsValid} from "@/services/graphs/graph-types";
 
 export default function lineGraphDaily(points: Point[],
                                        cgmRanges: CGMRanges,

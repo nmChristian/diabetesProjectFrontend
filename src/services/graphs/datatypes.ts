@@ -2,34 +2,12 @@ import * as d3 from "d3";
 import type {CGMRanges} from "@/services/core/shared";
 import {COLOR_SCHEME, dateToSeconds} from "@/services/core/shared";
 import type {TimeSeries} from "@/services/core/db-types";
+import {TimeUnit} from "@/services/graphs/graph-types";
 
-export type {DateValue, Point, BucketPoint}
 export {toDateValue, timeSeriesToDateValue, toBuckets, bucketToMedian}
 export {addEdgesToSplit, addEdgesToSplitBucket}
 export {getCGMOccurrences}
 
-// The data
-type DateValue = [Date, number]
-
-// For graphs
-type Point = [number, number]
-type BucketPoint = [number, number[]]
-
-export enum TimeUnit {
-    Seconds = 1,
-    Minute = 60,
-    Hour = 3600,
-    Day = 3600 * 24,
-}
-
-export const pointIsValid: (point: Point) => boolean = ([x, y]) =>
-    !(isNaN(x) || isNaN(y))
-export const bucketPointIsValid: (bucketPoint: BucketPoint) => boolean = ([x, values]) =>
-    !(isNaN(x) || values.includes(NaN))
-export const dateValueIsValid: (dateValue: DateValue) => boolean = ([date, value]) =>
-    !(isNaN(date.getTime()) || isNaN(value))
-
-// DateValue
 const toDateValue = <T>(rawDataArray: T[], conversion: (rawData: T) => DateValue): DateValue[] =>
     rawDataArray.map<DateValue>(conversion)
 

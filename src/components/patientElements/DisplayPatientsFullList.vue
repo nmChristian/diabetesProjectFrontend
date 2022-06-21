@@ -19,7 +19,6 @@
 import {ref} from 'vue'
 
 import router from "@/index"
-import type {DateValue, Point} from "@/services/graphs/datatypes"
 import {bucketToMedian, mMolPerLToMgPerDL, toBuckets} from "@/services/graphs/datatypes"
 import backend from "@/services/backend";
 import type {UserDetails} from "@/services/core/db-types";

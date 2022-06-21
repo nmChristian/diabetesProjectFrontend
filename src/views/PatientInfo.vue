@@ -123,7 +123,6 @@
 import * as d3 from "d3";
 import router from "../index";
 import backend from "../services/backend";
-import type { DateValue } from "@/services/graphs/datatypes"
 import { getCGMOccurrences, mMolPerLToMgPerDL, timeSeriesToDateValue } from "@/services/graphs/datatypes";
 import type { Ref } from "vue"
 import { computed, onMounted, ref } from "vue";

@@ -4,7 +4,6 @@
 
 import {getApiKey} from "@/services/authentication";
 import axios from "axios";
-import type {DateValue} from "@/services/graphs/datatypes";
 import {mMolPerLToMgPerDL, timeSeriesToDateValue} from "@/services/graphs/datatypes";
 import type {Diagnosis, Note, UserDetails} from "@/services/core/db-types";
 import * as d3 from "d3";
