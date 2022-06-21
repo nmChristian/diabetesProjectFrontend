@@ -26,11 +26,11 @@
 				</div>
 				<div class="startInfoHolderLine">
 					<InfoElement :value="currentPatient.value?.extra_data.HbA1c ?? '__'" title="HbALc" unit="mmol/mol" />
-					<InfoElement :value="gmi.toFixed(0)" title="GMI" unit="mg/dL" />
+          <InfoElement :value="avg14.toFixed(1)" title="Average Glucose" unit="mg/dL" />
+          <InfoElement :value="(gmi * 100).toFixed(1)" title="GMI" unit="%" />
+          <InfoElement :value="(gv * 100).toFixed(1)" title="Glucose Variability" unit="%" />
 					<InfoElement :value="currentPatient.value?.extra_data.blood_pressure ?? '__'" title="Blood pressure" unit="mmHg" />
 					<InfoElement :value="currentPatient.value?.extra_data.weight ?? '__'" title="Weight" unit="kg" />
-					<InfoElement value="27" title="Lorem Ipsum" unit="N" />
-					<InfoElement value="12" title="Lorem Ipsum" unit="kg/m" />
 				</div>
 			</div>
 
@@ -307,7 +307,10 @@ const cgmRanges = computed((): CGMRanges => {
 	return range.map<[number, number?]>((val, i, a) => [val, a[i + 1]])
 })
 
-const gmi = computed (() => d3.mean(daysBackData(cgmInDateValue.value, 14), ([,value]) => value) ?? 0)
+const cgm14 = computed(() => daysBackData(cgmInDateValue.value, 14))
+const avg14 = computed(() => d3.mean(cgm14.value, ([,value]) => value) ?? 0)
+const gmi = computed (() => (3.31 + avg14.value * 0.02392) / 100) // https://www.jaeb.org/gmi/
+const gv = computed(() => (d3.deviation(cgm14.value, ([,value]) => value) ?? 0)/ avg14.value || 0)  // SD / MEAN
 </script>
 
 
