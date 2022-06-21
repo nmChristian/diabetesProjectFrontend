@@ -1,38 +1,18 @@
 <template>
   <div>
     <h1>Icon graphs</h1>
-    <IconGraph
-        :health-level="HealthLevel.Good"
-        :median-data-in-hours="medianCGMInHours"
-    />
-
-    <IconGraph
-        :health-level="HealthLevel.High"
-        :median-data-in-hours="medianCGMInHours"
-    />
-    <IconGraph
-        :health-level="HealthLevel.VeryHigh"
-        :median-data-in-hours="medianCGMInHours"
-    />
-    <IconGraph
-        :health-level="HealthLevel.Low"
-        :median-data-in-hours="medianCGMInHours"
-    />
-    <IconGraph
-        :health-level="HealthLevel.VeryLow"
-        :median-data-in-hours="medianCGMInHours"
-    />
-
-
+    <Graph v-for="healthLevel in healthLevels"
+           :svg="iconGraph(medianCGMInHours, healthLevel, {})"/>
   </div>
 </template>
 
 <script lang="ts" setup>
-
-import IconGraph from "@/components/charts/IconGraph.vue"
 import {HealthLevel} from "@/services/core/shared";
 import type {Point} from "@/services/core/datatypes";
+import Graph from "@/components/charts/shared/Graph.vue";
+import iconGraph from "@/services/graphs/icon-graph";
 
+const healthLevels : HealthLevel[] = [HealthLevel.Good, HealthLevel.High, HealthLevel.VeryHigh, HealthLevel.Low, HealthLevel.VeryLow]
 const props = defineProps<{
   medianCGMInHours: Point[]
 }>()

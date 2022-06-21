@@ -6,9 +6,7 @@
       class="outerHolder"
       v-bind:class ="{outerHolderSelected:(user._id.$oid === selected)}" >
     <div class="icon">
-      <IconGraph
-          :healthLevel="healthLevel"
-          :medianDataInHours="medianDataInHours"></IconGraph>
+      <Graph :svg="iconGraph(medianDataInHours, healthLevel, {})"/>
     </div>
     <div class="generalInfo">
       <p class="name">{{user.first_name}}</p>
@@ -19,9 +17,9 @@
 </template>
 
 <script lang="ts" setup>
-import IconGraph from "@/components/charts/IconGraph.vue"
-import {UserDetails} from "@/services/core/dbtypes";
-
+import type {UserDetails} from "@/services/core/dbtypes";
+import Graph from "@/components/charts/shared/Graph.vue";
+import iconGraph from "@/services/graphs/icon-graph";
 defineProps<{
   user: UserDetails,
   cpr: string,
