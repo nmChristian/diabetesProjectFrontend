@@ -1,3 +1,5 @@
+<!-- Author: Jonas -->
+<!-- Description: Component that displays the given data as dots on a graph -->
 <template>
   <Graph :svg="graph"/>
 </template>

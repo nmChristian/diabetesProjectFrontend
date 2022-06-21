@@ -1,3 +1,5 @@
+<!-- Author: Jonas -->
+<!-- Description: Component that displays the given elements as a table -->
 <template>
   <div>
     <table class="element-table">
