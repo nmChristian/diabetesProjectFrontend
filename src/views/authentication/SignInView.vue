@@ -32,7 +32,7 @@
 import {defineComponent} from "vue";
 import animatedTextInput from "@/components/input/AnimatedTextInput.vue"
 import {signIn} from "@/services/authentication";
-import router from "@/router";
+import router from "@/index";
 import useVuelidate from "@vuelidate/core";
 import {email, required} from '@vuelidate/validators'
 import spinner from "@/components/spinner.vue";

@@ -27,7 +27,7 @@
 import {defineComponent} from "vue";
 import {defaultUrl, getProfilePictureUrl, useProfilePicture} from "@/services/settingsProvider";
 import PrimaryButton from "@/components/PrimaryButton.vue";
-import router from "@/router";
+import router from "@/index";
 import failureIcon from "@/components/icons/failureIcon.vue";
 import spinner from "@/components/spinner.vue";
 import {clearApiKey} from "@/services/authentication";

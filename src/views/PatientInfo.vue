@@ -121,7 +121,7 @@
 
 <script lang="ts" setup>
 import * as d3 from "d3";
-import router from "../router";
+import router from "../index";
 import backend from "../services/backend";
 import type { DateValue } from "@/services/core/datatypes"
 import { getCGMOccurrences, mMolPerLToMgPerDL, timeSeriesToDateValue } from "@/services/core/datatypes";

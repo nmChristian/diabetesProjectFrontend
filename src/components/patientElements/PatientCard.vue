@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import router from "@/router";
+import router from "@/index";
 import {defineComponent} from "vue";
 
 export default defineComponent({

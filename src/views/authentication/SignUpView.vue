@@ -46,7 +46,7 @@
 <script lang="ts">
 import animatedTextInput from "@/components/input/AnimatedTextInput.vue"
 import {signIn, signUp} from "@/services/authentication";
-import router from "@/router";
+import router from "@/index";
 import {defineComponent} from "vue";
 import useVuelidate from "@vuelidate/core";
 import {email, required, sameAs} from "@vuelidate/validators";

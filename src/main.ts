@@ -1,6 +1,6 @@
 import {createApp} from 'vue'
 import App from './App.vue'
-import router from './router'
+import router from './index'
 import ListViewPatientElement from "@/components/patientElements/ListViewPatientElement.vue";
 import InfoElement from "@/components/patientElements/InfoElement.vue";
 import GallaeryViewPatientElement from "@/components/patientElements/PatientCard.vue";

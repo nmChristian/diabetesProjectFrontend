@@ -18,7 +18,7 @@
 <script setup lang="ts">
 import {ref} from 'vue'
 
-import router from "@/router"
+import router from "@/index"
 import type {DateValue, Point} from "@/services/core/datatypes"
 import {bucketToMedian, mMolPerLToMgPerDL, toBuckets} from "@/services/core/datatypes"
 import backend from "@/services/backend";
