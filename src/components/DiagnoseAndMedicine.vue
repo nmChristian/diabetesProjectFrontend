@@ -71,7 +71,7 @@
 
 <script setup lang="ts">
 
-import type {Diagnosis} from "@/services/core/dbtypes";
+import type {Diagnosis} from "@/services/core/db-types";
 import {computed, ref} from "vue";
 import backend from "@/services/backend";
 

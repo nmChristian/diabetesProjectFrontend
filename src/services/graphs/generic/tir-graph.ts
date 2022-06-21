@@ -1,4 +1,4 @@
-import {GraphLayout} from "@/services/core/graph-types";
+import {GraphLayout} from "@/services/graphs/models/graph-layout";
 import {generateSVG} from "@/services/core/graph-methods";
 import * as d3 from "d3";
 

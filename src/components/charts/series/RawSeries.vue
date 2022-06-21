@@ -14,8 +14,8 @@
 </template>
 
 <script lang="ts" setup>
-import type {DateValue} from "@/services/core/datatypes";
-import {GraphLayout} from "@/services/core/graph-types";
+import type {DateValue} from "@/services/graphs/datatypes";
+import {GraphLayout} from "@/services/graphs/models/graph-layout";
 import {computed} from "vue";
 import lineGraph from "@/services/graphs/generic/line-graph";
 import Graph from "@/components/charts/Graph.vue";

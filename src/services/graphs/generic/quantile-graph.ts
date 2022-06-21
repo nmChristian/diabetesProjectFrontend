@@ -1,13 +1,13 @@
 import * as d3 from "d3";
-import type {BucketPoint, Point} from "@/services/core/datatypes";
-import {pointIsValid} from "@/services/core/datatypes";
+import type {BucketPoint, Point} from "@/services/graphs/datatypes";
+import {pointIsValid} from "@/services/graphs/datatypes";
 import type {CGMRanges} from "@/services/core/shared";
 import {CGM_RANGE, COLOR_SCHEME} from "@/services/core/shared";
 import {generateGradientCGMCSSApply} from "@/services/graphs/generic/generate-gradient-css";
 import {generateSVG} from "@/services/core/graph-methods";
-import {drawXAxisHighlightEvery12Hours, drawYAxisCGM} from "@/services/graphs/auxillary/axis-drawer";
-import {drawHorizontalCGMIndicatorLines, drawVerticalLines} from "@/services/graphs/auxillary/line-drawer";
-import {GraphLayout} from "@/services/core/graph-types";
+import {drawXAxisHighlightEvery12Hours, drawYAxisCGM} from "@/services/graphs/drawers/axis-drawer";
+import {drawHorizontalCGMIndicatorLines, drawVerticalLines} from "@/services/graphs/drawers/line-drawer";
+import {GraphLayout} from "@/services/graphs/models/graph-layout";
 
 export function quantileGraph(bucketSeriesOfQuantiles: d3.Series<BucketPoint, number>[],
                               quantilesUsedInBucket: number[],

@@ -25,13 +25,13 @@
 
 <script lang="ts" setup>
 
-import type {DateValue} from "@/services/core/datatypes";
-import {getCGMColor, getCGMOccurrences, SPLIT_BY_DAY} from "@/services/core/datatypes";
+import type {DateValue} from "@/services/graphs/datatypes";
+import {getCGMColor, getCGMOccurrences, SPLIT_BY_DAY} from "@/services/graphs/datatypes";
 import {computed, ref} from "vue";
 import type {CGMRanges} from "@/services/core/shared";
 import {COLOR_SCHEME, dateToSeconds} from "@/services/core/shared";
 import * as d3 from "d3";
-import {GraphLayout} from "@/services/core/graph-types";
+import {GraphLayout} from "@/services/graphs/models/graph-layout";
 import DateIntervalSelector from "@/components/DateIntervalSelector.vue";
 import tirGraph from "@/services/graphs/generic/tir-graph";
 import Graph from "@/components/charts/Graph.vue";

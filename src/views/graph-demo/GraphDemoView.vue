@@ -27,7 +27,7 @@
 <script lang="ts" setup>
 import type {Ref} from "vue"
 import {computed, onMounted, ref,} from "vue";
-import type {DateValue, Point} from "@/services/core/datatypes"
+import type {DateValue, Point} from "@/services/graphs/datatypes"
 import {
   addEdgesToSplit,
   bucketToMedian,
@@ -35,9 +35,9 @@ import {
   SPLIT_BY_DAY,
   timeSeriesToDateValue,
   toBuckets
-} from "@/services/core/datatypes";
+} from "@/services/graphs/datatypes";
 import backend from "@/services/backend";
-import type {UserDetails} from "@/services/core/dbtypes";
+import type {UserDetails} from "@/services/core/db-types";
 
 // Loading data
 let cgmInDateValue: Ref<DateValue[]> = ref([])

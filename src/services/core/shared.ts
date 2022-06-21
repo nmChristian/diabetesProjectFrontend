@@ -17,7 +17,6 @@ enum HealthLevel {
 }
 
 
-
 const healthLevelToColor = (healthLevel: HealthLevel): string => COLOR_SCHEME[healthLevel]
 
 // Thresholds

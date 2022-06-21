@@ -11,7 +11,7 @@
 <script lang="ts" setup>
 
 import {defineProps} from "vue";
-import {GraphLayout} from "@/services/core/graph-types";
+import {GraphLayout} from "@/services/graphs/models/graph-layout";
 import type {CGMRanges} from "@/services/core/shared";
 import {COLOR_SCHEME} from "@/services/core/shared";
 import CGMLegend from "@/components/charts/others/CGMLegend.vue";

@@ -48,9 +48,9 @@ import type {Ref} from "vue"
 import {computed, ref} from "vue";
 import type {TimeInterval} from "d3";
 import * as d3 from "d3";
-import {GraphLayout} from "@/services/core/graph-types";
-import type {DateValue} from "@/services/core/datatypes";
-import {getCGMOccurrences} from "@/services/core/datatypes";
+import {GraphLayout} from "@/services/graphs/models/graph-layout";
+import type {DateValue} from "@/services/graphs/datatypes";
+import {getCGMOccurrences} from "@/services/graphs/datatypes";
 import type {CGMRanges} from "@/services/core/shared";
 import {COLOR_SCHEME} from "@/services/core/shared";
 import forecastGraph from "@/services/graphs/forecast-graph";

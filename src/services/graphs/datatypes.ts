@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import type {CGMRanges} from "@/services/core/shared";
 import {COLOR_SCHEME, dateToSeconds} from "@/services/core/shared";
-import type {TimeSeries} from "@/services/core/dbtypes";
+import type {TimeSeries} from "@/services/core/db-types";
 
 export type {DateValue, Point, BucketPoint}
 export {toDateValue, timeSeriesToDateValue, toBuckets, bucketToMedian}

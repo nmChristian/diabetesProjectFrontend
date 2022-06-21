@@ -123,19 +123,19 @@
 import * as d3 from "d3";
 import router from "../index";
 import backend from "../services/backend";
-import type { DateValue } from "@/services/core/datatypes"
-import { getCGMOccurrences, mMolPerLToMgPerDL, timeSeriesToDateValue } from "@/services/core/datatypes";
+import type { DateValue } from "@/services/graphs/datatypes"
+import { getCGMOccurrences, mMolPerLToMgPerDL, timeSeriesToDateValue } from "@/services/graphs/datatypes";
 import type { Ref } from "vue"
 import { computed, onMounted, ref } from "vue";
 import type {CGMRanges } from "@/services/core/shared";
-import type { Diagnosis, Note, UserDetails } from "@/services/core/dbtypes";
+import type { Diagnosis, Note, UserDetails } from "@/services/core/db-types";
 import ElementTableSeries from "@/components/charts/series/ElementTableSeries.vue"
 import NoteViwerAndEditor from "@/components/NoteViwerAndEditor.vue";
 import GraphSection from "@/components/patientElements/GraphSection.vue";
 import RawSeries from "@/components/charts/series/RawSeries.vue";
 import TIRDailySeries from "@/components/charts/series/TIRDailySeries.vue";
 import ForecastSeries from "@/components/charts/series/ForecastSeries.vue";
-import { GraphLayout } from "@/services/core/graph-types";
+import { GraphLayout } from "@/services/graphs/models/graph-layout";
 import InfoElement from "@/components/patientElements/InfoElement.vue";
 import TIROverview from "@/components/charts/series/TIROverview.vue";
 import QuantileSeries from "@/components/charts/series/QuantileSeries.vue";

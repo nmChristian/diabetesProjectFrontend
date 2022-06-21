@@ -32,7 +32,7 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import backend from "@/services/backend";
-import type {UserDetails} from "@/services/core/dbtypes";
+import type {UserDetails} from "@/services/core/db-types";
 import PatientCard from "@/components/patientElements/PatientCard.vue";
 
 class UserWithData {

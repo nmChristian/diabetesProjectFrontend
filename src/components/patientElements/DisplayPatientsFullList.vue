@@ -19,10 +19,10 @@
 import {ref} from 'vue'
 
 import router from "@/index"
-import type {DateValue, Point} from "@/services/core/datatypes"
-import {bucketToMedian, mMolPerLToMgPerDL, toBuckets} from "@/services/core/datatypes"
+import type {DateValue, Point} from "@/services/graphs/datatypes"
+import {bucketToMedian, mMolPerLToMgPerDL, toBuckets} from "@/services/graphs/datatypes"
 import backend from "@/services/backend";
-import type {UserDetails} from "@/services/core/dbtypes";
+import type {UserDetails} from "@/services/core/db-types";
 
 const daysBack = 28
 const RESOLUTION = 96

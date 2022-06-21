@@ -1,9 +1,9 @@
 import * as d3 from "d3";
-import type {Point} from "@/services/core/datatypes"
-import {pointIsValid} from "@/services/core/datatypes";
+import type {Point} from "@/services/graphs/datatypes"
+import {pointIsValid} from "@/services/graphs/datatypes";
 import {CGM_RANGE, HealthLevel, healthLevelToColor} from "@/services/core/shared";
 import {generateSVG} from "@/services/core/graph-methods";
-import {GraphLayout} from "@/services/core/graph-types";
+import {GraphLayout} from "@/services/graphs/models/graph-layout";
 
 /**
  * Draws a small graph given the data (in hours)

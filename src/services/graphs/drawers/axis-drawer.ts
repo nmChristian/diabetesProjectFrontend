@@ -4,7 +4,7 @@ import * as d3 from "d3";
 import type {CGMRanges} from "@/services/core/shared";
 import {CGM_RANGE} from "@/services/core/shared";
 import type {SVG} from "@/services/core/graph-methods";
-import {isTarget} from "@/services/core/graph-methods";
+import {isTarget} from "@/services/graphs/drawers/line-drawer";
 
 export {applyAxis, drawXAxisHighlightEvery12Hours, drawYAxisCGM}
 

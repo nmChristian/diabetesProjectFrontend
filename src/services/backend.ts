@@ -4,12 +4,12 @@
 
 import {getApiKey} from "@/services/authentication";
 import axios from "axios";
-import type {DateValue} from "@/services/core/datatypes";
-import {mMolPerLToMgPerDL, timeSeriesToDateValue} from "@/services/core/datatypes";
-import type {Diagnosis, Note, UserDetails} from "@/services/core/dbtypes";
+import type {DateValue} from "@/services/graphs/datatypes";
+import {mMolPerLToMgPerDL, timeSeriesToDateValue} from "@/services/graphs/datatypes";
+import type {Diagnosis, Note, UserDetails} from "@/services/core/db-types";
 import * as d3 from "d3";
 import router from "@/index";
-import {defaultUserDetails} from "@/services/core/dbtypes";
+import {defaultUserDetails} from "@/services/core/db-types";
 
 class Backend {
     public url: string

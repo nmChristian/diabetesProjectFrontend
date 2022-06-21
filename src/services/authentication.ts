@@ -1,5 +1,5 @@
 import axios from "axios";
-import type {Answer} from "@/services/core/dbtypes";
+import type {Answer} from "@/services/core/db-types";
 
 const key = "authentication"
 const baseUrl = "http://localhost:5000/api/v1"

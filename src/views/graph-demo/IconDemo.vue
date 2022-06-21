@@ -8,7 +8,7 @@
 
 <script lang="ts" setup>
 import {HealthLevel} from "@/services/core/shared";
-import type {Point} from "@/services/core/datatypes";
+import type {Point} from "@/services/graphs/datatypes";
 import Graph from "@/components/charts/Graph.vue";
 import iconGraph from "@/services/graphs/icon-graph";
 

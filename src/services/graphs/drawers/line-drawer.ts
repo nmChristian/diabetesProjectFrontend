@@ -1,10 +1,10 @@
 import type {AxisScale, BaseType, ValueFn} from "d3";
 import * as d3 from "d3";
 import type {SVG} from "@/services/core/graph-methods";
-import {highlightTargetLineStyle} from "@/services/core/graph-methods";
 import type {AxisDomain} from "d3-axis";
-import {pointIsValid} from "@/services/core/datatypes";
+import {pointIsValid} from "@/services/graphs/datatypes";
 import type {CGMRanges} from "@/services/core/shared";
+import {COLOR_SCHEME} from "@/services/core/shared";
 
 const defaultLineCSS = "stroke-width: 1; opacity: .3; fill: none; stroke: black;"
 
@@ -45,6 +45,15 @@ export function drawHorizontalLines<XDomain extends AxisDomain, YDomain extends 
             ([[xMin, yScale(y) ?? NaN], [xMax, yScale(y) ?? NaN]]))
         .attr("style", lineCSS ?? defaultLineCSS)
 }
+
+const sharedCSS = "stroke-width: 1;"
+const targetLineStyle = "opacity: .5; stroke: " + COLOR_SCHEME[2] + ";" + sharedCSS
+const otherLineStyle = "opacity: .1; stroke: black;" + sharedCSS
+export const isTarget = (i: number) => i === 1 || i === 2
+
+const highlightTargetLineStyle = (i: number, targetCSS?: string, otherCSS?: string) =>
+    "fill: none;" + (isTarget(i) ? (targetCSS ?? targetLineStyle) : (otherCSS ?? otherLineStyle))
+
 
 /**
  * Draws the cgm thresholds lines and highlights the lines that enclose the target area

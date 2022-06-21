@@ -26,14 +26,14 @@
 <script lang="ts" setup>
 
 import {computed, ref} from "vue";
-import type {BucketPoint, DateValue, Point} from "@/services/core/datatypes";
+import type {BucketPoint, DateValue, Point} from "@/services/graphs/datatypes";
 import {
   addEdgesToSplit,
   addEdgesToSplitBucket,
   bucketToMedian,
   SPLIT_BY_DAY,
   toBuckets
-} from "@/services/core/datatypes";
+} from "@/services/graphs/datatypes";
 import {calculateQuantiles, quantileGraph, toBucketSeries} from "@/services/graphs/generic/quantile-graph";
 import type {CGMRanges} from "@/services/core/shared";
 import DateIntervalSelector from "@/components/DateIntervalSelector.vue";

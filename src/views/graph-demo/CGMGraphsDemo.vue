@@ -43,8 +43,8 @@
 
 <script lang="ts" setup>
 import * as d3 from "d3";
-import type {DateValue} from "@/services/core/datatypes";
-import {getCGMOccurrences} from "@/services/core/datatypes";
+import type {DateValue} from "@/services/graphs/datatypes";
+import {getCGMOccurrences} from "@/services/graphs/datatypes";
 
 import type {CGMRanges} from "@/services/core/shared"
 import {COLOR_SCHEME} from "@/services/core/shared";
