@@ -1,3 +1,6 @@
+<!-- Author: Niels T. Grønskov, s204510 -->
+<!-- Description: An icon used to display an error message to the user -->
+
 <!-- Reference: https://codepen.io/Konrud/pen/mwZXgV -->
 
 <template>

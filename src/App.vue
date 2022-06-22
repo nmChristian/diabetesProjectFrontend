@@ -1,3 +1,7 @@
+<!-- Author: Niels Torp Grønskov, s204510
+			 Christian Nykjær Mundbjerg, s204424 -->
+<!-- Description: The main application. Here all the content is displayed  -->
+
 <template>
   <div class="top-bar">
 

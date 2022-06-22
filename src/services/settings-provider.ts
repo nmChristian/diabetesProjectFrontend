@@ -1,3 +1,6 @@
+/* Author: Niels Torp Grønskov, s204510 */
+/* Description: Is the backend connection related to user settings */
+
 import type {Answer, UserDetails} from "@/services/db-types";
 import axios from "axios";
 import backend from "@/services/backend";

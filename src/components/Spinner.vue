@@ -1,3 +1,6 @@
+<!-- Author: Niels Torp Grønskov, s204510 -->
+<!-- Description: A loading icon used when waiting for data -->
+
 <!-- Reference: https://github.com/nguyenvanduocit/vue-loading-spinner -->
 
 <template>

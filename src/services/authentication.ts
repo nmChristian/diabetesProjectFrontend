@@ -1,3 +1,6 @@
+/* Author: Niels Torp Grønskov, s204510 */
+/* Description: Provides the login session for users */
+
 import axios from "axios";
 import type {Answer} from "@/services/db-types";
 

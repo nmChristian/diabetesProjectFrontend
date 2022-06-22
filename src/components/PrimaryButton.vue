@@ -1,3 +1,6 @@
+<!-- Author: Niels Torp Grønskov, s204510 -->
+<!-- Description: A animated button, designed to be a primary button -->
+
 <template>
   <div>
     <button :type=type>{{ text }}</button>

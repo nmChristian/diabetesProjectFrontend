@@ -1,3 +1,7 @@
+/* Author: Niels Torp Grønskov, s204510
+		   Christian Nykjær Mundbjerg, s204424 */
+/* Description: Defines all the routes of the application  */
+
 import {createRouter, createWebHistory} from 'vue-router'
 import {isAuthenticated} from "@/services/authentication";
 

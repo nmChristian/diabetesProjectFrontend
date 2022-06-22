@@ -1,3 +1,6 @@
+<!-- Author: Niels Torp Grønskov, s204510 -->
+<!-- Description: The settings page. Here the user can change stored settings via the UI. -->
+
 <template>
   <form onsubmit="return false">
     <div class="image-container">

@@ -1,3 +1,6 @@
+<!-- Author: Niels Torp Grønskov, s204510 -->
+<!-- Description: The user sign-in page -->
+
 <template>
   <form onsubmit="return false">
     <img alt="" src="@/assets/logo.svg"/>

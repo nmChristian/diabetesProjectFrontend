@@ -1,3 +1,6 @@
+<!-- Author: Niels Torp Grønskov, s204510 -->
+<!-- Description: An animated input field, for various purposes -->
+
 <template>
   <div class="form">
     <input :class="{error: !!errorText}" :type="type" :value='modelValue' class="input" placeholder=" "
