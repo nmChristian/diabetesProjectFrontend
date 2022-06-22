@@ -8,8 +8,8 @@ import {drawHorizontalLines, drawVerticalLines} from "@/services/graphs/drawers/
 import {applyAxis} from "@/services/graphs/drawers/axis-drawer";
 import {fillHorizontalArea} from "@/services/graphs/drawers/shape-drawer";
 import {dateValueIsValid} from "@/services/graphs/auxiliary/type-validity";
-import {CGM_RANGE, getCGMTarget} from "@/services/graphs/auxiliary/cgm";
 import type {CGMRanges} from "@/services/graphs/auxiliary/cgm";
+import {CGM_RANGE, getCGMTarget} from "@/services/graphs/auxiliary/cgm";
 //TODO: Implement måltider
 export default function forecastGraph(dateValues: DateValue[], timeInterval: TimeInterval,
                                       cgmRanges: CGMRanges,

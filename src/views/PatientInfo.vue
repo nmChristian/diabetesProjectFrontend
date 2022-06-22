@@ -140,8 +140,8 @@ import QuantileSeries from "@/components/charts/series/QuantileSeries.vue";
 import DiagnoseAndMedicine from "@/components/DiagnoseAndMedicine.vue";
 import {defaultUrl, getProfilePictureUrlFrom} from "@/services/settings-provider";
 import {timeSeriesToDateValue} from "@/services/graphs/auxiliary/converter";
-import {getCGMOccurrences, mMolPerLToMgPerDL} from "@/services/graphs/auxiliary/cgm";
 import type {CGMRanges} from "@/services/graphs/auxiliary/cgm";
+import {getCGMOccurrences, mMolPerLToMgPerDL} from "@/services/graphs/auxiliary/cgm";
 
 
 const loggedInUser: Ref<UserDetails> = ref({} as UserDetails)

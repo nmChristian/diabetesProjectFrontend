@@ -34,8 +34,8 @@ import {GraphLayout} from "@/services/graphs/models/graph-layout";
 import DateIntervalSelector from "@/components/DateIntervalSelector.vue";
 import tirGraph from "@/services/graphs/generic/tir-graph";
 import Graph from "@/components/charts/Graph.vue";
-import {getCGMColor, getCGMOccurrences} from "@/services/graphs/auxiliary/cgm";
 import type {CGMRanges} from "@/services/graphs/auxiliary/cgm";
+import {getCGMColor, getCGMOccurrences} from "@/services/graphs/auxiliary/cgm";
 
 const hoursPerRange = ref(2)
 

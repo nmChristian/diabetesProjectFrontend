@@ -51,8 +51,8 @@ import TIRDailySeries from "@/components/charts/series/TIRDailySeries.vue";
 import ElementTableSeries from "@/components/charts/series/ElementTableSeries.vue";
 import CGMLegend from "@/components/charts/others/CGMLegend.vue";
 import QuantileSeries from "@/components/charts/series/QuantileSeries.vue";
-import {getCGMOccurrences} from "@/services/graphs/auxiliary/cgm";
 import type {CGMRanges} from "@/services/graphs/auxiliary/cgm";
+import {getCGMOccurrences} from "@/services/graphs/auxiliary/cgm";
 
 
 const props = defineProps<{

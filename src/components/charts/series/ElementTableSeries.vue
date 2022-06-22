@@ -30,8 +30,8 @@ import type {Ref} from "vue"
 import {computed, ref, watchEffect} from "vue";
 import * as d3 from "d3";
 import DateIntervalSelector from "@/components/DateIntervalSelector.vue";
-import {getCGMColor} from "@/services/graphs/auxiliary/cgm";
 import type {CGMRanges} from "@/services/graphs/auxiliary/cgm";
+import {getCGMColor} from "@/services/graphs/auxiliary/cgm";
 
 const props = defineProps<{
   showAdvanced: boolean,

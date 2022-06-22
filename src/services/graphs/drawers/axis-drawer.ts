@@ -1,4 +1,4 @@
-import type {Axis, AxisDomain, AxisScale} from "d3-axis";
+import type {Axis, AxisDomain} from "d3-axis";
 import type {ValueFn} from "d3";
 import * as d3 from "d3";
 import type {SVG} from "@/services/graphs/drawers/svg-drawer";
