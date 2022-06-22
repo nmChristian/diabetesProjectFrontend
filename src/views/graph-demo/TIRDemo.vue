@@ -25,12 +25,12 @@
 
 <script lang="ts" setup>
 import {computed} from "vue";
-import {getCGMOccurrences} from "@/services/graphs/datatypes";
 import type {CGMRanges} from "@/services/core/shared";
 import {COLOR_SCHEME} from "@/services/core/shared";
 import {GraphLayout} from "@/services/graphs/models/graph-layout";
 import tirGraph from "@/services/graphs/generic/tir-graph";
 import Graph from "@/components/charts/Graph.vue";
+import {getCGMOccurrences} from "@/services/graphs/auxiliary/cgm";
 
 const props = defineProps<{
   cgm: DateValue[],

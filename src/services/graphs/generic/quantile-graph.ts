@@ -6,7 +6,7 @@ import {generateSVG} from "@/services/core/graph-methods";
 import {drawXAxisHighlightEvery12Hours, drawYAxisCGM} from "@/services/graphs/drawers/axis-drawer";
 import {drawHorizontalCGMIndicatorLines, drawVerticalLines} from "@/services/graphs/drawers/line-drawer";
 import {GraphLayout} from "@/services/graphs/models/graph-layout";
-import {pointIsValid} from "@/services/graphs/graph-types";
+import {pointIsValid} from "@/services/graphs/auxiliary/type-validity";
 
 export function quantileGraph(bucketSeriesOfQuantiles: d3.Series<BucketPoint, number>[],
                               quantilesUsedInBucket: number[],

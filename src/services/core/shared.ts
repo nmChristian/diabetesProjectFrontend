@@ -7,6 +7,11 @@ export const CGM_RANGE: [number, number] = [0, 350]
 const COLOR_SCHEME: string[] = ["#33658a", "#78c0e0", "#5da271", "#dda448", "#92140c"].reverse()
 export const LINE_COLOR = "#33658a"
 
+export const
+    SPLIT_BY_HOUR = 3600,
+    SPLIT_BY_DAY = SPLIT_BY_HOUR * 24,
+    SPLIT_BY_WEEK = SPLIT_BY_DAY * 7
+
 // Health levels
 enum HealthLevel {
     VeryLow,

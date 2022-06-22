@@ -4,7 +4,7 @@ import type {SVG} from "@/services/core/graph-methods";
 import type {AxisDomain} from "d3-axis";
 import type {CGMRanges} from "@/services/core/shared";
 import {COLOR_SCHEME} from "@/services/core/shared";
-import {pointIsValid} from "@/services/graphs/graph-types";
+import {pointIsValid} from "@/services/graphs/auxiliary/type-validity";
 
 const defaultLineCSS = "stroke-width: 1; opacity: .3; fill: none; stroke: black;"
 

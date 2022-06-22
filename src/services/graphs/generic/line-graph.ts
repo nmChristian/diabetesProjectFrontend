@@ -3,7 +3,7 @@ import {LINE_COLOR} from "@/services/core/shared";
 import {generateSVG} from "@/services/core/graph-methods";
 import {applyAxis} from "@/services/graphs/drawers/axis-drawer";
 import {GraphLayout} from "@/services/graphs/models/graph-layout";
-import {dateValueIsValid} from "@/services/graphs/graph-types";
+import {dateValueIsValid} from "@/services/graphs/auxiliary/type-validity";
 
 export default function lineGraph(dateValues: DateValue[],
                                   {

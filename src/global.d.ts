@@ -7,3 +7,4 @@ declare global {
     type Point = [number, number]
     type BucketPoint = [number, number[]]
 }
+// Is Valid methods

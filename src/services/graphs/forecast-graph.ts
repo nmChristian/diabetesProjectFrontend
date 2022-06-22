@@ -8,7 +8,7 @@ import {generateGradientCGMCSSApply} from "@/services/graphs/generic/generate-gr
 import {drawHorizontalLines, drawVerticalLines} from "@/services/graphs/drawers/line-drawer";
 import {applyAxis} from "@/services/graphs/drawers/axis-drawer";
 import {fillHorizontalArea} from "@/services/graphs/drawers/shape-drawer";
-import {dateValueIsValid} from "@/services/graphs/graph-types";
+import {dateValueIsValid} from "@/services/graphs/auxiliary/type-validity";
 
 //TODO: Implement måltider
 export default function forecastGraph(dateValues: DateValue[], timeInterval: TimeInterval,
@@ -24,7 +24,6 @@ export default function forecastGraph(dateValues: DateValue[], timeInterval: Tim
     const {out, svg} = generateSVG(graphLayout, false)
 
     const cgmTarget = getCGMTarget(cgmRanges)
-
     // Show graph within this interval
     const minDate = timeInterval(d3.min(dateValues, ([date,]) => date) as Date)
     const maxDate = timeInterval.offset(minDate, 1)

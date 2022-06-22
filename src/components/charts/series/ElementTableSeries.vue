@@ -26,12 +26,12 @@
 import type {ElementRow} from "@/components/charts/others/ElementTable.vue"
 import ElementTable from "@/components/charts/others/ElementTable.vue"
 
-import {getCGMColor} from "@/services/graphs/datatypes";
 import type {Ref} from "vue"
 import {computed, ref, watchEffect} from "vue";
 import * as d3 from "d3";
 import type {CGMRanges} from "@/services/core/shared";
 import DateIntervalSelector from "@/components/DateIntervalSelector.vue";
+import {getCGMColor} from "@/services/graphs/auxiliary/cgm";
 
 const props = defineProps<{
   showAdvanced: boolean,

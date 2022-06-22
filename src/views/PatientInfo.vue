@@ -125,7 +125,6 @@
 import * as d3 from "d3";
 import router from "../index";
 import backend from "../services/backend";
-import {getCGMOccurrences, mMolPerLToMgPerDL, timeSeriesToDateValue} from "@/services/graphs/datatypes";
 import type {Ref} from "vue"
 import {computed, onMounted, ref} from "vue";
 import type {CGMRanges} from "@/services/core/shared";
@@ -141,6 +140,8 @@ import TIROverview from "@/components/charts/series/TIROverview.vue";
 import QuantileSeries from "@/components/charts/series/QuantileSeries.vue";
 import DiagnoseAndMedicine from "@/components/DiagnoseAndMedicine.vue";
 import {defaultUrl, getProfilePictureUrlFrom} from "@/services/settings-provider";
+import {timeSeriesToDateValue} from "@/services/graphs/auxiliary/converter";
+import {getCGMOccurrences, mMolPerLToMgPerDL} from "@/services/graphs/auxiliary/cgm";
 
 
 const loggedInUser: Ref<UserDetails> = ref({} as UserDetails)

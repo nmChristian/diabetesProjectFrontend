@@ -43,7 +43,6 @@
 
 <script lang="ts" setup>
 import * as d3 from "d3";
-import {getCGMOccurrences} from "@/services/graphs/datatypes";
 
 import type {CGMRanges} from "@/services/core/shared"
 import {computed} from "vue";
@@ -53,6 +52,7 @@ import TIRDailySeries from "@/components/charts/series/TIRDailySeries.vue";
 import ElementTableSeries from "@/components/charts/series/ElementTableSeries.vue";
 import CGMLegend from "@/components/charts/others/CGMLegend.vue";
 import QuantileSeries from "@/components/charts/series/QuantileSeries.vue";
+import {getCGMOccurrences} from "@/services/graphs/auxiliary/cgm";
 
 
 const props = defineProps<{

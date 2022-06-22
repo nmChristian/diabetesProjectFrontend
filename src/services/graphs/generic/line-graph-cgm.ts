@@ -6,7 +6,7 @@ import {generateGradientCGMCSSApply} from "@/services/graphs/generic/generate-gr
 import {applyAxis, drawYAxisCGM} from "@/services/graphs/drawers/axis-drawer";
 import {drawHorizontalCGMIndicatorLines, drawVerticalLines} from "@/services/graphs/drawers/line-drawer";
 import {GraphLayout} from "@/services/graphs/models/graph-layout";
-import {dateValueIsValid} from "@/services/graphs/graph-types";
+import {dateValueIsValid} from "@/services/graphs/auxiliary/type-validity";
 
 export default function lineGraphCGM(dateValues: DateValue[],
                                      cgmRanges: CGMRanges,

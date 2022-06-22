@@ -27,16 +27,12 @@
 <script lang="ts" setup>
 import type {Ref} from "vue"
 import {computed, onMounted, ref,} from "vue";
-import {
-  addEdgesToSplit,
-  bucketToMedian,
-  mMolPerLToMgPerDL,
-  SPLIT_BY_DAY,
-  timeSeriesToDateValue,
-  toBuckets
-} from "@/services/graphs/datatypes";
 import backend from "@/services/backend";
 import type {UserDetails} from "@/services/core/db-types";
+import {bucketToMedian, timeSeriesToDateValue, toBuckets} from "@/services/graphs/auxiliary/converter";
+import {addEdgesToSplit} from "@/services/graphs/auxiliary/edges";
+import {mMolPerLToMgPerDL} from "@/services/graphs/auxiliary/cgm";
+import {SPLIT_BY_DAY} from "@/services/core/shared";
 
 // Loading data
 let cgmInDateValue: Ref<DateValue[]> = ref([])

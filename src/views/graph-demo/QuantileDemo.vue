@@ -12,15 +12,11 @@
 <script lang="ts" setup>
 import {calculateQuantiles, quantileGraph, toBucketSeries} from "@/services/graphs/generic/quantile-graph";
 import {computed} from "vue";
-import {
-  addEdgesToSplit,
-  addEdgesToSplitBucket,
-  bucketToMedian,
-  SPLIT_BY_DAY,
-  toBuckets
-} from "@/services/graphs/datatypes";
 import type {CGMRanges} from "@/services/core/shared";
 import Graph from "@/components/charts/Graph.vue";
+import {bucketToMedian, toBuckets} from "@/services/graphs/auxiliary/converter";
+import {addEdgesToSplit, addEdgesToSplitBucket} from "@/services/graphs/auxiliary/edges";
+import {SPLIT_BY_DAY} from "@/services/core/shared";
 
 const props = defineProps<{
   cgm: DateValue[],

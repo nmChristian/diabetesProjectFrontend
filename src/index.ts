@@ -27,7 +27,7 @@ const router = createRouter({
         {
             path: '/graph-demo',
             name: 'graph-demo',
-            component: () => import('@/views/graph-demo/GraphDemoView.vue'),
+            component: () => import('@/views/GraphDemoView.vue'),
             redirect: {name: "graphview.cgmgraphstest"},
             children:
                 [

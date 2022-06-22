@@ -5,7 +5,7 @@ import {applyAxis, drawYAxisCGM} from "@/services/graphs/drawers/axis-drawer";
 import {generateSVG} from "@/services/core/graph-methods";
 import {drawHorizontalCGMIndicatorLines} from "@/services/graphs/drawers/line-drawer";
 import {GraphLayout} from "@/services/graphs/models/graph-layout";
-import {pointIsValid} from "@/services/graphs/graph-types";
+import {pointIsValid} from "@/services/graphs/auxiliary/type-validity";
 
 export default function lineGraphDaily(points: Point[],
                                        cgmRanges: CGMRanges,

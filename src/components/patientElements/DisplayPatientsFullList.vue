@@ -19,9 +19,10 @@
 import {ref} from 'vue'
 
 import router from "@/index"
-import {bucketToMedian, mMolPerLToMgPerDL, toBuckets} from "@/services/graphs/datatypes"
 import backend from "@/services/backend";
 import type {UserDetails} from "@/services/core/db-types";
+import {bucketToMedian, toBuckets} from "@/services/graphs/auxiliary/converter";
+import {mMolPerLToMgPerDL} from "@/services/graphs/auxiliary/cgm";
 
 const daysBack = 28
 const RESOLUTION = 96
