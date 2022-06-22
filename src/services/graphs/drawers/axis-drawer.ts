@@ -1,3 +1,5 @@
+// Author: Jonas
+// Description: Contains helper functions that is used when drawing graphs (this is for axis')
 import type {Axis, AxisDomain} from "d3-axis";
 import type {ValueFn} from "d3";
 import * as d3 from "d3";

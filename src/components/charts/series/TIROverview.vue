@@ -1,3 +1,5 @@
+<!-- Author: Jonas -->
+<!-- Description: Component contains a rotated tir graph and a legend for it -->
 <template>
   <div class="tir-overview">
     <Graph class="tir-graph" :svg="tirGraph(

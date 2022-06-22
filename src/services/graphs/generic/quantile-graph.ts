@@ -1,3 +1,5 @@
+// Author: Jonas
+// Description: Draws a quantile graph
 import * as d3 from "d3";
 import {COLOR_SCHEME} from "@/services/graphs/shared";
 import {generateGradientCGMCSSApply} from "@/services/graphs/generic/generate-gradient-css";
@@ -21,7 +23,7 @@ export function quantileGraph(bucketSeriesOfQuantiles: d3.Series<BucketPoint, nu
     const {width, height, marginLeft} = graphLayout
     const {out, svg} = svgDrawer(graphLayout)
 
-    //TODO: Add assert that can check if buckets of quantiles is the same size as quantiles
+    //TODO: Make sure that buckets of quantiles is the same size as quantiles
     const n = bucketSeriesOfQuantiles.length
     const centerIndex = Math.floor(n / 2)
 

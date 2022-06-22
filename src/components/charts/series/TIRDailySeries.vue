@@ -1,3 +1,6 @@
+<!-- Author: Jonas -->
+<!-- Description: Component that contains a TIR graph for each selectable amount of hours (ex. every 2 hours, so 12 graphs).
+                  It also shows each sections average of its CGM and its GV (probably not that useful) -->
 <template>
   <DateIntervalSelector
       :text="d3.timeFormat('%d/%m')(data[0]?.[0] ?? 0) + ' - ' + d3.timeFormat('%d/%m')(data[data.length - 1]?.[0] ?? 0) "/>

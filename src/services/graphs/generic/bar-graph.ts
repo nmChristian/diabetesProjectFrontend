@@ -1,3 +1,5 @@
+// Author: Jonas
+// Description: Draws a graph where every DateValue value is drawn as a bar
 import * as d3 from "d3";
 import {LINE_COLOR} from "@/services/graphs/shared";
 import {svgDrawer} from "@/services/graphs/drawers/svg-drawer";

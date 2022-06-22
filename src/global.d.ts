@@ -1,10 +1,11 @@
+// Author: Jonas
+// Description: Contains types used in graphs
 export {};
 
 declare global {
-    // Graph types
+    // Types used in graphs
     type DateValue = [Date, number]
 
     type Point = [number, number]
     type BucketPoint = [number, number[]]
 }
-// Is Valid methods

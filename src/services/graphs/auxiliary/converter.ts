@@ -1,3 +1,5 @@
+// Author: Jonas
+// Description: Contains common functions that converts types to other types
 import * as d3 from "d3";
 import {dateToSeconds, SPLIT_BY_DAY, TIME_UNIT_DEFAULT, TimeUnit} from "@/services/graphs/shared";
 import type {TimeSeries} from "@/services/db-types";
@@ -48,6 +50,6 @@ export function toBuckets(dateValues: DateValue[],
     return unconvertedBuckets.map<BucketPoint>(([x, values]) => [x / outputUnit, values])
 }
 
-// Get
+// Get each buckets median
 export const bucketToMedian = (bucketPoints: BucketPoint[]): Point[] =>
     bucketPoints.map<Point>((d: BucketPoint) => [d[0], d3.median(d[1]) ?? NaN])

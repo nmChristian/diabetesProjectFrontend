@@ -1,5 +1,5 @@
 <!-- Author: Christian -->
-<!-- Description: A brief overview of a patient, meant to be used in DiasplayPatients.vue -->
+<!-- Description: A brief overview of a patient, meant to be used in DisplayPatients.vue -->
 <template>
   <div class="container">
     <div class="allSides" @click="mainClicked()">

@@ -1,3 +1,5 @@
+<!-- Author: Christian, Jonas -->
+<!-- Description: Component that is used in Patient info, just a big box that fills the screen, emits and event when clicked and changes style -->
 <template>
   <div :id="id"
        class="graph-section"

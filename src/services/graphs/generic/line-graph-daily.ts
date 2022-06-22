@@ -1,3 +1,5 @@
+// Author: Jonas
+// Description: Draws the Points as a line, but with cgm colors
 import * as d3 from "d3";
 import {LINE_COLOR} from "@/services/graphs/shared";
 import {applyAxis, drawYAxisCGM} from "@/services/graphs/drawers/axis-drawer";

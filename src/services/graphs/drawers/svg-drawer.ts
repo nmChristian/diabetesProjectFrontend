@@ -1,8 +1,12 @@
+// Author: Jonas
+// Description: Contains helper functions that is used when drawing graphs (this is for creating the svg)
 import * as d3 from "d3";
 import {GraphLayout} from "@/services/graphs/models/graph-layout";
 
+// Alias for the d3 version of svg format
 export type SVG = d3.Selection<SVGGElement, undefined, null, undefined>
 
+// Returns the outer svg (with margin), and the inner svg (without margin)
 export function svgDrawer(graphLayout: GraphLayout = new GraphLayout(0, 0, 0, 0, 0, 0), flip: boolean = false) {
     const {width, height, marginTop, marginRight, marginBottom, marginLeft} = graphLayout
     const totalWidth = width + marginLeft + marginRight

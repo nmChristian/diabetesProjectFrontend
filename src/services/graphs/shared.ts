@@ -1,6 +1,8 @@
+// Author: Jonas
+// Description: Contains functions and fields, that doesn't really fit in their own file. These are often used in other files
 export {COLOR_SCHEME, HealthLevel, healthLevelToColor, dateToSeconds}
 
-// Coloring
+// Color Scheme for graphs
 const COLOR_SCHEME: string[] = ["#33658a", "#78c0e0", "#5da271", "#dda448", "#92140c"].reverse()
 export const LINE_COLOR = "#33658a"
 

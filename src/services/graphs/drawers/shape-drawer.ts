@@ -1,3 +1,6 @@
+// Author: Jonas
+// Description: Contains helper functions that is used when drawing graphs (this is for shapes)
+
 import type {SVG} from "@/services/graphs/drawers/svg-drawer";
 import type {AxisDomain} from "d3-axis";
 import type {AxisScale} from "d3";

@@ -1,3 +1,5 @@
+// Author: Jonas
+// Description: Contains the class Graph-Layout, which is used in every graph
 export {GraphLayout}
 
 // Used in graphs to determine ratio

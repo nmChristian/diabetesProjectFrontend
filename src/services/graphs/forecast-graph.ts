@@ -1,3 +1,5 @@
+// Author: Jonas
+// Description: Draws the forecast graph
 import {GraphLayout} from "@/services/graphs/models/graph-layout";
 import {svgDrawer} from "@/services/graphs/drawers/svg-drawer";
 import type {TimeInterval} from "d3";
@@ -10,7 +12,7 @@ import {fillHorizontalArea} from "@/services/graphs/drawers/shape-drawer";
 import {dateValueIsValid} from "@/services/graphs/auxiliary/type-validity";
 import type {CGMRanges} from "@/services/graphs/auxiliary/cgm";
 import {CGM_RANGE, getCGMTarget} from "@/services/graphs/auxiliary/cgm";
-//TODO: Implement måltider
+
 export default function forecastGraph(dateValues: DateValue[], timeInterval: TimeInterval,
                                       cgmRanges: CGMRanges,
                                       {

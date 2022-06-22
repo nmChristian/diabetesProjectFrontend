@@ -1,3 +1,6 @@
+// Author: Jonas
+// Description: Contains helper functions that is used when drawing graphs (this is for lines)
+
 import type {AxisScale, BaseType, ValueFn} from "d3";
 import * as d3 from "d3";
 import type {SVG} from "@/services/graphs/drawers/svg-drawer";
@@ -46,6 +49,7 @@ export function drawHorizontalLines<XDomain extends AxisDomain, YDomain extends 
         .attr("style", lineCSS ?? defaultLineCSS)
 }
 
+// Used for drawHorizontalCGMIndicatorLines
 const sharedCSS = "stroke-width: 1;"
 const targetLineStyle = "opacity: .5; stroke: " + COLOR_SCHEME[2] + ";" + sharedCSS
 const otherLineStyle = "opacity: .1; stroke: black;" + sharedCSS
@@ -55,9 +59,7 @@ const highlightTargetLineStyle = (i: number, targetCSS?: string, otherCSS?: stri
     "fill: none;" + (isTarget(i) ? (targetCSS ?? targetLineStyle) : (otherCSS ?? otherLineStyle))
 
 
-/**
- * Draws the cgm thresholds lines and highlights the lines that enclose the target area
- */
+// Draws the cgm thresholds lines and highlights the lines that enclose the target area
 export function drawHorizontalCGMIndicatorLines<XDomain extends AxisDomain>(svg: SVG,
                                                                             xScale: d3.AxisScale<XDomain>,
                                                                             yScale: d3.AxisScale<number>,

@@ -1,3 +1,5 @@
+// Author: Jonas
+// Description: Draws the icon graph
 import * as d3 from "d3";
 import {HealthLevel, healthLevelToColor} from "@/services/graphs/shared";
 import {svgDrawer} from "@/services/graphs/drawers/svg-drawer";
@@ -9,7 +11,7 @@ import {CGM_RANGE} from "@/services/graphs/auxiliary/cgm";
  * Draws a small graph given the data (in hours)
  * @param dataInHours - The data in given in hours
  * @param healthLevel - The HealthLevel of the patient
- * @param graphLayout - Width to height Ratio
+ * @param graphLayout - Graphlayout
  * @param strokeWidth - The width of line in px
  */
 export default function iconGraph(dataInHours: Point[], healthLevel: HealthLevel, {

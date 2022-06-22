@@ -1,4 +1,5 @@
-// Gradient method
+// Author: Jonas
+// Description: Generates a linearGradient used in graphs that colors the graphs area/line based on given CGMRanges
 import {COLOR_SCHEME} from "@/services/graphs/shared";
 import type {SVG} from "@/services/graphs/drawers/svg-drawer";
 import type {CGMRanges} from "@/services/graphs/auxiliary/cgm";
@@ -6,7 +7,6 @@ import {CGM_RANGE} from "@/services/graphs/auxiliary/cgm";
 
 let linearID = 0
 
-// TODO: IDFK Rename this shit
 /**
  * Returns the link to the gradient generated example: url(#line-gradient-2)
  * @param svg - The object its going to append to

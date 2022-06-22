@@ -1,3 +1,5 @@
+<!-- Author: Jonas -->
+<!-- Description: Component that contains the quantile graph as well as settings to change the quantiles. -->
 <template>
   <DateIntervalSelector
       :text="d3.timeFormat('%d/%m')(cgm[0]?.[0] ?? 0) + ' - ' + d3.timeFormat('%d/%m')(cgm[cgm.length - 1]?.[0] ?? 0) "/>

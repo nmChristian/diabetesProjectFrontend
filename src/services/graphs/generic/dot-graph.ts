@@ -1,3 +1,5 @@
+// Author: Jonas
+// Description: Draws a graph where every DateValue value is drawn as a circle
 import * as d3 from "d3";
 import {svgDrawer} from "@/services/graphs/drawers/svg-drawer";
 import {applyAxis} from "@/services/graphs/drawers/axis-drawer";

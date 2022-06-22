@@ -1,3 +1,6 @@
+// Author: Jonas
+// Description: Draws a TIR graph, with a rectangle for each interval and its size is dependent on the amount of occurrences
+//              Also creates a tooltip if not already created that shows the rectangles value when hovered over
 import {GraphLayout} from "@/services/graphs/models/graph-layout";
 import {svgDrawer} from "@/services/graphs/drawers/svg-drawer";
 import * as d3 from "d3";

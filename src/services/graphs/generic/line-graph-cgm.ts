@@ -1,3 +1,5 @@
+// Author: Jonas
+// Description: Draws the DateValues as a line, but with cgm colors
 import * as d3 from "d3";
 import {svgDrawer} from "@/services/graphs/drawers/svg-drawer";
 import {generateGradientCGMCSSApply} from "@/services/graphs/generic/generate-gradient-css";
