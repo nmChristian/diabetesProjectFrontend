@@ -16,8 +16,6 @@ export type AxisModifier<Domain extends AxisDomain> = {
     removeDomain?: boolean,
 }
 
-export enum AxisDirection {Top, Right, Left, Bottom}
-
 function applyAxis<Domain extends AxisDomain>(svg: SVG, axis: Axis<Domain>, axisModifier: AxisModifier<Domain>): d3.Selection<SVGGElement, undefined, null, undefined> {
     const svgAxis = svg.append("g")
         .attr("transform", "translate(" + (axisModifier.xOffset ?? 0) + "," + (axisModifier.yOffset ?? 0) + ")")
@@ -57,16 +55,3 @@ function drawXAxisHighlightEvery12Hours(svg: SVG, xScale: d3.AxisScale<number>, 
     applyAxis(svg, axis, {yOffset: height, textCSS: textCSS})
 }
 
-
-function toGenerator<Domain extends AxisDomain>(direction: AxisDirection): (scale: AxisScale<Domain>) => Axis<Domain> {
-    switch (direction) {
-        case AxisDirection.Top:
-            return d3.axisTop
-        case AxisDirection.Right:
-            return d3.axisRight
-        case AxisDirection.Left:
-            return d3.axisLeft
-        case AxisDirection.Bottom:
-            return d3.axisBottom
-    }
-}

@@ -40,12 +40,7 @@ export function quantileGraph(bucketSeriesOfQuantiles: d3.Series<BucketPoint, nu
     // TODO: Make this here customizable
     const opacityScale = d3.scaleLinear([0, centerIndex, n - 1], [.2, .4, .2])
 
-    const yMin = yScale.range()[1]
     const yMax = yScale.range()[0]
-    const xMin = xScale.range()[0]
-    const xMax = xScale.range()[1]
-    const dateMax = xScale.domain()[1]
-
 
     // Area generator
     const areaGenerator = d3.area<d3.SeriesPoint<BucketPoint>>()
