@@ -1,3 +1,6 @@
+<!-- Author: Jonas -->
+<!-- Description: Component that contains 3 forecast graphs and a TIR graph.
+                  also it creates settings for it and generates the data based on the settings itself -->
 <template>
   <DateIntervalSelector :text="d3.timeFormat('%d/%m')(lastThreeIntervals[2]) + ' - ' + d3.timeFormat('%d/%m')(now)"/>
   <div class="forecast-series">
@@ -59,31 +62,38 @@ import {getCGMOccurrences} from "@/services/graphs/auxiliary/cgm";
 
 const interval = ref(d3.timeMonday)
 const mealsEnabled = ref(false)
+
+// The start and stop date the brush has selected
+const selectedRange: Ref<[Date, Date] | undefined> = ref(undefined)
+
 const props = defineProps<{
   showAdvanced: boolean,
   cgm: DateValue[],
   meals: DateValue[],
   cgmRanges: CGMRanges,
 }>()
+
+// Layouts of the graphs
+const tirLayout = new GraphLayout(50, 250)
+const forecastLayout = new GraphLayout(900, 90, 15, 20, 20, 40)
+
+// We give 3 weeks
 const weeksBack = [0, 1, 2]
+const lastThreeMondaysData = computed(() => getDataBack(props.cgm, d3.timeMonday, 2))
 
 const now = new Date()
-const lastThreeIntervals = computed(() => weeksBack.map<Date>(back => interval.value.offset(interval.value(now), -back)))
 
+const lastThreeIntervals = computed(() => weeksBack.map<Date>(back => interval.value.offset(interval.value(now), -back)))
 const cgmSplitIntoIntervals = computed(() => d3.group(props.cgm, ([date,]) => interval.value(date)))
 const mealsSplitIntoIntervals = computed(() => d3.group(props.meals, ([date,]) => interval.value(date)))
 
-const tirLayout = new GraphLayout(50, 250)
-const width = 900, marginLeft = 40, marginRight = 20
-const forecastLayout = new GraphLayout(width, 90, 15, marginRight, 20, marginLeft)
 
-// TIR methods
+// Returns DateValue[] of all the data that is after the given interval and back (eg. (d3.timeMonday, 2) returns data that is from 3 mondays back until today)
 const getDataBack = (dateValues: DateValue[], timeInterval: TimeInterval, back: number): DateValue[] =>
     dateValues.filter(([date,]) => date > timeInterval.offset(timeInterval(now), -back))
 
 
-const lastThreeMondaysData = computed(() => getDataBack(props.cgm, d3.timeMonday, 2))
-
+// The array of the data selected
 const selectedData = computed((): DateValue[] => {
   if (selectedRange.value === undefined)
     return lastThreeMondaysData.value
@@ -93,11 +103,12 @@ const selectedData = computed((): DateValue[] => {
 })
 
 
-const selectedRange: Ref<[Date, Date] | undefined> = ref(undefined)
-// THis
+
+// The currently active graph with a brush
 let currentGraph: any = null;
 
-//TODO: FIX ERROR, SOMETIMES REACH MAX CALLSTACK ERROR, THIS IS BECAUSE THE EVENT CALLS ITSELF RECURSIVELY AND CAN
+//TODO: MAYBE FIX ERROR, SOMETIMES REACH MAX CALLSTACK ERROR, THIS IS BECAUSE THE EVENT CALLS ITSELF RECURSIVELY AND CAN
+// This event resets the other 2 graphs brushes, if their brushes were active.
 const brushEvent = (event: d3.D3BrushEvent<any>) => {
   const nextGraph = graphs.value.get(event.target)
 
@@ -111,6 +122,8 @@ const brushEvent = (event: d3.D3BrushEvent<any>) => {
 
   currentGraph = nextGraph
 }
+
+// Generate the forecast graphs
 const graphs = computed(() => {
       // Used to sync up all the axis'
       const mealMaxValue = weeksBack.reduce((max, week) => Math.max(d3.max(mealsSplitIntoIntervals.value.get(lastThreeIntervals.value[week]) ?? [], ([, value]) => value) ?? 0, max), 0)
@@ -178,12 +191,4 @@ const graphs = computed(() => {
 .interval-indicator .date {
   font-style: italic;
 }
-
-.interval-indicator .time {
-}
-
-.interval-indicator .day-of-week {
-
-}
-
 </style>

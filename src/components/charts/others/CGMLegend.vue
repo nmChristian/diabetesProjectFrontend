@@ -1,3 +1,5 @@
+<!-- Author: Jonas -->
+<!-- Description: Component that contains a legend for CGM data, this includes the ranges, and can include the goal and the actual values -->
 <template>
   <table class="cgm-legend">
     <tr v-if="targets !== undefined || percentages !== undefined">
