@@ -1,8 +1,9 @@
 import * as d3 from "d3";
-import {CGM_RANGE, HealthLevel, healthLevelToColor} from "@/services/graphs/shared";
+import {HealthLevel, healthLevelToColor} from "@/services/graphs/shared";
 import {svgDrawer} from "@/services/graphs/drawers/svg-drawer";
 import {GraphLayout} from "@/services/graphs/models/graph-layout";
 import {pointIsValid} from "@/services/graphs/auxiliary/type-validity";
+import {CGM_RANGE} from "@/services/graphs/auxiliary/cgm";
 
 /**
  * Draws a small graph given the data (in hours)

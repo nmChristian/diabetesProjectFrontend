@@ -1,11 +1,12 @@
 import * as d3 from "d3";
-import type {CGMRanges} from "@/services/graphs/shared";
-import {CGM_RANGE, LINE_COLOR} from "@/services/graphs/shared";
+import {LINE_COLOR} from "@/services/graphs/shared";
 import {applyAxis, drawYAxisCGM} from "@/services/graphs/drawers/axis-drawer";
 import {svgDrawer} from "@/services/graphs/drawers/svg-drawer";
 import {drawHorizontalCGMIndicatorLines} from "@/services/graphs/drawers/line-drawer";
 import {GraphLayout} from "@/services/graphs/models/graph-layout";
 import {pointIsValid} from "@/services/graphs/auxiliary/type-validity";
+import type {CGMRanges} from "@/services/graphs/auxiliary/cgm";
+import {CGM_RANGE} from "@/services/graphs/auxiliary/cgm";
 
 export default function lineGraphDaily(points: Point[],
                                        cgmRanges: CGMRanges,

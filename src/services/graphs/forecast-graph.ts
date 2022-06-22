@@ -2,14 +2,14 @@ import {GraphLayout} from "@/services/graphs/models/graph-layout";
 import {svgDrawer} from "@/services/graphs/drawers/svg-drawer";
 import type {TimeInterval} from "d3";
 import * as d3 from "d3"
-import type {CGMRanges} from "@/services/graphs/shared";
-import {CGM_RANGE, getCGMTarget, LINE_COLOR} from "@/services/graphs/shared";
+import {LINE_COLOR} from "@/services/graphs/shared";
 import {generateGradientCGMCSSApply} from "@/services/graphs/generic/generate-gradient-css";
 import {drawHorizontalLines, drawVerticalLines} from "@/services/graphs/drawers/line-drawer";
 import {applyAxis} from "@/services/graphs/drawers/axis-drawer";
 import {fillHorizontalArea} from "@/services/graphs/drawers/shape-drawer";
 import {dateValueIsValid} from "@/services/graphs/auxiliary/type-validity";
-
+import {CGM_RANGE, getCGMTarget} from "@/services/graphs/auxiliary/cgm";
+import type {CGMRanges} from "@/services/graphs/auxiliary/cgm";
 //TODO: Implement måltider
 export default function forecastGraph(dateValues: DateValue[], timeInterval: TimeInterval,
                                       cgmRanges: CGMRanges,

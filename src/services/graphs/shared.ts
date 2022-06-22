@@ -1,5 +1,4 @@
-export {COLOR_SCHEME, HealthLevel, healthLevelToColor, getCGMTarget, dateToSeconds}
-export type {CGMRanges}
+export {COLOR_SCHEME, HealthLevel, healthLevelToColor, dateToSeconds}
 
 // Coloring
 const COLOR_SCHEME: string[] = ["#33658a", "#78c0e0", "#5da271", "#dda448", "#92140c"].reverse()
@@ -36,9 +35,3 @@ const dateToSeconds = (date: Date): number =>
     date.getSeconds()
 
 
-// CGM Ranges
-export const CGM_RANGE: [number, number] = [0, 350]
-
-type CGMRanges = [number, number?][]
-export const CGM_TARGET_INDEX = 2
-const getCGMTarget = (cgmRanges: CGMRanges): [number, number] => [cgmRanges[CGM_TARGET_INDEX][0], cgmRanges[CGM_TARGET_INDEX][1] ?? NaN]

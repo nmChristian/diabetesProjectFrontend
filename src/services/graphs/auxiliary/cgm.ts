@@ -1,4 +1,3 @@
-import type {CGMRanges} from "@/services/graphs/shared";
 import {COLOR_SCHEME} from "@/services/graphs/shared";
 import * as d3 from "d3";
 
@@ -6,6 +5,12 @@ export const mMolPerLToMgPerDL = (cgm: number) => cgm * 18
 export const iffcToDCCT = (iffc: number) => (iffc + 23.5) / 10.93
 export const cgmBisector = d3.bisector<[number, number?], number>(d => d[0])
 
+
+// CGM Ranges
+export const CGM_RANGE: [number, number] = [0, 350]
+export type CGMRanges = [number, number?][]
+export const CGM_TARGET_INDEX = 2
+const getCGMTarget = (cgmRanges: CGMRanges): [number, number] => [cgmRanges[CGM_TARGET_INDEX][0], cgmRanges[CGM_TARGET_INDEX][1] ?? NaN]
 
 export const getCGMColor = (cgm: number, cgmRanges: CGMRanges) => COLOR_SCHEME[cgmBisector.right(cgmRanges, cgm) - 1]
 
@@ -22,3 +27,4 @@ export function getCGMOccurrences(data: DateValue[], cgmRanges: CGMRanges): numb
     return occurrences
 }
 
+export {getCGMTarget};

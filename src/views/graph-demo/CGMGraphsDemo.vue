@@ -44,7 +44,6 @@
 <script lang="ts" setup>
 import * as d3 from "d3";
 
-import type {CGMRanges} from "@/services/graphs/shared"
 import {computed} from "vue";
 import ForecastSeries from "@/components/charts/series/ForecastSeries.vue";
 import RawSeries from "@/components/charts/series/RawSeries.vue";
@@ -53,6 +52,7 @@ import ElementTableSeries from "@/components/charts/series/ElementTableSeries.vu
 import CGMLegend from "@/components/charts/others/CGMLegend.vue";
 import QuantileSeries from "@/components/charts/series/QuantileSeries.vue";
 import {getCGMOccurrences} from "@/services/graphs/auxiliary/cgm";
+import type {CGMRanges} from "@/services/graphs/auxiliary/cgm";
 
 
 const props = defineProps<{

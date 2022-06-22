@@ -1,7 +1,8 @@
 // Gradient method
-import type {CGMRanges} from "@/services/graphs/shared";
-import {CGM_RANGE, COLOR_SCHEME} from "@/services/graphs/shared";
+import {COLOR_SCHEME} from "@/services/graphs/shared";
 import type {SVG} from "@/services/graphs/drawers/svg-drawer";
+import type {CGMRanges} from "@/services/graphs/auxiliary/cgm";
+import {CGM_RANGE} from "@/services/graphs/auxiliary/cgm";
 
 let linearID = 0
 

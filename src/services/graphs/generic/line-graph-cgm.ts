@@ -1,12 +1,12 @@
 import * as d3 from "d3";
-import type {CGMRanges} from "@/services/graphs/shared";
-import {CGM_RANGE} from "@/services/graphs/shared";
 import {svgDrawer} from "@/services/graphs/drawers/svg-drawer";
 import {generateGradientCGMCSSApply} from "@/services/graphs/generic/generate-gradient-css";
 import {applyAxis, drawYAxisCGM} from "@/services/graphs/drawers/axis-drawer";
 import {drawHorizontalCGMIndicatorLines, drawVerticalLines} from "@/services/graphs/drawers/line-drawer";
 import {GraphLayout} from "@/services/graphs/models/graph-layout";
 import {dateValueIsValid} from "@/services/graphs/auxiliary/type-validity";
+import type {CGMRanges} from "@/services/graphs/auxiliary/cgm";
+import {CGM_RANGE} from "@/services/graphs/auxiliary/cgm";
 
 export default function lineGraphCGM(dateValues: DateValue[],
                                      cgmRanges: CGMRanges,
