@@ -28,14 +28,14 @@
 
 import {computed, ref} from "vue";
 import {calculateQuantiles, quantileGraph, toBucketSeries} from "@/services/graphs/generic/quantile-graph";
-import type {CGMRanges} from "@/services/core/shared";
+import type {CGMRanges} from "@/services/graphs/shared";
 import DateIntervalSelector from "@/components/DateIntervalSelector.vue";
 //@ts-ignore
 import * as d3 from "d3";
 import Graph from "@/components/charts/Graph.vue";
 import {bucketToMedian, toBuckets} from "@/services/graphs/auxiliary/converter";
 import {addEdgesToSplit, addEdgesToSplitBucket} from "@/services/graphs/auxiliary/edges";
-import {SPLIT_BY_DAY} from "@/services/core/shared";
+import {SPLIT_BY_DAY} from "@/services/graphs/shared";
 
 
 const lowestQuantile = ref(.05)

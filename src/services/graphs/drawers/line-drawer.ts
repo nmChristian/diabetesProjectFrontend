@@ -1,9 +1,9 @@
 import type {AxisScale, BaseType, ValueFn} from "d3";
 import * as d3 from "d3";
-import type {SVG} from "@/services/core/graph-methods";
+import type {SVG} from "@/services/graphs/drawers/svg-drawer";
 import type {AxisDomain} from "d3-axis";
-import type {CGMRanges} from "@/services/core/shared";
-import {COLOR_SCHEME} from "@/services/core/shared";
+import type {CGMRanges} from "@/services/graphs/shared";
+import {COLOR_SCHEME} from "@/services/graphs/shared";
 import {pointIsValid} from "@/services/graphs/auxiliary/type-validity";
 
 const defaultLineCSS = "stroke-width: 1; opacity: .3; fill: none; stroke: black;"

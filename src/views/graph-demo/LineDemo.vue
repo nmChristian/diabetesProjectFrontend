@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import type {CGMRanges} from "@/services/core/shared";
+import type {CGMRanges} from "@/services/graphs/shared";
 import Graph from "@/components/charts/Graph.vue";
 import lineGraph from "@/services/graphs/generic/line-graph";
 import lineGraphDaily from "@/services/graphs/generic/line-graph-daily";

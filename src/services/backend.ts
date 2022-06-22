@@ -4,8 +4,8 @@
 
 import {getApiKey} from "@/services/authentication";
 import axios from "axios";
-import type {Diagnosis, Note, UserDetails} from "@/services/core/db-types";
-import {defaultUserDetails} from "@/services/core/db-types";
+import type {Diagnosis, Note, UserDetails} from "@/services/db-types";
+import {defaultUserDetails} from "@/services/db-types";
 import router from "@/index";
 
 class Backend {

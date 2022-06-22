@@ -1,6 +1,6 @@
 import * as d3 from "d3";
-import {dateToSeconds, SPLIT_BY_DAY, TIME_UNIT_DEFAULT, TimeUnit} from "@/services/core/shared";
-import type {TimeSeries} from "@/services/core/db-types";
+import {dateToSeconds, SPLIT_BY_DAY, TIME_UNIT_DEFAULT, TimeUnit} from "@/services/graphs/shared";
+import type {TimeSeries} from "@/services/db-types";
 
 // Convert any type to DateValue[]
 export const toDateValue = <T>(rawDataArray: T[], conversion: (rawData: T) => DateValue): DateValue[] =>

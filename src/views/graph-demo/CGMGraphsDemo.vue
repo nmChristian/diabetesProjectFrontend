@@ -44,7 +44,7 @@
 <script lang="ts" setup>
 import * as d3 from "d3";
 
-import type {CGMRanges} from "@/services/core/shared"
+import type {CGMRanges} from "@/services/graphs/shared"
 import {computed} from "vue";
 import ForecastSeries from "@/components/charts/series/ForecastSeries.vue";
 import RawSeries from "@/components/charts/series/RawSeries.vue";

@@ -42,7 +42,7 @@
 
 <script setup lang="ts">
 
-import type {Note} from "@/services/core/db-types";
+import type {Note} from "@/services/db-types";
 import {ref} from "vue";
 import backend from "@/services/backend";
 

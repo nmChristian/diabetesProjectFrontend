@@ -1,16 +1,9 @@
 export {COLOR_SCHEME, HealthLevel, healthLevelToColor, getCGMTarget, dateToSeconds}
 export type {CGMRanges}
-// For graphs
-export const CGM_RANGE: [number, number] = [0, 350]
 
 // Coloring
 const COLOR_SCHEME: string[] = ["#33658a", "#78c0e0", "#5da271", "#dda448", "#92140c"].reverse()
 export const LINE_COLOR = "#33658a"
-
-export const
-    SPLIT_BY_HOUR = 3600,
-    SPLIT_BY_DAY = SPLIT_BY_HOUR * 24,
-    SPLIT_BY_WEEK = SPLIT_BY_DAY * 7
 
 // Health levels
 enum HealthLevel {
@@ -20,23 +13,7 @@ enum HealthLevel {
     High,
     VeryHigh
 }
-
-
 const healthLevelToColor = (healthLevel: HealthLevel): string => COLOR_SCHEME[healthLevel]
-
-// Thresholds
-type CGMRanges = [number, number?][]
-export const CGM_TARGET_INDEX = 2
-const getCGMTarget = (cgmRanges: CGMRanges): [number, number] => [cgmRanges[CGM_TARGET_INDEX][0], cgmRanges[CGM_TARGET_INDEX][1] ?? NaN]
-
-// Methods
-// Converts date into seconds
-const dateToSeconds = (date: Date): number =>
-    date.getDate() * 3600 * 24 +
-    date.getHours() * 3600 +
-    date.getMinutes() * 60 +
-    date.getSeconds()
-
 
 // Time
 export enum TimeUnit {
@@ -45,5 +22,23 @@ export enum TimeUnit {
     Hour = 3600,
     Day = 3600 * 24,
 }
-
+export const
+    SPLIT_BY_HOUR = 3600,
+    SPLIT_BY_DAY = SPLIT_BY_HOUR * 24,
+    SPLIT_BY_WEEK = SPLIT_BY_DAY * 7
 export const TIME_UNIT_DEFAULT = TimeUnit.Hour
+
+// Converts date into seconds
+const dateToSeconds = (date: Date): number =>
+    date.getDate() * 3600 * 24 +
+    date.getHours() * 3600 +
+    date.getMinutes() * 60 +
+    date.getSeconds()
+
+
+// CGM Ranges
+export const CGM_RANGE: [number, number] = [0, 350]
+
+type CGMRanges = [number, number?][]
+export const CGM_TARGET_INDEX = 2
+const getCGMTarget = (cgmRanges: CGMRanges): [number, number] => [cgmRanges[CGM_TARGET_INDEX][0], cgmRanges[CGM_TARGET_INDEX][1] ?? NaN]

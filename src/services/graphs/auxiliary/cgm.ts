@@ -1,5 +1,5 @@
-import type {CGMRanges} from "@/services/core/shared";
-import {COLOR_SCHEME} from "@/services/core/shared";
+import type {CGMRanges} from "@/services/graphs/shared";
+import {COLOR_SCHEME} from "@/services/graphs/shared";
 import * as d3 from "d3";
 
 export const mMolPerLToMgPerDL = (cgm: number) => cgm * 18

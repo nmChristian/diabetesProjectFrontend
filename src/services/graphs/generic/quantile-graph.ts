@@ -1,8 +1,8 @@
 import * as d3 from "d3";
-import type {CGMRanges} from "@/services/core/shared";
-import {CGM_RANGE, COLOR_SCHEME} from "@/services/core/shared";
+import type {CGMRanges} from "@/services/graphs/shared";
+import {CGM_RANGE, COLOR_SCHEME} from "@/services/graphs/shared";
 import {generateGradientCGMCSSApply} from "@/services/graphs/generic/generate-gradient-css";
-import {generateSVG} from "@/services/core/graph-methods";
+import {svgDrawer} from "@/services/graphs/drawers/svg-drawer";
 import {drawXAxisHighlightEvery12Hours, drawYAxisCGM} from "@/services/graphs/drawers/axis-drawer";
 import {drawHorizontalCGMIndicatorLines, drawVerticalLines} from "@/services/graphs/drawers/line-drawer";
 import {GraphLayout} from "@/services/graphs/models/graph-layout";
@@ -18,7 +18,7 @@ export function quantileGraph(bucketSeriesOfQuantiles: d3.Series<BucketPoint, nu
                                   curveType = d3.curveMonotoneX,
                               }) {
     const {width, height, marginLeft} = graphLayout
-    const {out, svg} = generateSVG(graphLayout)
+    const {out, svg} = svgDrawer(graphLayout)
 
     //TODO: Add assert that can check if buckets of quantiles is the same size as quantiles
     const n = bucketSeriesOfQuantiles.length

@@ -1,8 +1,8 @@
 import * as d3 from "d3";
-import type {CGMRanges} from "@/services/core/shared";
-import {CGM_RANGE, LINE_COLOR} from "@/services/core/shared";
+import type {CGMRanges} from "@/services/graphs/shared";
+import {CGM_RANGE, LINE_COLOR} from "@/services/graphs/shared";
 import {applyAxis, drawYAxisCGM} from "@/services/graphs/drawers/axis-drawer";
-import {generateSVG} from "@/services/core/graph-methods";
+import {svgDrawer} from "@/services/graphs/drawers/svg-drawer";
 import {drawHorizontalCGMIndicatorLines} from "@/services/graphs/drawers/line-drawer";
 import {GraphLayout} from "@/services/graphs/models/graph-layout";
 import {pointIsValid} from "@/services/graphs/auxiliary/type-validity";
@@ -13,7 +13,7 @@ export default function lineGraphDaily(points: Point[],
                                            graphLayout = new GraphLayout(800, 400, 20, 30, 20, 40),
                                        }, xDomain: [number, number] | undefined = undefined) {
     const {width, height} = graphLayout
-    const {out, svg} = generateSVG(graphLayout)
+    const {out, svg} = svgDrawer(graphLayout)
 
     const xScale = d3.scaleLinear()
         // @ts-ignore

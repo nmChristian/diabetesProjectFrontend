@@ -28,8 +28,8 @@
 <script lang="ts" setup>
 
 import {computed, ref} from "vue";
-import type {CGMRanges} from "@/services/core/shared";
-import {COLOR_SCHEME, dateToSeconds, SPLIT_BY_DAY} from "@/services/core/shared";
+import type {CGMRanges} from "@/services/graphs/shared";
+import {COLOR_SCHEME, dateToSeconds, SPLIT_BY_DAY} from "@/services/graphs/shared";
 import * as d3 from "d3";
 import {GraphLayout} from "@/services/graphs/models/graph-layout";
 import DateIntervalSelector from "@/components/DateIntervalSelector.vue";

@@ -127,8 +127,8 @@ import router from "../index";
 import backend from "../services/backend";
 import type {Ref} from "vue"
 import {computed, onMounted, ref} from "vue";
-import type {CGMRanges} from "@/services/core/shared";
-import type {Diagnosis, Note, UserDetails} from "@/services/core/db-types";
+import type {CGMRanges} from "@/services/graphs/shared";
+import type {Diagnosis, Note, UserDetails} from "@/services/db-types";
 import ElementTableSeries from "@/components/charts/series/ElementTableSeries.vue"
 import NoteViwerAndEditor from "@/components/NoteViwerAndEditor.vue";
 import GraphSection from "@/components/patientElements/GraphSection.vue";

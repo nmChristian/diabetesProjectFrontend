@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts" setup>
-import {HealthLevel} from "@/services/core/shared";
+import {HealthLevel} from "@/services/graphs/shared";
 import Graph from "@/components/charts/Graph.vue";
 import iconGraph from "@/services/graphs/icon-graph";
 

@@ -1,6 +1,6 @@
 import * as d3 from "d3";
-import {LINE_COLOR} from "@/services/core/shared";
-import {generateSVG} from "@/services/core/graph-methods";
+import {LINE_COLOR} from "@/services/graphs/shared";
+import {svgDrawer} from "@/services/graphs/drawers/svg-drawer";
 import {applyAxis} from "@/services/graphs/drawers/axis-drawer";
 import {GraphLayout} from "@/services/graphs/models/graph-layout";
 import {dateValueIsValid} from "@/services/graphs/auxiliary/type-validity";
@@ -10,7 +10,7 @@ export default function lineGraph(dateValues: DateValue[],
                                       graphLayout = new GraphLayout(800, 400, 20, 30, 20, 40),
                                   }) {
     const {width, height} = graphLayout
-    const {out, svg} = generateSVG(graphLayout)
+    const {out, svg} = svgDrawer(graphLayout)
 
     const xScale = d3.scaleTime()
         .domain(d3.extent(dateValues, ([date,]) => date) as [Date, Date])

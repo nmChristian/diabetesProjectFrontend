@@ -28,11 +28,11 @@
 import type {Ref} from "vue"
 import {computed, onMounted, ref,} from "vue";
 import backend from "@/services/backend";
-import type {UserDetails} from "@/services/core/db-types";
+import type {UserDetails} from "@/services/db-types";
 import {bucketToMedian, timeSeriesToDateValue, toBuckets} from "@/services/graphs/auxiliary/converter";
 import {addEdgesToSplit} from "@/services/graphs/auxiliary/edges";
 import {mMolPerLToMgPerDL} from "@/services/graphs/auxiliary/cgm";
-import {SPLIT_BY_DAY} from "@/services/core/shared";
+import {SPLIT_BY_DAY} from "@/services/graphs/shared";
 
 // Loading data
 let cgmInDateValue: Ref<DateValue[]> = ref([])

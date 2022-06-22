@@ -1,7 +1,7 @@
 import * as d3 from "d3";
-import type {CGMRanges} from "@/services/core/shared";
-import {CGM_RANGE} from "@/services/core/shared";
-import {generateSVG} from "@/services/core/graph-methods";
+import type {CGMRanges} from "@/services/graphs/shared";
+import {CGM_RANGE} from "@/services/graphs/shared";
+import {svgDrawer} from "@/services/graphs/drawers/svg-drawer";
 import {generateGradientCGMCSSApply} from "@/services/graphs/generic/generate-gradient-css";
 import {applyAxis, drawYAxisCGM} from "@/services/graphs/drawers/axis-drawer";
 import {drawHorizontalCGMIndicatorLines, drawVerticalLines} from "@/services/graphs/drawers/line-drawer";
@@ -14,7 +14,7 @@ export default function lineGraphCGM(dateValues: DateValue[],
                                          graphLayout = new GraphLayout(800, 400, 20, 30, 20, 40),
                                      }) {
     const {width, height} = graphLayout
-    const {out, svg} = generateSVG(graphLayout)
+    const {out, svg} = svgDrawer(graphLayout)
 
     const xScale = d3.scaleTime()
         .domain(d3.extent(dateValues, ([date,]) => date) as [Date, Date])

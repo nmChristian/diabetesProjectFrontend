@@ -1,4 +1,4 @@
-import type {Answer, UserDetails} from "@/services/core/db-types";
+import type {Answer, UserDetails} from "@/services/db-types";
 import axios from "axios";
 import backend from "@/services/backend";
 

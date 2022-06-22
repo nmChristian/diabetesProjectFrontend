@@ -1,5 +1,5 @@
 import {GraphLayout} from "@/services/graphs/models/graph-layout";
-import {generateSVG} from "@/services/core/graph-methods";
+import {svgDrawer} from "@/services/graphs/drawers/svg-drawer";
 import * as d3 from "d3";
 
 const tooltipId = "tir-tooltip"
@@ -12,7 +12,7 @@ export default function tirGraph(occurrences: number[], colors: string[], {
     rotate = false,
 }) {
     let {width, height} = graphLayout
-    const {out, svg} = generateSVG(graphLayout, rotate)
+    const {out, svg} = svgDrawer(graphLayout, rotate)
 
     const size = rotate ? width : height
 

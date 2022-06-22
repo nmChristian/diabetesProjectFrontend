@@ -1,4 +1,4 @@
-import {TIME_UNIT_DEFAULT, TimeUnit} from "@/services/core/shared";
+import {TIME_UNIT_DEFAULT, TimeUnit} from "@/services/graphs/shared";
 
 export function addEdgesToSplit(points: Point[], splitAfterSeconds: number, timeUnit: TimeUnit = TIME_UNIT_DEFAULT) {
     const [, start] = points[0]

@@ -22,8 +22,8 @@
 </template>
 
 <script lang="ts" setup>
-import type {CGMRanges} from "@/services/core/shared";
-import {CGM_TARGET_INDEX, COLOR_SCHEME} from "@/services/core/shared";
+import type {CGMRanges} from "@/services/graphs/shared";
+import {CGM_TARGET_INDEX, COLOR_SCHEME} from "@/services/graphs/shared";
 
 const props = defineProps<{
   ranges: CGMRanges,

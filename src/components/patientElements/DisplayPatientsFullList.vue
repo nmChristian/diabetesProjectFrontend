@@ -20,7 +20,7 @@ import {ref} from 'vue'
 
 import router from "@/index"
 import backend from "@/services/backend";
-import type {UserDetails} from "@/services/core/db-types";
+import type {UserDetails} from "@/services/db-types";
 import {bucketToMedian, toBuckets} from "@/services/graphs/auxiliary/converter";
 import {mMolPerLToMgPerDL} from "@/services/graphs/auxiliary/cgm";
 
