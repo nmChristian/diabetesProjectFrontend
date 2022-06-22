@@ -1,3 +1,5 @@
+<!-- Author: Jonas -->
+<!-- Description: Demo page that shows a quantile graph -->
 <template>
   <div>
     <Graph :svg="quantileGraph(

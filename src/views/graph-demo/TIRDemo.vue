@@ -1,3 +1,5 @@
+<!-- Author: Jonas -->
+<!-- Description: Demo page that shows multiple TIR graphs with different offsets and values  -->
 <template>
   <div>
     <h1>Here is a TIR graph</h1>

@@ -1,3 +1,5 @@
+<!-- Author: Jonas -->
+<!-- Description: Demo page that shows a lot of graphs in the same page -->
 <template>
   <div class="everything">
     <QuantileSeries :cgm-ranges="cgmRanges" :show-advanced="true" :cgm="cgm"/>

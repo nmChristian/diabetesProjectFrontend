@@ -1,3 +1,5 @@
+<!-- Author: Jonas -->
+<!-- Description: View used to test graphs, this is hidden from the patient and doctor, can only be reached through url /graph-demo -->
 <template>
   <div>
     <nav>

@@ -1,3 +1,5 @@
+<!-- Author: Jonas -->
+<!-- Description: Demo page that only shows icon graphs -->
 <template>
   <div>
     <h1>Icon graphs</h1>
