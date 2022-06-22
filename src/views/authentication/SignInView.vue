@@ -35,8 +35,8 @@ import {signIn} from "@/services/authentication";
 import router from "@/index";
 import useVuelidate from "@vuelidate/core";
 import {email, required} from '@vuelidate/validators'
-import spinner from "@/components/spinner.vue";
-import failureIcon from "@/components/icons/failureIcon.vue";
+import spinner from "@/components/Spinner.vue";
+import failureIcon from "@/components/icons/FailureIcon.vue";
 import PrimaryButton from "@/components/PrimaryButton.vue";
 
 export default defineComponent({

@@ -28,8 +28,8 @@ import {defineComponent} from "vue";
 import {defaultUrl, getProfilePictureUrl, useProfilePicture} from "@/services/settings-provider";
 import PrimaryButton from "@/components/PrimaryButton.vue";
 import router from "@/index";
-import failureIcon from "@/components/icons/failureIcon.vue";
-import spinner from "@/components/spinner.vue";
+import failureIcon from "@/components/icons/FailureIcon.vue";
+import spinner from "@/components/Spinner.vue";
 import {clearApiKey} from "@/services/authentication";
 
 export default defineComponent({

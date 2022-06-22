@@ -34,7 +34,7 @@ import {ref} from "vue";
 import backend from "@/services/backend";
 import type {UserDetails} from "@/services/db-types";
 import {defaultUserDetails} from "@/services/db-types";
-import PatientCard from "@/components/patientElements/PatientCard.vue";
+import PatientCard from "@/components/patient-elements/PatientCard.vue";
 
 class UserWithData {
   user: UserDetails = defaultUserDetails;

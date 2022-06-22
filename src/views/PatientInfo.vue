@@ -130,11 +130,11 @@ import {computed, onMounted, ref} from "vue";
 import type {Diagnosis, Note, UserDetails} from "@/services/db-types";
 import ElementTableSeries from "@/components/charts/series/ElementTableSeries.vue"
 import NoteViwerAndEditor from "@/components/NoteViwerAndEditor.vue";
-import GraphSection from "@/components/patientElements/GraphSection.vue";
+import GraphSection from "@/components/patient-elements/GraphSection.vue";
 import RawSeries from "@/components/charts/series/RawSeries.vue";
 import TIRDailySeries from "@/components/charts/series/TIRDailySeries.vue";
 import ForecastSeries from "@/components/charts/series/ForecastSeries.vue";
-import InfoElement from "@/components/patientElements/InfoElement.vue";
+import InfoElement from "@/components/patient-elements/InfoElement.vue";
 import TIROverview from "@/components/charts/series/TIROverview.vue";
 import QuantileSeries from "@/components/charts/series/QuantileSeries.vue";
 import DiagnoseAndMedicine from "@/components/DiagnoseAndMedicine.vue";

@@ -1,4 +1,4 @@
-// Reference: https://github.com/nguyenvanduocit/vue-loading-spinner
+<!-- Reference: https://github.com/nguyenvanduocit/vue-loading-spinner -->
 
 <template>
   <div class="spinner spinner--circle-2" v-bind:style="styles"></div>
