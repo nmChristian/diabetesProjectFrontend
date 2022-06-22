@@ -1,7 +1,5 @@
-import type {TimeUnit} from "@/services/graphs/graph-types";
-import {TIME_UNIT_DEFAULT} from "@/services/graphs/graph-types";
 import * as d3 from "d3";
-import {dateToSeconds, SPLIT_BY_DAY} from "@/services/core/shared";
+import {dateToSeconds, SPLIT_BY_DAY, TIME_UNIT_DEFAULT, TimeUnit} from "@/services/core/shared";
 import type {TimeSeries} from "@/services/core/db-types";
 
 // Convert any type to DateValue[]
